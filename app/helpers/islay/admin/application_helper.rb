@@ -14,6 +14,10 @@ module Islay
         @footer = capture(&blk)
       end
 
+      def body_id
+        params['controller'].gsub('/', '-')
+      end
+
       def body_class
         if @footer
           "#{params['action']} has-footer"
