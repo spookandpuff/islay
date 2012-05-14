@@ -1,10 +1,10 @@
 @import compass/layout/stretching
 
-$body-margin-top: 4em
+$main-heading-height: 2.5em
+$sub-heading-height: 2.5em
+$footer-height: 2.5em
+$body-margin-top: $main-heading-height + $sub-heading-height
 $body-margin-left: 15em
-$main-heading-height: 2em
-$footer-height: 2em
-$sub-top: $body-margin-top - ($main-heading-height + 0.05em)
 
 body
   margin: $body-margin-top 0 0 $body-margin-left
@@ -16,8 +16,7 @@ body.has-footer
   border-bottom: 0.1em solid #CCC - 10
   background: #CCC
   width: 100%
-  height: $main-heading-height - 1em
-  padding: 0.5em 0
+  height: $main-heading-height
   position: fixed
   left: 0
   top: 0
@@ -29,23 +28,26 @@ body.has-footer
   width: $body-margin-left
   position: fixed
   left: 0
-  top: $sub-top
+  top: $main-heading-height
   bottom: 0
   z-index: 2
 
 #sub-header,
 #footer
   background: #CCC + 20
-  height: 1em
-  padding: 0.5em 0
   position: fixed
   left: $body-margin-left
   right: 0
   z-index: 1
 
 #sub-header
-  top: $sub-top
+  top: $main-heading-height
+  height: $sub-heading-height
 
 #footer
   height: $footer-height
   bottom: 0
+
+#content
+  width: 100%
+  float: left
