@@ -5,10 +5,7 @@ module Islay
         include InstanceMethods
         extend ClassMethods
 
-        # Add helpers
-        # Install auth
-        # Add any before_filters
-
+        helper Islay::Helpers
         layout 'layouts/islay/application'
       end
     end

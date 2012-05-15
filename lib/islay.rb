@@ -6,6 +6,8 @@ require 'simple_form'
 
 require "islay/engine"
 require "islay/controller"
+require "islay/helpers"
+require "islay/form_builder"
 
 module Islay
 end
