@@ -3,15 +3,18 @@
 $main-heading-height: 2.5em
 $sub-heading-height: 2.5em
 $footer-height: 2.5em
-$body-margin-top: $main-heading-height + $sub-heading-height
+$body-margin-top: $main-heading-height + $sub-heading-height + 1em
 $body-margin-left: 15em
 
 body
-  margin: $body-margin-top 0 0 $body-margin-left
+  margin: $body-margin-top 1em 0 $body-margin-left + 1em
 
 body.has-footer #content
   margin-bottom: $footer-height + 1em
 
+/* -------------------------------------------------------------------------- */
+/* MAIN CONTENT BLOCKS
+/* -------------------------------------------------------------------------- */
 #main-header
   border-bottom: 0.1em solid #CCC - 10
   background: #CCC
@@ -51,3 +54,26 @@ body.has-footer #content
 #content
   width: 100%
   float: left
+
+/* -------------------------------------------------------------------------- */
+/* GRID
+/* -------------------------------------------------------------------------- */
+$column-count: 12
+$gutter-count: $column-count - 1
+$gutter-width: 1.5%
+$column-width: (100% - $gutter-width * $gutter-count) / $column-count
+
+#content .column
+  float: left
+
+  &:last-child
+    margin-right: 0
+
+// Construct the classes for setting the widths of columns
+$i: 0
+@while $i < $column-count
+  $j: $i
+  $i: $i + 1
+  #content .count-#{$i}
+    width: $column-width * $i + $gutter-width * $j
+    margin-right: $gutter-width
