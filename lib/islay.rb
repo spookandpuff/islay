@@ -3,6 +3,7 @@ require 'sass-rails'
 require 'compass-rails' # This is temporary. By rights this needs to go into the assets group
 require 'devise'
 require 'simple_form'
+require 'schema_plus'
 
 require "islay/engine"
 require "islay/controller"

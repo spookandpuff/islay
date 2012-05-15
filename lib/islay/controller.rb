@@ -7,6 +7,7 @@ module Islay
 
         helper Islay::Helpers
         layout 'layouts/islay/application'
+        before_filter :authenticate_user!
       end
     end
 
