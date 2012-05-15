@@ -6,12 +6,19 @@ module Islay
       end
 
       def sub_header(heading = nil, &blk)
-        @sub_header_text = heading
-        @sub_header = capture(&blk) if block_given?
+        content = ''.html_safe
+        content << content_tag(:h1, heading) if heading
+        content << capture(&blk) if block_given?
+
+        content_tag(:div, content, :id => 'sub-header')
       end
 
-      def footer(&blk)
-        @footer = capture(&blk)
+      def content(opts = {}, &blk)
+        content_tag(:div, capture(&blk), opts.merge(:id => 'content'))
+      end
+
+      def footer(opts = {}, &blk)
+        content_tag(:div, capture(&blk), opts.merge(:id => 'footer'))
       end
 
       def body_id

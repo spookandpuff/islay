@@ -12,15 +12,4 @@
         %li= link_to('Asset Library')
         %li= link_to('Users')
 
-    %div#sub-header
-      - if @sub_header_text
-        %h1= @sub_header_text
-      - if @sub_header
-        = @sub_header
-
-    %div#content
-      = yield
-
-    - if @footer
-      %div#footer
-        = @footer
+    = yield
