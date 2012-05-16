@@ -2,8 +2,18 @@ module Islay
   module Admin
     module ApplicationHelper
       # A shortcut for generating routes namespaced to the Admin module.
-      def path(part, *args)
-        send(:"admin_#{part}_path", *args)
+      def path(*args)
+        first, second = args[0], args[1]
+
+        if first.is_a?(ActiveRecord::Base)
+          url_for([:admin, first])
+        elsif first.is_a?(Symbol)
+          if second.is_a?(ActiveRecord::Base)
+            url_for([first, :admin, second])
+          else
+            url_for([:admin, first])
+          end
+        end
       end
 
       # Writes out the sub-heading bar for a section of the admin. In the simplest
@@ -14,10 +24,17 @@ module Islay
       #
       # Alternatively, it can be passed a block containing markup, which will
       # then be injected into the heading container.
-      def sub_header(heading = nil, &blk)
+      def sub_header(heading = nil, suffix = nil, &blk)
         content = ''.html_safe
-        content << content_tag(:h1, heading) if heading
-        content << capture(&blk) if block_given?
+
+        if heading
+          heading << " -  #{suffix}" if suffix
+          content << content_tag(:h1, heading)
+        end
+
+        if block_given?
+          content << capture(&blk)
+        end
 
         content_tag(:div, content, :id => 'sub-header')
       end

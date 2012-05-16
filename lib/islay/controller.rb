@@ -16,6 +16,27 @@ module Islay
     end
 
     module ClassMethods
+      def resourceful
+        inherit_resources
+        custom_actions :resource => :delete
+        defaults :route_prefix => 'admin'
+
+        include AdminResourceController::InstanceMethods
+        extend AdminResourceController::ClassMethods
+      end
+    end
+  end
+
+  module AdminResourceController
+    def InstanceMethods
+      def delete
+        delete! do |format|
+
+        end
+      end
+    end
+
+    module ClassMethods
 
     end
   end

@@ -4,6 +4,7 @@ require 'compass-rails' # This is temporary. By rights this needs to go into the
 require 'devise'
 require 'simple_form'
 require 'schema_plus'
+require 'inherited_resources'
 
 require "islay/engine"
 require "islay/controller"
