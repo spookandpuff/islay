@@ -19,10 +19,13 @@
         %li= link_to('Dashboard', path(:dashboard))
         %li= link_to('Users', path(:users))
 
-    %div#sub-header
-      %h1= @sub_header
+    %div#header
+      %h1= @header
 
       %p
         = current_user.name
+
+    - if @sub_header
+      %div#sub-header= @sub_header
 
     = yield

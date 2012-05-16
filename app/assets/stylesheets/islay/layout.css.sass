@@ -11,7 +11,7 @@ body
 body.has-footer #content
   margin-bottom: $footer-height + 1em
 
-body.has-sub-nav #content
+body.has-sub-header #content
   margin-top: $header-height
 
 /* -------------------------------------------------------------------------- */
@@ -36,20 +36,20 @@ body.has-sub-nav #content
   bottom: 0
   z-index: 2
 
+#header,
 #sub-header,
-#sub-nav,
 #footer
   background: #CCC + 20
   position: fixed
   left: $body-margin-left
   right: 0
 
-#sub-header
+#header
   top: 0
   height: $header-height
   z-index: 2
 
-#sub-nav
+#sub-header
   top: $header-height
   height: $header-height
   z-index: 1
@@ -66,7 +66,7 @@ body.has-sub-nav #content
 /* -------------------------------------------------------------------------- */
 /* SUB HEADER
 /* -------------------------------------------------------------------------- */
-#sub-header
+#header
   h1
     float: left
 

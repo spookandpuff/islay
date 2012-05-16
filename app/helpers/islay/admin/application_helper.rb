@@ -29,16 +29,17 @@ module Islay
       # with a H1:
       #
       #   sub_header('Welcome') # => '<div id="sub-header"><h1>Welcome</h1></div>'
-      #
-      # Alternatively, it can be passed a block containing markup, which will
-      # then be injected into the heading container.
-      def sub_header(*headings)
-        @sub_header = headings.join(' - ')
+      def header(str)
+        @header = str
       end
 
-      def sub_nav(opts = {}, &blk)
-        @has_sub_nav = true
-        content_tag(:div, capture(&blk), opts.merge(:id => 'sub-nav'))
+      # Writes out a sub heading bar. Can be also used as a sub navigation bar
+      # by passing a block with the markup.
+      def sub_header(header = nil, suffix = nil, &blk)
+        header << ": #{suffix}" if suffix
+        @sub_header = content = ''.html_safe
+        @sub_header << content_tag(:h2, header) if header
+        @sub_header << capture(&blk) if block_given?
       end
 
       # This method is used to capture the main content for a page and wrap it
@@ -69,7 +70,7 @@ module Islay
       def body_class
         output = params['action'].dasherize
         output << ' has-footer' if @has_footer
-        output << ' has-sub-nav' if @has_sub_nav
+        output << ' has-sub-header' if @sub_header
 
         output
       end
