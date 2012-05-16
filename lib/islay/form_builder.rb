@@ -14,6 +14,11 @@ module Islay
         ''.html_safe
       end
       output << @template.capture(&blk)
+
+      if opts[:col]
+        opts[:class] = opts[:class] ? "#{opts[:class]} count-#{opts.delete(:col)}" : "count-#{opts.delete(:col)}"
+      end
+
       content_tag(:fieldset, output, opts)
     end
 

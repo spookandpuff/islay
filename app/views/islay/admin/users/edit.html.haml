@@ -3,9 +3,12 @@
 
 = resource_form(resource, resource_url) do |f|
   = content do
-    = f.input(:name, :col => 6)
-    = f.input(:email, :col => 6)
-    = f.input(:password)
+    = f.fieldset do
+      = f.input(:name, :col => 6)
+      = f.input(:email, :col => 6)
+
+    = f.fieldset('Password!') do
+      = f.input(:password)
 
   = footer do
     = f.submit 'Save'
