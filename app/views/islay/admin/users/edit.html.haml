@@ -2,8 +2,9 @@
 
 = resource_form(resource, resource_url) do |f|
   = content do
-    = f.input(:name)
-    = f.input(:email)
+    = f.input(:name, :col => 6)
+    = f.input(:email, :col => 6)
     = f.input(:password)
 
+  = footer do
     = f.submit 'Save'

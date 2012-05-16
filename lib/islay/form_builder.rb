@@ -27,7 +27,7 @@ module Islay
       end
 
       if wrapper_class = options.delete(:col)
-        (options[:wrapper_html] ||= {}).merge!(:class => wrapper_class)
+        (options[:wrapper_html] ||= {}).merge!(:class => "count-#{wrapper_class}")
       end
 
       super

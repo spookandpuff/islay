@@ -1,1 +1,33 @@
+/* -------------------------------------------------------------------------- */
+/* FORM
+/* -------------------------------------------------------------------------- */
+#islay-form
+  #content
+    border: 0.1em solid #CCC
+    padding: 1em 0
 
+  #footer
+    input
+      float: right
+
+  input
+    float: left
+
+  label
+    float: left
+    margin: 0 0 0 1.5em
+    width: 10em
+
+  .field
+    height: 2.5em
+    width: 100%
+    float: left
+
+// Construct the classes for setting the widths of fields. This differs to the
+// column widths, since we don't use gutters.
+$field-width: 100% / $column-count
+$i: 0
+@while $i < $column-count
+  $i: $i + 1
+  #islay-form .count-#{$i}
+    width: $column-width * $i
