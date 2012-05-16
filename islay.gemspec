@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency "compass-rails",         "~> 1.0.1"
   s.add_dependency "schema_plus",           "~> 0.4.0"
   s.add_dependency "inherited_resources",   ">= 1.3.1"
+  s.add_dependency "carrierwave",           ">= 0.6.2"
 
   s.add_development_dependency "machinist", "~> 2.0"
   s.add_development_dependency "sqlite3"

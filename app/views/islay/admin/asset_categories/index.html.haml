@@ -1,0 +1,10 @@
+- sub_header('Categories')
+- control('Category', path(:new, :asset_category), :new)
+- control('Asset', path(:new, :asset), :new)
+
+= content do
+  %ul
+    - @asset_categories.each do |category|
+      %li
+        = link_to(category.name, path(category))
+        = link_to('Edit', path(:edit, category))
