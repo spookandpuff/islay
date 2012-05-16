@@ -16,6 +16,14 @@ module Islay
         end
       end
 
+      # Convenience helper for writing out a div column with the specified width.
+      # Can optionally be given an id or extra classes. It's also possible to
+      # change the element generated using the :el option.
+      def column(count, opts = {}, &blk)
+        opts[:class] = opts[:class] ? "column count-#{count} #{opts[:class]}" : "column count-#{count}"
+        content_tag(opts.delete(:el) || :div, capture(&blk), opts)
+      end
+
       # Writes out the sub-heading bar for a section of the admin. In the simplest
       # case it can be called with just a string. It will then generate the bar
       # with a H1:
