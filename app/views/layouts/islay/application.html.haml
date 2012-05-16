@@ -12,8 +12,17 @@
       %h1 Islay
 
     %div#side-bar
+      %form
+        %input(type='text' placeholder='search')
+
       %ul
         %li= link_to('Dashboard', path(:dashboard))
         %li= link_to('Users', path(:users))
+
+    %div#sub-header
+      %h1= @sub_header
+
+      %p
+        = current_user.name
 
     = yield

@@ -32,19 +32,13 @@ module Islay
       #
       # Alternatively, it can be passed a block containing markup, which will
       # then be injected into the heading container.
-      def sub_header(heading = nil, suffix = nil, &blk)
-        content = ''.html_safe
+      def sub_header(*headings)
+        @sub_header = headings.join(' - ')
+      end
 
-        if heading
-          heading << " -  #{suffix}" if suffix
-          content << content_tag(:h1, heading)
-        end
-
-        if block_given?
-          content << capture(&blk)
-        end
-
-        content_tag(:div, content, :id => 'sub-header')
+      def sub_nav(opts = {}, &blk)
+        @has_sub_nav = true
+        content_tag(:div, capture(&blk), opts.merge(:id => 'sub-nav'))
       end
 
       # This method is used to capture the main content for a page and wrap it
@@ -56,6 +50,7 @@ module Islay
       # Places the contents of a block in a div positioned at the bottom of the
       # screen.
       def footer(opts = {}, &blk)
+        @has_footer = true
         content_tag(:div, capture(&blk), opts.merge(:id => 'footer'))
       end
 
@@ -72,11 +67,11 @@ module Islay
       #   '#islay-admin-dashboard.index'
       #
       def body_class
-        if @footer
-          "#{params['action']} has-footer"
-        else
-          params['action']
-        end
+        output = params['action'].dasherize
+        output << ' has-footer' if @has_footer
+        output << ' has-sub-nav' if @has_sub_nav
+
+        output
       end
     end
   end
