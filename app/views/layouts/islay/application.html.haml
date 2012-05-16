@@ -21,7 +21,7 @@
         %li= link_to('Users', path(:users))
 
     %div#header
-      %h1= @header
+      %h1= @header || _header
 
       %p
         = current_user.name
