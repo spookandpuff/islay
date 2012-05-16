@@ -17,6 +17,7 @@
 
       %ul
         %li= link_to('Dashboard', path(:dashboard))
+        %li= link_to('Asset Library', path(:asset_categories))
         %li= link_to('Users', path(:users))
 
     %div#header
@@ -25,7 +26,19 @@
       %p
         = current_user.name
 
-    - if @sub_header
-      %div#sub-header= @sub_header
+    - if @has_sub_header
+      %div#sub-header
+        - if @sub_header
+          = @sub_header
+
+        - if @sub_nav_entries
+          %ul.sub-nav
+            - @sub_nav_entries.each do |entry|
+              %li= entry
+
+        - if @control_entries
+          %ul.controls
+            - @control_entries.each do |entry|
+              %li= entry
 
     = yield

@@ -5,10 +5,10 @@ module Islay
       def path(*args)
         first, second = args[0], args[1]
 
-        if first.is_a?(ActiveRecord::Base)
+        if first.is_a?(::ActiveRecord::Base)
           url_for([:admin, first])
         elsif first.is_a?(Symbol)
-          if second.is_a?(ActiveRecord::Base)
+          if second.is_a?(::ActiveRecord::Base) || second.is_a?(Symbol)
             url_for([first, :admin, second])
           else
             url_for([:admin, first])
@@ -28,7 +28,8 @@ module Islay
       # case it can be called with just a string. It will then generate the bar
       # with a H1:
       #
-      #   sub_header('Welcome') # => '<div id="sub-header"><h1>Welcome</h1></div>'
+      #   header('Welcome') # => '<div id="sub-header"><h1>Welcome</h1></div>'
+      #
       def header(str)
         @header = str
       end
@@ -36,10 +37,33 @@ module Islay
       # Writes out a sub heading bar. Can be also used as a sub navigation bar
       # by passing a block with the markup.
       def sub_header(header = nil, suffix = nil, &blk)
+        @has_sub_header = true
+
         header << ": #{suffix}" if suffix
         @sub_header = content = ''.html_safe
         @sub_header << content_tag(:h2, header) if header
         @sub_header << capture(&blk) if block_given?
+      end
+
+      # Adds an entry into the sub navigation, which will appear in the bar
+      # below the main header. Works in conjunction with the #control helper
+      # but not the #sub_header helper; the nav and sub header sit in the same
+      # place on screen.
+      def sub_nav(name, url, opts = {})
+        @has_sub_header = true
+
+        @sub_nav_entries ||= []
+        @sub_nav_entries << link_to(name, url, opts)
+      end
+
+      # Writes a link out into the bar below the main header. Usually used in
+      # conjunction with the #sub_header or #sub_nav helpers, but never both;
+      # there is not enough room in the bar.
+      def control(name, url, type)
+        @has_sub_header = true
+
+        @control_entries ||= []
+        @control_entries << link_to(name, url, :class => type)
       end
 
       # This method is used to capture the main content for a page and wrap it
@@ -70,7 +94,7 @@ module Islay
       def body_class
         output = params['action'].dasherize
         output << ' has-footer' if @has_footer
-        output << ' has-sub-header' if @sub_header
+        output << ' has-sub-header' if @has_sub_header
 
         output
       end

@@ -7,32 +7,15 @@ module Islay
 
         helper Islay::Helpers
         layout 'layouts/islay/application'
-        before_filter :authenticate_user!
+        before_filter :authenticate_user!, :store_user_in_thread
       end
     end
 
     module InstanceMethods
+      private
 
-    end
-
-    module ClassMethods
-      def resourceful
-        inherit_resources
-        custom_actions :resource => :delete
-        defaults :route_prefix => 'admin'
-
-        include AdminResourceController::InstanceMethods
-        extend AdminResourceController::ClassMethods
-      end
-    end
-  end
-
-  module AdminResourceController
-    def InstanceMethods
-      def delete
-        delete! do |format|
-
-        end
+      def store_user_in_thread
+        Thread.current[:current_user] = current_user
       end
     end
 
