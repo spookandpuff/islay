@@ -3,7 +3,7 @@
     = f.input(:name)
     = f.input(:upload, :label => 'File')
     = f.hidden_field(:upload_cache)
-    = f.input(:asset_category_id, :collection => AssetCategory.all, :label => 'Category')
+    = f.input(:asset_category_id, :collection => AssetCategory.all, :label => 'Category', :include_blank => false)
 
   = footer do
     = f.submit 'Save'

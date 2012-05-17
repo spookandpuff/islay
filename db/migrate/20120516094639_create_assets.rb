@@ -7,6 +7,7 @@ class CreateAssets < ActiveRecord::Migration
       t.string    :status,              :null => false, :default => 'pending'
       t.string    :upload,              :null => false, :limit => 200
       t.string    :path,                :null => false, :limit => 200
+      t.string    :original_filename,   :null => false, :limit => 200
       t.integer   :filesize,            :null => true,  :precision => 20, :scale => 0
       t.string    :content_type,        :null => true,  :limit => 100
       t.boolean   :under_size,          :null => false, :default => false

@@ -5,6 +5,7 @@ require 'devise'
 require 'simple_form'
 require 'schema_plus'
 require 'carrierwave'
+require 'mime/types'
 
 require "islay/engine"
 require "islay/controller"

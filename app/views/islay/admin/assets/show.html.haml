@@ -1,3 +1,6 @@
 - sub_header(@asset.kind.capitalize, @asset.name)
 - control('Edit', path(:edit, @asset), :edit)
 - control('Delete', path(:delete, @asset), :delete)
+
+= content do
+  = image_tag(@asset.upload.url(:admin_thumb))

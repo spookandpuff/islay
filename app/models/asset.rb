@@ -7,7 +7,8 @@ class Asset < ActiveRecord::Base
 
   attr_accessible :name, :upload, :upload_cache, :asset_category_id
 
-  after_initialize :set_path
+  after_initialize  :set_path
+  before_save       :set_name, :set_metadata
 
   track_user_edits
 
@@ -17,7 +18,7 @@ class Asset < ActiveRecord::Base
   AUDIO_EXTENSIONS = %w(mp3 aiff acc flac wav).freeze
 
   def extension
-    File.basename(self[:upload])
+    File.extname(self[:upload])
   end
 
   def self.choose_type(ext)
@@ -31,6 +32,20 @@ class Asset < ActiveRecord::Base
   end
 
   private
+
+  def set_metadata
+    if upload_changed? and upload.present?
+      self.original_filename  =  upload.filename
+      self.content_type       = MIME::Types.type_for(upload.file.path).first.to_s
+      self.filesize           = File.size(upload.file.path)
+    end
+  end
+
+  def set_name
+    if name.blank? and upload.present?
+      self.name = upload.filename.split('.').first.humanize
+    end
+  end
 
   def set_path
     self.path ||= Time.now.strftime("%Y/%m/%d/%H/%M/%S/%L")
