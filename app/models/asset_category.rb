@@ -6,5 +6,5 @@ class AssetCategory < ActiveRecord::Base
 
   attr_accessible :name
 
-  track_user
+  track_user_edits
 end

@@ -16,7 +16,7 @@ class ActiveRecord::Base
   # This requires the creator_id and updater_id columns to be in the table.
   #
   # This method also installs to associations; creator, updater
-  def self.track_user
+  def self.track_user_edits
     before_save :update_user_ids
     belongs_to :creator, :class_name => 'User'
     belongs_to :updater, :class_name => 'User'
