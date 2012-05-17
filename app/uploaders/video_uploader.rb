@@ -34,7 +34,11 @@ class VideoUploader < AssetUploader
 
   # TODO: When transcoding, preserve the original format rather than assuming
   # we're getting a H264 file.
-  # version :v360p do
-  #   process :transcode => [{:video_codec => "libx264", :resolution => '640x360'}]
-  # end
+  version :v360p, :if => :encode_320p? do
+    process :transcode => [{:video_codec => "libx264", :resolution => '640x360'}]
+  end
+
+  def encode_320p?
+    !!model.encode_options[:v320p]
+  end
 end
