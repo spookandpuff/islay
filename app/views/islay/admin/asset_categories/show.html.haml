@@ -1,1 +1,7 @@
 - sub_header('Category', @asset_category.name)
+
+= content do
+  %ul
+    - @asset_category.assets.each do |asset|
+      %li= link_to(asset.name, path(asset))
+

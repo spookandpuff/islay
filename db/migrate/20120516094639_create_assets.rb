@@ -4,7 +4,7 @@ class CreateAssets < ActiveRecord::Migration
       t.integer   :asset_category_id,   :null => false, :on_delete => :cascade
       t.string    :type,                :null => false, :limit => 50
       t.string    :name,                :null => false, :limit => 200, :index => :unique
-      t.boolean   :upload_processing,   :null => true,  :default => false
+      t.string    :status,              :null => false, :default => 'pending'
       t.string    :upload,              :null => false, :limit => 200
       t.string    :path,                :null => false, :limit => 200
       t.integer   :filesize,            :null => true,  :precision => 20, :scale => 0

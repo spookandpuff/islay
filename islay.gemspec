@@ -24,5 +24,5 @@ Gem::Specification.new do |s|
   s.add_dependency "carrierwave",           ">= 0.6.2"
 
   s.add_development_dependency "machinist", "~> 2.0"
-  s.add_development_dependency "sqlite3"
+  s.add_development_dependency "pg"
 end

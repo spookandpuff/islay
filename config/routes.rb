@@ -23,7 +23,7 @@ Islay::Engine.routes.draw do
       get :delete, :on => :member
     end
 
-    resources :assets, :path => 'library/assets' do
+    resources :assets, :image_assets, :document_assets, :video_assets, :audio_assets, :controller => 'assets', :path => 'library/assets' do
       get :delete, :on => :member
     end
   end
