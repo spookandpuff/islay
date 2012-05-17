@@ -1,6 +1,8 @@
 class Asset < ActiveRecord::Base
   belongs_to :category, :class_name => 'AssetCategory'
 
+  class_attribute :kind
+
   mount_uploader :upload, AssetUploader
 
   attr_accessible :name, :upload, :upload_cache, :asset_category_id

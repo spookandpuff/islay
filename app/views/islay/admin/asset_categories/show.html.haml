@@ -3,5 +3,7 @@
 = content do
   %ul
     - @asset_category.assets.each do |asset|
-      %li= link_to(asset.name, path(asset))
+      %li
+        = link_to(asset.name, path(asset))
+        (#{asset.kind})
 
