@@ -6,9 +6,17 @@
   - if @asset.preview.present?
     = image_tag(@asset.preview.url(:admin_thumb))
 
+  %h3 Processing Status
+  %p
+    Status:
+    = @asset.status
+
+  %p
+    Error:
+    = @asset.error
+
   %h3 Info
   = render :partial => "#{@asset.kind}_metadata"
 
   %h3 Download & Share
   %p Download: #{link_to(@asset.upload.url, @asset.upload.url)}
-

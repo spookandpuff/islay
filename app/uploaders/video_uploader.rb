@@ -23,15 +23,13 @@ class VideoUploader < AssetUploader
     end
   end
 
-  process :screenshot
-
-  def screenshot
+  def preview
     movie = FFMPEG::Movie.new(current_path)
     directory = File.dirname(current_path)
     path = File.join(directory, "screenshot.jpg")
     at = (movie.duration / 2).round
     movie.transcode(path, :custom => "-ss #{at} -vframes 1 -f image2")
-    model.preview = File.open(path)
+    File.open(path)
   end
 
   # TODO: Provide presets for these resolutions

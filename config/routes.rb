@@ -1,4 +1,7 @@
 Islay::Engine.routes.draw do
+  # RESQUE
+  mount Resque::Server.new, :at => "/resque"
+
   # USER AUTHENTICATION
   devise_for(
     :users,

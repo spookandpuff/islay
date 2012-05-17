@@ -8,8 +8,10 @@ class ActiveRecord::Base
 
   # A callback handler which updates the user ID columns before save
   def update_user_ids
-    self.creator_id = current_user.id if new_record?
-    self.updater_id = current_user.id
+    if current_user
+      self.creator_id = current_user.id if new_record?
+      self.updater_id = current_user.id
+    end
   end
 
   # Installs a before_save hook for updating the user IDs against a record.

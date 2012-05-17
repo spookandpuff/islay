@@ -1,10 +1,8 @@
 class ImageUploader < AssetUploader
   include CarrierWave::RMagick
 
-  process :preview
-
   def preview
-    model.preview = file
+    File.open(current_path)
   end
 
   version :admin_thumb do

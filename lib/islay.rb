@@ -7,12 +7,15 @@ require 'schema_plus'
 require 'carrierwave'
 require 'mime/types'
 require 'streamio-ffmpeg'
+require 'resque'
+require 'resque/server'
 
 require "islay/engine"
 require "islay/controller"
 require "islay/helpers"
 require "islay/form_builder"
 require "islay/active_record"
+require "islay/carrierwave"
 
 module Islay
 end

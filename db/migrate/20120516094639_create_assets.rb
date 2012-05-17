@@ -4,7 +4,6 @@ class CreateAssets < ActiveRecord::Migration
       t.integer   :asset_category_id,   :null => false, :on_delete => :cascade
       t.string    :type,                :null => false, :limit => 50
       t.string    :name,                :null => false, :limit => 200, :index => {:unique => true, :with => 'type'}
-      t.string    :status,              :null => false, :default => 'pending'
       t.string    :upload,              :null => false, :limit => 200
       t.string    :path,                :null => false, :limit => 200
       t.string    :original_filename,   :null => false, :limit => 200
@@ -37,6 +36,11 @@ class CreateAssets < ActiveRecord::Migration
 
       # Video and Audio
       t.float     :duration,            :null => true,  :limit => 15
+
+      # Processing (in progress, errors etc)
+      t.string    :status,              :null => false, :limit => 20, :default => 'pending'
+      t.string    :error,               :null => true,  :limit => 255
+      t.integer   :retries,             :null => false, :limit => 2, :default => 0
 
       t.integer   :creator_id, :null => false, :references => :users
       t.integer   :updater_id, :null => false, :references => :users
