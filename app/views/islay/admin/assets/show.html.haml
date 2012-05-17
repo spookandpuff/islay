@@ -3,4 +3,16 @@
 - control('Delete', path(:delete, @asset), :delete)
 
 = content do
-  = image_tag(@asset.upload.url(:admin_thumb))
+  - if @asset.kind == 'image'
+    = image_tag(@asset.upload.url(:admin_thumb))
+
+  %h3 Info
+  %ul.key-value
+    %li
+      %span.key Colour Space
+      %span.value= @asset.colorspace
+
+  %h3 Download & Share
+  %p Download: #{link_to(@asset.upload.url, @asset.upload.url)}
+
+

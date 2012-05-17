@@ -14,7 +14,7 @@ class ImageAsset < Asset
         self[:height] = img.rows
 
         match = img.colorspace.to_s.match(/^(RGB|CMYK)\w+/)
-        self[:colour_space] = if match
+        self[:colorspace] = if match
           match[1]
         else
           'RGB'

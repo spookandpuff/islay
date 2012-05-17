@@ -6,6 +6,7 @@ require 'simple_form'
 require 'schema_plus'
 require 'carrierwave'
 require 'mime/types'
+require 'streamio-ffmpeg'
 
 require "islay/engine"
 require "islay/controller"

@@ -43,7 +43,13 @@ class Asset < ActiveRecord::Base
 
   def set_name
     if name.blank? and upload.present?
-      self.name = upload.filename.split('.').first.humanize
+      name = upload.filename.split('.').first.humanize
+      count = Asset.count(:conditions => {:name => name, :type => type})
+      self.name = if count > 0
+        "#{name} (#{count + 1})"
+      else
+        name
+      end
     end
   end
 

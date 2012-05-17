@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency "carrierwave",           ">= 0.6.2"
   s.add_dependency "rmagick",               ">= 2.13.1"
   s.add_dependency "mime-types",            ">= 1.18"
+  s.add_dependency "streamio-ffmpeg",       ">= 0.8.5"
 
   s.add_development_dependency "machinist", "~> 2.0"
   s.add_development_dependency "pg"
