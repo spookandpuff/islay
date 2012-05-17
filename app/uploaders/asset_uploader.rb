@@ -35,8 +35,7 @@ class AssetUploader < CarrierWave::Uploader::Base
         begin
           if model.upload.present?
             model.upload.recreate_versions!
-            model.preview = model.upload.preview
-            model.preview.recreate_versions!
+            model.preview.store!(model.upload.preview)
           end
           model.update_attributes!(
             :status => 'processed',

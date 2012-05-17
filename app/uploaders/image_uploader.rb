@@ -2,7 +2,10 @@ class ImageUploader < AssetUploader
   include CarrierWave::RMagick
 
   def preview
-    File.open(current_path)
+    dir = File.dirname(current_path)
+    path = File.join(dir, "preview#{File.extname(current_path)}")
+    FileUtils.cp(current_path, path)
+    File.open(path)
   end
 
   version :admin_thumb do

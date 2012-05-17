@@ -26,7 +26,7 @@ class VideoUploader < AssetUploader
   def preview
     movie = FFMPEG::Movie.new(current_path)
     directory = File.dirname(current_path)
-    path = File.join(directory, "screenshot.jpg")
+    path = File.join(directory, "preview.jpg")
     at = (movie.duration / 2).round
     movie.transcode(path, :custom => "-ss #{at} -vframes 1 -f image2")
     File.open(path)
