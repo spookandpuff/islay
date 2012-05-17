@@ -1,9 +1,13 @@
 = resource_form(@asset, :html =>  {:multipart => true}) do |f|
   = content do
-    = f.input(:name)
     = f.input(:upload, :label => 'File')
     = f.hidden_field(:upload_cache)
-    = f.input(:asset_category_id, :collection => AssetCategory.all, :label => 'Category', :include_blank => false)
+    = f.input(:name)
+    - if @asset_category
+      %p This file will be added to the '#{@asset_category.name}' category
+      = f.hidden_field(:asset_category_id, :value => @asset_category.id)
+    - else
+      = f.input(:asset_category_id, :collection => AssetCategory.all, :label => 'Category', :include_blank => false)
 
   = footer do
     = f.submit 'Save'

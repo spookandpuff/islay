@@ -3,15 +3,15 @@ module Islay
     module ApplicationHelper
       # A shortcut for generating routes namespaced to the Admin module.
       def path(*args)
-        first, second = args[0], args[1]
+        first, second, rest = args
 
         if first.is_a?(::ActiveRecord::Base)
-          url_for([:admin, first])
+          url_for([:admin, *args])
         elsif first.is_a?(Symbol)
           if second.is_a?(::ActiveRecord::Base) || second.is_a?(Symbol)
-            url_for([first, :admin, second])
+            url_for([first, :admin, second, *rest])
           else
-            url_for([:admin, first])
+            url_for([:admin, *args])
           end
         end
       end

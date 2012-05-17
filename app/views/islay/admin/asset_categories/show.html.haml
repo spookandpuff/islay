@@ -1,4 +1,7 @@
 - sub_header('Category', @asset_category.name)
+- control('Asset', path(:new, :asset, @asset_category), :new)
+- control('Edit', path(:edit, @asset_category), :edit)
+- control('Delete', path(:delete, @asset_category), :delete)
 
 = content do
   %ul
@@ -7,4 +10,3 @@
         = image_tag(asset.upload.url(:admin_thumb_small))
         = link_to(asset.name, path(asset))
         (#{asset.kind})
-

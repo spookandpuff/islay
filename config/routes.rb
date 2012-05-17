@@ -27,4 +27,11 @@ Islay::Engine.routes.draw do
       get :delete, :on => :member
     end
   end
+
+  # Really funky looking route to allow us to have a nice URL when specifying the
+  # category we want to add an asset to.
+  get(
+    'admin/library/assets/new/for-category/:asset_category_id' => 'admin/assets#new',
+    :as => 'new_admin_asset_asset_category'
+  )
 end
