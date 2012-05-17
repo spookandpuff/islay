@@ -1,7 +1,3 @@
-- header("Users")
-- sub_header(resource.name)
-
-= content do
-  %ul
-    %li= link_to('Edit', edit_resource_url)
-    %li= link_to('Delete', delete_resource_url)
+- sub_header(@user.name)
+- control('Edit', path(:edit, @user), :edit)
+- control('delete', path(:delete, @user), :delete)

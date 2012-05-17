@@ -1,14 +1,3 @@
-- header('Users')
-- sub_header('Edit', resource.name)
+- sub_header('Edit', @user.name)
 
-= resource_form(resource, resource_url) do |f|
-  = content do
-    = f.fieldset do
-      = f.input(:name, :col => 6)
-      = f.input(:email, :col => 6)
-
-    = f.fieldset('Password!') do
-      = f.input(:password)
-
-  = footer do
-    = f.submit 'Save'
+= render :partial => 'form'
