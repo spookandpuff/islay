@@ -10,7 +10,7 @@ class CreateAssets < ActiveRecord::Migration
       t.string    :original_filename,   :null => false, :limit => 200
 
       # Thumbnails for video and documents
-      t.string    :thumbnail,           :null => true, :limit => 200
+      t.string    :preview,             :null => true, :limit => 200
 
       # Metadata
       t.integer   :filesize,            :null => true,  :precision => 20, :scale => 0
@@ -34,6 +34,9 @@ class CreateAssets < ActiveRecord::Migration
       t.integer   :audio_bitrate,       :null => true,  :limit => 15
       t.integer   :audio_sample_rate,   :null => true,  :limit => 15
       t.integer   :audio_channels,      :null => true,  :limit => 2
+
+      # Video and Audio
+      t.float     :duration,            :null => true,  :limit => 15
 
       t.integer   :creator_id, :null => false, :references => :users
       t.integer   :updater_id, :null => false, :references => :users

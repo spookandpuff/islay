@@ -7,12 +7,10 @@
     = image_tag(@asset.upload.url(:admin_thumb))
 
   %h3 Info
-  %ul.key-value
-    %li
-      %span.key Colour Space
-      %span.value= @asset.colorspace
+  = render :partial => "#{@asset.kind}_metadata"
 
   %h3 Download & Share
   %p Download: #{link_to(@asset.upload.url, @asset.upload.url)}
+
 
 

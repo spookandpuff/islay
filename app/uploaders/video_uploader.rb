@@ -17,13 +17,24 @@ class VideoUploader < AssetUploader
     File.delete(tmpfile)
   end
 
-  def audio_bitrate(bitrate)
+  def transcode(opts)
     manipulate! do |movie, path|
-      movie.transcode(path, :audio_bitrate => bitrate)
+      movie.transcode(path, opts)
     end
   end
 
-  version :test do
-    process :audio_bitrate => "128k"
-  end
+  # TODO: Provide presets for these resolutions
+  # 360p
+  # 480p
+  # 720p
+  # 1080p
+
+  # TODO: Provide a way to conditionally generate versions. Only some video
+  # sizes would be needed for particular sites.
+
+  # TODO: When transcoding, preserve the original format rather than assuming
+  # we're getting a H264 file.
+  # version :v360p do
+  #   process :transcode => [{:video_codec => "libx264", :resolution => '640x360'}]
+  # end
 end
