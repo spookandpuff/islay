@@ -4,6 +4,7 @@ class Asset < ActiveRecord::Base
   class_attribute :kind
 
   mount_uploader :upload, AssetUploader
+  mount_uploader :preview, PreviewUploader
 
   attr_accessible :name, :upload, :upload_cache, :asset_category_id
 

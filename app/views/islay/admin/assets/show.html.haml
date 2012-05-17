@@ -3,14 +3,12 @@
 - control('Delete', path(:delete, @asset), :delete)
 
 = content do
-  - if @asset.kind == 'image'
-    = image_tag(@asset.upload.url(:admin_thumb))
+  - if @asset.preview.present?
+    = image_tag(@asset.preview.url(:admin_thumb))
 
   %h3 Info
   = render :partial => "#{@asset.kind}_metadata"
 
   %h3 Download & Share
   %p Download: #{link_to(@asset.upload.url, @asset.upload.url)}
-
-
 
