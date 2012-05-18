@@ -14,7 +14,6 @@ class VideoAsset < Asset
 
   end
 
-
   def resolution
     "#{width}x#{height}" if width? and height?
   end
@@ -22,7 +21,7 @@ class VideoAsset < Asset
   private
 
   def set_video_metadata
-    upload.manipulate! do |movie|
+    upload.manipulate!(false) do |movie|
       # Video
       self.duration           = movie.duration
       self.video_bitrate      = movie.bitrate

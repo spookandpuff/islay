@@ -1,20 +1,20 @@
 class VideoUploader < AssetUploader
-  # https://github.com/streamio/streamio-ffmpeg
-  # movie.screenshot("screenshot.bmp", :seek_time => 5, :resolution => '320x240')
-  # widescreen_movie.transcode("movie.mp4", options, transcoder_options)
-
-  def manipulate!(&blk)
+  def manipulate!(generate = true, &blk)
     cache_stored_file! if !cached?
 
-    directory = File.dirname(current_path)
-    tmpfile   = File.join(directory, "tmpfile")
+    if generate
+      directory = File.dirname(current_path)
+      tmpfile   = File.join(directory, "tmpfile")
 
-    FileUtils.mv(current_path, tmpfile)
+      FileUtils.mv(current_path, tmpfile)
 
-    movie = FFMPEG::Movie.new(tmpfile)
-    result = yield(movie, path)
+      movie = FFMPEG::Movie.new(tmpfile)
+      result = yield(movie, path)
 
-    File.delete(tmpfile)
+      File.delete(tmpfile)
+    else
+      yield(FFMPEG::Movie.new(current_path), current_path)
+    end
   end
 
   def transcode(opts)
@@ -24,12 +24,13 @@ class VideoUploader < AssetUploader
   end
 
   def preview
-    movie = FFMPEG::Movie.new(current_path)
-    directory = File.dirname(current_path)
-    path = File.join(directory, "preview.jpg")
-    at = (movie.duration / 2).round
-    movie.transcode(path, :custom => "-ss #{at} -vframes 1 -f image2")
-    File.open(path)
+    manipulate!(false) do |movie, path|
+      directory = File.dirname(path)
+      path = File.join(directory, "preview_#{File.basename(path)}.jpg")
+      at = (movie.duration / 2).round
+      movie.transcode(path, :custom => "-ss #{at} -vframes 1 -f image2")
+      File.open(path)
+    end
   end
 
   # TODO: Provide presets for these resolutions
