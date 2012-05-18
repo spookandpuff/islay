@@ -5,13 +5,12 @@ class Asset < ActiveRecord::Base
 
   mount_uploader :upload, AssetUploader
   mount_uploader :preview, PreviewUploader
+  process_in_background :upload, AssetUploader::Worker
 
   attr_accessible :name, :upload, :upload_cache, :asset_category_id, :status, :error, :retries
-  attr_accessor :enqueue_processing
 
   after_initialize  :set_path
   before_save       :set_name, :set_metadata
-  after_save        :enqueue_carrierwave_jobs
 
   track_user_edits
 
@@ -36,17 +35,8 @@ class Asset < ActiveRecord::Base
 
   private
 
-  def enqueue_carrierwave_jobs
-    if @enqueue == true
-      AssetUploader::ProcessWorker.enqueue(self)
-      self.class.where(:id => id).update_all(:status => 'enqueued')
-    end
-  end
-
   def set_metadata
     if upload_changed?
-      @enqueue = true
-
       self.original_filename  =  upload.filename
       self.content_type       = MIME::Types.type_for(upload.file.path).first.to_s
       self.filesize           = File.size(upload.file.path)

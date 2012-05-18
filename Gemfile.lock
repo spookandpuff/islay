@@ -3,6 +3,7 @@ PATH
   specs:
     Islay (0.0.1)
       carrierwave (>= 0.6.2)
+      carrierwave_backgrounder (>= 0.0.6)
       compass-rails (~> 1.0.1)
       devise (~> 2.0.4)
       haml (~> 3.1.5)
@@ -52,6 +53,8 @@ GEM
     carrierwave (0.6.2)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
+    carrierwave_backgrounder (0.0.6)
+      carrierwave (~> 0.5)
     chunky_png (1.2.5)
     compass (0.12.1)
       chunky_png (~> 1.2)

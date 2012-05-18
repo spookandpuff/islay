@@ -3,7 +3,7 @@ class ImageUploader < AssetUploader
 
   def preview
     dir = File.dirname(current_path)
-    path = File.join(dir, "preview#{File.extname(current_path)}")
+    path = File.join(dir, "preview_#{File.basename(current_path)}")
     FileUtils.cp(current_path, path)
     File.open(path)
   end
