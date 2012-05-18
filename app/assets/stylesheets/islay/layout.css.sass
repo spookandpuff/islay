@@ -1,40 +1,43 @@
 @import compass/layout/stretching
+@import compass/css3
 
-$header-height: 2.5em
-$footer-height: 2.5em
-$body-margin-top: $header-height + 1em
-$body-margin-left: 15em
+$header-height: 3.2em
+$sub-header-height: 2.8em
+$footer-height: 3.2em
+$body-margin-top: $header-height + 1.5em
+$body-margin-left: 13.5em
 
 body
-  margin: $body-margin-top 1em 0 $body-margin-left + 1em
+  margin: $body-margin-top 2em 0 $body-margin-left + 2em
 
 body.has-footer #content
   margin-bottom: $footer-height + 1em
 
 body.has-sub-header #content
-  margin-top: $header-height
+  margin-top: $sub-header-height
+
+/* -------------------------------------------------------------------------- */
+/* COLORS
+/* -------------------------------------------------------------------------- */
 
 /* -------------------------------------------------------------------------- */
 /* MAIN CONTENT BLOCKS
 /* -------------------------------------------------------------------------- */
 #main-header
-  background: #CCC
-  width: $body-margin-left
-  height: $header-height
-  position: fixed
-  left: 0
-  top: 0
-  z-index: 3
+  position: absolute
+  left: -1000em
 
 #side-bar
   border-right: 0.1em solid #CCC - 10
-  background: #CCC + 20
   width: $body-margin-left
   position: fixed
   left: 0
-  top: $header-height
+  top: 0
   bottom: 0
   z-index: 2
+
+  form
+    height: $sub-header-height
 
 #header,
 #sub-header,
@@ -51,7 +54,7 @@ body.has-sub-header #content
 
 #sub-header
   top: $header-height
-  height: $header-height
+  height: $sub-header-height
   z-index: 1
 
 #footer
@@ -67,24 +70,40 @@ body.has-sub-header #content
 /* HEADER
 /* -------------------------------------------------------------------------- */
 #header
+  +background-image(linear-gradient(#F2F2F2, #E4E4E4))
+  border-bottom: 0.1em solid #B7B9C6
+  text-indent: 1em
+
   h1
+    font-size: 1.2em
+    margin: 0.75em 0 0 0
     float: left
 
   p
+    margin: 1.15em 1em 0 0
     float: right
 
 /* -------------------------------------------------------------------------- */
 /* SUB HEADER
 /* -------------------------------------------------------------------------- */
 #sub-header
+  +background-image(linear-gradient(#FFFFFF, #ECECEC))
+  border-bottom: 0.1em solid #C2CBD5
+
   h2
-    float: left
+    margin-left: 1em
 
   li, a
     float: left
 
   a
     margin: 0 1em 0 0
+
+  h2,
+  .sub-nav,
+  .controls
+    margin-top: 0.85em
+    float: left
 
   .sub-nav
     float: left
@@ -96,8 +115,36 @@ body.has-sub-header #content
 /* SIDE BAR
 /* -------------------------------------------------------------------------- */
 #side-bar
+  background: #232323
+
   form
-    height: $header-height
+    input
+      width: 83%
+      margin-left: 6%
+      margin-top: 0.7em
+      padding: 0.4em 0.4em
+
+  ul
+    width: 88%
+    margin-left: 6%
+    float: left
+
+  li, a
+    width: 100%
+    float: left
+
+  a
+    color: white !important
+    text-decoration: none !important
+    padding: 0.5em 0
+    text-indent: 2em
+
+/* -------------------------------------------------------------------------- */
+/* FOOTER
+/* -------------------------------------------------------------------------- */
+#footer
+  +background-image(linear-gradient(#FFFFFF, #ECECEC))
+  border-top: 0.1em solid #C2CBD5
 
 /* -------------------------------------------------------------------------- */
 /* GRID
