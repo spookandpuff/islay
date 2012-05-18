@@ -91,25 +91,32 @@ $side-bar-color: #232323
   border-bottom: 0.1em solid #C2CBD5
 
   h2
+    font-weight: bold
     margin-left: 1em
+    float: left
 
   li, a
     float: left
-
-  a
-    margin: 0 1em 0 0
 
   h2,
   .sub-nav,
   .controls
     margin-top: 0.85em
-    float: left
 
   .sub-nav
     float: left
 
   .controls
+    margin: 0.65em 1em 0 0
     float: right
+
+    a
+      +unstyled-link
+      +border-radius(0.25em)
+      background: white
+      border: 0.1em solid #C2CBD5 - 8
+      padding: 0.35em 0.6em
+      margin-left: 0.5em
 
 /* -------------------------------------------------------------------------- */
 /* SIDE BAR
@@ -132,6 +139,7 @@ $side-bar-color: #232323
   ul
     width: 88%
     margin-left: 6%
+    margin-top: 0.8em
     float: left
 
   li, a
