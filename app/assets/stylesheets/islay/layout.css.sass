@@ -125,21 +125,27 @@ $side-bar-color: #232323
   background: $side-bar-color
 
   form
+    border-bottom: 0.1em solid $side-bar-color - 10
+    height: $header-height
+    width: 100%
+    float: left
+
     input
       +border-radius(2em)
-      +single-box-shadow($side-bar-color - 10, 0, 0, 10px, 0, true)
+      +single-box-shadow($side-bar-color - 7, 0, 0, 10px, 0, true)
       color: white
-      background: $side-bar-color + 20
-      border: 0.2em solid $side-bar-color - 6
+      background: $side-bar-color + 30
+      border: 0.1em solid $side-bar-color - 6
       width: $body-margin-left - 1.8em
       margin-left: 1em
-      margin-top: 0.8em
+      margin-top: 0.98em
       padding: 0.4em 1em
 
   ul
-    width: 88%
-    margin-left: 6%
+    border-bottom: 0.1em solid $side-bar-color - 10
+    width: 1005
     margin-top: 0.8em
+    padding-bottom: 0.8em
     float: left
 
   li, a
