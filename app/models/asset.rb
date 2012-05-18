@@ -40,6 +40,7 @@ class Asset < ActiveRecord::Base
       self.original_filename  =  upload.filename
       self.content_type       = MIME::Types.type_for(upload.file.path).first.to_s
       self.filesize           = File.size(upload.file.path)
+      self.status             = 'enqueued'
     end
   end
 

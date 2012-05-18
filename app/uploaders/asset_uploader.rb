@@ -25,17 +25,29 @@ class AssetUploader < CarrierWave::Uploader::Base
       record = resource.find(id)
 
       if record
-        # Assign the preview first. This is important for any previews that are
-        # generated from the original file without copying it.
-        record.preview = record.upload.preview
+        begin
+          # Assign the preview first. This is important for any previews that are
+          # generated from the original file without copying it.
+          record.preview = record.upload.preview
 
-        # Process the upload
-        record.process_upload_upload = true
-        record.upload.recreate_versions!
+          # Process the upload
+          record.process_upload_upload = true
+          record.upload.recreate_versions!
 
-        # Running save here kicks off the preview generation, but since some
-        # uploaders may not generate them, we only do this if it's been assigned.
-        record.save! if record.preview.present?
+          # Running save here kicks off the preview generation, but since some
+          # uploaders may not generate them, we only do this if it's been assigned.
+          record.save! if record.preview.present?
+
+          record.update_attributes!(
+            :status => 'processed',
+            :error => nil
+          )
+        rescue => e
+          record.update_attributes!(
+            :status => 'errored',
+            :error => e.to_s
+          )
+        end
       end
     end
   end
