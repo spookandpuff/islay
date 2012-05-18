@@ -4,7 +4,7 @@ module Islay
       resourceful :asset
       header 'Asset Library'
 
-      before_filter :find_category, :only => [:new, :create]
+      before_filter :find_album, :only => [:new, :create]
 
       def create
         @asset = if params[:asset][:upload]
@@ -25,9 +25,9 @@ module Islay
 
       private
 
-      def find_category
-        id = params[:asset] ? params[:asset][:asset_category_id] : params[:asset_category_id]
-        @asset_category = AssetCategory.find(id) if id
+      def find_album
+        id = params[:asset] ? params[:asset][:asset_group_id] : params[:asset_album_id]
+        @asset_group = AssetAlbum.find(id) if id
       end
     end
   end

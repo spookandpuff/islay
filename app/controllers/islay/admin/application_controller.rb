@@ -47,6 +47,7 @@ module Islay
 
         def new
           set_ivar(new_record)
+          dependencies
         end
 
         def create
@@ -56,6 +57,7 @@ module Islay
         def edit
           record = resource_class[:class].find(params[:id])
           set_ivar(record)
+          dependencies
         end
 
         def update
@@ -80,8 +82,15 @@ module Islay
           if record.update_attributes(params[resource_class[:name]])
             redirect_to url_for([:admin, record])
           else
+            dependencies
             render(record.new_record? ? :new : :edit)
           end
+        end
+
+        # Can be over-ridden in subclasses to provide the data needed when
+        # rendering a form.
+        def dependencies
+
         end
 
         def new_record

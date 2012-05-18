@@ -1,7 +1,7 @@
 class CreateAssets < ActiveRecord::Migration
   def change
     create_table :assets do |t|
-      t.integer   :asset_category_id,   :null => false, :on_delete => :cascade
+      t.integer   :asset_group_id,      :null => false, :on_delete => :cascade
       t.string    :type,                :null => false, :limit => 50
       t.string    :name,                :null => false, :limit => 200, :index => {:unique => true, :with => 'type'}
       t.string    :upload,              :null => false, :limit => 200

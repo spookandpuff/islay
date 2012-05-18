@@ -20,24 +20,23 @@ Islay::Engine.routes.draw do
     end
 
     # ASSET LIBRARY
-    get   'library' => 'asset_categories#index', :as => 'asset_categories'
-    post  'library' => 'asset_categories#create'
-    resources :asset_categories, :path => 'library/categories' do
-      get :delete, :on => :member
-    end
+    scope :path => 'library' do
+      get '/' => 'asset_library#index', :as => 'asset_library'
 
-    resources :assets, :image_assets, :document_assets, :video_assets, :audio_assets, :controller => 'assets', :path => 'library/assets' do
-      member do
-        get :delete
-        put :reprocess
+      # Collections and Albums
+      resources(:asset_collections, :controller => 'asset_groups', :path => 'collections', :defaults => {:type => 'collection'}) { get :delete, :on => :member }
+      resources(:asset_albums,      :controller => 'asset_groups', :path => 'albums', :defaults => {:type => 'album'}) { get :delete, :on => :member }
+
+      # Assets
+      resources :assets, :image_assets, :document_assets, :video_assets, :audio_assets, :controller => 'assets' do
+        member do
+          get :delete
+          put :reprocess
+        end
       end
     end
   end
 
-  # Really funky looking route to allow us to have a nice URL when specifying the
-  # category we want to add an asset to.
-  get(
-    'admin/library/assets/new/for-category/:asset_category_id' => 'admin/assets#new',
-    :as => 'new_admin_asset_asset_category'
-  )
+  # Funky shortcuts for adding assets directly to an album
+  get 'admin/library/assets/new/for-album/:asset_album_id' => 'admin/assets#new', :as => 'new_admin_asset_asset_album'
 end

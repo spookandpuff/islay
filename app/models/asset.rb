@@ -1,5 +1,5 @@
 class Asset < ActiveRecord::Base
-  belongs_to :category, :class_name => 'AssetCategory'
+  belongs_to :album, :class_name => 'AssetAlbum', :foreign_key => 'asset_group_id'
 
   class_attribute :kind
 
@@ -7,7 +7,7 @@ class Asset < ActiveRecord::Base
   mount_uploader :preview, PreviewUploader
   process_in_background :upload, AssetUploader::Worker
 
-  attr_accessible :name, :upload, :upload_cache, :asset_category_id, :status, :error, :retries
+  attr_accessible :name, :upload, :upload_cache, :asset_group_id, :status, :error, :retries
 
   after_initialize  :set_path
   before_save       :set_name, :set_metadata

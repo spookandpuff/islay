@@ -1,0 +1,7 @@
+= resource_form(@asset_group, :as => :asset_group) do |f|
+  = content do
+    = f.input(:name)
+    = f.input(:asset_group_id, :collection => @asset_collections, :label => 'Collection')
+
+  = footer do
+    = f.submit 'Save'

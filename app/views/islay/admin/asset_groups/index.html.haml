@@ -1,0 +1,11 @@
+- sub_header('Categories')
+- control('Collection', path(:new, :asset_collection), :new)
+- control('Album', path(:new, :asset_album), :new)
+- control('Asset', path(:new, :asset), :new)
+
+= content do
+  %ul
+    - @asset_groups.each do |group|
+      %li
+        = link_to(category.name, path(group))
+        = link_to('Edit', path(:edit, group))

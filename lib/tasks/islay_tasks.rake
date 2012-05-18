@@ -13,6 +13,7 @@ namespace :islay do
 
     desc "Drop and recreates the DB and seeds it with data"
     task :bootstrap => :environment do
+      Rake::Task['islay:install:migrations'].invoke
       Rake::Task['db:drop'].invoke
       Rake::Task['db:create'].invoke
       Rake::Task['db:migrate'].invoke

@@ -1,0 +1,8 @@
+- sub_header('Category', @asset_group.name)
+- if @asset_group.album?
+  - control('Asset', path(:new, :asset, @asset_group), :new)
+- control('Edit', path(:edit, @asset_group), :edit)
+- control('Delete', path(:delete, @asset_group), :delete)
+
+= content do
+  = render :partial => "#{@asset_group.kind}_list"
