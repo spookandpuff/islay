@@ -17,6 +17,12 @@ module Islay
         persist!(@asset)
       end
 
+      def reprocess
+        @asset = Asset.find(params[:id])
+        @asset.enqueue_upload_background_job
+        redirect_to path(@asset)
+      end
+
       private
 
       def find_category

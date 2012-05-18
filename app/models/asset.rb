@@ -15,7 +15,7 @@ class Asset < ActiveRecord::Base
   track_user_edits
 
   IMAGE_EXTENSIONS = %w(jpg jpeg png gif).freeze
-  DOCUMENT_EXTENSIONS = %w(doc xls pdf zip pages number psd indd).freeze
+  DOCUMENT_EXTENSIONS = %w(doc xls pdf zip pages numbers psd indd).freeze
   VIDEO_EXTENSIONS = %w(mpg mp4 mov avi).freeze
   AUDIO_EXTENSIONS = %w(mp3 aiff acc flac wav).freeze
 
@@ -47,7 +47,7 @@ class Asset < ActiveRecord::Base
   def set_name
     if name.blank? and upload_changed?
       name = upload.filename.split('.').first.humanize
-      count = Asset.count(:conditions => {:name => name, :type => type})
+      count = Asset.count(:conditions => ["name LIKE ? AND type = ?", "#{name}%", type])
       self.name = if count > 0
         "#{name} (#{count + 1})"
       else

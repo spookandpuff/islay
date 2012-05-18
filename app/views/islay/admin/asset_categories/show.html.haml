@@ -8,6 +8,6 @@
     - @asset_category.assets.each do |asset|
       %li
         - if asset.preview.present?
-          = image_tag(asset.preview.url(:admin_thumb_small))
+          = image_tag(asset.preview.url(:thumb_small))
         = link_to(asset.name, path(asset))
         (#{asset.kind})

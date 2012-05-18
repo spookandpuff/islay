@@ -20,3 +20,7 @@
 
   %h3 Download & Share
   %p Download: #{link_to(@asset.upload.url, @asset.upload.url)}
+
+  = form_for([:reprocess, :admin, @asset]) do
+    %button Reprocess
+
