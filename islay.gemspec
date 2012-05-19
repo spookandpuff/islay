@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_dependency "mime-types",                ">= 1.18"
   s.add_dependency "streamio-ffmpeg",           ">= 0.8.5"
   s.add_dependency "resque",                    ">= 1.20.0"
+  s.add_dependency "awesome_nested_set"
 
   s.add_development_dependency "machinist",     "~> 2.0"
   s.add_development_dependency "pg"

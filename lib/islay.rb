@@ -10,6 +10,7 @@ require 'mime/types'
 require 'streamio-ffmpeg'
 require 'resque'
 require 'resque/server'
+require 'awesome_nested_set'
 
 require "islay/engine"
 require "islay/controller"

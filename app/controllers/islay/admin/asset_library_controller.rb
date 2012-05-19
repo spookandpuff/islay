@@ -4,7 +4,7 @@ module Islay
       header 'Asset Library'
 
       def index
-        @asset_groups = AssetGroup.all
+        @asset_groups = AssetGroup.roots
       end
     end
   end

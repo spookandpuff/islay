@@ -4,9 +4,13 @@
 - control('Asset', path(:new, :asset), :new)
 
 = content do
-  %ul
+  %ul.asset-tree
     - @asset_groups.each do |group|
-      %li
-        = link_to(group.name, path(group))
-        (#{group.kind})
-        = link_to('Edit', path(:edit, group))
+      - case group
+      - when AssetCollection
+        = render :partial => 'collection', :locals => {:group => group}
+      - when AssetGroup
+        %li.album
+          = link_to(group.name, path(group), :class => 'album-name')
+          = link_to('Edit', path(:edit, group), :class => 'edit')
+          = link_to('Delete', path(:delete, group), :class => 'delete')
