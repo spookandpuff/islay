@@ -8,6 +8,7 @@ $body-margin-top: $header-height + 2em
 $body-margin-left: 13.5em
 
 body
+  background: #F9F9F9
   margin: $body-margin-top 2em 0 $body-margin-left + 2em
 
 body.has-footer #content
@@ -20,6 +21,12 @@ body.has-sub-header #content
 /* COLORS
 /* -------------------------------------------------------------------------- */
 $side-bar-color: #232323
+
+/* -------------------------------------------------------------------------- */
+/* MIXINS
+/* -------------------------------------------------------------------------- */
+@mixin islay-text-shadow
+  +text-shadow(rgba(0, 0, 0, 0.1) -1px -1px 0, rgba(255, 255, 255, 0.8) 1px 1px 0)
 
 /* -------------------------------------------------------------------------- */
 /* MAIN CONTENT BLOCKS
@@ -75,8 +82,9 @@ $side-bar-color: #232323
   text-indent: 1em
 
   h1
+    +islay-text-shadow
     font-size: 1.2em
-    margin: 0.75em 0 0 0
+    margin: 0.8em 0 0 0
     float: left
 
   p
@@ -91,6 +99,7 @@ $side-bar-color: #232323
   border-bottom: 0.1em solid #C2CBD5
 
   h2
+    +islay-text-shadow
     font-weight: bold
     margin-left: 1em
     float: left
@@ -113,8 +122,9 @@ $side-bar-color: #232323
     a
       +unstyled-link
       +border-radius(0.25em)
-      background: white
-      border: 0.1em solid #C2CBD5 - 8
+      +background-image(linear-gradient(#FFFFFF, #ECECEC - 20))
+      +islay-text-shadow
+      border: 0.1em solid #C2CBD5 - 18
       padding: 0.35em 0.6em
       margin-left: 0.5em
 
@@ -132,19 +142,20 @@ $side-bar-color: #232323
 
     input
       +border-radius(2em)
-      +single-box-shadow($side-bar-color - 7, 0, 0, 10px, 0, true)
+      +single-box-shadow($side-bar-color - 7, 0, 0, 0.3em, 0, true)
       color: white
       background: $side-bar-color + 30
       border: 0.1em solid $side-bar-color - 6
       width: $body-margin-left - 1.8em
       margin-left: 1em
-      margin-top: 0.98em
-      padding: 0.4em 1em
+      margin-top: 0.75em
+      padding: 0.6em 1em
 
   ul
+    border-top: 0.1em solid $side-bar-color + 6
     border-bottom: 0.1em solid $side-bar-color - 10
     width: 1005
-    margin-top: 0.8em
+    padding-top: 0.8em
     padding-bottom: 0.8em
     float: left
 

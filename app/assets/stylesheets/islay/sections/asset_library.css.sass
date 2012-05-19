@@ -1,0 +1,42 @@
+/* -------------------------------------------------------------------------- */
+/* ASSET GRID
+/* -------------------------------------------------------------------------- */
+ul.asset-grid
+  width: 100%
+  float: left
+
+  li
+    +border-radius(0.2em)
+    +single-box-shadow(rgba(0, 0, 0, 0.03), 0, 0, 0, 2px)
+    background: white
+    margin-bottom: 1.5em
+    float: left
+
+    &:nth-child(6n)
+      margin-right: 0 !important
+
+  .frame,
+  .name,
+  .type
+    margin: 0 0 0 10%
+    width: 80%
+    float: left
+
+  .frame
+    text-align: center
+    height: 8em
+    margin-top: 1em
+    overflow: hidden
+
+  .name
+    +ellipsis(true)
+    padding-top: 1em
+
+  .type
+    color: #999
+    margin-top: 0.3em
+    margin-bottom: 1em
+
+  a
+    text-decoration: none
+    color: black !important

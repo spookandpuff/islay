@@ -1,7 +1,8 @@
-%ul
+%ul.asset-grid
   - @asset_group.assets.each do |asset|
-    %li
-      - if asset.preview.present?
-        = image_tag(asset.preview.url(:thumb_small))
-      = link_to(asset.name, path(asset))
-      (#{asset.kind})
+    %li(class='#{asset.kind} column count-2')
+      %a.frame(href='#{path(asset)}')
+        - if asset.preview.present?
+          = image_tag(asset.preview.url(:thumb_medium))
+      = link_to(asset.name, path(asset), :class => 'name')
+      %span.type= asset.kind

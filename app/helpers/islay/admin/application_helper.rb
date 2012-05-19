@@ -67,7 +67,7 @@ module Islay
       # Used to attach an ID to the body of the layout. This is then used as a
       # hook for attaching Javascript initializers to specific pages.
       def body_id
-        params['controller'].gsub('/', '-')
+        params['controller'].gsub(/[\/_]/, '-')
       end
 
       # Works in conjunction with #body_id to provide hooks for Javascript
