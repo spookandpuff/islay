@@ -19,8 +19,12 @@ class Asset < ActiveRecord::Base
   VIDEO_EXTENSIONS = %w(mpg mp4 mov avi).freeze
   AUDIO_EXTENSIONS = %w(mp3 aiff acc flac wav).freeze
 
+  def version_info
+    upload.version_info
+  end
+
   def extension
-    File.extname(self[:upload])
+    File.extname(self[:upload]).split('.').last
   end
 
   def self.choose_type(ext)

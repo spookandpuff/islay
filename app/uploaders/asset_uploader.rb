@@ -1,6 +1,64 @@
 class AssetUploader < CarrierWave::Uploader::Base
   include CarrierWave::Backgrounder::DelayStorage
 
+  class_attribute :version_opt_cache
+  self.version_opt_cache = {}
+
+  def version_info
+    versions.inject({}) do |h, v|
+      name, uploader = v
+
+      size, format = case uploader
+      when ImageUploader
+        width, height, ext = nil
+
+        uploader.processors.each do |processor|
+          case processor[0]
+          when :resize_to_fill, :crop
+            width, height = processor[1]
+          when :convert
+            ext = processor[1].first
+          end
+        end
+
+        ["#{width}x#{height}", ext || model.extension]
+      when VideoUploader
+        opts = uploader.processors.first[1].first
+        [opts[:resolution] || model.resolution, model.extension]
+      when DocumentUploader
+
+      when AudioUploader
+
+      end
+
+      h[name] = {
+        :name => name.to_s.humanize,
+        :size => size,
+        :format => format.upcase,
+        :url => uploader.url
+      }
+
+      h
+    end
+  end
+
+  def version_opts(version)
+    uploader = versions[version]
+
+    version_opt_cache[version] ||= begin
+      opts = {}
+
+      uploader.processors.each do |processor|
+        case processor[0]
+        when :resize_to_fill, :crop
+          opts[:width], opts[:height] = processor[1]
+        end
+      end
+
+      opts
+    end
+  end
+
   def preview
 
   end

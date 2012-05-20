@@ -27,9 +27,8 @@
         %span.key Sizes/Formats
         %span.value
           %ul
-            %li ONE
-            %li two
-            %li three
+            - @asset.version_info.each do |name, version|
+              %li= link_to("#{version[:name]} (#{version[:size]}/#{version[:format]})", version[:url])
 
     %h3 Download & Share
     %p Download: #{link_to(@asset.upload.url, @asset.upload.url)}
