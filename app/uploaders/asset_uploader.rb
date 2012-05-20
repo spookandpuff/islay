@@ -1,11 +1,11 @@
 class AssetUploader < CarrierWave::Uploader::Base
   include CarrierWave::Backgrounder::DelayStorage
 
-  class_attribute :version_opt_cache
-  self.version_opt_cache = {}
+  class_attribute :version_info_cache
+  self.version_info_cache = {}
 
-  def version_info
-    versions.inject({}) do |h, v|
+  def version_info(name = nil)
+    version_info_cache ||= versions.inject({}) do |h, v|
       name, uploader = v
 
       size, format = case uploader
@@ -40,6 +40,8 @@ class AssetUploader < CarrierWave::Uploader::Base
 
       h
     end
+
+    name ? version_info_cache : version_info_cache[name]
   end
 
   def version_opts(version)
