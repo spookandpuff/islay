@@ -3,6 +3,7 @@ module Islay
     isolate_namespace Islay
 
     config.autoload_paths << File.expand_path("../../app/uploaders", __FILE__)
+    # Rails.application.config.assets.paths << File.expand_path("../../app/assets/fonts", __FILE__)
 
     config.generators do |g|
       g.orm             :active_record

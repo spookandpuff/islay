@@ -11,6 +11,6 @@
         = render :partial => 'collection', :locals => {:group => group}
       - when AssetGroup
         %li.album
-          = link_to(group.name, path(group), :class => 'album-name')
+          = link_to(group.name, path(group), :class => 'album-name album-icon')
           = link_to('Edit', path(:edit, group), :class => 'edit')
           = link_to('Delete', path(:delete, group), :class => 'delete')
