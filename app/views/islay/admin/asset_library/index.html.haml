@@ -4,13 +4,28 @@
 - control('Asset', path(:new, :asset), :new)
 
 = content do
-  %ul.asset-tree
-    - @asset_groups.each do |group|
-      - case group
-      - when AssetCollection
-        = render :partial => 'collection', :locals => {:group => group}
-      - when AssetGroup
-        %li.album
-          = link_to(group.name, path(group), :class => 'album-name album-icon')
-          = link_to('Edit', path(:edit, group), :class => 'edit')
-          = link_to('Delete', path(:delete, group), :class => 'delete')
+  = column(5) do
+    %h3 Browse Library
+    %ul.asset-tree
+      - @asset_groups.each do |group|
+        - case group
+        - when AssetCollection
+          = render :partial => 'collection', :locals => {:group => group}
+        - when AssetGroup
+          %li.album
+            = link_to(group.name, path(group), :class => 'album-name album-icon')
+            = link_to('Edit', path(:edit, group), :class => 'edit')
+            = link_to('Delete', path(:delete, group), :class => 'delete')
+
+  = column(7) do
+    %h3 Latest Uploads
+    %ul.asset-grid
+      - @latest_assets.each do |asset|
+        %li(class='#{asset.kind} column count-4')
+          %a.frame(href='#{path(asset)}')
+            - if asset.preview.present?
+              = image_tag(asset.preview.url(:thumb_medium))
+            - else
+              %span(class='no-preview #{asset.kind}-icon') &nbsp;
+          = link_to(asset.name, path(asset), :class => 'name')
+          %span(class='type #{asset.kind}-icon')= asset.kind.capitalize
