@@ -17,6 +17,20 @@ module Islay
         persist!(@asset)
       end
 
+      def bulk
+        @upload = AssetBulkUpload.new
+      end
+
+      def bulk_create
+        @upload = AssetBulkUpload.new(params[:asset_bulk_upload])
+        if @upload.valid?
+          @upload.unpack!
+          redirect_to path(@upload.album)
+        else
+          render :bulk
+        end
+      end
+
       def reprocess
         @asset = Asset.find(params[:id])
         @asset.enqueue_upload_background_job

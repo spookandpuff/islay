@@ -9,7 +9,11 @@ module Islay
         :html   => {:id => 'islay-form'}
       )
 
-      form_for([:admin, object], *(args << options), &block)
+      if object.is_a?(Symbol)
+        form_for(object, *(args << options), &block)
+      else
+        form_for([:admin, object], *(args << options), &block)
+      end
     end
   end
 end

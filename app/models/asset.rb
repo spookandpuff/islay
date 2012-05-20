@@ -7,7 +7,7 @@ class Asset < ActiveRecord::Base
   mount_uploader :preview, PreviewUploader
   process_in_background :upload, AssetUploader::Worker
 
-  attr_accessible :name, :upload, :upload_cache, :asset_group_id, :status, :error, :retries
+  attr_accessible :name, :upload, :upload_cache, :asset_group_id, :status, :error, :retries, :album
 
   after_initialize  :set_path
   before_save       :set_name, :set_metadata

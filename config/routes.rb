@@ -29,6 +29,11 @@ Islay::Engine.routes.draw do
 
       # Assets
       resources :assets, :image_assets, :document_assets, :video_assets, :audio_assets, :controller => 'assets' do
+        collection do
+          get :bulk
+          post :bulk, :action => 'bulk_create'
+        end
+
         member do
           get :delete
           put :reprocess

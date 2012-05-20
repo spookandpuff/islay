@@ -10,6 +10,7 @@ require 'mime/types'
 require 'streamio-ffmpeg'
 require 'resque'
 require 'resque/server'
+require 'zipruby'
 
 require "islay/engine"
 require "islay/controller"
