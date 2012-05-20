@@ -15,7 +15,7 @@ class Asset < ActiveRecord::Base
   track_user_edits
 
   IMAGE_EXTENSIONS = %w(jpg jpeg png gif).freeze
-  DOCUMENT_EXTENSIONS = %w(doc xls pdf zip pages numbers psd indd).freeze
+  DOCUMENT_EXTENSIONS = %w(doc xls pdf zip pages numbers psd indd txt rtf).freeze
   VIDEO_EXTENSIONS = %w(mpg mp4 mov avi).freeze
   AUDIO_EXTENSIONS = %w(mp3 aiff acc flac wav).freeze
 

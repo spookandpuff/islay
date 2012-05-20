@@ -4,5 +4,7 @@
       %a.frame(href='#{path(asset)}')
         - if asset.preview.present?
           = image_tag(asset.preview.url(:thumb_medium))
+        - else
+          %span(class='no-preview #{asset.kind}-icon') &nbsp;
       = link_to(asset.name, path(asset), :class => 'name')
-      %span.type= asset.kind
+      %span(class='type #{asset.kind}-icon')= asset.kind.capitalize

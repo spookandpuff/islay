@@ -3,6 +3,8 @@
 - control('Delete', path(:delete, @asset), :delete)
 
 = content do
+  %p= link_to('Go Back', path(@asset.album))
+
   - if @asset.preview.present?
     = image_tag(@asset.preview.url(:thumb))
 
