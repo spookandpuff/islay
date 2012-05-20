@@ -1,5 +1,5 @@
 class Asset < ActiveRecord::Base
-  belongs_to :album, :class_name => 'AssetAlbum', :foreign_key => 'asset_group_id'
+  belongs_to :album, :class_name => 'AssetAlbum', :foreign_key => 'asset_group_id', :counter_cache => true
 
   class_attribute :kind
 

@@ -11,5 +11,6 @@
         - when AssetGroup
           %li.album
             = link_to(c.name, path(c), :class => 'album-name album-icon')
+            %span.count= group.assets_count
             = link_to('Edit', path(:edit, c), :class => 'edit')
             = link_to('Delete', path(:delete, c), :class => 'delete')

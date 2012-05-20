@@ -4,7 +4,7 @@ module Islay
       header 'Asset Library'
 
       def index
-        @asset_groups = AssetGroup.roots
+        @asset_groups = AssetGroup.where(:asset_group_id => nil).order('type DESC, name DESC')
         @latest_assets = Asset.limit(12).order("created_at DESC")
       end
     end
