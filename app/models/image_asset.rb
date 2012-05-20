@@ -5,6 +5,10 @@ class ImageAsset < Asset
 
   before_save :set_image_metadata
 
+  def dimensions
+    "#{width}x#{height}" if width? and height?
+  end
+
   private
 
   def set_image_metadata

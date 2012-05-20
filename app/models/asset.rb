@@ -23,6 +23,10 @@ class Asset < ActiveRecord::Base
     upload.version_info
   end
 
+  def friendly_duration
+    "#{(duration / 60).round(2)} minutes" if duration
+  end
+
   def extension
     File.extname(self[:upload]).split('.').last
   end

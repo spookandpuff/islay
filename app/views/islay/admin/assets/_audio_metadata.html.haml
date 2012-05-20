@@ -1,10 +1,22 @@
 %ul.key-value
   %li
+    %span.key Filesize
+    %span.value= number_to_human_size(@asset.filesize)
+  %li
+    %span.key Duration
+    %span.value= @asset.friendly_duration
+  %li
+    %span.key Content Type
+    %span.value= @asset.content_type
+  %li
     %span.key Codec
     %span.value= @asset.audio_codec
+  %li
     %span.key Bitrate
     %span.value= @asset.audio_bitrate
+  %li
     %span.key Sample Rate
     %span.value= @asset.audio_sample_rate
+  %li
     %span.key Channels
     %span.value= @asset.audio_channels

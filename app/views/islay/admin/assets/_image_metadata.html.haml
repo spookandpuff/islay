@@ -1,4 +1,13 @@
 %ul.key-value
   %li
+    %span.key Filesize
+    %span.value= number_to_human_size(@asset.filesize)
+  %li
+    %span.key Dimensions
+    %span.value= @asset.dimensions
+  %li
+    %span.key Content Type
+    %span.value= @asset.content_type
+  %li
     %span.key Colour Space
     %span.value= @asset.colorspace

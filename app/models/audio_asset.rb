@@ -12,6 +12,7 @@ class AudioAsset < Asset
       self.audio_bitrate      = movie.audio_bitrate
       self.audio_sample_rate  = movie.audio_sample_rate
       self.audio_channels     = movie.audio_channels
+      self.duration           = movie.duration
     end
   end
 end
