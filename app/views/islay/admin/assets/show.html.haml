@@ -38,3 +38,8 @@
       %button Reprocess
 
     %p= link_to('Go Back', path(@asset.album))
+
+    %p.edit-info
+      Created <span class='time'>#{@asset.created_at}</span> by #{@asset.creator.name}
+      %br
+      Updated <span class='time'>#{@asset.updated_at}</span> by #{@asset.updater.name}
