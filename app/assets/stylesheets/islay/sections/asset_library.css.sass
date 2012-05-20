@@ -69,9 +69,21 @@ ul.asset-grid li
     overflow: hidden
     float: left
 
+  .no-preview
+    margin-top: 1.3em
+    display: block
+
+    &:before
+      color: #CCC + 30
+      font-size: 5.5em
+
 .asset-preview
   .frame
     margin-bottom: 1em
+
+  .no-preview
+    margin: 2em 0
+    font-size: 2em
 
 /* -------------------------------------------------------------------------- */
 /* ASSET GRID
@@ -109,13 +121,6 @@ ul.asset-grid
     text-decoration: none
     color: black !important
 
-  .no-preview
-    margin-top: 1.3em
-    display: block
-
-    &:before
-      color: #CCC + 30
-      font-size: 5.5em
 
 /* -------------------------------------------------------------------------- */
 /* META-DATA / KEY-VALUE

@@ -8,27 +8,28 @@
       - if @asset.preview.present?
         = image_tag(@asset.preview.url(:thumb))
       - else
-        %span(class='no-preview #{asset.kind}-icon') &nbsp;
+        %span(class='no-preview #{@asset.kind}-icon') &nbsp;
 
   = column(8) do
     %h3 Info
     = render :partial => "#{@asset.kind}_metadata"
 
-    %h3 Versions
-    %ul.key-value
-      %li
-        %span.key Status
-        %span.value= @asset.status.capitalize
-      - if @asset.error?
+    - if @asset.version_info
+      %h3 Versions
+      %ul.key-value
         %li
-          %span.key Error
-          %span.value= @asset.error
-      %li
-        %span.key Sizes/Formats
-        %span.value
-          %ul
-            - @asset.version_info.each do |name, version|
-              %li= link_to("#{version[:name]} (#{version[:size]}/#{version[:format]})", version[:url])
+          %span.key Status
+          %span.value= @asset.status.capitalize
+        - if @asset.error?
+          %li
+            %span.key Error
+            %span.value= @asset.error
+        %li
+          %span.key Sizes/Formats
+          %span.value
+            %ul
+              - @asset.version_info.each do |name, version|
+                %li= link_to("#{version[:name]} (#{version[:size]}/#{version[:format]})", version[:url])
 
     %h3 Download & Share
     %p Download: #{link_to(@asset.upload.url, @asset.upload.url)}
