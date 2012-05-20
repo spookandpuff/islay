@@ -3,26 +3,38 @@
 - control('Delete', path(:delete, @asset), :delete)
 
 = content do
-  %p= link_to('Go Back', path(@asset.album))
+  = column(4, :class => 'asset-preview') do
+    %div.frame
+      - if @asset.preview.present?
+        = image_tag(@asset.preview.url(:thumb))
+      - else
+        %span(class='no-preview #{asset.kind}-icon') &nbsp;
 
-  - if @asset.preview.present?
-    = image_tag(@asset.preview.url(:thumb))
+  = column(8) do
+    %h3 Info
+    = render :partial => "#{@asset.kind}_metadata"
 
-  %h3 Processing Status
-  %p
-    Status:
-    = @asset.status
+    %h3 Versions
+    %ul.key-value
+      %li
+        %span.key Status
+        %span.value= @asset.status.capitalize
+      - if @asset.error?
+        %li
+          %span.key Error
+          %span.value= @asset.error
+      %li
+        %span.key Sizes/Formats
+        %span.value
+          %ul
+            %li ONE
+            %li two
+            %li three
 
-  %p
-    Error:
-    = @asset.error
+    %h3 Download & Share
+    %p Download: #{link_to(@asset.upload.url, @asset.upload.url)}
 
-  %h3 Info
-  = render :partial => "#{@asset.kind}_metadata"
+    = form_for([:reprocess, :admin, @asset]) do
+      %button Reprocess
 
-  %h3 Download & Share
-  %p Download: #{link_to(@asset.upload.url, @asset.upload.url)}
-
-  = form_for([:reprocess, :admin, @asset]) do
-    %button Reprocess
-
+    %p= link_to('Go Back', path(@asset.album))

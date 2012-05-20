@@ -51,21 +51,37 @@ ul.asset-tree
       margin-left: 5em
 
 /* -------------------------------------------------------------------------- */
+/* ASSET PREVIEW
+/* -------------------------------------------------------------------------- */
+.asset-preview,
+ul.asset-grid li
+  +border-radius(0.2em)
+  +single-box-shadow(rgba(0, 0, 0, 0.03), 0, 0, 0, 2px)
+  background: white
+  margin-bottom: 1.5em
+  float: left
+
+  .frame
+    text-align: center
+    margin: 0 0 0 10%
+    width: 80%
+    margin-top: 1em
+    overflow: hidden
+    float: left
+
+.asset-preview
+  .frame
+    margin-bottom: 1em
+
+/* -------------------------------------------------------------------------- */
 /* ASSET GRID
 /* -------------------------------------------------------------------------- */
 ul.asset-grid
   width: 100%
   float: left
 
-  li
-    +border-radius(0.2em)
-    +single-box-shadow(rgba(0, 0, 0, 0.03), 0, 0, 0, 2px)
-    background: white
-    margin-bottom: 1.5em
-    float: left
-
-    &:nth-child(6n)
-      margin-right: 0 !important
+  li:nth-child(6n)
+    margin-right: 0 !important
 
   .frame,
   .name,
@@ -75,10 +91,7 @@ ul.asset-grid
     float: left
 
   .frame
-    text-align: center
     height: 8em
-    margin-top: 1em
-    overflow: hidden
 
   .name
     +ellipsis(true)
@@ -103,3 +116,39 @@ ul.asset-grid
     &:before
       color: #CCC + 30
       font-size: 5.5em
+
+/* -------------------------------------------------------------------------- */
+/* META-DATA / KEY-VALUE
+/* -------------------------------------------------------------------------- */
+ul.key-value
+  border-top: 0.2em solid $light-grey
+  width: 30em
+  margin-bottom: 1.5em
+  float: left
+
+  li
+    border-bottom: 0.1em solid $light-grey
+    padding: 0.6em 0
+
+  li, .key, .value
+    float: left
+
+  .key
+    font-weight: bold
+    width: 8em
+
+  .value
+    width: 22em
+
+/* -------------------------------------------------------------------------- */
+/* ASSET OVERVIEW
+/* -------------------------------------------------------------------------- */
+#islay-admin-assets.show #content
+  h3, p
+    width: 100%
+    float: left
+
+  h3
+    color: $dark-grey
+    font-size: 1.2em
+    margin-bottom: 0.4em
