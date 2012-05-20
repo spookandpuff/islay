@@ -3,7 +3,7 @@ class CreateAssets < ActiveRecord::Migration
     create_table :assets do |t|
       t.integer   :asset_group_id,      :null => false, :on_delete => :cascade
       t.string    :type,                :null => false, :limit => 50
-      t.string    :name,                :null => false, :limit => 200, :index => {:unique => true, :with => 'type'}
+      t.string    :name,                :null => false, :limit => 200, :index => {:unique => true, :with => ['type', 'asset_group_id']}
       t.string    :upload,              :null => false, :limit => 200
       t.string    :path,                :null => false, :limit => 200
       t.string    :original_filename,   :null => false, :limit => 200
