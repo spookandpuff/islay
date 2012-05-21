@@ -2,11 +2,11 @@
 /* ASSET TREE
 /* -------------------------------------------------------------------------- */
 ul.asset-tree
-  border-bottom: 0.1em solid #E1E1E1
+  border-bottom: 0.1em solid $light-grey
   float: left
 
   li
-    border-top: 0.1em solid #E1E1E1
+    border-top: 0.1em solid $light-grey
 
   li, ul
     width: 100%
@@ -16,7 +16,7 @@ ul.asset-tree
   .collection-name
     &:before
       padding-right: 0.3em
-      font-size: 1.4em
+      font-size: 1.2em
 
     font-size: 1.2em
     margin-left: 0.2em
@@ -32,16 +32,17 @@ ul.asset-tree
     color: inherit !important
 
   .edit, .delete
+    font-size: 0.9em
     margin: 0.8em 0 0 0.5em
     float: right
 
   .count
     +border-radius(1em)
-    background: #31669C
+    background: $highlight-color
     color: white
     text-align: center
-    margin: 0.95em 0 0 0.6em
-    padding: 0.3em 0
+    margin: 0.75em 0 0 0.6em
+    padding: 0.25em 0 0.35em 0
     font-size: 0.85em
     width: 1.5em
 
