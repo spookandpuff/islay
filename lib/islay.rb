@@ -20,8 +20,8 @@ require "islay/extensions"
 
 # Use require dependency to get around mixins going missing
 # after class reloading.
-require_dependency "islay/controller"
-require_dependency "islay/helpers"
+require_dependency "islay/admin_controller"
+require_dependency "islay/admin_helpers"
 
 module Islay
 end
