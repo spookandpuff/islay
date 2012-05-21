@@ -123,12 +123,18 @@ $dark-grey: #666
 
     a
       +unstyled-link
-      +border-radius(0.25em)
-      +background-image(linear-gradient(#FFFFFF, #ECECEC - 20))
+      +border-radius(0.2em)
+      +background-image(linear-gradient(#FFFFFF, #ECECEC - 10))
       +islay-text-shadow
+      +box-shadow(rgba(255, 255, 255, 1) 1px 1px 0 1px, rgba(0, 0, 0, 0.04) -1px -1px 0 0)
       border: 0.1em solid #C2CBD5 - 18
-      padding: 0.35em 0.6em
+      padding: 0.35em 0.8em 0.35em 0.6em
       margin-left: 0.5em
+
+      &:before
+        font-size: 1.1em
+        padding-right: 0.3em
+
 
 /* -------------------------------------------------------------------------- */
 /* SIDE BAR

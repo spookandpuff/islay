@@ -48,7 +48,7 @@ module Islay
         @has_sub_header = true
 
         @control_entries ||= []
-        @control_entries << link_to(name, url, :class => type)
+        @control_entries << link_to(name, url, :class => "#{type} #{type}-icon")
       end
 
       # This method is used to capture the main content for a page and wrap it

@@ -5,8 +5,8 @@
 /* -------------------------------------------------------------------------- */
 +font-face('Icons', font-files('/assets/icons.woff', '/assets/icons.ttf', '/assets/icons.svg'), '/assets/icons.eot')
 
-$icon-names: (folder, album, audio, video, image, document)
-$icon-chars: (6, 5, 1, 2, 3, 4)
+$icon-names: (folder, album, audio, video, image, document, new, edit, delete)
+$icon-chars: (6, 5, 1, 2, 3, 4, '+', 'w', '-')
 
 @for $i from 1 through length($icon-names)
   .#{nth($icon-names, $i)}-icon
