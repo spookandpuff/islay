@@ -23,6 +23,7 @@ body.has-sub-header #content
 $side-bar-color: #232323
 $light-grey: #E1E1E1
 $dark-grey: #666
+$highlight-color: #2C5A8D
 
 /* -------------------------------------------------------------------------- */
 /* MIXINS
@@ -172,10 +173,32 @@ $dark-grey: #666
     float: left
 
   a
+    +text-shadow(rgba(0, 0, 0, 0.4) -1px -1px 1px)
     color: white !important
     text-decoration: none !important
+    border-top: 0.1em solid transparent
+    border-bottom: 0.1em solid transparent
     padding: 0.5em 0
-    text-indent: 2em
+    text-indent: 1.2em
+
+    &:before
+      font-size: 1.2em
+      font-family: 'Icons'
+      margin-right: 0.5em
+
+    &.current
+      +background-image(linear-gradient(#4D7BAE, $highlight-color))
+      border-top-color: #6997CA
+      border-bottom-color: $side-bar-color - 10
+
+  #dashboard-nav:before
+    content: 'H'
+
+  #asset-library-nav:before
+    content: '6'
+
+  #users-nav:before
+    content: 'P'
 
 /* -------------------------------------------------------------------------- */
 /* FOOTER

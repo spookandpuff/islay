@@ -30,6 +30,20 @@ module Islay
         @sub_header << capture(&blk) if block_given?
       end
 
+      # Adds and entry to the main navigation bar. It will additionally highlight
+      # the current entry.
+      def main_nav(name, path_name, id = nil)
+        id    ||= name.parameterize('-')
+        url   = path(path_name)
+        opts  = {:id => "#{id}-nav"}
+
+        if request.original_url.match(%r{#{url}$})
+          opts[:class] = 'current'
+        end
+
+        content_tag(:li, link_to(name, url, opts))
+      end
+
       # Adds an entry into the sub navigation, which will appear in the bar
       # below the main header. Works in conjunction with the #control helper
       # but not the #sub_header helper; the nav and sub header sit in the same

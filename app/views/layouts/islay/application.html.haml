@@ -16,9 +16,9 @@
         %input(type='text' placeholder='Search')
 
       %ul
-        %li= link_to('Dashboard', path(:dashboard))
-        %li= link_to('Asset Library', path(:asset_library))
-        %li= link_to('Users', path(:users))
+        = main_nav('Dashboard', :dashboard)
+        = main_nav('Asset Library', :asset_library)
+        = main_nav('Users', :users)
 
     %div#header
       %h1= @header || _header
