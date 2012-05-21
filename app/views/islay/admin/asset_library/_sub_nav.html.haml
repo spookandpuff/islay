@@ -1,0 +1,11 @@
+- sub_nav('Home', path(:asset_library))
+- sub_nav('All', path(:assets))
+- sub_nav('Images', path(:image_assets))
+- sub_nav('Documents', path(:document_assets))
+- sub_nav('Video', path(:video_assets))
+- sub_nav('Audio', path(:audio_assets))
+
+- control('Collection', path(:new, :asset_collection), :new)
+- control('Album', path(:new, :asset_album), :new)
+- control('Asset', path(:new, :asset), :new)
+- control('Bulk Upload', path(:bulk, :assets), :new)

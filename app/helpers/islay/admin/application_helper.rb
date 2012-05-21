@@ -51,6 +51,10 @@ module Islay
       def sub_nav(name, url, opts = {})
         @has_sub_header = true
 
+        if request.original_url.match(%r{#{url}$})
+          opts[:class] = 'current'
+        end
+
         @sub_nav_entries ||= []
         @sub_nav_entries << link_to(name, url, opts)
       end

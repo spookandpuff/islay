@@ -6,6 +6,18 @@ module Islay
 
       before_filter :find_album, :only => [:new, :create]
 
+      def index
+        klass = case params[:type]
+        when :image_assets    then ImageAsset
+        when :document_assets then DocumentAsset
+        when :video_assets    then VideoAsset
+        when :audio_assets    then AudioAsset
+        else Asset
+        end
+
+        @assets = klass.order('name')
+      end
+
       def create
         @asset = if params[:asset][:upload]
           ext = File.extname(params[:asset][:upload].original_filename)

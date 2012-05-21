@@ -110,20 +110,34 @@ $highlight-color: #2C5A8D
   li, a
     float: left
 
+  a
+    +unstyled-link
+
+
   h2,
   .sub-nav,
   .controls
     margin-top: 0.85em
 
   .sub-nav
+    margin: 0.65em 0 0 1em
     float: left
+
+    a
+      border: 0.2em solid transparent
+      padding: 0.2em 0.7em 0.35em 0.7em
+
+      &.current
+        +border-radius(1em)
+        +background-image(linear-gradient($light-grey - 10, $light-grey))
+        +single-box-shadow(white, 2px, 2px)
+        border-color: $light-grey - 60
 
   .controls
     margin: 0.55em 1em 0 0
     float: right
 
     a
-      +unstyled-link
       +border-radius(0.2em)
       +background-image(linear-gradient(#FFFFFF, #ECECEC - 10))
       +islay-text-shadow

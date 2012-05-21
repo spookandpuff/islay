@@ -28,7 +28,7 @@ Islay::Engine.routes.draw do
       resources(:asset_albums,      :controller => 'asset_groups', :path => 'albums', :defaults => {:type => 'album'}) { get :delete, :on => :member }
 
       # Assets
-      resources :assets, :image_assets, :document_assets, :video_assets, :audio_assets, :controller => 'assets' do
+      asset_resource = lambda do
         collection do
           get :bulk
           post :bulk, :action => 'bulk_create'
@@ -38,6 +38,11 @@ Islay::Engine.routes.draw do
           get :delete
           put :reprocess
         end
+      end
+
+      asset_resources = [:assets, :image_assets, :document_assets, :video_assets, :audio_assets]
+      asset_resources.each do |as|
+        resources as, :controller => 'assets', :defaults => {:type => as}, &asset_resource
       end
     end
   end
