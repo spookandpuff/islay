@@ -23,6 +23,13 @@ module Islay
         end
       end
 
+      def redirect_for(model)
+        case model
+        when AssetCollection then path(:asset_library)
+        when AssetAlbum then path(model)
+        end
+      end
+
       def new_group
         @asset_group = case params[:type]
         when 'collection' then AssetCollection.new

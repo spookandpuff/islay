@@ -80,11 +80,15 @@ module Islay
 
         def persist!(record)
           if record.update_attributes(params[resource_class[:name]])
-            redirect_to url_for([:admin, record])
+            redirect_to(redirect_for(record))
           else
             dependencies
             render(record.new_record? ? :new : :edit)
           end
+        end
+
+        def redirect_for(record)
+          url_for([:admin, record])
         end
 
         # Can be over-ridden in subclasses to provide the data needed when
