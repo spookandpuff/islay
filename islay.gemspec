@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 require "islay/version"
 
 Gem::Specification.new do |s|
-  s.name        = "Islay"
+  s.name        = "islay"
   s.version     = Islay::VERSION
   s.authors     = ["Luke Sutton", "Ben Hull"]
   s.email       = ["lukeandben@spookandpuff.com"]
