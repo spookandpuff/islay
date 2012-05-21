@@ -18,6 +18,7 @@ require "islay/helpers"
 require "islay/form_builder"
 require "islay/active_record"
 require "islay/carrierwave"
+require "islay/extensions"
 
 module Islay
 end
