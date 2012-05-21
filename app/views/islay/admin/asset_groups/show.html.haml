@@ -4,4 +4,4 @@
 - control('Delete', path(:delete, @asset_group), :delete)
 
 = content do
-  = render :partial => "#{@asset_group.kind}_list"
+  = render :partial => 'islay/admin/assets/grid', :locals => {:assets => @asset_group.assets, :size => 4}

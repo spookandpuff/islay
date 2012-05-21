@@ -1,9 +1,0 @@
-%h3 Collections
-%ul
-  - @asset_group.collections.each do |collection|
-    %li= link_to(collection.name, path(collection))
-
-%h3 Albums
-%ul
-  - @asset_group.albums.each do |album|
-    %li= link_to(album.name, path(album))

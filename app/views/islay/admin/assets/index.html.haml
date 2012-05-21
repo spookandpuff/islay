@@ -1,5 +1,3 @@
 = render :partial => 'islay/admin/asset_library/sub_nav'
 = content do
-  %ul
-    - @assets.each do |asset|
-      %li= asset.name
+  = render :partial => 'grid', :locals => {:assets => @assets, :size => 2}

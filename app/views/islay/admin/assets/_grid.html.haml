@@ -1,6 +1,6 @@
 %ul.asset-grid
-  - @asset_group.assets.each do |asset|
-    %li(class='#{asset.kind} column count-2')
+  - assets.each do |asset|
+    %li(class='#{asset.kind} column count-#{size}')
       %a.frame(href='#{path(asset)}')
         - if asset.preview.present?
           = image_tag(asset.preview.url(:thumb_medium))
