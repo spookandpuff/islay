@@ -33,10 +33,10 @@ module Islay
       # Adds and entry to the main navigation bar. It will additionally highlight
       # the current entry.
       def main_nav(name, path_name, opts = {})
-        id    ||= name.parameterize('-')
-        url   = path(path_name)
-        opts  ||=  "#{id}-nav"
-        root  =  opts.delete(:root)
+        id ||= name.parameterize('-')
+        url = path(path_name)
+        opts[:id] ||= "#{id}-nav"
+        root = opts.delete(:root)
 
         if (root and request.original_url == url) or (!root and request.original_url.match(%r{^#{url}}))
           opts[:class] = 'current'
