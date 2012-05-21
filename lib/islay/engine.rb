@@ -1,7 +1,5 @@
 module Islay
   class Engine < ::Rails::Engine
-    isolate_namespace Islay
-
     config.autoload_paths << File.expand_path("../../app/uploaders", __FILE__)
 
     config.generators do |g|

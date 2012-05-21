@@ -13,12 +13,15 @@ require 'resque/server'
 require 'zipruby'
 
 require "islay/engine"
-require "islay/controller"
-require "islay/helpers"
 require "islay/form_builder"
 require "islay/active_record"
 require "islay/carrierwave"
 require "islay/extensions"
+
+# Use require dependency to get around mixins going missing
+# after class reloading.
+require_dependency "islay/controller"
+require_dependency "islay/helpers"
 
 module Islay
 end
