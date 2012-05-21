@@ -1,25 +1,19 @@
 @import compass/layout/stretching
 @import compass/css3
 
+/* -------------------------------------------------------------------------- */
+/* MEASUREMENTS
+/* -------------------------------------------------------------------------- */
 $header-height: 3.2em
 $sub-header-height: 2.8em
 $footer-height: 3.2em
 $body-margin-top: $header-height + 2em
 $body-margin-left: 13.5em
 
-body
-  background: #F9F9F9
-  margin: $body-margin-top 2em 0 $body-margin-left + 2em
-
-body.has-footer #content
-  margin-bottom: $footer-height + 1em
-
-body.has-sub-header #content
-  margin-top: $sub-header-height
-
 /* -------------------------------------------------------------------------- */
 /* COLORS
 /* -------------------------------------------------------------------------- */
+$body-color: #F9F9F9
 $side-bar-color: #232323
 $light-grey: #E1E1E1
 $dark-grey: #666
@@ -30,6 +24,19 @@ $highlight-color: #2C5A8D
 /* -------------------------------------------------------------------------- */
 @mixin islay-text-shadow($offset: 1px)
   +text-shadow(rgba(255, 255, 255, 0.9) $offset $offset 0)
+
+/* -------------------------------------------------------------------------- */
+/* BODY SIZING
+/* -------------------------------------------------------------------------- */
+body
+  background: $body-color
+  margin: $body-margin-top 2em 0 $body-margin-left + 2em
+
+body.has-footer #content
+  margin-bottom: $footer-height + 1em
+
+body.has-sub-header #content
+  margin-top: $sub-header-height
 
 /* -------------------------------------------------------------------------- */
 /* MAIN CONTENT BLOCKS
@@ -244,3 +251,29 @@ $i: 0
   #content .count-#{$i}
     width: $column-width * $i + $gutter-width * $j
     margin-right: $gutter-width
+/* -------------------------------------------------------------------------- */
+/* MAIN CONTENT BLOCKS
+/* -------------------------------------------------------------------------- */
+table
+  width: 100%
+  float: left
+
+thead th
+  text-transform: uppercase
+  border-bottom: 0.2em solid $light-grey
+  color: $dark-grey
+  font-size: 0.85em
+  padding: 0 0 0.7em 0
+
+td
+  border-bottom: 0.1em solid $light-grey
+  padding: 0.8em 0
+
+tr td:first-child
+  text-indent: 0.3em
+  font-weight: bold
+
+th.control
+  text-indent: -1000em
+  letter-spacing: -1000em
+  width: 4em
