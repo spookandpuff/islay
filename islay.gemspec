@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.summary     = "A Rails engine for website back-ends."
   s.description = "A Rails engine for website back-ends."
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
 
   s.add_dependency "rails",                     "~> 3.2.3"
   s.add_dependency "devise",                    "~> 2.0.4"
