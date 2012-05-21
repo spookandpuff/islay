@@ -18,8 +18,14 @@ module Islay
 
       def dependencies
         @asset_collections = case params[:type]
-        when 'collection' then AssetCollection.where("id != ?", params[:id])
-        when 'album'      then AssetCollection.all
+        when 'collection'
+          if @asset_group.new_record?
+            AssetCollection.all
+          else
+            AssetCollection.where("id != ?", params[:id])
+          end
+        when 'album'
+          AssetCollection.all
         end
       end
 
