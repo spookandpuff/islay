@@ -1,40 +1,83 @@
 /* -------------------------------------------------------------------------- */
 /* FORM
 /* -------------------------------------------------------------------------- */
-
-input:focus
-  outline: none
-
 #islay-form
   #content
+    +border-radius(0.3em)
+    +single-box-shadow(rgba(0, 0, 0, 0.05), 0, 0, 0, 2px)
+    background: white
     border: 0.1em solid #CCC
-    padding: 1em 0 0 0
 
   #footer
     input
       float: right
 
-  fieldset
-    float: left
-    width: 100%
+fieldset
+  padding-top: 1.2em
+  float: left
+  width: 100%
 
-  legend
-    margin-left: 1.5em
-    margin-bottom: 1em
-    float: left
+fieldset.primary
+  border-top-width: 0
+  background: #F9FAFB
 
-  input
-    float: left
+legend
+  border-top: 0.1em solid #E1E1E1
+  font-weight: bold
+  margin-bottom: 1.2em
+  text-indent: 1em
+  padding-top: 1em
+  color: #999
+  width: 100%
+  float: left
 
-  label
-    float: left
-    margin: 0 0 0 1.5em
-    width: 10em
+input,
+select,
+textarea
+  float: left
 
-  .field
-    height: 2.5em
-    width: 100%
-    float: left
+label
+  @include text-shadow(-1px -1px 2px rgba(0, 0, 0, 0.15))
+  padding-top: 0.5em
+  margin-bottom: 0.4em
+  margin-left: 1em
+  color: #444
+  width: 8em
+  float: left
+
+.field
+  height: 3em
+  width: 100%
+  float: left
+
+  &.text
+    height: auto
+
+  &.select
+    height: 2.6em
+
+textarea
+  margin-bottom: 1.5em
+
+select
+  margin-top: 0.5em
+
+input:focus
+  outline: none
+
+input[type=text],
+input[type=email],
+input[type=password],
+input[type=url],
+input[type=tel],
+input[type=number],
+textarea
+  @include border-radius(0.2em)
+  @include background-image(linear-gradient(#CFCFCF 0, #FAFAFA 3px))
+
+  border: 0.1em solid #B6B9BC
+  padding: 0.35em 0.6em
+  float: left
 
 // Construct the classes for setting the widths of fields. This differs to the
 // column widths, since we don't use gutters.
@@ -44,3 +87,28 @@ $i: 0
   $i: $i + 1
   #islay-form .count-#{$i}
     width: $column-width * $i
+
+/* -------------------------------------------------------------------------- */
+/* MEMBER TREE
+/* -------------------------------------------------------------------------- */
+fieldset.member-tree
+  width: 100%
+  float: left
+
+  ul.top
+    background: #E1E1E1
+    padding: 1em 0
+    margin: 0 0 1em 1em
+    float: left
+    width: auto
+
+  li, label
+    float: left
+    width: 100%
+
+  input
+    margin-top: 0.1em
+    margin-right: 0.8em
+
+  ul ul
+    margin-left: 1.6em

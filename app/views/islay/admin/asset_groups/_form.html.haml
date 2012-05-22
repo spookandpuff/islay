@@ -3,5 +3,35 @@
     = f.input(:name)
     = f.input(:asset_group_id, :collection => @asset_collections, :label => 'Collection')
 
+    %fieldset.member-tree
+      %legend Parent Category
+
+      %ul.top
+        %li
+          %label
+            %input(type='radio')
+            Wines
+          %ul
+            %li
+              %label
+                %input(type='radio')
+                Red
+            %li
+              %label
+                %input(type='radio')
+                White
+            %li
+              %label
+                %input(type='radio')
+                Bubbles
+        %li
+          %label
+            %input(type='radio')
+            Jams and Pickles
+        %li
+          %label
+            %input(type='radio')
+            Dry Goods
+
   = footer do
     = f.submit 'Save'
