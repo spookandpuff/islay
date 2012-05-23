@@ -1,6 +1,12 @@
 /* -------------------------------------------------------------------------- */
 /* FORM
 /* -------------------------------------------------------------------------- */
+$border-width: 0.1em
+$input-padding: 0.55em
+$field-margin: 1em
+$field-height: $border-width * 2 + $input-padding * 2 + 1em
+$form-inset-color: $light-grey + 20
+
 #islay-form
   #content
     +border-radius(0.3em)
@@ -9,58 +15,67 @@
     border: 0.1em solid #CCC
 
   #footer
-    input
+    input,
+    button
+      +background-image(linear-gradient(#4D7BAE, $highlight-color - 10))
+      +text-shadow(rgba(0, 0, 0, 0.3) -1px -1px 2px)
+      +border-radius(0.2em)
+      border: 0.1em solid $highlight-color - 10
+      font-size: 1.1em
+      color: white
+      padding: 0.3em 1em
+      margin: 0.5em 1.7em 0 0
       float: right
 
 fieldset
-  padding-top: 1.2em
-  float: left
+  border-top: 0.1em solid $light-grey
+  padding-top: $field-margin
   width: 100%
+  float: left
 
 fieldset.primary
+  background: $form-inset-color
+
+fieldset:first-child
   border-top-width: 0
-  background: #F9FAFB
 
 legend
-  border-top: 0.1em solid #E1E1E1
+  +text-shadow(-1px -1px 0 rgba(0, 0, 0, 0.1))
+  text-transform: uppercase
   font-weight: bold
-  margin-bottom: 1.2em
   text-indent: 1em
-  padding-top: 1em
-  color: #999
+  color: #666
+  margin-bottom: $field-margin
   width: 100%
   float: left
 
 input,
 select,
 textarea
+  font-size: 1em
   float: left
 
+fieldset.member-tree legend,
 label
-  @include text-shadow(-1px -1px 2px rgba(0, 0, 0, 0.15))
-  padding-top: 0.5em
-  margin-bottom: 0.4em
-  margin-left: 1em
-  color: #444
+  +text-shadow(-1px -1px 2px rgba(0, 0, 0, 0.15))
+  padding-top: $border-width + $input-padding
+  text-align: right
+  margin-right: 1em
+  color: #444 !important
   width: 8em
   float: left
 
 .field
-  height: 3em
+  margin-bottom: $field-margin
   width: 100%
   float: left
 
-  &.text
+  &.text,
+  &.select
     height: auto
 
-  &.select
-    height: 2.6em
-
-textarea
-  margin-bottom: 1.5em
-
 select
-  margin-top: 0.5em
+  margin-top: 0.8em
 
 input:focus
   outline: none
@@ -72,11 +87,12 @@ input[type=url],
 input[type=tel],
 input[type=number],
 textarea
-  @include border-radius(0.2em)
-  @include background-image(linear-gradient(#CFCFCF 0, #FAFAFA 3px))
-
+  +border-radius(0.2em)
+  +background-image(linear-gradient(#CFCFCF 0, #FAFAFA 3px))
+  +single-box-shadow(rgba(0, 0, 0, 0.06), -1px, -1px, 0, 0)
+  width: 25em
   border: 0.1em solid #B6B9BC
-  padding: 0.35em 0.6em
+  padding: $input-padding 0.6em
   float: left
 
 // Construct the classes for setting the widths of fields. This differs to the
@@ -92,23 +108,40 @@ $i: 0
 /* MEMBER TREE
 /* -------------------------------------------------------------------------- */
 fieldset.member-tree
+  border: 0
   width: 100%
+  height: auto
   float: left
 
+  legend
+    text-indent: 0
+    text-transform: none
+    font-weight: normal
+
   ul.top
-    background: #E1E1E1
-    padding: 1em 0
-    margin: 0 0 1em 1em
+    +border-radius(0.3em)
+    +single-box-shadow(rgba(0, 0, 0, 0.08), 1px, 1px, 2px, 0, true)
+    background: $form-inset-color + 10
+    border: $border-width solid $light-grey
     float: left
-    width: auto
+    width: 25em
 
   li, label
     float: left
-    width: 100%
+    width: 25em
+
+  li
+    border-top: $border-width solid $light-grey + 15
 
   input
-    margin-top: 0.1em
-    margin-right: 0.8em
+    margin-right: 0.6em
+    margin-left: 1em
 
-  ul ul
-    margin-left: 1.6em
+  label
+    text-align: left
+    margin: 0
+    padding: 0.3em 0
+
+  li li
+    input
+      margin-left: 2.6em
