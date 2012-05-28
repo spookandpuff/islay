@@ -1,5 +1,6 @@
 require 'haml'
 require 'sass-rails'
+require 'jquery-rails'
 require 'compass-rails' # This is temporary. By rights this needs to go into the assets group
 require 'devise'
 require 'simple_form'
