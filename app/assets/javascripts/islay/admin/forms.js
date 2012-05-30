@@ -64,15 +64,17 @@ Islay.Form = Backbone.View.extend({
 Islay.Widgets = Islay.Widgets || {};
 
 Islay.Widgets.Base = Backbone.View.extend({
-  events: {'click': 'click', keyup: 'keyup'},
+  events: {'click': '_click', keyup: 'keyup'},
 
   initialize: function() {
     _.bindAll(this, 'click', 'keyup');
 
     this.name = this.options.input.attr('name');
-    this.$hiddenEl = $('<input type="hidden" name="' + this.name + '"/>');
-    this.$hiddenEl.val(this.options.input.val());
-    this.$el.append(this.$hiddenEl);
+    this.$hiddenEl = $H('input', {type: 'hidden', name: this.name, value: this.options.input.val()});
+
+    this.widget = $H('div.widget.' + this.widgetClass);
+    this.$el.append(this.$hiddenEl, this.widget);
+
     this.options.input.remove();
     this.data = this.extractData();
   },
@@ -100,6 +102,11 @@ Islay.Widgets.Base = Backbone.View.extend({
 
   value: function() {
     this.$hiddenEl.val();
+  },
+
+  _click: function(e) {
+    var target = $(e.target);
+    this.click(e, target);
   }
 });
 
@@ -107,6 +114,8 @@ Islay.Widgets.Base = Backbone.View.extend({
 /* SIMPLE SELECT
 /* -------------------------------------------------------------------------- */
 Islay.Widgets.Select = Islay.Widgets.Base.extend({
+  widgetClass: 'select',
+
   extractData: function() {
     return _.map(this.options.input.find('option'), function(o) {
       var $o = $(o);
@@ -126,9 +135,7 @@ Islay.Widgets.Select = Islay.Widgets.Base.extend({
     this.list.hide();
   },
 
-  click: function(e) {
-    var target = $(e.target);
-
+  click: function(e, target) {
     if (target.is('.frame, .button, .display, span')) {
       if (this.isOpen) {
         this.close();
@@ -150,7 +157,7 @@ Islay.Widgets.Select = Islay.Widgets.Base.extend({
     var frame = $H('div.frame', [this.display, this.button]);
     this.list = $H('ul.list');
 
-    this.widget = $H('div.widget.select', [frame, this.list]);
+    this.widget.append(frame, this.list);
 
     var currentVal = this.value();
     _.each(this.data, function(entry) {
@@ -162,8 +169,6 @@ Islay.Widgets.Select = Islay.Widgets.Base.extend({
       }
     }, this);
 
-    this.$el.append(this.widget);
-
     return this;
   }
 });
@@ -172,9 +177,9 @@ Islay.Widgets.Select = Islay.Widgets.Base.extend({
 /* BOOLEAN SWITCH
 /* -------------------------------------------------------------------------- */
 Islay.Widgets.Boolean = Islay.Widgets.Base.extend({
-  click: function(e) {
-    var target = $(e.target);
+  widgetClass: 'boolean',
 
+  click: function(e, target) {
     if (target.is('li, span')) {
       if (this.$hiddenEl.val() == 1) {
         this.update(0);
@@ -193,8 +198,7 @@ Islay.Widgets.Boolean = Islay.Widgets.Base.extend({
     this.optionOff = $H('li.button.optionOff', $H('span', 'x'));
     this.optionOn = $H('li.button.optionOn', $H('span', 't'));
     var frame = $H('ul.frame', [this.optionOff, this.optionOn]);
-    this.widget = $H('div.widget.boolean', frame);
-    this.$el.append(this.widget);
+    this.widget.append(frame);
 
     // Set initial state
     this.$hiddenEl.val(this.options.input.checked);

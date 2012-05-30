@@ -110,11 +110,27 @@ $i: 0
 /* FANCY WIDGETS
 /* -------------------------------------------------------------------------- */
 $widget-border-color: #B3BBC3
+$widget-border-radius: 0.33em
 $widget-width: 25em + ($input-h-padding * 2)
 $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 
 @mixin input-border
   border: $border-width solid $widget-border-color
+
+@mixin widget-gradient
+  +background-image(linear_gradient(#FEFEFE, #E9EFF6))
+
+@mixin widget-border-radius($portions: all)
+  @if $portions == all
+    +border-radius($widget-border-radius)
+  @else if $portions == left
+    +border-left-radius($widget-border-radius)
+  @else if $portions == right
+    +border-right-radius($widget-border-radius)
+  @else if $portions == bottom
+    +border-bottom-radius($widget-border-radius)
+  @else if $portions == top
+    +border-top-radius($widget-border-radius)
 
 .widget
   cursor: default
@@ -123,11 +139,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   position: relative
 
   .frame
-    +background-image(linear_gradient(#FEFEFE, #E9EFF6))
-    +border-radius(0.33em)
-    +input-border
     height: $widget-height
-    width: 100%
     float: left
 
   .button
@@ -142,7 +154,18 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
       display: block
 
   .selected
-    background: #4D69A2
+    +single-box-shadow(rgba(0, 0, 0, 0.35), 2px, 2px, 3px, 0, true)
+    background: #4D69A2 !important
+    border-color: #4D69A2 !important
+
+    span
+      color: white
+
+.widget.select .frame
+  +widget-gradient
+  +widget-border-radius
+  +input-border
+  width: 100%
 
 /* SIMPLE SELECT */
 .widget.select
@@ -162,7 +185,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 
   .list
     +input-border
-    +border-bottom-radius(0.33em)
+    +widget-border-radius(bottom)
     background: white
     padding: 0.4em 0
     width: 100%
@@ -182,19 +205,22 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 
 /* BOOLEAN */
 .widget.boolean
-  .frame
-    width: auto
-
   li
+    +widget-gradient
+    +input-border
     float: left
 
+  .optionOff
+    +widget-border-radius(left)
+    border-right-width: 0
+
   .optionOn
-    border-left: $border-width solid $widget-border-color
+    +widget-border-radius(right)
 
-  .selected
-    background: #4D69A2
-
-
+  .selected.optionOff
+    +single-box-shadow(rgba(0, 0, 0, 0.20), 2px, 2px, 3px, 0, true)
+    background: #9A9A9A !important
+    border-color: #959595 !important
 
 /* -------------------------------------------------------------------------- */
 /* MEMBER TREE
