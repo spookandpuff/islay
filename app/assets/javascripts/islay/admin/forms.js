@@ -26,31 +26,32 @@ Islay.Form = Backbone.View.extend({
   },
 
   initializeWidgets: function(obj, el) {
-    var $input = $(el).find('[type!=hidden]:input');
+    var $el = $(el);
+    var $input = $el.find('[type!=hidden]:input');
     var widget = null;
 
-    // TODO: Account for groups like radio and checkboxes
+    var match = $el.attr('class').match(/^field ([\w\d\-_]+) .+$/);
 
-    switch($input.prop('nodeName')) {
-      case 'SELECT':
-        widget = 'Select'
-      break;
-      case 'INPUT':
-        switch($input.attr('type')) {
-          case 'checkbox':
-            widget = 'Boolean'
-          break;
-        }
-      break;
-    }
+    if (match) {
+      switch(match[1]) {
+        case 'select':
+          widget = 'Select';
+        break;
+        case 'boolean':
+          widget = 'Boolean';
+        break;
+        case 'radio_buttons':
+          widget = 'Segmented';
+        break;
+      }
 
-    if (widget) {
-      var instance = new Islay.Widgets[widget]({el: el, input: $input})
-      obj[$input.attr('id')] = instance;
-      instance.render();
+      if (widget) {
+        var instance = new Islay.Widgets[widget]({el: el, input: $input});
+        obj[$input.attr('id')] = instance;
+        instance.render();
 
-      // TODO: Bind widgets to model
-
+        // TODO: Bind widgets to model
+      }
     }
 
     return obj;
@@ -69,14 +70,29 @@ Islay.Widgets.Base = Backbone.View.extend({
   initialize: function() {
     _.bindAll(this, 'click', 'keyup');
 
-    this.name = this.options.input.attr('name');
-    this.$hiddenEl = $H('input', {type: 'hidden', name: this.name, value: this.options.input.val()});
+    this.setName();
+
+    this.$hiddenEl = $H('input', {type: 'hidden', name: this.name, value: this.initialValue()});
 
     this.widget = $H('div.widget.' + this.widgetClass);
     this.$el.append(this.$hiddenEl, this.widget);
 
-    this.options.input.remove();
     this.data = this.extractData();
+    this.removeInput();
+  },
+
+  initialValue: function() {
+    return this.options.input.val();
+  },
+
+  setName: function() {
+    this.name = this.options.input.attr('name');
+  },
+
+  // Removes the existing input. This is it's own function so that sub-classes
+  // can replace it with thier own implementation.
+  removeInput: function() {
+    this.options.input.remove();
   },
 
   update: function(value) {
@@ -208,6 +224,61 @@ Islay.Widgets.Boolean = Islay.Widgets.Base.extend({
     else {
       this.optionOff.addClass('selected');
     }
+
+    return this;
+  }
+});
+
+/* -------------------------------------------------------------------------- */
+/* SEGMENTED CONTROL
+/* -------------------------------------------------------------------------- */
+Islay.Widgets.Segmented = Islay.Widgets.Base.extend({
+  widgetClass: 'segmented',
+
+  initialValue: function() {
+    return this.$el.find(':radio:checked').val();
+  },
+
+  removeInput: function() {
+    this.$el.find('label.radio').remove();
+  },
+
+  extractData: function() {
+    return _.map(this.$el.find('label.radio'), function(label) {
+      var $label = $(label);
+      return {text: $label.text(), value: $label.find('input').val()};
+    });
+  },
+
+  click: function(e, target) {
+    if (target.is('li')) {
+      this.highlight(target);
+    }
+    else if (target.is('span')) {
+      this.highlight(target.parent('li'));
+    }
+  },
+
+  highlight: function(el) {
+    this.update(el.attr('data-value'));
+    if (this.currentNode) {this.currentNode.removeClass('selected');}
+    this.currentNode = el;
+    this.currentNode.addClass('selected');
+  },
+
+  render: function() {
+    var frame = $H('ul.frame');
+    var value = this.value();
+    _.each(this.data, function(entry) {
+      var node = $H('li.button', {'data-value': entry.value}, $H('span', entry.text));
+      if (value == entry.value) {
+        node.addClass('selected');
+        this.currentNode = node;
+      }
+      frame.append(node);
+    });
+
+    this.widget.append(frame);
 
     return this;
   }

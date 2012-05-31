@@ -146,20 +146,22 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     padding: 0 $input-h-padding + 0.3em
     height: $widget-height
 
-    span
-      color: #72828E
-      font-family: 'Icons'
-      font-size: 1.2em
-      margin-top: 0.55em
-      display: block
-
   .selected
     +single-box-shadow(rgba(0, 0, 0, 0.35), 2px, 2px, 3px, 0, true)
     background: #4D69A2 !important
     border-color: #4D69A2 !important
 
     span
-      color: white
+      color: white !important
+
+.widget.select,
+.widget.boolean
+  .button span
+    color: #72828E
+    font-family: 'Icons'
+    font-size: 1.2em
+    margin-top: 0.55em
+    display: block
 
 .widget.select .frame
   +widget-gradient
@@ -203,13 +205,16 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     border-color: transparent
     background: transparent
 
-/* BOOLEAN */
-.widget.boolean
+/* BOOLEAN & SEGMENTED */
+.widget.boolean,
+.widget.segmented
   li
     +widget-gradient
     +input-border
     float: left
 
+/* BOOLEAN */
+.widget.boolean
   .optionOff
     +widget-border-radius(left)
     border-right-width: 0
@@ -221,6 +226,22 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     +single-box-shadow(rgba(0, 0, 0, 0.20), 2px, 2px, 3px, 0, true)
     background: #9A9A9A !important
     border-color: #959595 !important
+
+/* SEGMENTED */
+.widget.segmented
+  span
+    margin-top: 0.65em
+    display: block
+
+  li
+    border-left-width: 0
+
+  li:first-child
+    +widget-border-radius(left)
+    border-left-width: $border-width
+
+  li:last-child
+    +widget-border-radius(right)
 
 /* -------------------------------------------------------------------------- */
 /* MEMBER TREE
