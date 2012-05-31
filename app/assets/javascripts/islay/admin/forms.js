@@ -71,42 +71,54 @@ Islay.Widgets.Base = Backbone.View.extend({
   widgetClass: 'default',
   inputsSelector: ':input[type!=hidden]',
   hideSelector: ':input',
-  selectFieldBy: 'name',
 
   initialize: function() {
+    this.fields = {};
     this.widget = $H('div.widget.' + this.widgetClass);
-
-    var inputs = this.$el.find(this.inputsSelector);
-    this.defaultName = inputs.attr(this.selectFieldBy);
-    this.defaultInput = inputs;
-
-    this.inputs = _.reduce(inputs, function(obj, i) {
-      var input = $(i);
-      obj[input.attr(this.selectFieldBy)] = input;
-      return obj;
-    }, {}, this);
-
+    this.inputs = this.$el.find(this.inputsSelector);
     this.$el.append(this.widget);
+    this.initFields();
     this.$el.find(this.hideSelector).hide();
   },
 
-  update: function(value, name) {
-    if (name) {
-      this.trigger('update', name, value);
-      this.inputs[name].val(value);
+  update: function(value, field) {
+    if (field) {
+      this.trigger('update', field, value);
+      this.fields[field].val(value);
     }
     else {
       this.trigger('update', this.fieldName, value);
-      this.inputs[this.defaultName].val(value);
+      this.fields[this.fieldName].val(value);
     }
   },
 
-  currentValue: function(name) {
-    if (name) {
-      return this.inputs[name].val();
+  addField: function(field, value) {
+    var node = $H('input', {type: 'hidden', value: value, name: field});
+    this.fields[field] = node;
+    this.$el.append(node);
+    return node;
+  },
+
+  // Overridable
+  initFields: function() {
+    var field = this.$el.find(':input[type!=hidden]'),
+        name = field.attr('name');
+
+    this.addField(name, this.initialValue());
+    this.fieldName = name;
+  },
+
+  // Overridable
+  initialValue: function() {
+    return this.inputs.val();
+  },
+
+  currentValue: function(field) {
+    if (field) {
+      return this.fields[field].val();
     }
     else {
-      return this.inputs[this.defaultName].val();
+      return this.fields[this.fieldName].val();
     }
   },
 
@@ -123,9 +135,9 @@ Islay.Widgets.Base = Backbone.View.extend({
   },
 
   eachLabelAndInput: function(fn) {
-    _.each(this.inputs, function(i, name) {
-      var input = $(i);
-      fn(input, name, i.attr('value'), i.parent('label').text());
+    _.each(this.inputs, function(input) {
+      var i = $(input);
+      fn(i, i.attr('name'), i.attr('value'), i.parent('label').text());
     }, this);
   },
 
@@ -178,7 +190,7 @@ Islay.Widgets.Select = Islay.Widgets.Base.extend({
     this.widget.append(frame, this.list);
 
     var currentValue = this.currentValue();
-    _.each(this.defaultInput.find('option'), function(opt) {
+    _.each(this.inputs.find('option'), function(opt) {
       opt = $(opt);
       var value = opt.attr('value'),
           text  = opt.text();
@@ -235,7 +247,6 @@ Islay.Widgets.Boolean = Islay.Widgets.Base.extend({
 Islay.Widgets.Segmented = Islay.Widgets.Base.extend({
   widgetClass: 'segmented',
   hideSelector: 'label.radio',
-  selectFieldBy: 'id',
 
   click: function(e, target) {
     if (target.is('li')) {
@@ -280,7 +291,6 @@ Islay.Widgets.Segmented = Islay.Widgets.Base.extend({
 Islay.Widgets.Checkboxes = Islay.Widgets.Base.extend({
   widgetClass: 'checkboxes',
   hideSelector: 'label.checkbox',
-  selectFieldBy: 'id',
 
   click: function(e, target) {
     if (target.is('li')) {
