@@ -333,3 +333,19 @@ Islay.Widgets.Checkboxes = Islay.Widgets.Base.extend({
     return this;
   }
 });
+
+/* -------------------------------------------------------------------------- */
+/* MULTI-SELECT
+/* -------------------------------------------------------------------------- */
+Islay.Widgets.MultiSelect = Islay.Widgets.Base.extend({
+  widgetClass: 'multi-select',
+
+  click: function() {
+
+  },
+
+  render: function() {
+
+    return this;
+  }
+});
