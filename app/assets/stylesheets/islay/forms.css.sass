@@ -163,10 +163,13 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     margin-top: 0.55em
     display: block
 
-.widget.select .frame
+.widget.select .frame,
+.widget.checkboxes .button
   +widget-gradient
   +widget-border-radius
   +input-border
+
+.widget.select .frame
   width: 100%
 
 /* SIMPLE SELECT */
@@ -229,6 +232,8 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 
 /* SEGMENTED */
 .widget.segmented
+  width: auto
+
   span
     margin-top: 0.65em
     display: block
@@ -242,6 +247,23 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 
   li:last-child
     +widget-border-radius(right)
+
+/* CHECKBOXES */
+.widget.checkboxes
+  width: auto
+
+  li
+    margin-right: 0.6em
+    padding-left: 0.5em
+    float: left
+
+  span
+    background: left center no-repeat url(image-path('islay/admin/checkbox.png'))
+    padding: 0.65em 0 0.65em 21px
+    display: block
+
+  li.selected span
+    background-image: url(image-path('islay/admin/checkbox-selected.png'))
 
 /* -------------------------------------------------------------------------- */
 /* MEMBER TREE

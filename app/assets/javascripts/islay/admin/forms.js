@@ -43,6 +43,9 @@ Islay.Form = Backbone.View.extend({
         case 'radio_buttons':
           widget = 'Segmented';
         break;
+        case 'check_boxes':
+          widget = 'Checkboxes';
+        break;
       }
 
       if (widget) {
@@ -72,13 +75,17 @@ Islay.Widgets.Base = Backbone.View.extend({
 
     this.setName();
 
-    this.$hiddenEl = $H('input', {type: 'hidden', name: this.name, value: this.initialValue()});
-
     this.widget = $H('div.widget.' + this.widgetClass);
-    this.$el.append(this.$hiddenEl, this.widget);
+    this.hiddenField();
+    this.$el.append(this.widget);
 
     this.data = this.extractData();
     this.removeInput();
+  },
+
+  hiddenField: function() {
+    this.$hiddenEl = $H('input', {type: 'hidden', name: this.name, value: this.initialValue()});
+    this.$el.append(this.$hiddenEl);
   },
 
   initialValue: function() {
@@ -275,6 +282,60 @@ Islay.Widgets.Segmented = Islay.Widgets.Base.extend({
         node.addClass('selected');
         this.currentNode = node;
       }
+      frame.append(node);
+    });
+
+    this.widget.append(frame);
+
+    return this;
+  }
+});
+
+/* -------------------------------------------------------------------------- */
+/* CHECKBOXES
+/* -------------------------------------------------------------------------- */
+Islay.Widgets.Checkboxes = Islay.Widgets.Base.extend({
+  widgetClass: 'checkboxes',
+
+  removeInput: function() {
+    this.$el.find('label.checkbox').remove();
+  },
+
+  extractData: function() {
+    return _.map(this.$el.find('label.checkbox'), function(label) {
+      var $label = $(label), input = $label.find('input');
+      return {text: $label.text(), name: input.attr('name'), checked: input.checked};
+    });
+  },
+
+  click: function(e, target) {
+    if (target.is('li')) {
+      this.highlight(target);
+    }
+    else if (target.is('span')) {
+      this.highlight(target.parent('li'));
+    }
+  },
+
+  highlight: function(el) {
+    if (el.hasClass('selected')) {
+      el.removeClass('selected');
+    }
+    else {
+      el.addClass('selected');
+    }
+  },
+
+  hiddenField: function() {
+
+  },
+
+  render: function() {
+    var frame = $H('ul.frame');
+    _.each(this.data, function(entry) {
+      var attrs = {'data-value': entry.value, name: entry.name};
+      var node = $H('li.button', attrs, $H('span', entry.text));
+      if (entry.checked) {node.addClass('selected');}
       frame.append(node);
     });
 
