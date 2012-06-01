@@ -92,17 +92,24 @@ $form-inset-color: $light-grey + 20
     +border-radius(0.2em)
     +background-image(linear-gradient(#CFCFCF 0, #FAFAFA 3px))
     +single-box-shadow(rgba(0, 0, 0, 0.06), -1px, -1px, 0, 0)
-    width: 25em
+    width: 32em
     border: 0.1em solid #B6B9BC
     padding: $input-v-padding $input-h-padding
     float: left
+
+  .count-inline
+    width: auto
+
+    &:nth-child(2n+1) label
+      margin-left: 1em
+      width: auto
 
 /* -------------------------------------------------------------------------- */
 /* FANCY WIDGETS
 /* -------------------------------------------------------------------------- */
 $widget-border-color: #B3BBC3
 $widget-border-radius: 0.33em
-$widget-width: 25em + ($input-h-padding * 2)
+$widget-width: 32em + ($input-h-padding * 2)
 $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 
 @mixin input-border
@@ -187,8 +194,9 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     width: 100%
     position: absolute
     left: 0
-    top: $widget-height
+    top: $widget-height + 0.1em
     display: none
+    z-index: 2
 
     li
       display: block
@@ -202,6 +210,8 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 /* BOOLEAN & SEGMENTED */
 .widget.boolean,
 .widget.segmented
+  width: auto
+
   li
     +widget-gradient
     +input-border
