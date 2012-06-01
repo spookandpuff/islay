@@ -70,15 +70,16 @@ Islay.Widgets.Base = Backbone.View.extend({
   events: {'click': '_click', keyup: 'keyup'},
   widgetClass: 'default',
   inputsSelector: ':input[type!=hidden]',
-  hideSelector: ':input',
+  removeSelector: ':input[class!=islay]',
 
   initialize: function() {
     this.fields = {};
     this.widget = $H('div.widget.' + this.widgetClass);
     this.inputs = this.$el.find(this.inputsSelector);
     this.$el.append(this.widget);
+    this.initialValue = this.getInitialValue();
     this.initFields();
-    this.$el.find(this.hideSelector).hide();
+    this.$el.find(this.removeSelector).remove();
   },
 
   update: function(value, field) {
@@ -93,7 +94,7 @@ Islay.Widgets.Base = Backbone.View.extend({
   },
 
   addField: function(field, value) {
-    var node = $H('input', {type: 'hidden', value: value, name: field});
+    var node = $H('input.islay', {type: 'hidden', value: value, name: field});
     this.fields[field] = node;
     this.$el.append(node);
     return node;
@@ -104,12 +105,12 @@ Islay.Widgets.Base = Backbone.View.extend({
     var field = this.$el.find(':input[type!=hidden]'),
         name = field.attr('name');
 
-    this.addField(name, this.initialValue());
+    this.addField(name, this.initialValue);
     this.fieldName = name;
   },
 
   // Overridable
-  initialValue: function() {
+  getInitialValue: function() {
     return this.inputs.val();
   },
 
@@ -152,6 +153,7 @@ Islay.Widgets.Base = Backbone.View.extend({
 /* -------------------------------------------------------------------------- */
 Islay.Widgets.Select = Islay.Widgets.Base.extend({
   widgetClass: 'select',
+  removeSelector: 'select',
 
   open: function() {
     this.isOpen = true;
@@ -224,13 +226,17 @@ Islay.Widgets.Boolean = Islay.Widgets.Base.extend({
     }
   },
 
+  getInitialValue: function() {
+    return this.$el.find(':input[type!=hidden]').is(':checked') ? 1 : 0;
+  },
+
   render: function() {
     this.optionOff = $H('li.button.optionOff', $H('span', 'x'));
     this.optionOn = $H('li.button.optionOn', $H('span', 't'));
     var frame = $H('ul.frame', [this.optionOff, this.optionOn]);
     this.widget.append(frame);
 
-    if (this.currentValue() == 1) {
+    if (this.initialValue == 1) {
       this.optionOn.addClass('selected');
     }
     else {
@@ -246,7 +252,7 @@ Islay.Widgets.Boolean = Islay.Widgets.Base.extend({
 /* -------------------------------------------------------------------------- */
 Islay.Widgets.Segmented = Islay.Widgets.Base.extend({
   widgetClass: 'segmented',
-  hideSelector: 'label.radio',
+  removeSelector: 'label.radio',
 
   click: function(e, target) {
     if (target.is('li')) {
@@ -266,7 +272,7 @@ Islay.Widgets.Segmented = Islay.Widgets.Base.extend({
 
   render: function() {
     var frame = $H('ul.frame');
-    var currentValue = this.currentValue();
+    var currentValue = this.inputs.filter(':checked').val();
     _.each(this.inputs, function(input) {
       var input = $(input),
           value = input.val();
@@ -290,7 +296,7 @@ Islay.Widgets.Segmented = Islay.Widgets.Base.extend({
 /* -------------------------------------------------------------------------- */
 Islay.Widgets.Checkboxes = Islay.Widgets.Base.extend({
   widgetClass: 'checkboxes',
-  hideSelector: 'label.checkbox',
+  removeSelector: 'label.checkbox',
 
   click: function(e, target) {
     if (target.is('li')) {
