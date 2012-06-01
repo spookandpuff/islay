@@ -126,7 +126,7 @@ module Islay
     def extension_nav_entries
       Islay::Engine.extensions.entries.map do |ns, ext|
         ext.config[:nav_entries].map {|e| main_nav(e[:title], e[:route])}
-      end.flatten.join('\n').html_safe
+      end.flatten.join.html_safe
     end
   end
 end
