@@ -17,12 +17,39 @@ Islay.Form = Backbone.View.extend({
   events: {submit: 'submit'},
 
   initialize: function() {
-    _.bindAll(this, 'submit');
+    _.bindAll(this, 'submit', 'tabClick');
 
     this.model = new Islay.FormModel();
 
     var inputs = this.$el.find('.field')
     this.widgets = _.reduce(inputs, this.initializeWidgets, {}, this);
+    this.initiaizeTabs();
+  },
+
+  initiaizeTabs: function() {
+    var tabs = this.$el.find('.tab');
+    var list = $H('ul.tabset');
+    _.each(tabs, function(t) {
+      var tab = $(t);
+      var node = $H('li', tab.find('legend').remove().text());
+      if (!this.currentTab) {
+        this.currentTab = node;
+        node.addClass('selected');
+      }
+      list.append(node);
+    }, this);
+
+    list.click(this.tabClick);
+    tabs.first().before(list);
+  },
+
+  tabClick: function(e) {
+    var target = $(e.target);
+    if (target.is('li')) {
+      if (this.currentTab) {this.currentTab.removeClass('selected');}
+      this.currentTab = target;
+      this.currentTab.addClass('selected');
+    }
   },
 
   initializeWidgets: function(obj, el) {

@@ -28,7 +28,8 @@ $form-inset-color: $light-grey + 20
       margin: 0.5em 1.7em 0 0
       float: right
 
-  fieldset
+  fieldset,
+  .tabset
     border-top: 0.1em solid $light-grey
     padding-top: $field-margin
     width: 100%
@@ -265,6 +266,25 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 
   li.selected span
     background-image: url(image-path('islay/admin/checkbox-selected.png'))
+
+/* -------------------------------------------------------------------------- */
+/* TAB SET
+/* -------------------------------------------------------------------------- */
+.tabset li
+  font-weight: bold
+  border: $border-width solid transparent
+  border-bottom-color: white !important
+  background: white
+  padding: 0.8em 1.5em
+  margin-bottom: -$border-width
+  float: left
+
+  &.selected
+    +widget-border-radius(top)
+    border-color: $widget-border-color
+
+  &:first-child
+    margin-left: 1.5em
 
 /* -------------------------------------------------------------------------- */
 /* MEMBER TREE
