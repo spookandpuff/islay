@@ -22,6 +22,18 @@ module Islay
       content_tag(:fieldset, output, opts)
     end
 
+    def metadata_input(attribute_name, metaopts, options = {}, &block)
+      case metaopts[:type]
+      when :enum
+        options[:as] = metaopts[:kind] == :short ? 'radio_buttons' : 'select'
+        options[:collection] = metaopts[:values].dup
+      end
+
+      # TODO: Support other types like URL, Email, etc.
+
+      input(attribute_name, options, &block)
+    end
+
     # Proxies the input method provided by simple_form. It allows for classes
     # to be added directly to the input without using the :input_html option.
     # An additional :col option can be used to attach a class to the wrapper
