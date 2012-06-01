@@ -127,18 +127,21 @@ body.has-sub-header #content
     margin-top: 0.85em
 
   .sub-nav
-    margin: 0.65em 0 0 1em
+    margin: 0 0 0 1em
+    overflow: hidden
     float: left
 
     a
-      border: 0.2em solid transparent
-      padding: 0.2em 0.7em 0.35em 0.7em
+      border-left: 0.1em solid transparent
+      border-right: 0.1em solid transparent
+      padding: 0.95em 0.7em 0.9em 0.7em
+      font-weight: bold
+      color: #666
 
       &.current
-        +border-radius(1em)
-        +background-image(linear-gradient($light-grey - 10, $light-grey))
-        +single-box-shadow(white, 2px, 2px)
-        border-color: $light-grey - 60
+        +background-image(linear-gradient(#ECECEC, #FFFFFF))
+        border-color: #C2CBD5
+        color: black
 
   .controls
     margin: 0.55em 1em 0 0
