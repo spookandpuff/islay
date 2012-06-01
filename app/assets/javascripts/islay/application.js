@@ -3,7 +3,7 @@
 //= require ../vendor/backbone
 //= require_tree .
 
-$SP.where('.[edit, new]').select('#islay-form').run(function(form) {
+$SP.where('.[edit, new]', '#islay-shop-admin-products.show').select('#islay-form').run(function(form) {
   var FormView = new Islay.Form({el: form});
 });
 

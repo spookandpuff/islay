@@ -7,55 +7,61 @@ var $SP = $SP || {};
       classPatternGroup = /\[(.+)\]/,
       groupReplacePattern = /\[.+\]/;
 
-  var LoadHook = function(selector) {
-    var ids = [], classes = [], idMatch, classesMatch;
+  var LoadHook = function(selectors) {
+    var selectorLength = selectors.length;
 
-    // Collect the IDs
-    if (idMatch = selector.match(idPattern)) {
-      ids.push("#" + idMatch[1]);
-    }
-    else if (idMatch = selector.match(idPatternGroup)) {
-      ids = _.map(idMatch[1].split(', '), function(cls) {
-        return '#' + cls;
-      });
-    }
+    for (var k = selectorLength - 1; k >= 0; k--) {
+      var selector = selectors[k];
 
-    // Collect the classes
-    if (classesMatch = selector.match(classPattern)) {
-      var groupedClasses = classesMatch[1].match(classPatternGroup);
-      if (groupedClasses) {
-        var original = classesMatch[1],
-            entries = groupedClasses[1].split(', '),
-            length = entries.length;
+      var ids = [], classes = [], idMatch, classesMatch;
 
-        for (var i = length - 1; i >= 0; i--) {
-          classes.push(original.replace(groupReplacePattern, entries[i]));
+      // Collect the IDs
+      if (idMatch = selector.match(idPattern)) {
+        ids.push("#" + idMatch[1]);
+      }
+      else if (idMatch = selector.match(idPatternGroup)) {
+        ids = _.map(idMatch[1].split(', '), function(cls) {
+          return '#' + cls;
+        });
+      }
+
+      // Collect the classes
+      if (classesMatch = selector.match(classPattern)) {
+        var groupedClasses = classesMatch[1].match(classPatternGroup);
+        if (groupedClasses) {
+          var original = classesMatch[1],
+              entries = groupedClasses[1].split(', '),
+              length = entries.length;
+
+          for (var i = length - 1; i >= 0; i--) {
+            classes.push(original.replace(groupReplacePattern, entries[i]));
+          };
+        }
+        else {
+          classes.push(classesMatch[1]);
+        }
+      }
+
+      // Check to see if we have to concatenate the IDs and classes or just
+      // process one of them.
+      var hasIds = ids.length > 0,
+          hasClasses = classes.length > 0;
+
+      if (hasIds && hasClasses) {
+        this.selectors = [];
+
+        for (var i = ids.length - 1; i >= 0; i--) {
+          for (var j = classes.length - 1; j >= 0; j--) {
+            this.selectors.push(ids[i] + classes[j]);
+          };
         };
       }
-      else {
-        classes.push(classesMatch[1]);
+      else if (hasIds) {
+        this.selectors.concat(ids);
       }
-    }
-
-    // Check to see if we have to concatenate the IDs and classes or just
-    // process one of them.
-    var hasIds = ids.length > 0,
-        hasClasses = classes.length > 0;
-
-    if (hasIds && hasClasses) {
-      this.selectors = [];
-
-      for (var i = ids.length - 1; i >= 0; i--) {
-        for (var j = classes.length - 1; j >= 0; j--) {
-          this.selectors.push(ids[i] + classes[j]);
-        };
-      };
-    }
-    else if (hasIds) {
-      this.selectors = ids;
-    }
-    else if (hasClasses) {
-      this.selectors = classes;
+      else if (hasClasses) {
+        this.selectors.concat(classes);
+      }
     }
   };
 
@@ -101,8 +107,8 @@ var $SP = $SP || {};
 
   var hooks = []
 
-  window.$SP.where = function(selector) {
-    var hook = new LoadHook(selector);
+  window.$SP.where = function() {
+    var hook = new LoadHook(_.toArray(arguments));
     hooks.push(hook);
     return hook;
   };
