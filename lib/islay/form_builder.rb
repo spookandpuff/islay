@@ -22,6 +22,17 @@ module Islay
       content_tag(:fieldset, output, opts)
     end
 
+    # Simple helper for rendering metadata attributes. It conditionally calls
+    # the passed-in block if there is any attributes, giving it the collection
+    # of attributes and their options.
+    def metadata(&blk)
+      blk.call(object.metadata_attributes) if object.has_metadata?
+      nil # This ensures nothing gets written to the template if someone uses '=' to call this.
+    end
+
+    # Writes out inputs based on the contents of the hash contained in the
+    # metadata column of a model. It inspects the options attached to an
+    # attribute and renders the appropriate input.
     def metadata_input(attribute_name, metaopts, options = {}, &block)
       case metaopts[:type]
       when :enum
