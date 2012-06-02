@@ -21,34 +21,58 @@ Islay.Form = Backbone.View.extend({
 
     this.model = new Islay.FormModel();
 
-    var inputs = this.$el.find('.field')
+    if (this.$el.is('.sub-form')) {
+      var inputs = this.$el.find('.field');
+    }
+    else {
+      var inputs = this.$el.find('.field:not(.sub-form .field)');
+      this.initializeTabs();
+      var forms = this.$el.find('.sub-form');
+      this.forms = _.map(forms, this.initializeForms, this);
+    }
+
     this.widgets = _.reduce(inputs, this.initializeWidgets, {}, this);
-    this.initiaizeTabs();
   },
 
-  initiaizeTabs: function() {
-    var tabs = this.$el.find('.tab');
-    var list = $H('ul.tabset');
-    _.each(tabs, function(t) {
-      var tab = $(t);
-      var node = $H('li', tab.find('legend').remove().text());
-      if (!this.currentTab) {
-        this.currentTab = node;
-        node.addClass('selected');
-      }
-      list.append(node);
-    }, this);
+  initializeForms: function(el) {
+    return new Islay.Form({el: el});
+  },
 
-    list.click(this.tabClick);
-    tabs.first().before(list);
+  initializeTabs: function() {
+    var tabs = this.$el.find('.tab');
+    if (tabs.length > 0) {
+      this.tabs = [];
+
+      var list = $H('ul.tabset');
+      _.each(tabs, function(t, i) {
+        var tab = $(t);
+        var node = $H('li', {'data-index': i}, tab.find('legend').remove().text());
+        this.tabs.push(tab);
+        if (!this.currentTab) {
+          this.currentTab = node;
+          node.addClass('selected');
+        }
+        else {
+          tab.hide();
+        }
+        list.append(node);
+      }, this);
+
+      list.click(this.tabClick);
+      tabs.first().before(list);
+    }
   },
 
   tabClick: function(e) {
     var target = $(e.target);
     if (target.is('li')) {
-      if (this.currentTab) {this.currentTab.removeClass('selected');}
+      if (this.currentTab) {
+        this.tabs[this.currentTab.attr('data-index')].hide();
+        this.currentTab.removeClass('selected');
+      }
       this.currentTab = target;
       this.currentTab.addClass('selected');
+      this.tabs[this.currentTab.attr('data-index')].show();
     }
   },
 
