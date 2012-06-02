@@ -9,6 +9,7 @@ var $SP = $SP || {};
 
   var LoadHook = function(selectors) {
     var selectorLength = selectors.length;
+    this.selectors = [];
 
     for (var k = selectorLength - 1; k >= 0; k--) {
       var selector = selectors[k];
@@ -48,8 +49,6 @@ var $SP = $SP || {};
           hasClasses = classes.length > 0;
 
       if (hasIds && hasClasses) {
-        this.selectors = [];
-
         for (var i = ids.length - 1; i >= 0; i--) {
           for (var j = classes.length - 1; j >= 0; j--) {
             this.selectors.push(ids[i] + classes[j]);
@@ -57,10 +56,10 @@ var $SP = $SP || {};
         };
       }
       else if (hasIds) {
-        this.selectors.concat(ids);
+        this.selectors = this.selectors.concat(ids);
       }
       else if (hasClasses) {
-        this.selectors.concat(classes);
+        this.selectors = this.selectors.concat(classes);
       }
     }
   };
