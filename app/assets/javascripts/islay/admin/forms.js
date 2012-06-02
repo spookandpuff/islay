@@ -13,29 +13,91 @@ Islay.FormModel = Backbone.Model.extend({
 
 });
 
+Islay.FormFactory = function(parent, form) {
+  _.bindAll(this, 'add');
+  this.parent = parent;
+  this.$el = form;
+  this.$el.hide();
+  this.button = $H('button', 'Add').click(this.add);
+
+  this.$el.after($H('div.add-form', this.button));
+
+  match = this.$el.find(':input').attr('name').match(/\[(\d+)\]/);
+  if (match) {
+    this.currentID = parseInt(match[1]);
+  }
+};
+
+Islay.FormFactory.prototype = {
+  add: function(e) {
+    this.currentID += 1;
+    var dup = this.$el.clone();
+    dup.find(':input[name*=template]').remove();
+    _.each(dup.find('label[for], :input'), this.updateID, this);
+
+    this.$el.before(dup)
+    this.parent.addForm(dup);
+    dup.show();
+    e.preventDefault();
+  },
+
+  updateID: function(e) {
+    var el = $(e);
+    if (el.is('label')) {
+      this.replaceAttr(el, 'for');
+    }
+    else if (el.is('[type=hidden]')) {
+      this.replaceAttr(el, 'name');
+    }
+    else {
+      this.replaceAttr(el, 'id');
+      this.replaceAttr(el, 'name');
+    }
+  },
+
+  replaceAttr: function(el, attr) {
+    var replace = el.attr(attr).replace(/(\d+)/, this.currentID);
+    el.attr(attr, replace);
+  }
+};
+
 Islay.Form = Backbone.View.extend({
   events: {submit: 'submit'},
 
   initialize: function() {
     _.bindAll(this, 'submit', 'tabClick');
+    this.factories = [];
+    this.forms = [];
 
     this.model = new Islay.FormModel();
 
-    if (this.$el.is('.sub-form')) {
+    if (this.$el.is('.associated')) {
       var inputs = this.$el.find('.field');
     }
     else {
-      var inputs = this.$el.find('.field:not(.sub-form .field)');
+      var inputs = this.$el.find('.field:not(.associated .field)');
       this.initializeTabs();
-      var forms = this.$el.find('.sub-form');
-      this.forms = _.map(forms, this.initializeForms, this);
+      var forms = this.$el.find('.associated');
+      this.forms = _.reduce(forms, this.initializeForms, [], this);
     }
 
     this.widgets = _.reduce(inputs, this.initializeWidgets, {}, this);
   },
 
-  initializeForms: function(el) {
-    return new Islay.Form({el: el});
+  addForm: function(el) {
+    this.forms.push(new Islay.Form({el: el}))
+  },
+
+  initializeForms: function(obj, e) {
+    var el = $(e)
+    if (el.is('.template-true')) {
+      this.factories.push(new Islay.FormFactory(this, el));
+    }
+    else {
+      obj.push(new Islay.Form({el: el}));
+    }
+
+    return obj;
   },
 
   initializeTabs: function() {
