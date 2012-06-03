@@ -35,5 +35,66 @@ module ActiveRecord
       belongs_to :creator, :class_name => 'User'
       belongs_to :updater, :class_name => 'User'
     end
-  end
-end
+
+    # Checks to see if the specified column should have a required validation or
+    # not.
+    def self.nullable(col)
+      col.null or (!col.null and !col.default.nil?)
+    end
+
+    # Extracts validations from the database schema, meaning there is no need
+    # to essentially repeat the constraints in the model again.
+    def self.validations_from_schema(opts = {})
+      # Generate a list of columns to exclude
+      except = ['created_by_id', 'updated_by_id', 'created_at', 'updated_at']
+      except += opts[:except].map(&:to_s) if opts[:except]
+
+      # Grab the definitions for foreign keys and map them to the single column
+      # name — we don't use composite keys — and a singular version of the table
+      # name. This makes it easy to look up the relationship
+      fks = self.foreign_keys.inject({}) do |h, k|
+        h[k.column_names.first] = k.references_table_name.singularize
+        h
+      end
+
+      self.columns.each do |col|
+        # Don't check the primary key.
+        # Don't check any columns we've expressly excluded
+        unless col.primary or (!except.empty? and except.include?(col.name))
+          # TODO: This validation is a bit inflexible.
+          #
+          # If this col has a foreign key and it's not null, validate the presence
+          # of the associated model.
+          #
+          # Otherwise we check the column type and add constraints where necessary.
+          if model = fks[col.name] and !col.null
+          #   validates_presence_of model
+          else
+            case col.type
+            when :integer
+              # / 2 assumes signed!
+              opts = {:only_integer => true, :allow_nil => nullable(col)}
+              opts[:less_than] = (2 ** (8 * col.limit)) / 2 if col.limit
+              validates_numericality_of col.name, opts
+            when :float
+              # less_than would need to look at col.scale, col.float
+              validates_numericality_of col.name, :allow_nil => nullable(col)
+            #when :time, :datetime
+            when :string, :text
+              if col.limit.to_i > 0 # Mysql enum type shows up as a string with a limit of 0
+                validates_length_of col.name, :maximum => col.limit, :allow_nil => nullable(col)
+              end
+            when :boolean
+              validates_inclusion_of col.name, :in => [true, false], :allow_nil => nullable(col)
+            end
+
+            # If the column is NOT NULL, validate it's presence.
+            validates_presence_of col.name unless nullable(col)
+
+            # TODO: Check for unique constraint
+          end
+        end
+      end
+    end # def validations_from_schema
+  end # Base
+end # ActiveRecord
