@@ -98,12 +98,20 @@ $form-inset-color: $light-grey + 20
     padding: $input-v-padding $input-h-padding
     float: left
 
-  .count-inline
+  .small
+    width: 5em !important
+
+  .count-inline,
+  .count-first-inline
     width: auto
 
-    &:nth-child(2n+1) label
+    label
       margin-left: 1em
       width: auto
+
+  .count-first-inline label
+    width: 8em
+    margin-left: 0
 
 /* -------------------------------------------------------------------------- */
 /* FANCY WIDGETS
@@ -267,6 +275,51 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   li.selected span
     background-image: url(image-path('islay/admin/checkbox-selected.png'))
 
+.associated
+  position: relative
+
+/* DELETE & POSITION */
+.widget.delete,
+.widget.position
+  width: auto !important
+  position: absolute
+  top: 1em
+
+  div
+    background: #999999
+    color: white
+    width: 2em
+    height: 1.8em
+    float: left
+
+  span
+    font-family: 'Icons'
+    font-size: 1.2em
+    display: block
+    text-align: center
+    margin-top: 0.2em
+
+/* DELETE */
+.widget.delete
+  right: 6em
+
+  div
+    +widget-border-radius
+
+/* POSITION */
+.widget.position
+  right: 1em
+
+  div.up
+    +widget-border-radius(left)
+
+  div.down
+    +widget-border-radius(right)
+    margin-left: 0.1em
+
+/* ADD */
+
+
 /* -------------------------------------------------------------------------- */
 /* TAB SET
 /* -------------------------------------------------------------------------- */
@@ -277,6 +330,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   background: white
   padding: 0.8em 1.5em
   margin-bottom: -$border-width
+  cursor: default
   float: left
 
   &.selected
