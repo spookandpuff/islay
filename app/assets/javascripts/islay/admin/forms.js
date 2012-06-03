@@ -13,6 +13,9 @@ Islay.FormModel = Backbone.Model.extend({
 
 });
 
+/* -------------------------------------------------------------------------- */
+/* FORM FACTORY
+/* -------------------------------------------------------------------------- */
 Islay.FormFactory = function(parent, form) {
   _.bindAll(this, 'add');
   this.parent = parent;
@@ -61,15 +64,82 @@ Islay.FormFactory.prototype = {
   }
 };
 
+/* -------------------------------------------------------------------------- */
+/* ASSOCIATION
+/* -------------------------------------------------------------------------- */
+Islay.Assocation = Backbone.View.extend({
+  initialize: function() {
+    _.bindAll(this, 'destroy', 'move');
+    this.forms = [];
+    _.each(this.$el.find('.associated:not(.template-true)'), this.addForm, this);
+
+    var template = this.$el.find('.template-true');
+    if (template.length > 0) {this.factory = new Islay.FormFactory(this, template);}
+  },
+
+  addForm: function(el) {
+    var form = new Islay.Form({el: el, position: this.forms.length});
+    form.on('destroy', this.destroy);
+    form.on('move', this.move);
+    this.forms.push(form);
+  },
+
+  destroy: function(pos) {
+
+  },
+
+  move: function(pos, dir) {
+    var otherPos  = null,
+        other     = null,
+        target    = this.forms[pos];
+
+    if (dir === 'up' && pos > 0) {
+      otherPos = pos - 1,
+      other    = this.forms[otherPos];
+
+      other.$el.before(target.$el.detach());
+    }
+    else if (dir === 'down' && pos < this.forms.length) {
+      otherPos = pos + 1,
+      other    = this.forms[otherPos];
+
+      other.$el.after(target.$el.detach());
+    }
+
+    other.updatePosition(pos);
+    target.updatePosition(otherPos);
+    this.resort();
+  },
+
+  resort: function() {
+    this.forms.sort(function(x, y) {
+      return x.options.position - y.options.position;
+    });
+  },
+
+  render: function() {
+    return this;
+  }
+});
+
+/* -------------------------------------------------------------------------- */
+/* FORMS
+/* -------------------------------------------------------------------------- */
 Islay.Form = Backbone.View.extend({
   events: {submit: 'submit'},
 
   initialize: function() {
-    _.bindAll(this, 'submit', 'tabClick');
+    _.bindAll(this, 'submit', 'tabClick', 'destroy', 'move');
     this.factories = [];
     this.forms = [];
 
     this.model = new Islay.FormModel();
+
+    // Figure out the name based on the prefix of the first input
+    var name = this.$el.find(":input[name*='[']").attr('name')
+    if (name) {
+      this.name = name.match(/^(.+)\[.+\]$/)[1];
+    }
 
     if (this.$el.is('.associated')) {
       var inputs = this.$el.find('.field');
@@ -77,27 +147,17 @@ Islay.Form = Backbone.View.extend({
     else {
       var inputs = this.$el.find('.field:not(.associated .field)');
       this.initializeTabs();
-      var forms = this.$el.find('.associated');
-      this.forms = _.reduce(forms, this.initializeForms, [], this);
+      this.initializeAssocations();
     }
 
     this.widgets = _.reduce(inputs, this.initializeWidgets, {}, this);
   },
 
-  addForm: function(el) {
-    this.forms.push(new Islay.Form({el: el}))
-  },
-
-  initializeForms: function(obj, e) {
-    var el = $(e)
-    if (el.is('.template-true')) {
-      this.factories.push(new Islay.FormFactory(this, el));
-    }
-    else {
-      obj.push(new Islay.Form({el: el}));
-    }
-
-    return obj;
+  initializeAssocations: function() {
+    var assocs = this.$el.find('.association');
+    this.associations = _.map(assocs, function(a) {
+      return new Islay.Assocation({el: a});
+    }, this);
   },
 
   initializeTabs: function() {
@@ -139,8 +199,9 @@ Islay.Form = Backbone.View.extend({
   },
 
   initializeWidgets: function(obj, el) {
-    var $el = $(el);
-    var widget = null;
+    var $el = $(el),
+        widget = null,
+        subscribe = null;
 
     var match = $el.attr('class').match(/^field ([\w\d\-_]+) .+$/);
 
@@ -150,7 +211,13 @@ Islay.Form = Backbone.View.extend({
           widget = 'Select';
         break;
         case 'boolean':
-          widget = 'Boolean';
+          if ($el.find(':input[name*=_destroy]').length) {
+            widget = 'Destroy';
+            subscribe = 'destroy';
+          }
+          else {
+            widget = 'Boolean';
+          }
         break;
         case 'radio_buttons':
           widget = 'Segmented';
@@ -158,11 +225,17 @@ Islay.Form = Backbone.View.extend({
         case 'check_boxes':
           widget = 'Checkboxes';
         break;
+        case 'integer':
+          if ($el.find(':input[name*=position]').length) {
+            widget = 'Position';
+            subscribe = 'move';
+          }
+        break;
       }
 
       if (widget) {
         var instance = new Islay.Widgets[widget]({el: el});
-        // obj[$input.attr('id')] = instance;
+        if (subscribe) {instance.on(subscribe, this[subscribe]);}
         instance.render();
 
         // TODO: Bind widgets to model
@@ -172,11 +245,30 @@ Islay.Form = Backbone.View.extend({
     return obj;
   },
 
+  destroy: function() {
+    var destroy = $H('input', {type: 'hidden', name: this.name + '[_destroy]', value: 1});
+    this.$el.after(destroy).remove();
+    this.trigger('destroy', this.options.position);
+  },
+
+  move: function(dir) {
+    this.trigger('move', this.options.position, dir);
+  },
+
+  updatePosition: function(pos) {
+    if (!this.positionEl) {this.positionEl = this.$el.find(':input[name*=position]');}
+    this.positionEl.attr('value', pos);
+    this.options.position = pos;
+  },
+
   submit: function() {
 
   }
 });
 
+/* -------------------------------------------------------------------------- */
+/* WIDGET BASE
+/* -------------------------------------------------------------------------- */
 Islay.Widgets = Islay.Widgets || {};
 
 Islay.Widgets.Base = Backbone.View.extend({
@@ -355,6 +447,74 @@ Islay.Widgets.Boolean = Islay.Widgets.Base.extend({
     else {
       this.optionOff.addClass('selected');
     }
+
+    return this;
+  }
+});
+
+/* -------------------------------------------------------------------------- */
+/* SIMPLE WIDGET BASE
+/* -------------------------------------------------------------------------- */
+Islay.Widgets.SimpleBase = Backbone.View.extend({
+  events: {click: '_click'},
+
+  initialize: function() {
+    _.bindAll(this, 'click');
+  },
+
+  _click: function(e) {
+    var target = $(e.target);
+    this.click(e, target);
+    e.preventDefault();
+  },
+})
+
+/* -------------------------------------------------------------------------- */
+/* DESTROY/REMOVE
+/* -------------------------------------------------------------------------- */
+Islay.Widgets.Destroy = Islay.Widgets.SimpleBase.extend({
+  click: function() {
+    this.trigger('destroy');
+  },
+
+  render: function() {
+    this.$el.children().remove();
+    this.$el.addClass('delete').addClass('widget').append($H('div', $H('span', 'x')));
+
+    return this;
+  }
+});
+
+/* -------------------------------------------------------------------------- */
+/* POSITION
+/* -------------------------------------------------------------------------- */
+Islay.Widgets.Position = Islay.Widgets.SimpleBase.extend({
+  click: function(e, target) {
+    if (target.is('span')) {
+      this.fireEvent(target.parent('div'));
+    }
+    else {
+      this.fireEvent(target);
+    }
+  },
+
+  fireEvent: function(target) {
+    if (target.is('.up')) {
+      this.trigger('move', 'up');
+    }
+    else if (target.is('.down')) {
+      this.trigger('move', 'down');
+    }
+  },
+
+  render: function() {
+    this.$el.find('label').remove();
+    this.$el.find('input').hide();
+    this.$el.addClass('position').addClass('widget');
+    this.$el.append(
+      $H('div.up', $H('span', '>')),
+      $H('div.down', $H('span', '<'))
+    );
 
     return this;
   }
