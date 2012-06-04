@@ -6,7 +6,7 @@
 // Binds change events from widgets to view
 // View updates model on change
 // Before view submits.
-var Islay = {};
+var Islay = window.Islay || {};
 
 // Understands required
 Islay.FormModel = Backbone.Model.extend({

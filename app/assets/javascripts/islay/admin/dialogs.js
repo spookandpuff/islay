@@ -1,3 +1,6 @@
+var Islay = window.Islay || {};
+Islay.Dialogs = {};
+
 /* -------------------------------------------------------------------------- */
 /* DIALOG BASE
 /* -------------------------------------------------------------------------- */
@@ -7,30 +10,26 @@ Islay.Dialogs.Base = Backbone.View.extend({
   sizing: 'fixed',
 
   initialize: function() {
-    _.bindAll(this, 'close', '_resize', '_ajaxSuccess');
-    if (this.bindings) {_.bindAll(this, bindings);}
-
-    this.dialog = $('div.dialog');
-    this.$el(this.dialog);
-
-    this.closeEl = $('div.close', 'Close').click(this.close);
-    this.titleEl = $H('div.title', [$('h1', this.titleText), this.closeEl]);
-    this.controlsEl = $H('div.controls');
-    this.dialog.append(this.titleEl, this.controlsEl);
-
-    this.render();
-    $(document.body).append(this.$el);
+    _.bindAll(this, 'close', '_resizeFixed', '_resizeFlexible', '_ajaxSuccess');
+    if (this.bindings) {
+      _.each(this.bindings, function(b) {_.bindAll(this, b);}, this);
+    }
 
     if (this.sizing == 'fixed') {
       this.window = $(window).resize(this._resizeFixed);
-      this._resizeFixed();
     }
     else {
       this.window = $(window).resize(this._resizeFlexible);
-      this._resizeFlexible();
     }
 
-    // if (this.options.url || this.url) do some ajaxy stuff
+    if (this.options.url || this.url) {
+      // TODO: Show loading widget
+      var url = this.options.url || this.url;
+      $.getJSON(url, this._ajaxSuccess);
+    }
+
+    this._render();
+    this.render();
   },
 
   show: function() {
@@ -39,6 +38,19 @@ Islay.Dialogs.Base = Backbone.View.extend({
 
   close: function() {
     this.$el.hide();
+  },
+
+  _render: function() {
+    this.dialogEl = $H('div.dialog');
+    this.$el.append(this.dialogEl);
+
+    this.closeEl = $H('div.close', 'Close').click(this.close);
+    this.titleEl = $H('div.title', [$H('h1', this.titleText), this.closeEl]);
+    this.controlsEl = $H('div.controls');
+    this.contentEl = $H('div.content');
+    this.dialogEl.append(this.titleEl, this.contentEl, this.controlsEl);
+
+    $(document.body).append(this.$el);
   },
 
   _ajaxSuccess: function(response) {
@@ -65,25 +77,25 @@ Islay.Dialogs.Base = Backbone.View.extend({
 Islay.Dialogs.AssetBrowser = Islay.Dialogs.Base.extend({
   events: {'.add click': 'add', '.upload click': 'upload'},
   titleText: 'Choose Assets',
-  bindings: ['search', 'filter', 'select', 'deselect', 'add', 'upload'],
-  url: '/admin/asset_library/browser.json',
+  bindings: ['search', 'filter', 'selected', 'unselected', 'add', 'upload'],
+  url: '/admin/library/browser.json',
   offset: {x: 30, y: 30},
   sizing: 'flexible',
 
   loaded: function(res) {
-    this.grid.load(latest);
+    this.grid.load(res);
   },
 
   resize: function(h) {
-    this.grid.setHeight(this.toolbar.height() - h);
+    // this.grid.setHeight(this.toolbar.height() - h);
   },
 
-  select: function(id) {
-
+  selected: function(from, id) {
+    console.log('selected', from, id);
   },
 
-  deselect: function(id) {
-    this.grid.deselect(id);
+  unselected: function(from, id) {
+    console.log('unselected', from, id);
   },
 
   search: function(term) {
@@ -105,16 +117,22 @@ Islay.Dialogs.AssetBrowser = Islay.Dialogs.Base.extend({
   render: function() {
     this.toolbar    = new Islay.Dialogs.AssetToolBar();
     this.grid       = new Islay.Dialogs.AssetGrid();
-    this.selection  = new Islay.Dialogs.Selection();
+    this.selection  = new Islay.Dialogs.AssetSelection();
 
     this.toolbar.on('search', this.search);
     this.toolbar.on('filter', this.filter);
-    this.grid.on('select', this.select);
-    this.selection.on('deselect', this.selection);
+    this.grid.on('selected', this.selected);
+    this.grid.on('unselected', this.unselected);
+    this.selection.on('unselected', this.unselected);
 
-    this.controlsEl.append($H('button.upload', 'Upload'), $H('button.add', 'Add'));
+    this.controlsEl.append(
+      this.selection.render().el,
+      $H('button.upload', 'Upload'),
+      $H('button.add', 'Add')
+    );
 
-    this.dialog.append(this.toolbar, this.grid);
+    this.contentEl.before(this.toolbar.render().el);
+    this.contentEl.append(this.grid.render().el);
 
     return this;
   }
@@ -124,66 +142,108 @@ Islay.Dialogs.AssetBrowser = Islay.Dialogs.Base.extend({
 /* ASSET BROWSER - WIDGETS
 /* -------------------------------------------------------------------------- */
 Islay.Dialogs.AssetGrid = Backbone.View.extend({
-  events: {click: 'click', mousemove: 'mousemove'},
-  className: 'grid',
+  className: 'asset-grid',
   tagName: 'ul',
 
   initialize: function() {
-    _.bindAll(this, 'hoverIn', 'hoverOut', 'click', 'mousemove');
+    _.bindAll(this, 'addEntry', 'update', 'selected', 'unselected');
     this.assets = {};
   },
 
   load: function(res) {
     this.collection = new Backbone.Collection(res);
-    // this.currentAssets
-    this.update();
+    this.collection.each(this.addEntry);
   },
 
   filter: function(album, filter) {
-
+    this.collection.each(this.update);
   },
 
-  update: function() {
-
+  update: function(model) {
+    var asset = this.assets[model.id];
+    if (asset) {
+      asset.show();
+    }
+    else {
+      this.addEntry(model);
+    }
   },
 
-  hoverIn: function() {
+  addEntry: function(model) {
+    var entry = new Islay.Dialogs.AssetEntry({model: model});
 
+    entry.on('selected', this.selected);
+    entry.on('unselected', this.unselected);
+
+    this.assets[model.id] = entry;
+
+    this.$el.append(entry.render().el);
   },
 
-  hoverOut: function() {
-
+  unselected: function(id) {
+    this.trigger('unselected', 'grid', id);
   },
 
-  click: function() {
-
-  },
-
-  mousemove: function() {
-
-  },
-
-  deselect: function(id) {
-
+  selected: function(id) {
+    this.trigger('selected', 'grid', id);
   },
 
   setHeight: function(h) {
-    this.$el.height(h);
+    // this.$el.height(h);
   },
 
   render: function() {
-    // display loading grid by default;
+    return this;
+  }
+});
+
+/* ASSET ENTRY */
+Islay.Dialogs.AssetEntry = Backbone.View.extend({
+  events: {click: 'click'},
+  tagName: 'li',
+  className: 'asset',
+
+  initialize: function() {
+    _.bindAll(this, 'click');
+  },
+
+  show: function() {
+    this.$el.show();
+  },
+
+  hide: function() {
+    this.$el.hide();
+  },
+
+  click: function(e) {
+    if (this.selected) {
+      this.trigger('unselected', this.model.id);
+      this.selected = false;
+      this.$el.removeClass('selected');
+    }
+    else {
+      this.trigger('selected', this.model.id);
+      this.selected = true;
+      this.$el.addClass('selected');
+    }
+  },
+
+  render: function() {
+    var frame = $H('div.frame'),
+        // TODO: The json should just give us the preview url directly
+        img   = $H('img', {src: this.model.get('preview')['admin_thumb']['url']}),
+        name  = $H('span.name', this.model.get('name')),
+        type  = $H('span.type', this.model.get('kind'));
+
+    this.$el.append(frame.append(img), name, type);
 
     return this;
   }
 });
 
-Islay.Dialogs.AssetEntry = Backbone.View.extend({
-
-});
-
+/* ASSET TOOLBAR/FILTER/SEARCH */
 Islay.Dialogs.AssetToolBar = Backbone.View.extend({
-  events: {'.filter li click': 'filter', '.search keyup': search},
+  events: {'click': 'filter', '.search keyup': 'search'},
   className: 'toolbar',
   filterOpts: ['All', 'Images', 'Documents', 'Video', 'Audio'],
 
@@ -206,6 +266,9 @@ Islay.Dialogs.AssetToolBar = Backbone.View.extend({
     var target = $(e.target);
     this.currentFilter = target.text();
     this.trigger('filter', this.currentAlbum, this.currentFilter);
+
+    this.currentFilterEl.removeClass('selected');
+    this.currentFilterEl = target.addClass('selected');
   },
 
   height: function() {
@@ -214,6 +277,7 @@ Islay.Dialogs.AssetToolBar = Backbone.View.extend({
 
   render: function() {
     var filters = _.map(this.filterOpts, function(f) {return $H('li', f);});
+    this.currentFilterEl = filters[0].addClass('selected');
     this.filterEl = $H('ul.filter', filters);
     this.searchEl = $H('input.search[type=text]');
 
