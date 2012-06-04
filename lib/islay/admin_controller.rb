@@ -87,19 +87,16 @@ module Islay
       end
 
       def create
-        persist! set_ivar(new_record)
+        persist!(set_ivar(new_record))
       end
 
       def edit
-        record = resource_class[:class].find(params[:id])
-        set_ivar(record)
+        set_ivar(find_record)
         dependencies
       end
 
       def update
-        record = resource_class[:class].find(params[:id])
-        set_ivar(record)
-        persist!(record)
+        persist!(set_ivar(new_record))
       end
 
       def delete
@@ -131,6 +128,10 @@ module Islay
       # rendering a form.
       def dependencies
 
+      end
+
+      def find_record
+        resource_class[:class].find(params[:id])
       end
 
       def new_record
