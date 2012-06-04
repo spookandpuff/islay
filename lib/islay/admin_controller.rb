@@ -96,7 +96,7 @@ module Islay
       end
 
       def update
-        persist!(set_ivar(new_record))
+        persist!(set_ivar(find_record))
       end
 
       def delete
@@ -116,12 +116,19 @@ module Islay
           redirect_to(redirect_for(record))
         else
           dependencies
+          invalid_record
           render(record.new_record? ? :new : :edit)
         end
       end
 
       def redirect_for(record)
         url_for([:admin, record])
+      end
+
+      # This is intended to be over-ridden by any controllers using this mixin.
+      # The idea being that they can add custom logic for handling errors.
+      def invalid_record
+
       end
 
       # Can be over-ridden in subclasses to provide the data needed when
