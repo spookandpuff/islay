@@ -141,6 +141,19 @@ Islay.Dialogs.AssetBrowser = Islay.Dialogs.Base.extend({
 /* -------------------------------------------------------------------------- */
 /* ASSET BROWSER - WIDGETS
 /* -------------------------------------------------------------------------- */
+Islay.Dialogs.AssetCollection = Backbone.Collection.extend({
+  search: function(term) {
+
+  },
+
+  by: function(album, type) {
+    return this.filter(function(m) {
+      // TODO: filter by album as well
+      return (type == 'all' || m.get('kind') == type);
+    });
+  }
+});
+
 Islay.Dialogs.AssetGrid = Backbone.View.extend({
   className: 'asset-grid',
   tagName: 'ul',
@@ -151,18 +164,25 @@ Islay.Dialogs.AssetGrid = Backbone.View.extend({
   },
 
   load: function(res) {
-    this.collection = new Backbone.Collection(res);
+    this.collection = new Islay.Dialogs.AssetCollection(res['assets']);
     this.collection.each(this.addEntry);
+    this.currentAssets = this.collection.toArray();
   },
 
   filter: function(album, filter) {
-    this.collection.each(this.update);
+    _.each(this.currentAssets, function(asset) {
+      var view = this.assets[asset.id];
+      view.detach();
+    }, this);
+
+    var results = this.collection.by(album, filter);
+    _.each(results, this.update, this);
   },
 
   update: function(model) {
     var asset = this.assets[model.id];
     if (asset) {
-      asset.show();
+      this.$el.append(asset.el);
     }
     else {
       this.addEntry(model);
@@ -215,6 +235,10 @@ Islay.Dialogs.AssetEntry = Backbone.View.extend({
     this.$el.hide();
   },
 
+  detach: function() {
+    this.$el.detach();
+  },
+
   click: function(e) {
     if (this.selected) {
       this.trigger('unselected', this.model.id);
@@ -230,8 +254,7 @@ Islay.Dialogs.AssetEntry = Backbone.View.extend({
 
   render: function() {
     var frame = $H('div.frame'),
-        // TODO: The json should just give us the preview url directly
-        img   = $H('img', {src: this.model.get('preview')['admin_thumb']['url']}),
+        img   = $H('img', {src: this.model.get('url')}),
         name  = $H('span.name', this.model.get('name')),
         type  = $H('span.type', this.model.get('kind'));
 
@@ -245,7 +268,7 @@ Islay.Dialogs.AssetEntry = Backbone.View.extend({
 Islay.Dialogs.AssetToolBar = Backbone.View.extend({
   events: {'click': 'filter', '.search keyup': 'search'},
   className: 'toolbar',
-  filterOpts: ['All', 'Images', 'Documents', 'Video', 'Audio'],
+  filterOpts: {all: 'All', image: 'Images', document: 'Documents', video: 'Video', audio: 'Audio'},
 
   initialize: function() {
     _.bindAll(this, 'filter', 'search', 'changeAlbum');
@@ -264,7 +287,7 @@ Islay.Dialogs.AssetToolBar = Backbone.View.extend({
 
   filter: function(e) {
     var target = $(e.target);
-    this.currentFilter = target.text();
+    this.currentFilter = target.attr('data-id');
     this.trigger('filter', this.currentAlbum, this.currentFilter);
 
     this.currentFilterEl.removeClass('selected');
@@ -276,7 +299,7 @@ Islay.Dialogs.AssetToolBar = Backbone.View.extend({
   },
 
   render: function() {
-    var filters = _.map(this.filterOpts, function(f) {return $H('li', f);});
+    var filters = _.map(this.filterOpts, function(f, k) {return $H('li', {'data-id':k}, f);});
     this.currentFilterEl = filters[0].addClass('selected');
     this.filterEl = $H('ul.filter', filters);
     this.searchEl = $H('input.search[type=text]');

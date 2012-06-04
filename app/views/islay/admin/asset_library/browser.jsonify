@@ -1,0 +1,6 @@
+json.assets(@assets) do |asset|
+  json.id  asset.id
+  json.name  asset.name
+  json.kind  asset.kind
+  json.url  asset.preview.url(:thumb_medium)
+end

@@ -9,7 +9,8 @@ module Islay
       end
 
       def browser
-        render :json => Asset.all
+        @assets = Asset.order('name ASC')
+        render :layout => false
       end
     end
   end
