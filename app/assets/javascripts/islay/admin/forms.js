@@ -20,10 +20,11 @@ Islay.FormFactory = function(parent, form) {
   _.bindAll(this, 'add');
   this.parent = parent;
   this.$el = form;
-  this.$el.hide();
   this.button = $H('button', 'Add').click(this.add);
+  this.addControl = $H('div.add-form', this.button);
 
-  this.$el.after($H('div.add-form', this.button));
+  this.$el.parent().append(this.addControl);
+  this.$el.detach();
 
   match = this.$el.find(':input').attr('name').match(/\[(\d+)\]/);
   if (match) {
@@ -38,7 +39,7 @@ Islay.FormFactory.prototype = {
     dup.find(':input[name*=template]').remove();
     _.each(dup.find('label[for], :input'), this.updateID, this);
 
-    this.$el.before(dup)
+    this.addControl.before(dup)
     this.parent.addForm(dup);
     dup.show();
     e.preventDefault();
@@ -69,7 +70,7 @@ Islay.FormFactory.prototype = {
 /* -------------------------------------------------------------------------- */
 Islay.Assocation = Backbone.View.extend({
   initialize: function() {
-    _.bindAll(this, 'destroy', 'move');
+    _.bindAll(this, 'move');
     this.forms = [];
     _.each(this.$el.find('.associated:not(.template-true)'), this.addForm, this);
 
@@ -82,10 +83,6 @@ Islay.Assocation = Backbone.View.extend({
     form.on('destroy', this.destroy);
     form.on('move', this.move);
     this.forms.push(form);
-  },
-
-  destroy: function(pos) {
-
   },
 
   move: function(pos, dir) {
@@ -123,13 +120,72 @@ Islay.Assocation = Backbone.View.extend({
 });
 
 /* -------------------------------------------------------------------------- */
+/* FORM TABS
+/* -------------------------------------------------------------------------- */
+Islay.FormTabs = Backbone.View.extend({
+  initialize: function() {
+    _.bindAll(this, 'click');
+
+    this.tabs = {};
+
+    var list = $H('ul.tabset'),
+        hash = window.location.hash.split('#').pop();
+
+    _.each(this.options.tabs, function(t, i) {
+      var tab = $(t), name = 'tab-' + i;
+      var node = $H('li', {'data-index': name}, tab.find('legend').remove().text());
+      this.tabs[name] = tab;
+
+      if (hash !== '') {
+        if (hash === name) {
+          this.currentTab = node;
+          node.addClass('selected');
+        }
+        else {
+          tab.hide();
+        }
+      }
+      else {
+        if (!this.currentTab) {
+          this.currentTab = node;
+          node.addClass('selected');
+        }
+        else {
+          tab.hide();
+        }
+      }
+
+      list.append(node);
+    }, this);
+
+    list.click(this.click);
+    this.options.tabs.first().before(list);
+  },
+
+  click: function(e) {
+    var target = $(e.target);
+    if (target.is('li')) {
+      if (this.currentTab) {
+        this.tabs[this.currentTab.attr('data-index')].hide();
+        this.currentTab.removeClass('selected');
+      }
+      this.currentTab = target;
+      this.currentTab.addClass('selected');
+      var name = this.currentTab.attr('data-index');
+      this.tabs[name].show();
+      window.location.hash = name;
+    }
+  }
+});
+
+/* -------------------------------------------------------------------------- */
 /* FORMS
 /* -------------------------------------------------------------------------- */
 Islay.Form = Backbone.View.extend({
   events: {submit: 'submit'},
 
   initialize: function() {
-    _.bindAll(this, 'submit', 'tabClick', 'destroy', 'move');
+    _.bindAll(this, 'submit', 'destroy', 'move');
     this.factories = [];
     this.forms = [];
 
@@ -146,7 +202,8 @@ Islay.Form = Backbone.View.extend({
     }
     else {
       var inputs = this.$el.find('.field:not(.associated .field)');
-      this.initializeTabs();
+      var tabs = this.$el.find('.tab');
+      if (tabs.length > 0) {this.tabSet = new Islay.FormTabs({tabs: tabs});}
       this.initializeAssocations();
     }
 
@@ -158,44 +215,6 @@ Islay.Form = Backbone.View.extend({
     this.associations = _.map(assocs, function(a) {
       return new Islay.Assocation({el: a});
     }, this);
-  },
-
-  initializeTabs: function() {
-    var tabs = this.$el.find('.tab');
-    if (tabs.length > 0) {
-      this.tabs = [];
-
-      var list = $H('ul.tabset');
-      _.each(tabs, function(t, i) {
-        var tab = $(t);
-        var node = $H('li', {'data-index': i}, tab.find('legend').remove().text());
-        this.tabs.push(tab);
-        if (!this.currentTab) {
-          this.currentTab = node;
-          node.addClass('selected');
-        }
-        else {
-          tab.hide();
-        }
-        list.append(node);
-      }, this);
-
-      list.click(this.tabClick);
-      tabs.first().before(list);
-    }
-  },
-
-  tabClick: function(e) {
-    var target = $(e.target);
-    if (target.is('li')) {
-      if (this.currentTab) {
-        this.tabs[this.currentTab.attr('data-index')].hide();
-        this.currentTab.removeClass('selected');
-      }
-      this.currentTab = target;
-      this.currentTab.addClass('selected');
-      this.tabs[this.currentTab.attr('data-index')].show();
-    }
   },
 
   initializeWidgets: function(obj, el) {
