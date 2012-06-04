@@ -3,4 +3,5 @@ json.assets(@assets) do |asset|
   json.name  asset.name
   json.kind  asset.kind
   json.url  asset.preview.url(:thumb_medium)
+  json.previewable asset.preview.present?
 end
