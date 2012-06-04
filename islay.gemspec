@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
   s.add_dependency "resque",                        "~> 1.20.0"
   s.add_dependency "zipruby",                       "~> 0.3.6"
   s.add_dependency "jquery-rails",                  "~> 2.0.2"
+  s.add_dependency "jsonify-rails",                 "~> 0.3.2"
 
   s.add_development_dependency "machinist",     "~> 2.0"
 end

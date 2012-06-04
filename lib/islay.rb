@@ -14,6 +14,7 @@ require 'streamio-ffmpeg'
 require 'resque'
 require 'resque/server'
 require 'zipruby'
+require 'jsonify-rails'
 
 require "islay/engine"
 require "islay/form_builder"
