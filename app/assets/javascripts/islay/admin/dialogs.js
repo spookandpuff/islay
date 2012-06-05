@@ -84,6 +84,7 @@ Islay.Dialogs.AssetBrowser = Islay.Dialogs.Base.extend({
 
   loaded: function(res) {
     this.grid.load(res);
+    this.toolbar.load(res['albums']);
   },
 
   resize: function(h) {
@@ -299,32 +300,21 @@ Islay.Dialogs.AssetEntry = Backbone.View.extend({
 
 /* ASSET TOOLBAR/FILTER/SEARCH */
 Islay.Dialogs.AssetToolBar = Backbone.View.extend({
-  events: {'click': 'filter', '.search keyup': 'search'},
   className: 'toolbar',
-  filterOpts: {all: 'All', image: 'Images', document: 'Documents', video: 'Video', audio: 'Audio'},
 
   initialize: function() {
-    _.bindAll(this, 'filter', 'search', 'changeAlbum');
+    _.bindAll(this, 'filter');
     this.currentAlbum = 'Latest';
     this.currentFilter = 'All';
   },
 
-  search: function(e) {
-
+  load: function(albums) {
+    this.albums.load(albums);
   },
 
-  changeAlbum: function() {
-    // Update this.currentAlbum
-    this.trigger('filter', this.currentAlbum, this.currentFilter);
-  },
-
-  filter: function(e) {
-    var target = $(e.target);
-    this.currentFilter = target.attr('data-id');
-    this.trigger('filter', this.currentAlbum, this.currentFilter);
-
-    this.currentFilterEl.removeClass('selected');
-    this.currentFilterEl = target.addClass('selected');
+  filter: function(filter) {
+    // TODO: Collect the state from the search widget
+    this.trigger('filter', this.albums.state(), this.filters.state());
   },
 
   height: function() {
@@ -332,14 +322,102 @@ Islay.Dialogs.AssetToolBar = Backbone.View.extend({
   },
 
   render: function() {
-    var filters = _.map(this.filterOpts, function(f, k) {return $H('li', {'data-id':k}, f);});
-    this.currentFilterEl = filters[0].addClass('selected');
-    this.filterEl = $H('ul.filter', filters);
-    this.searchEl = $H('input.search[type=text]');
+    this.albums = new Islay.Dialogs.AssetAlbums();
+    this.albums.on('filter', this.filter);
 
-    this.$el.append(this.filterEl, this.searchEl);
+    this.filters = new Islay.Dialogs.AssetFilters();
+    this.filters.on('filter', this.filter);
+
+    this.$el.append(this.albums.render().el, this.filters.render().el);
 
     return this;
+  }
+});
+
+Islay.Dialogs.AssetAlbums = Backbone.View.extend({
+  events: {click: 'click'},
+  className: 'albums',
+
+  initialize: function() {
+    _.bindAll(this, 'click');
+  },
+
+  load: function(albums) {
+    _.each(albums, function(a) {
+      var node = $H('li.target', {'data-id': a['id']}, a['name']);
+      this.listEl.append(node);
+    }, this);
+  },
+
+  state: function() {
+    return this.currentAlbum;
+  },
+
+  click: function(e) {
+    var target = $(e.target);
+    if (target.is('li')) {
+      this.currentAlbum = target.attr('data-id');
+      this.trigger('filter');
+    }
+    else {
+      this.toggle();
+    }
+  },
+
+  toggle: function() {
+    if (this.open) {
+      this.open = false;
+      this.listEl.hide();
+    }
+    else {
+      this.open = true;
+      this.listEl.show();
+    }
+  },
+
+  render: function() {
+    this.listEl = $H('ul').hide();
+    this.displayEl = $H('div.display', 'Latest');
+    var button = $H('div.button', $H('span', '>'));
+
+    this.$el.append(this.displayEl, button, this.listEl);
+
+    return this;
+  },
+});
+
+Islay.Dialogs.AssetFilters = Backbone.View.extend({
+  events: {click: 'click'},
+  className: 'filter',
+  tagName: 'ul',
+  filterOpts: {all: 'All', image: 'Images', document: 'Documents', video: 'Video', audio: 'Audio'},
+
+  initialize: function() {
+    _.bindAll(this, 'click');
+    this.currentFilter = 'latest';
+  },
+
+  state: function() {
+    return this.currentFilter;
+  },
+
+  click: function(e) {
+    var target = $(e.target);
+    this.currentFilter = target.attr('data-id');
+    this.trigger('filter');
+
+    this.currentEl.removeClass('selected');
+    this.currentEl = target.addClass('selected');
+  },
+
+  render: function() {
+    _.each(this.filterOpts, function(f, k) {
+      var node = $H('li', {'data-id':k}, f);
+      if (!this.currentEl) {this.currentEl = node.addClass('selected');}
+      this.$el.append(node);
+    }, this);
+
+    return this
   }
 });
 

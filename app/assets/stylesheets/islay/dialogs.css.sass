@@ -38,6 +38,8 @@
       float: left
 
     .close
+      cursor: pointer
+      margin: 1em 1em 0 0
       float: right
 
   .toolbar
@@ -49,24 +51,65 @@
     left: 0
     top: 3.1em
 
+    .albums
+      +background-image(linear-gradient(#F5F5F5, #D5D5D5))
+      +border-radius(0.3em)
+      border: 0.1em solid #BABABA
+      margin: 0.6em 0 0 1em
+      width: 15em
+      float: left
+      position: relative
+
+      .display
+        padding: 0.5em 0.9em
+        float: left
+
+      .button
+        +background-image(linear-gradient(#F4F4F5, #CFD2D6))
+        +border-right-radius(0.33em)
+        border-left: $border-width solid $widget-border-color
+        height: 1.95em
+        padding: 0 $input-h-padding
+        float: right
+
+        span
+          color: #72828E
+          font-family: 'Icons'
+          font-size: 1.2em
+          margin-top: 0.35em
+          display: block
+
+      ul
+        +border-bottom-radius(0.3em)
+        border: 0.1em solid #BABABA
+        background: white
+        padding: 0.4em 0
+        width: 15em
+        position: absolute
+        left: -0.1em
+        top: 1.95em
+
+      li
+        padding: 0.4em 1em
+
     .filter
       margin-left: 1em
       float: left
 
-    li
-      +border-radius(0.3em)
-      border: 0.1em solid transparent
-      cursor: pointer
-      margin-top: 0.6em
-      padding: 0.5em 0.9em
-      font-weight: bold
-      color: $dark-grey
-      float: left
+      li
+        +border-radius(0.3em)
+        border: 0.1em solid transparent
+        cursor: pointer
+        margin-top: 0.6em
+        padding: 0.5em 0.9em
+        font-weight: bold
+        color: $dark-grey
+        float: left
 
-    .selected
-      +background-image(linear-gradient(#D2D2D2, #DEDEDE))
-      border-color: #BABABA
-      color: black
+      .selected
+        +background-image(linear-gradient(#D2D2D2, #DEDEDE))
+        border-color: #BABABA
+        color: black
 
     .search
       +border-radius(2em)
@@ -81,7 +124,7 @@
     margin: 1em 0 0 1em
 
     &.selected
-      background: $highlight-color
+      background: $highlight-color + 30
       color: white
 
   .content

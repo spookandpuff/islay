@@ -1,6 +1,6 @@
 json.albums(@albums) do |album|
-  json.id = album.id
-  json.name = album.name
+  json.id album.id
+  json.name album.name
 end
 
 json.assets(@assets) do |asset|
