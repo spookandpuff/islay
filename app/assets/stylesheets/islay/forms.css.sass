@@ -8,25 +8,25 @@ $field-margin: 1em
 $field-height: $border-width * 2 + $input-v-padding * 2 + 1em
 $form-inset-color: $light-grey + 20
 
+#footer button,
+#footer input,
+button.primary
+  +background-image(linear-gradient(#4D7BAE, $highlight-color - 10))
+  +text-shadow(rgba(0, 0, 0, 0.3) -1px -1px 2px)
+  +border-radius(0.2em)
+  border: 0.1em solid $highlight-color - 10
+  font-size: 1.1em
+  color: white
+  padding: 0.3em 1em
+  margin: 0.5em 1.7em 0 0
+  float: right
+
 #islay-form
   #content
     +border-radius(0.3em)
     +single-box-shadow(rgba(0, 0, 0, 0.05), 0, 0, 0, 2px)
     background: white
     border: 0.1em solid #CCC
-
-  #footer
-    input,
-    button
-      +background-image(linear-gradient(#4D7BAE, $highlight-color - 10))
-      +text-shadow(rgba(0, 0, 0, 0.3) -1px -1px 2px)
-      +border-radius(0.2em)
-      border: 0.1em solid $highlight-color - 10
-      font-size: 1.1em
-      color: white
-      padding: 0.3em 1em
-      margin: 0.5em 1.7em 0 0
-      float: right
 
   fieldset,
   .tabset

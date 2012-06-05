@@ -113,7 +113,11 @@ Islay.Dialogs.AssetBrowser = Islay.Dialogs.Base.extend({
   },
 
   add: function() {
+    if (this.options.add) {
+      this.options.add(this.grid.selectedModels());
+    }
 
+    this.close();
   },
 
   upload: function() {
@@ -137,8 +141,7 @@ Islay.Dialogs.AssetBrowser = Islay.Dialogs.Base.extend({
 
     this.controlsEl.append(
       this.selection.render().el,
-      $H('button.upload', 'Upload'),
-      $H('button.add', 'Add')
+      $H('button.add.primary', 'Add').click(this.add)
     );
 
     this.contentEl.before(this.toolbar.render().el);
@@ -178,6 +181,10 @@ Islay.Dialogs.AssetGrid = Backbone.View.extend({
     this.selections = {};
   },
 
+  selectedModels: function() {
+    return _.map(this.selections, function(v) {return v.model;});
+  },
+
   load: function(res) {
     this.collection = new Islay.Dialogs.AssetCollection(res['assets']);
     this.currentAssets = this.collection.latest();
@@ -185,7 +192,6 @@ Islay.Dialogs.AssetGrid = Backbone.View.extend({
   },
 
   filter: function(album, filter) {
-    console.log(album, filter)
     _.each(this.currentAssets, function(asset) {
       var view = this.assets[asset.id];
       view.detach();
