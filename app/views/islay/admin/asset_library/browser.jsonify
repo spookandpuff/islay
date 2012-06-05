@@ -1,6 +1,7 @@
 json.albums(@albums) do |album|
   json.id album.id
   json.name album.name
+  json.count album.assets_count
 end
 
 json.assets(@assets) do |asset|

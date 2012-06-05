@@ -45,6 +45,7 @@
           tag.append.apply(tag, content);
         break;
         case String:
+        case Number:
           tag.append(document.createTextNode(content));
         break
       }

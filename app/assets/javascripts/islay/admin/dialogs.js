@@ -341,13 +341,18 @@ Islay.Dialogs.AssetAlbums = Backbone.View.extend({
 
   initialize: function() {
     _.bindAll(this, 'click');
+    this.currentAlbum = 'latest';
   },
 
   load: function(albums) {
     _.each(albums, function(a) {
-      var node = $H('li', {'data-id': a['id']}, a['name']);
+      var count = $H('span.count', a['count']),
+          opts  = {'data-id': a['id']},
+          node  = $H('li', opts, [a['name'], count]);
+
       this.listEl.append(node);
     }, this);
+
     this.listEl.prepend($H('li[data-id=latest]', 'Latest'));
   },
 
@@ -359,7 +364,7 @@ Islay.Dialogs.AssetAlbums = Backbone.View.extend({
     var target = $(e.target);
     if (target.is('li')) {
       this.currentAlbum = target.attr('data-id');
-      this.displayEl.text(target.text());
+      this.displayEl.html(target.html());
       this.trigger('filter');
     }
     this.toggle();
