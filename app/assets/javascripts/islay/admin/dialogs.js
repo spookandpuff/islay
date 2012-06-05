@@ -20,6 +20,7 @@ Islay.Dialogs.Base = Backbone.View.extend({
     }
     else {
       this.window = $(window).resize(this._resizeFlexible);
+      // this._resizeFlexible();
     }
 
     if (this.options.url || this.url) {
@@ -30,6 +31,7 @@ Islay.Dialogs.Base = Backbone.View.extend({
 
     this._render();
     this.render();
+    this.initResize();
   },
 
   show: function() {
@@ -57,6 +59,16 @@ Islay.Dialogs.Base = Backbone.View.extend({
     if (this.loaded) {this.loaded(response);}
   },
 
+  initResize: function() {
+    if (this.sizing == 'fixed') {
+
+    }
+    else {
+      this.dialogEl.css({left: this.offset.x, top: this.offset.y});
+      this._resizeFlexible();
+    }
+  },
+
   _resizeFixed: function() {
     // get the window size title and control sizes
     // Resize the dialog.
@@ -66,8 +78,12 @@ Islay.Dialogs.Base = Backbone.View.extend({
   },
 
   _resizeFlexible: function() {
-    var windowHeight, remainingHeight;
-    if (this.resize) {this.resize(remainingHeight);}
+    var dialogH = this.window.height() - (this.offset.y * 2),
+        dialogW = this.window.width() - (this.offset.x * 2),
+        remainingH = dialogH - (this.titleEl.outerHeight() + this.controlsEl.outerHeight());
+
+    this.dialogEl.css({height: dialogH, width: dialogW});
+    if (this.resize) {this.resize(remainingH);}
   }
 });
 
@@ -88,7 +104,7 @@ Islay.Dialogs.AssetBrowser = Islay.Dialogs.Base.extend({
   },
 
   resize: function(h) {
-    // this.grid.setHeight(this.toolbar.height() - h);
+    this.grid.setHeight(h - this.toolbar.$el.outerHeight());
   },
 
   selected: function(from, model) {
@@ -237,7 +253,7 @@ Islay.Dialogs.AssetGrid = Backbone.View.extend({
   },
 
   setHeight: function(h) {
-    // this.$el.height(h);
+    this.$el.css({height: h});
   },
 
   render: function() {
