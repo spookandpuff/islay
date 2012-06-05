@@ -9,7 +9,8 @@ module Islay
       end
 
       def browser
-        @assets = Asset.order('name ASC')
+        @albums = AssetAlbum.order('name ASC')
+        @assets = Asset.summaries
         render :layout => false
       end
     end

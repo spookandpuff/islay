@@ -19,6 +19,28 @@ class Asset < ActiveRecord::Base
   VIDEO_EXTENSIONS = %w(mpg mp4 mov avi).freeze
   AUDIO_EXTENSIONS = %w(mp3 aiff acc flac wav).freeze
 
+
+  SUMMARY_QUERY = %{
+    SELECT
+      id,
+      asset_group_id,
+      CASE
+        WHEN id IN (SELECT id FROM assets ORDER BY updated_at DESC LIMIT 10) THEN true
+        ELSE false
+      END AS latest,
+      name,
+      preview,
+      path,
+      type
+    FROM assets ORDER BY name ASC
+  }.freeze
+
+  # Used mainly for generating JSON. This method collects all the assets, but
+  # with just some extra info injected e.g. is this asset one of the latest?
+  def self.summaries
+    find_by_sql(SUMMARY_QUERY)
+  end
+
   def version_info
     upload.version_info
   end

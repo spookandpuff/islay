@@ -1,7 +1,14 @@
+json.albums(@albums) do |album|
+  json.id = album.id
+  json.name = album.name
+end
+
 json.assets(@assets) do |asset|
   json.id  asset.id
+  json.album_id asset.asset_group_id
   json.name  asset.name
   json.kind  asset.kind
   json.url  asset.preview.url(:thumb_medium)
   json.previewable asset.preview.present?
+  json.latest asset.latest == "t"
 end

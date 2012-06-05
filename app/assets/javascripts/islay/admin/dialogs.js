@@ -146,6 +146,10 @@ Islay.Dialogs.AssetCollection = Backbone.Collection.extend({
 
   },
 
+  latest: function() {
+    return this.filter(function(m) {return m.get('latest');});
+  },
+
   by: function(album, type) {
     return this.filter(function(m) {
       // TODO: filter by album as well
@@ -165,8 +169,8 @@ Islay.Dialogs.AssetGrid = Backbone.View.extend({
 
   load: function(res) {
     this.collection = new Islay.Dialogs.AssetCollection(res['assets']);
-    this.collection.each(this.addEntry);
-    this.currentAssets = this.collection.toArray();
+    this.currentAssets = this.collection.latest();
+    _.each(this.currentAssets, this.addEntry);
   },
 
   filter: function(album, filter) {
