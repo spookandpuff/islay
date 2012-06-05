@@ -90,12 +90,21 @@ Islay.Dialogs.AssetBrowser = Islay.Dialogs.Base.extend({
     // this.grid.setHeight(this.toolbar.height() - h);
   },
 
-  selected: function(from, id) {
-    console.log('selected', from, id);
+  selected: function(from, model) {
+    this.selections = this.selections || {};
+    this.selections[model.id] = model;
+    this.selection.add(model);
   },
 
-  unselected: function(from, id) {
-    console.log('unselected', from, id);
+  unselected: function(from, model) {
+    delete this.selections[model.id];
+
+    if (from == 'grid') {
+      this.selection.removeSelection(model);
+    }
+    else {
+      this.grid.removeSelection(model);
+    }
   },
 
   search: function(term) {
@@ -165,6 +174,7 @@ Islay.Dialogs.AssetGrid = Backbone.View.extend({
   initialize: function() {
     _.bindAll(this, 'addEntry', 'update', 'selected', 'unselected');
     this.assets = {};
+    this.selections = {};
   },
 
   load: function(res) {
@@ -204,12 +214,18 @@ Islay.Dialogs.AssetGrid = Backbone.View.extend({
     this.$el.append(entry.render().el);
   },
 
-  unselected: function(id) {
-    this.trigger('unselected', 'grid', id);
+  removeSelection: function(model) {
+    this.selections[model.id].removeSelection();
   },
 
-  selected: function(id) {
-    this.trigger('selected', 'grid', id);
+  unselected: function(view, model) {
+    delete this.selections[model.id];
+    this.trigger('unselected', 'grid', model);
+  },
+
+  selected: function(view, model) {
+    this.selections[model.id] = view;
+    this.trigger('selected', 'grid', model);
   },
 
   setHeight: function(h) {
@@ -243,14 +259,19 @@ Islay.Dialogs.AssetEntry = Backbone.View.extend({
     this.$el.detach();
   },
 
+  removeSelection: function() {
+    this.selected = false;
+    this.$el.removeClass('selected');
+  },
+
   click: function(e) {
     if (this.selected) {
-      this.trigger('unselected', this.model.id);
+      this.trigger('unselected', this, this.model);
       this.selected = false;
       this.$el.removeClass('selected');
     }
     else {
-      this.trigger('selected', this.model.id);
+      this.trigger('selected', this, this.model);
       this.selected = true;
       this.$el.addClass('selected');
     }
@@ -323,7 +344,39 @@ Islay.Dialogs.AssetToolBar = Backbone.View.extend({
 });
 
 Islay.Dialogs.AssetSelection = Backbone.View.extend({
+  events: {'click': 'click'},
+  className: 'selection',
+  tagName: 'ul',
 
+  initialize: function() {
+    _.bindAll(this, 'click');
+    this.entries = {};
+  },
+
+  add: function(model) {
+    var node;
+    if (this.entries[model.id]) {
+      node = this.entries[model.id]['node'];
+    }
+    else {
+      var name = [model.get('name'), $H('span', model.get('kind'))];
+      node = $H('li', {'data-id': model.id, class: model.get('kind') + '-icon'}, name);
+      this.entries[model.id] = {node: node, model: model};
+    }
+    this.$el.append(node);
+  },
+
+  removeSelection: function(model) {
+    this.entries[model.id]['node'].detach();
+  },
+
+  click: function(e) {
+    var target = $(e.target);
+    if (target.is('span')) {target = target.parent();}
+    target.detach();
+    var model = this.entries[target.attr('data-id')]['model'];
+    this.trigger('unselected', 'selection', model);
+  }
 });
 
 Islay.Dialogs.AssetUploader = Backbone.View.extend({
