@@ -162,8 +162,8 @@ Islay.Dialogs.AssetCollection = Backbone.Collection.extend({
 
   by: function(album, type) {
     return this.filter(function(m) {
-      // TODO: filter by album as well
-      return (type == 'all' || m.get('kind') == type);
+      return (type == 'all' || m.get('kind') == type) &&
+             ((album == 'latest' && m.get('latest')) || (album == m.get('album_id')));
     });
   }
 });
@@ -185,6 +185,7 @@ Islay.Dialogs.AssetGrid = Backbone.View.extend({
   },
 
   filter: function(album, filter) {
+    console.log(album, filter)
     _.each(this.currentAssets, function(asset) {
       var view = this.assets[asset.id];
       view.detach();
@@ -344,9 +345,10 @@ Islay.Dialogs.AssetAlbums = Backbone.View.extend({
 
   load: function(albums) {
     _.each(albums, function(a) {
-      var node = $H('li.target', {'data-id': a['id']}, a['name']);
+      var node = $H('li', {'data-id': a['id']}, a['name']);
       this.listEl.append(node);
     }, this);
+    this.listEl.prepend($H('li[data-id=latest]', 'Latest'));
   },
 
   state: function() {
@@ -357,20 +359,21 @@ Islay.Dialogs.AssetAlbums = Backbone.View.extend({
     var target = $(e.target);
     if (target.is('li')) {
       this.currentAlbum = target.attr('data-id');
+      this.displayEl.text(target.text());
       this.trigger('filter');
     }
-    else {
-      this.toggle();
-    }
+    this.toggle();
   },
 
   toggle: function() {
     if (this.open) {
       this.open = false;
+      this.$el.removeClass('open')
       this.listEl.hide();
     }
     else {
       this.open = true;
+      this.$el.addClass('open')
       this.listEl.show();
     }
   },
@@ -394,7 +397,7 @@ Islay.Dialogs.AssetFilters = Backbone.View.extend({
 
   initialize: function() {
     _.bindAll(this, 'click');
-    this.currentFilter = 'latest';
+    this.currentFilter = 'all';
   },
 
   state: function() {
@@ -403,11 +406,13 @@ Islay.Dialogs.AssetFilters = Backbone.View.extend({
 
   click: function(e) {
     var target = $(e.target);
-    this.currentFilter = target.attr('data-id');
-    this.trigger('filter');
+    if (target.is('li')) {
+      this.currentFilter = target.attr('data-id');
+      this.trigger('filter');
 
-    this.currentEl.removeClass('selected');
-    this.currentEl = target.addClass('selected');
+      this.currentEl.removeClass('selected');
+      this.currentEl = target.addClass('selected');
+    }
   },
 
   render: function() {
