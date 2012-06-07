@@ -9,6 +9,7 @@ json.assets(@assets) do |asset|
   json.album_id asset.asset_group_id
   json.name  asset.name
   json.kind  asset.kind
+  json.friendly_kind  asset.friendly_kind
   json.url  asset.preview.url(:thumb_medium)
   json.previewable asset.preview.present?
   json.latest asset.latest == "t"

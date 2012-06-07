@@ -1,5 +1,6 @@
 class AudioAsset < Asset
   self.kind = 'music-alt'
+  self.friendly_kind = 'Audio'
   mount_uploader :upload, AudioUploader
 
   before_save :set_audio_metadata

@@ -304,14 +304,14 @@ Islay.Dialogs.AssetEntry = Backbone.View.extend({
   render: function() {
     var frame = $H('div.frame'),
         name  = $H('span.name', this.model.get('name')),
-        type  = $H('span.type', this.model.get('kind')),
+        type  = $H('span', {class: 'type icon-' + this.model.get('kind')}, this.model.get('friendly_kind')),
         preview;
 
     if (this.model.get('previewable')) {
       preview = $H('img', {src: this.model.get('url')});
     }
     else {
-      preview = $H('span', {class: 'no-preview ' + this.model.get('kind') + '-icon'});
+      preview = $H('span', {class: 'no-preview icon-' + this.model.get('kind')});
     }
 
     this.$el.addClass(this.model.get('kind'));
@@ -408,7 +408,7 @@ Islay.Dialogs.AssetAlbums = Backbone.View.extend({
   render: function() {
     this.listEl = $H('ul').hide();
     this.displayEl = $H('div.display', 'Latest');
-    var button = $H('div.button', $H('span', '>'));
+    var button = $H('div.button', $H('span', '↓'));
 
     this.$el.append(this.displayEl, button, this.listEl);
 
@@ -469,8 +469,8 @@ Islay.Dialogs.AssetSelection = Backbone.View.extend({
       node = this.entries[model.id]['node'];
     }
     else {
-      var name = [model.get('name'), $H('span', model.get('kind'))];
-      node = $H('li', {'data-id': model.id, class: model.get('kind') + '-icon'}, name);
+      var name = [model.get('name'), $H('span', model.get('friendly_kind'))];
+      node = $H('li', {'data-id': model.id, class: 'icon-' + model.get('kind')}, name);
       this.entries[model.id] = {node: node, model: model};
     }
     this.$el.append(node);

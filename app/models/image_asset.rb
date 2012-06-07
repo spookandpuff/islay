@@ -1,5 +1,6 @@
 class ImageAsset < Asset
   self.kind = 'picture'
+  self.friendly_kind = 'Image'
 
   mount_uploader :upload, ImageUploader
 
