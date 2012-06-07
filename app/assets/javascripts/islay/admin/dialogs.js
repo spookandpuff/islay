@@ -46,7 +46,7 @@ Islay.Dialogs.Base = Backbone.View.extend({
     this.dialogEl = $H('div.dialog');
     this.$el.append(this.dialogEl);
 
-    this.closeEl = $H('div.close', 'Close').click(this.close);
+    this.closeEl = $H('div.close.icon-cancel-circle', 'Close').click(this.close);
     this.titleEl = $H('div.title', [$H('h1', this.titleText), this.closeEl]);
     this.controlsEl = $H('div.controls');
     this.contentEl = $H('div.content');

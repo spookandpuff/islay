@@ -32,8 +32,14 @@
 
     .close
       cursor: pointer
+      color: $dark-grey
+      font-weight: bold
       margin: 1em 1em 0 0
       float: right
+
+      &:before
+        margin-right: 0.3em
+        font-size: 1.2em
 
   .toolbar
     +background-image(linear-gradient(#F4F4F4, #E9E9E9))
