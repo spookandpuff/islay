@@ -17,6 +17,7 @@ require 'zipruby'
 require 'jsonify-rails'
 
 require "islay/engine"
+require "islay/coercion"
 require "islay/form_builder"
 require "islay/active_record"
 require "islay/carrierwave"
