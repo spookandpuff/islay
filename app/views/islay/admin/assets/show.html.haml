@@ -8,11 +8,11 @@
       - if @asset.preview.present?
         = image_tag(@asset.preview.url(:thumb))
       - else
-        %span(class='no-preview #{@asset.kind}-icon') &nbsp;
+        %span(class='no-preview icon-#{@asset.kind}') &nbsp;
 
   = column(8) do
     %h3 Info
-    = render :partial => "#{@asset.kind}_metadata"
+    = render :partial => "#{@asset.friendly_kind.downcase}_metadata"
 
     - if @asset.version_info
       %h3 Versions
