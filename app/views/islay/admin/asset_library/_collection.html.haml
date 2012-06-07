@@ -1,5 +1,5 @@
 %li.collection
-  %span.collection-name.folder-icon= group.name
+  %span.collection-name.icon-folder= group.name
   = link_to('Edit', path(:edit, group), :class => 'edit')
   = link_to('Delete', path(:delete, group), :class => 'delete')
   - unless group.children.empty?
@@ -10,7 +10,7 @@
           = render :partial => 'collection', :locals => {:group => c}
         - when AssetGroup
           %li.album
-            = link_to(c.name, path(c), :class => 'album-name album-icon')
+            = link_to(c.name, path(c), :class => 'album-name icon-picture')
             %span.count= group.assets_count
             = link_to('Edit', path(:edit, c), :class => 'edit')
             = link_to('Delete', path(:delete, c), :class => 'delete')

@@ -22,8 +22,8 @@ module Islay
       @config[:module] = v.to_s.classify.constantize
     end
 
-    def nav_entry(title, route)
-      @config[:nav_entries] << {:title => title, :route => route}
+    def nav_entry(title, route, opts = {})
+      @config[:nav_entries] << {:title => title, :route => route, :opts => opts}
     end
   end
 end

@@ -1,4 +1,4 @@
 class DocumentAsset < Asset
-  self.kind = 'document'
+  self.kind = 'doc-text'
   mount_uploader :upload, DocumentUploader
 end

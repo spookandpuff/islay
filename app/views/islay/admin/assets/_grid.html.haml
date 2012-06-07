@@ -5,6 +5,6 @@
         - if asset.preview.present?
           = image_tag(asset.preview.url(:thumb_medium))
         - else
-          %span(class='no-preview #{asset.kind}-icon') &nbsp;
+          %span(class='no-preview icon-#{asset.kind}') &nbsp;
       = link_to(asset.name, path(asset), :class => 'name')
-      %span(class='type #{asset.kind}-icon')= asset.kind.capitalize
+      %span(class='type icon-#{asset.kind}')= asset.kind.capitalize

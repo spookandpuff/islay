@@ -54,7 +54,11 @@ module Islay
       root = opts.delete(:root)
 
       if (root and request.original_url == url) or (!root and request.original_url.match(%r{^#{url}}))
-        opts[:class] = 'current'
+        if opts[:class]
+          opts[:class] << ' current'
+        else
+          opts[:class] = 'current'
+        end
       end
 
       content_tag(:li, link_to(name, url, opts))
@@ -125,7 +129,7 @@ module Islay
     # TODO: Memoize this in production.
     def extension_nav_entries
       Islay::Engine.extensions.entries.map do |ns, ext|
-        ext.config[:nav_entries].map {|e| main_nav(e[:title], e[:route])}
+        ext.config[:nav_entries].map {|e| main_nav(e[:title], e[:route], e[:opts])}
       end.flatten.join.html_safe
     end
   end
