@@ -2,6 +2,8 @@
 .bundle/
 log/*.log
 pkg/
+tmp/
+config/database.yml
 test/dummy/config/database.yml
 test/dummy/db/*
 test/dummy/log/*.log

@@ -1,4 +1,3 @@
-require 'test_engine/test_unit'
 require 'machinist/active_record'
 require 'ffaker'
 require 'capybara/rails'
