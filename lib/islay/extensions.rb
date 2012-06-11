@@ -8,6 +8,14 @@ module Islay
       @entries ||= {}
       @entries[ext.config[:namespace]] = ext
     end
+
+    def roots
+      @roots ||= engines.map(&:root)
+    end
+
+    def engines
+      @engines ||= entries.map {|n, e| e.config[:engine]}
+    end
   end
 
   class Entry
@@ -20,6 +28,7 @@ module Islay
     def namespace(v)
       @config[:namespace] = v
       @config[:module] = v.to_s.classify.constantize
+      @config[:engine] = @config[:module].const_get('Engine')
     end
 
     def nav_entry(title, route, opts = {})
