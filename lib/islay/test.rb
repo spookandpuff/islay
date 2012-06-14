@@ -9,15 +9,18 @@ roots.each do |r|
   Dir[r + 'test/blueprints/*.rb'].each {|f| require f}
 end
 
+Thread.current[:current_user] = User.first || User.make!
+
+def pick(model)
+  model.order('RANDOM()').first
+end
+
 # Capybara configuration
 Capybara.javascript_driver = :poltergeist
 
 class ActionDispatch::IntegrationTest
   # Make the Capybara DSL available in all integration tests
   include Capybara::DSL
-
-  # Stop ActiveRecord from wrapping tests in transactions
-  self.use_transactional_fixtures = false
 
   teardown do
     Capybara.reset_sessions!    # Forget the (simulated) browser state
