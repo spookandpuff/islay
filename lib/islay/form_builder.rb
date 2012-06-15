@@ -37,7 +37,11 @@ module Islay
       case metaopts[:type]
       when :enum
         options[:as] = metaopts[:kind] == :short ? 'radio_buttons' : 'select'
-        options[:collection] = metaopts[:values].dup
+        options[:collection] = extract_values(metaopts[:values])
+      when :foreign_key
+        options[:collection] = extract_values(metaopts[:values])
+      when :integer, :float
+        options[:class] = 'small'
       end
 
       # TODO: Support other types like URL, Email, etc.
@@ -60,5 +64,16 @@ module Islay
 
       super
     end
-  end
-end
+
+    private
+
+    def extract_values(values)
+      if values
+        case values
+        when Proc         then values.call
+        when Array, Hash  then values.dup
+        end
+      end
+    end
+  end # FormBuilder
+end # Islay
