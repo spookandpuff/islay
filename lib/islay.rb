@@ -22,8 +22,7 @@ require "islay/form_builder"
 require "islay/active_record"
 require "islay/carrierwave"
 require "islay/extensions"
-require "islay/admin_controller"
-require "islay/admin_helpers"
+require "islay/resourceful_controller"
 
 module Islay
 end
