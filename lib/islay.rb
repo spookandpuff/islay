@@ -1,3 +1,4 @@
+require 'mixable_engines'
 require 'haml'
 require 'sass-rails'
 require 'jquery-rails'
@@ -21,11 +22,8 @@ require "islay/form_builder"
 require "islay/active_record"
 require "islay/carrierwave"
 require "islay/extensions"
-
-# Use require dependency to get around mixins going missing
-# after class reloading.
-require_dependency "islay/admin_controller"
-require_dependency "islay/admin_helpers"
+require "islay/admin_controller"
+require "islay/admin_helpers"
 
 module Islay
 end
