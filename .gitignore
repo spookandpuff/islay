@@ -3,10 +3,4 @@
 log/*.log
 pkg/
 tmp/
-config/database.yml
-test/dummy/config/database.yml
-test/dummy/db/*
-test/dummy/log/*.log
-test/dummy/tmp/
-test/dummy/.sass-cache
-test/dummy/public/20*
+spec/dummy/

@@ -40,4 +40,5 @@ Gem::Specification.new do |s|
   s.add_dependency "ffaker",        "~> 1.14.0"
   s.add_dependency "capybara",      "~> 1.1.2"
   s.add_dependency "poltergeist",   "~> 0.6.0"
+  s.add_dependency 'rspec-rails',   "~> 2.10.1"
 end
