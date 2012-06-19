@@ -2,10 +2,13 @@ module Islay
   class Extensions
     attr_reader :entries
 
+    def initialize
+      @entries = {}
+    end
+
     def register
       ext = Entry.new
       yield(ext)
-      @entries ||= {}
       @entries[ext.config[:namespace]] = ext
     end
 
