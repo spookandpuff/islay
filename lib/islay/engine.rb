@@ -1,6 +1,7 @@
 module Islay
   class Engine < ::Rails::Engine
     config.autoload_paths << File.expand_path("../../app/uploaders", __FILE__)
+    config.autoload_paths << File.expand_path("../../app/queries", __FILE__)
 
     config.generators do |g|
       g.orm             :active_record
