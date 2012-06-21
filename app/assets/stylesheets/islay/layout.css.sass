@@ -89,7 +89,6 @@ body.has-sub-header #content
 #header
   +background-image(linear-gradient(#F2F2F2, #E4E4E4))
   border-bottom: 0.1em solid #B7B9C6
-  text-indent: 1em
 
   h1
     +islay-text-shadow
@@ -120,28 +119,9 @@ body.has-sub-header #content
   a
     +unstyled-link
 
-
   h2,
-  .sub-nav,
   .controls
     margin-top: 0.85em
-
-  .sub-nav
-    margin: 0 0 0 1em
-    overflow: hidden
-    float: left
-
-    a
-      border-left: 0.1em solid transparent
-      border-right: 0.1em solid transparent
-      padding: 0.95em 0.7em 0.9em 0.7em
-      font-weight: bold
-      color: #666
-
-      &.current
-        +background-image(linear-gradient(#ECECEC, #FFFFFF))
-        border-color: #C2CBD5
-        color: black
 
   .controls
     margin: 0.55em 1em 0 0
@@ -244,8 +224,9 @@ $i: 0
   #content .count-#{$i}
     width: $column-width * $i + $gutter-width * $j
     margin-right: $gutter-width
+
 /* -------------------------------------------------------------------------- */
-/* MAIN CONTENT BLOCKS
+/* TABLE
 /* -------------------------------------------------------------------------- */
 table
   width: 100%
@@ -270,3 +251,35 @@ th.control
   text-indent: -1000em
   letter-spacing: -1000em
   width: 4em
+
+/* -------------------------------------------------------------------------- */
+/* SUB-NAV
+/* Used to navigate each section and in dialogs
+/* -------------------------------------------------------------------------- */
+.dialog .filter li
+.sub-nav a
+  +border-radius(0.3em)
+  border: 0.1em solid transparent
+  cursor: pointer
+  margin-top: 0.6em
+  padding: 0.5em 0.9em
+  font-weight: bold
+  color: $dark-grey
+  float: left
+
+.sub-nav,
+.dialog .filter
+  margin-left: 1em
+  float: left
+
+  .selected
+    +background-image(linear-gradient(#D2D2D2, #DEDEDE))
+    border-color: #BABABA
+    color: black
+
+.sub-nav
+  li
+    float: left
+
+  a
+    +unstyled-link
