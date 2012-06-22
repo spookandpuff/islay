@@ -55,7 +55,6 @@ module Islay
         root = opts.delete(:root)
 
         if (root and request.original_url == url) or (!root and request.original_url.match(%r{^#{url}}))
-          logger.debug("URL: #{request.original_url} / #{url}, OPTS: #{opts.inspect}")
           if opts[:class]
             opts[:class] = "#{opts[:class]} current"
           else
