@@ -96,33 +96,49 @@ body.has-sub-header #content
     margin: 0.8em 0 0 0
     float: left
 
-  p
-    margin: 1em 1em 0 0
-    float: right
+  a
+    +unstyled-link
 
   ul, li, a
     float: left
 
-  a
-    border-left: 1px solid transparent
-    border-right: 1px solid transparent
-    text-decoration: none
-    font-weight: bold
-    color: $dark-grey
-    padding: 0.85em 0.6em 0 0.6em
-    height: $header-height - 0.85em
+  ul.nav
+    a
+      border-left: 1px solid transparent
+      border-right: 1px solid transparent
+      font-weight: bold
+      color: $dark-grey
+      padding: 0.85em 0.6em 0 0.6em
+      height: $header-height - 0.85em
 
-    &:before
-      margin-right: 0.4em
+      &:before
+        margin-right: 0.4em
+        font-weight: normal
 
-    &.current
-      +background-image(linear-gradient(#D8D8D8, #C7C7C7))
-      border-color: #B7B9C6
-      color: black
+      &.current
+        +background-image(linear-gradient(#D8D8D8, #C7C7C7))
+        border-color: #B7B9C6
+        color: black
 
-  li:first-child a
-    border-left-width: 0
+    li:first-child a
+      border-left-width: 0
 
+  ul.controls
+    margin: 0.55em 1em 0 0
+    float: right
+
+    a
+      +border-radius(0.2em)
+      +background-image(linear-gradient(#FFFFFF, #ECECEC - 10))
+      +islay-text-shadow
+      +box-shadow(rgba(255, 255, 255, 1) 1px 1px 0 1px, rgba(0, 0, 0, 0.04) -1px -1px 0 0)
+      border: 0.1em solid #C2CBD5 - 18
+      padding: 0.35em 0.8em 0.35em 0.6em
+      margin-left: 0.5em
+
+      &:before
+        font-size: 1.1em
+        padding-right: 0.3em
 /* -------------------------------------------------------------------------- */
 /* SUB HEADER
 /* -------------------------------------------------------------------------- */
@@ -142,26 +158,9 @@ body.has-sub-header #content
   a
     +unstyled-link
 
-  h2,
-  .controls
+  h2
     margin-top: 0.85em
 
-  .controls
-    margin: 0.55em 1em 0 0
-    float: right
-
-    a
-      +border-radius(0.2em)
-      +background-image(linear-gradient(#FFFFFF, #ECECEC - 10))
-      +islay-text-shadow
-      +box-shadow(rgba(255, 255, 255, 1) 1px 1px 0 1px, rgba(0, 0, 0, 0.04) -1px -1px 0 0)
-      border: 0.1em solid #C2CBD5 - 18
-      padding: 0.35em 0.8em 0.35em 0.6em
-      margin-left: 0.5em
-
-      &:before
-        font-size: 1.1em
-        padding-right: 0.3em
 
 
 /* -------------------------------------------------------------------------- */
@@ -216,6 +215,12 @@ body.has-sub-header #content
       +background-image(linear-gradient(#4D7BAE, $highlight-color))
       border-top-color: #6997CA
       border-bottom-color: $side-bar-color - 10
+
+#current-user
+  position: absolute
+  left: 1em
+  bottom: 1em
+  color: white
 
 /* -------------------------------------------------------------------------- */
 /* FOOTER
