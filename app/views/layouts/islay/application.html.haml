@@ -24,7 +24,7 @@
 
     %div#header
       - if @sub_nav_entries
-        %ul.sub-nav
+        %ul
           - @sub_nav_entries.each do |entry|
             %li= entry
       - else

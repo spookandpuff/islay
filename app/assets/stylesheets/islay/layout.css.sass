@@ -4,8 +4,8 @@
 /* -------------------------------------------------------------------------- */
 /* MEASUREMENTS
 /* -------------------------------------------------------------------------- */
-$header-height: 3.2em
-$sub-header-height: 2.8em
+$header-height: 2.8em
+$sub-header-height: 3em
 $footer-height: 3.2em
 $body-margin-top: $header-height + 2em
 $body-margin-left: 13.5em
@@ -87,7 +87,7 @@ body.has-sub-header #content
 /* HEADER
 /* -------------------------------------------------------------------------- */
 #header
-  +background-image(linear-gradient(#F2F2F2, #E4E4E4))
+  background: #F3F3F3
   border-bottom: 0.1em solid #B7B9C6
 
   h1
@@ -97,8 +97,31 @@ body.has-sub-header #content
     float: left
 
   p
-    margin: 1.15em 1em 0 0
+    margin: 1em 1em 0 0
     float: right
+
+  ul, li, a
+    float: left
+
+  a
+    border-left: 1px solid transparent
+    border-right: 1px solid transparent
+    text-decoration: none
+    font-weight: bold
+    color: $dark-grey
+    padding: 0.85em 0.6em 0 0.6em
+    height: $header-height - 0.85em
+
+    &:before
+      margin-right: 0.4em
+
+    &.current
+      +background-image(linear-gradient(#D8D8D8, #C7C7C7))
+      border-color: #B7B9C6
+      color: black
+
+  li:first-child a
+    border-left-width: 0
 
 /* -------------------------------------------------------------------------- */
 /* SUB HEADER

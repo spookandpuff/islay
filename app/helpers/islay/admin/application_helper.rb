@@ -74,7 +74,7 @@ module Islay
         root = opts.delete(:root)
 
         if (root and request.original_url == url) or (!root and request.original_url.match(%r{^#{url}}))
-          opts[:class] = 'current'
+          opts[:class] = opts[:class] ? "#{opts[:class]} current" : 'current'
         end
 
         @sub_nav_entries ||= []
