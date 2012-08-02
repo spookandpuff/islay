@@ -25,6 +25,7 @@ require "islay/query"
 require "islay/carrierwave"
 require "islay/extensions"
 require "islay/resourceful_controller"
+require "islay/sprockets"
 
 module Islay
 end

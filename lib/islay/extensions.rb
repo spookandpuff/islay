@@ -25,7 +25,36 @@ module Islay
     attr_reader :config
 
     def initialize
-      @config = {:nav_entries => []}
+      @config = {
+        :nav_entries => [],
+        :admin_scripts => false,
+        :admin_styles => false,
+        :public_styles => false
+      }
+    end
+
+    def admin_scripts(flag)
+      @config[:admin_scripts] = flag
+    end
+
+    def admin_scripts?
+      @config[:admin_scripts]
+    end
+
+    def admin_styles(flag)
+      @config[:admin_styles] = flag
+    end
+
+    def public_styles(flag)
+      @config[:public_styles] = flag
+    end
+
+    def admin_styles?
+      @config[:admin_styles]
+    end
+
+    def public_styles?
+      @config[:public_styles]
     end
 
     def namespace(v)

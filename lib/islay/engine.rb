@@ -9,6 +9,10 @@ module Islay
       g.test_framework  :test_unit
     end
 
+    initializer "islay.sprockets" do
+      Islay::Sprockets.configure(Rails.application)
+    end
+
     def self.extensions
       @@extensions ||= Extensions.new
       yield(@@extensions) if block_given?
