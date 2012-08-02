@@ -17,6 +17,24 @@ module Islay
         end
       end
 
+      # Creates a class name based on the #published? method of the argument.
+      #
+      # @param ActiveRecord::Base obj
+      #
+      # @return String
+      def published_class(obj)
+        obj.published ? 'published icon-ok' : 'unpublished icon-cancel'
+      end
+
+      # Converts a boolean value into a friendlier yes or no.
+      #
+      # @param Boolean bool
+      #
+      # @return String
+      def friendly_bool(bool)
+        bool ? "Yes" : "No"
+      end
+
       # Convenience helper for writing out a div column with the specified width.
       # Can optionally be given an id or extra classes. It's also possible to
       # change the element generated using the :el option.

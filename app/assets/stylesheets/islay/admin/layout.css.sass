@@ -7,17 +7,19 @@
 $header-height: 2.8em
 $sub-header-height: 3em
 $footer-height: 3.2em
-$body-margin-top: $header-height + 2em
 $body-margin-left: 13.5em
 
 /* -------------------------------------------------------------------------- */
 /* COLORS
 /* -------------------------------------------------------------------------- */
-$body-color: #F9F9F9
+$body-color: white
+$alt-body-color: #F9F9F9
 $side-bar-color: #232323
 $light-grey: #E1E1E1
 $dark-grey: #666
 $highlight-color: #2C5A8D
+$positive-color: #39A22B
+$negative-color: #C42217
 
 /* -------------------------------------------------------------------------- */
 /* MIXINS
@@ -25,12 +27,16 @@ $highlight-color: #2C5A8D
 @mixin islay-text-shadow($offset: 1px)
   +text-shadow(rgba(255, 255, 255, 0.9) $offset $offset 0)
 
+@mixin hide
+  position: absolute
+  left: -1000em
+
 /* -------------------------------------------------------------------------- */
 /* BODY SIZING
 /* -------------------------------------------------------------------------- */
 body
   background: $body-color
-  margin: $body-margin-top 2em 0 $body-margin-left + 2em
+  margin: $header-height 0 0 $body-margin-left
 
 body.has-footer #content
   margin-bottom: $footer-height + 1em
@@ -265,7 +271,7 @@ thead th
   border-bottom: 0.2em solid $light-grey
   color: $dark-grey
   font-size: 0.85em
-  padding: 0 0 0.7em 0
+  padding: 1.2em 0
 
 td
   border-bottom: 0.1em solid $light-grey
@@ -279,6 +285,10 @@ th.control
   text-indent: -1000em
   letter-spacing: -1000em
   width: 4em
+
+tr th:first-child,
+tr td:first-child
+  padding-left: 1.2em
 
 /* -------------------------------------------------------------------------- */
 /* SUB-NAV
