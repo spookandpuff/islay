@@ -4,8 +4,8 @@ module Islay
       layout 'layouts/islay/application'
       before_filter :authenticate_user!, :store_user_in_thread
 
-      class_attribute :_header, :_route_scopes
-      helper_method :_header
+      class_attribute :_header, :_route_scopes, :_nav
+      helper_method :_header, :_nav
 
       self._route_scopes = {}
 
@@ -15,6 +15,17 @@ module Islay
 
       def self.header(name)
         self._header = name
+      end
+
+      # A declaration for defining the path to a template containing the
+      # definition of a sub-navigation. This sub-navigation will then be
+      # displayed for all actions in the controller.
+      #
+      # @param String path
+      #
+      # @return String
+      def self.nav(path)
+        self._nav = path
       end
 
       def self.resourceful(model, opts = {})

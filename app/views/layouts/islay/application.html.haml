@@ -1,7 +1,10 @@
 !!!
 %html
   %head
-    %title Islay
+    %title
+      Islay
+      - if _header
+        \- #{_header}
     %meta(http-equiv='Content-Type' content='text/html')
     %meta(content="text/html;charset=UTF-8" http-equiv="Content-Type")
 
@@ -26,22 +29,29 @@
         = current_user.name
 
     %div#header
-      - if @sub_nav_entries
+      - if _nav
+        - render :partial => _nav
+
+      - if sub_nav?
+        %h1.hide= _header
+
         %ul.nav
-          - @sub_nav_entries.each do |entry|
+          - sub_nav_entries.each do |entry|
             %li= entry
+
       - else
-        %h1= @header || _header
+        %h1= _header
 
-      - if @control_entries
+      - if controls?
         %ul.controls
-          - @control_entries.each do |entry|
+          - control_entries.each do |entry|
             %li= entry
 
-    - if @has_sub_header
+    - if show_sub_bar?
       %div#sub-header
-        - if @sub_header
-          = @sub_header
-
+        - if sub_header?
+          = sub_header_entry
+        - elsif filter_nav?
+          %p Filters
 
     = yield

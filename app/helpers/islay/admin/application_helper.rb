@@ -1,6 +1,10 @@
 module Islay
   module Admin
     module ApplicationHelper
+      # Accessors used to store various bits of configuration, which are then
+      # used in the main layout of the admin,
+      attr_reader :sub_nav_entries, :control_entries, :sub_header_entry, :filter_entries
+
       # A convenience helper which automatically injects the Islay::Formbuilder
       # into the options and injects an error display if necessary.
       def resource_form(object, *args, &block)
@@ -56,12 +60,17 @@ module Islay
       # Writes out a sub heading bar. Can be also used as a sub navigation bar
       # by passing a block with the markup.
       def sub_header(header = nil, suffix = nil, &blk)
-        @has_sub_header = true
-
         header << ": #{suffix}" if suffix
-        @sub_header = content = ''.html_safe
-        @sub_header << content_tag(:h2, header) if header
-        @sub_header << capture(&blk) if block_given?
+        @sub_header_entry = content = ''.html_safe
+        @sub_header_entry << content_tag(:h2, header) if header
+        @sub_header_entry << capture(&blk) if block_given?
+      end
+
+      # Indicates if there is a sub-header defined.
+      #
+      # @return Boolean
+      def sub_header?
+        !!@sub_header_entry
       end
 
       # Adds and entry to the main navigation bar. It will additionally highlight
@@ -83,12 +92,40 @@ module Islay
         content_tag(:li, link_to(name, url, opts))
       end
 
+      # Indicates if the sub-bar — containing titles and filters — should be
+      # displayed.
+      #
+      # @return Boolean
+      def show_sub_bar?
+        sub_header? or filter_nav?
+      end
+
+      # Adds an entry into the filter navigation, which appears below the
+      # sub-navigation. Typically used to filter lists of records.
+      #
+      # @param String name displayed in the link
+      # @param String url href value for link
+      # @param Hash opts options which are passed directly to the link_to helper
+      #
+      # @return Array<String>
+      def filter_nav(name, url, opts = {})
+
+      end
+
+      # Indicates if any filter nav entries have been specified.
+      #
+      # @return Boolean
+      def filter_nav?
+        false
+      end
+
       # Adds an entry into the sub navigation, which will appear in the bar
       # below the main header. Works in conjunction with the #control helper
       # but not the #sub_header helper; the nav and sub header sit in the same
       # place on screen.
+      #
+      # @return Array<String>
       def sub_nav(name, url, opts = {})
-        @has_sub_header = true
         root = opts.delete(:root)
 
         if (root and request.original_url == url) or (!root and request.original_url.match(%r{^#{url}}))
@@ -99,14 +136,26 @@ module Islay
         @sub_nav_entries << link_to(name, url, opts)
       end
 
+      # Indicates if any sub-nav entries have been defined.
+      #
+      # @return Boolean
+      def sub_nav?
+        @sub_nav_entries and !@sub_nav_entries.empty?
+      end
+
       # Writes a link out into the bar below the main header. Usually used in
       # conjunction with the #sub_header or #sub_nav helpers, but never both;
       # there is not enough room in the bar.
       def control(name, url, type)
-        @has_sub_header = true
-
         @control_entries ||= []
         @control_entries << link_to(name, url, :class => "#{type} #{type}-icon")
+      end
+
+      # Indicates if any section controls have been defined.
+      #
+      # @return Boolean
+      def controls?
+        @control_entries and !@control_entries.empty?
       end
 
       # This method is used to capture the main content for a page and wrap it
@@ -137,7 +186,7 @@ module Islay
       def body_class
         output = params['action'].dasherize
         output << ' has-footer' if @has_footer
-        output << ' has-sub-header' if @has_sub_header
+        output << ' has-sub-header' if show_sub_bar?
 
         output
       end
