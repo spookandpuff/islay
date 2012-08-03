@@ -16,6 +16,7 @@ $body-color: white
 $alt-body-color: #F9F9F9
 $side-bar-color: #232323
 $light-grey: #E1E1E1
+$mid-grey: #979797
 $dark-grey: #666
 $highlight-color: #2C5A8D
 $positive-color: #39A22B
@@ -170,7 +171,40 @@ body.has-sub-header #content
   h2
     margin-top: 0.85em
 
+/* -------------------------------------------------------------------------- */
+/* FILTERS
+/* Filters listings of records
+/* -------------------------------------------------------------------------- */
+#sub-header
+  p.filters,
+  p.sort
+    margin: 1.1em 0.5em 0 0.5em
+    font-weight: bold
+    float: left
 
+  ul.filters,
+  ul.sort
+    margin: 0.7em 0 0 0.5em
+    float: left
+
+    li, a
+      float: left
+
+    a
+      +border-radius(0.4em)
+      color: $dark-grey
+      border: 0.1em solid transparent
+      padding: 0.35em 0.6em
+
+      &.current
+        color: black
+        background-color: $light-grey
+        border-color: $mid-grey
+
+  p.sort
+    border-left: 0.1em solid $mid-grey
+    margin-left: 1em
+    padding-left: 1em
 
 /* -------------------------------------------------------------------------- */
 /* SIDE BAR
