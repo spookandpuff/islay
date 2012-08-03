@@ -3,7 +3,7 @@ module Islay
     module ApplicationHelper
       # Accessors used to store various bits of configuration, which are then
       # used in the main layout of the admin,
-      attr_reader :sub_nav_entries, :control_entries, :sub_header_entry, :filter_entries
+      attr_reader :sub_nav_entries, :filter_nav_entries, :sort_nav_entries, :control_entries, :sub_header_entry, :filter_entries
 
       # A convenience helper which automatically injects the Islay::Formbuilder
       # into the options and injects an error display if necessary.
@@ -97,7 +97,26 @@ module Islay
       #
       # @return Boolean
       def show_sub_bar?
-        sub_header? or filter_nav?
+        sub_header? or filter_nav? or sort_nav?
+      end
+
+      # A utility method shared between the nav methods, which handles flagging
+      # a nav entry as the current.
+      #
+      # @param Array ivar the instance variable to append entries to
+      # @param String name displayed in the link
+      # @param String url href value for link
+      # @param Hash opts options which are passed directly to the link_to helper
+      #
+      # @return Array<String>
+      def add_nav_entry(ivar, name, url, opts)
+        root = opts.delete(:root)
+
+        if (root and request.original_url == url) or (!root and request.original_url.match(%r{^#{url}}))
+          opts[:class] = opts[:class] ? "#{opts[:class]} current" : 'current'
+        end
+
+        ivar << link_to(name, url, opts)
       end
 
       # Adds an entry into the filter navigation, which appears below the
@@ -109,14 +128,33 @@ module Islay
       #
       # @return Array<String>
       def filter_nav(name, url, opts = {})
-
+        add_nav_entry(@filter_nav_entries ||= [], name, url, opts)
       end
 
       # Indicates if any filter nav entries have been specified.
       #
       # @return Boolean
       def filter_nav?
-        false
+        @filter_nav_entries and !@filter_nav_entries.empty?
+      end
+
+      # Adds an entry into the sort navigation. This is a control which allows
+      # uses to change the order in which lists of records are displayed.
+      #
+      # @param String name displayed in the link
+      # @param String url href value for link
+      # @param Hash opts options which are passed directly to the link_to helper
+      #
+      # @return Array<String>
+      def sort_nav(name, url, opts = {})
+        add_nav_entry(@sort_nav_entries ||= [], name, url, opts)
+      end
+
+      # Indicates if any sort nav entries have been specified.
+      #
+      # @return Boolean
+      def sort_nav?
+        @sort_nav_entries and !@sort_nav_entries.empty?
       end
 
       # Adds an entry into the sub navigation, which will appear in the bar
@@ -126,14 +164,7 @@ module Islay
       #
       # @return Array<String>
       def sub_nav(name, url, opts = {})
-        root = opts.delete(:root)
-
-        if (root and request.original_url == url) or (!root and request.original_url.match(%r{^#{url}}))
-          opts[:class] = opts[:class] ? "#{opts[:class]} current" : 'current'
-        end
-
-        @sub_nav_entries ||= []
-        @sub_nav_entries << link_to(name, url, opts)
+        add_nav_entry(@sub_nav_entries ||= [], name, url, opts)
       end
 
       # Indicates if any sub-nav entries have been defined.

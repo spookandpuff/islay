@@ -38,10 +38,13 @@ Rails.application.routes.draw do
           end
         end
 
-        asset_resources = [:assets, :image_assets, :document_assets, :video_assets, :audio_assets]
-        asset_resources.each do |as|
-          resources as, :controller => 'assets', :defaults => {:type => as}, &asset_resource
+        asset_resources = %w(image document video audio)
+        asset_resources.each do |s|
+          as = "#{s}_assets".to_sym
+          resources as, :path => "assets/#{s.pluralize}", :controller => 'assets', :defaults => {:type => as}, &asset_resource
         end
+
+        resources :assets, :defaults => {:type => :assets}, &asset_resource
       end
     end
 
