@@ -114,41 +114,32 @@ body.has-sub-header #content
 
   ul.nav
     a
-      border-left: 1px solid transparent
-      border-right: 1px solid transparent
+      +text-shadow(white 1px 1px 1px)
       font-weight: bold
       color: $dark-grey
       padding: 0.85em 0.6em 0 0.6em
-      height: $header-height - 0.85em
+      height: $header-height - 0.75em
 
       &:before
+        font-size: 1.2em
         margin-right: 0.4em
         font-weight: normal
 
       &.current
-        +background-image(linear-gradient(#D8D8D8, #C7C7C7))
-        border-color: #B7B9C6
-        color: black
+        +background-image(linear-gradient(#4D7BAE, $highlight-color + 15))
+        +text-shadow(rgba(0, 0, 0, 0.3) -1px -1px 1px)
+        color: white
 
     li:first-child a
       border-left-width: 0
 
   ul.controls
-    margin: 0.55em 1em 0 0
+    margin: 0.4em 1em 0 0
     float: right
 
     a
-      +border-radius(0.2em)
-      +background-image(linear-gradient(#FFFFFF, #ECECEC - 10))
-      +islay-text-shadow
-      +box-shadow(rgba(255, 255, 255, 1) 1px 1px 0 1px, rgba(0, 0, 0, 0.04) -1px -1px 0 0)
-      border: 0.1em solid #C2CBD5 - 18
-      padding: 0.35em 0.8em 0.35em 0.6em
       margin-left: 0.5em
 
-      &:before
-        font-size: 1.1em
-        padding-right: 0.3em
 /* -------------------------------------------------------------------------- */
 /* SUB HEADER
 /* -------------------------------------------------------------------------- */
@@ -226,7 +217,7 @@ body.has-sub-header #content
       border: 0.1em solid $side-bar-color - 6
       width: $body-margin-left - 1.8em
       margin-left: 1em
-      margin-top: 0.75em
+      margin-top: 0.5em
       padding: 0.6em 1em
 
   ul
@@ -295,6 +286,34 @@ $i: 0
   #content .count-#{$i}
     width: $column-width * $i + $gutter-width * $j
     margin-right: $gutter-width
+
+/* -------------------------------------------------------------------------- */
+/* BUTTONS
+/* -------------------------------------------------------------------------- */
+a.button,
+button
+  +border-radius(0.3em)
+  +background-image(linear-gradient(white, $light-grey))
+  +box-shadow(rgba(0, 0, 0, 0.05), -1px -1px 1px)
+  +islay-text-shadow
+  color: #222
+  font-weight: bold
+  border: 0.1em solid #C2CBD5 - 18
+  padding: 0.5em 0.8em 0.35em 0.6em
+
+a.button
+  &:before
+    font-family: icons
+    font-weight: normal
+    font-size: 1.1em
+    padding-right: 0.4em
+    color: $dark-grey
+
+  &.new:before
+    content: "➕"
+
+  &.upload:before
+    content: "↑"
 
 /* -------------------------------------------------------------------------- */
 /* TABLE

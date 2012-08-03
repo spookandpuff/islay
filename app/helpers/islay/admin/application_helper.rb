@@ -179,7 +179,7 @@ module Islay
       # there is not enough room in the bar.
       def control(name, url, type)
         @control_entries ||= []
-        @control_entries << link_to(name, url, :class => "#{type} #{type}-icon")
+        @control_entries << link_to(name, url, :class => "button #{type}")
       end
 
       # Indicates if any section controls have been defined.
