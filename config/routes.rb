@@ -23,7 +23,7 @@ Rails.application.routes.draw do
 
         # Collections and Albums
         resources(:asset_collections, :controller => 'asset_groups', :path => 'collections', :defaults => {:type => 'collection'}) { get :delete, :on => :member }
-        resources(:asset_albums,      :controller => 'asset_groups', :path => 'albums', :defaults => {:type => 'album'}) { get :delete, :on => :member }
+        resources(:asset_albums,      :controller => 'asset_groups', :path => 'collections/albums', :defaults => {:type => 'album'}) { get :delete, :on => :member }
 
         # Assets
         asset_resource = lambda do

@@ -39,11 +39,11 @@ body
   background: $body-color
   margin: $header-height 0 0 $body-margin-left
 
-body.has-footer #content
+body.has-footer
   margin-bottom: $footer-height + 1em
 
-body.has-sub-header #content
-  margin-top: $sub-header-height
+body.has-sub-header
+  margin-top: $header-height + $sub-header-height
 
 /* -------------------------------------------------------------------------- */
 /* MAIN CONTENT BLOCKS
@@ -160,7 +160,7 @@ body.has-sub-header #content
     +unstyled-link
 
   h2
-    margin-top: 0.85em
+    margin-top: 1.1em
 
 /* -------------------------------------------------------------------------- */
 /* FILTERS
