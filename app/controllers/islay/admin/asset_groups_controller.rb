@@ -3,6 +3,11 @@ module Islay
     class AssetGroupsController < ApplicationController
       resourceful :asset_group
       header 'Asset Library'
+      nav 'islay/admin/asset_library/nav'
+
+      def index
+
+      end
 
       def new
         new_group

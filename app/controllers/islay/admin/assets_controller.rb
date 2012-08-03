@@ -3,6 +3,7 @@ module Islay
     class AssetsController < ApplicationController
       resourceful :asset
       header 'Asset Library'
+      nav 'islay/admin/asset_library/nav'
 
       before_filter :find_album, :only => [:new, :create]
 

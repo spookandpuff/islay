@@ -2,6 +2,7 @@ module Islay
   module Admin
     class AssetLibraryController < ApplicationController
       header 'Asset Library'
+      nav 'nav'
 
       def index
         @asset_groups = AssetGroup.where(:asset_group_id => nil).order('type DESC, name DESC')
