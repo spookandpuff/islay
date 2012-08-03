@@ -1,4 +1,12 @@
 /* -------------------------------------------------------------------------- */
+/* BACKGROUND
+/* -------------------------------------------------------------------------- */
+#islay-admin-asset-library,
+#islay-admin-asset-groups,
+#islay-admin-assets
+  background: $alt-body-color
+
+/* -------------------------------------------------------------------------- */
 /* ASSET TREE
 /* -------------------------------------------------------------------------- */
 ul.asset-tree
@@ -71,12 +79,14 @@ ul.asset-tree
 ul.asset-grid li
   +border-radius(0.2em)
   +single-box-shadow(rgba(0, 0, 0, 0.03), 0, 0, 0, 2px)
+  border: 0.1em solid $light-grey
   background: white
   margin-bottom: 1.5em
   float: left
 
   .frame
     text-align: center
+    border: 0.1em solid $light-grey
     margin: 0 0 0 10%
     width: 80%
     margin-top: 1em
@@ -103,6 +113,7 @@ ul.asset-grid li
 /* ASSET GRID
 /* -------------------------------------------------------------------------- */
 ul.asset-grid
+  margin: 1em 0 0 0
   width: 100%
   float: left
 
