@@ -59,17 +59,22 @@ module Islay
 
       # A shortcut for generating routes namespaced to the Admin module.
       def path(*args)
+        opts = args.pop if args.last.is_a?(Hash)
         first, second, rest = args
 
-        if first.is_a?(::ActiveRecord::Base)
-          url_for([:admin, *args])
+        url_opts = if first.is_a?(::ActiveRecord::Base)
+          [[:admin, *args], opts]
         elsif first.is_a?(Symbol)
           if second.is_a?(::ActiveRecord::Base) || second.is_a?(Symbol)
-            url_for([first, :admin, second, *rest])
+            [[first, :admin, second, *rest], opts]
           else
-            url_for([:admin, *args])
+            [[:admin, *args], opts]
           end
         end
+
+        url_opts.compact!
+
+        polymorphic_url(*url_opts)
       end
     end
   end
