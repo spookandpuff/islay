@@ -327,27 +327,30 @@ table
 
 thead th
   text-transform: uppercase
-  border-bottom: 0.2em solid $light-grey
+  border-bottom: 0.1em solid $light-grey
   color: $dark-grey
   font-size: 0.85em
-  padding: 1.2em 0
+  padding: 1.2em 1em
 
 td
-  border-bottom: 0.1em solid $light-grey
-  padding: 0.8em 0
+  padding: 0.8em 1em
 
-tr td:first-child
-  text-indent: 0.3em
-  font-weight: bold
+tr:nth-child(even)
+  td, th
+    background-color: #F7F8F9
 
 th.control
   text-indent: -1000em
   letter-spacing: -1000em
   width: 4em
 
+th,
+td
+  border-left: 0.1em solid $light-grey
+
 tr th:first-child,
 tr td:first-child
-  padding-left: 1.2em
+  border-left-width: 0
 
 /* -------------------------------------------------------------------------- */
 /* SUB-NAV
