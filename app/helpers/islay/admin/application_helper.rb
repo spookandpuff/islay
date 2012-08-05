@@ -47,16 +47,6 @@ module Islay
         content_tag(opts.delete(:el) || :div, capture(&blk), opts)
       end
 
-      # Writes out the sub-heading bar for a section of the admin. In the simplest
-      # case it can be called with just a string. It will then generate the bar
-      # with a H1:
-      #
-      #   header('Welcome') # => '<div id="sub-header"><h1>Welcome</h1></div>'
-      #
-      def header(str)
-        @header = str
-      end
-
       # Writes out a sub heading bar. Can be also used as a sub navigation bar
       # by passing a block with the markup.
       def sub_header(header, suffix = nil)
