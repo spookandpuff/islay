@@ -51,7 +51,8 @@
       %div#sub-header
         - if sub_header?
           = sub_header_entry
-        - elsif filter_nav?
+
+        - if filter_nav?
           %ul.filters
             = filter_nav_entries
 

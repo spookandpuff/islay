@@ -262,13 +262,49 @@ module Islay
 
       # Places the contents of a block in a div positioned at the bottom of the
       # screen.
+      #
+      # @param Hash opts
+      # @param Block
+      #
+      # @return String
       def footer(opts = {}, &blk)
         @has_footer = true
         content_tag(:div, capture(&blk), opts.merge(:id => 'footer'))
       end
 
+      # Creates an edit button for a record.
+      #
+      # @param ActiveRecord::Base record
+      #
+      # @return String
+      def edit_button(record)
+        link_to('Edit', path(:edit, record), :class => 'button edit')
+      end
+
+      # Creates a delete button for a record.
+      #
+      # @param ActiveRecord::Base record
+      #
+      # @return String
+      def delete_button(record)
+        link_to('Delete', path(:delete, record), :class => 'button delete')
+      end
+
+      # Creates a new button for a record.
+      #
+      # @param String text link text
+      # @param Symbol resource the new resource to create
+      # @param Hash opts options passed to the url generator
+      #
+      # @return String
+      def new_button(text, resource, opts = {})
+        link_to(text, path(:new, resource, opts), :class => 'button new')
+      end
+
       # Used to attach an ID to the body of the layout. This is then used as a
       # hook for attaching Javascript initializers to specific pages.
+      #
+      # @return String
       def body_id
         params['controller'].gsub(/[\/_]/, '-')
       end

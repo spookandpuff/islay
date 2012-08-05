@@ -266,6 +266,14 @@ body.has-sub-header
   +background-image(linear-gradient(#FFFFFF, #ECECEC))
   border-top: 0.1em solid #C2CBD5
 
+  .button
+    margin: 0.5em 0 0 0.5em
+
+  .edit,
+  .delete
+    float: right
+    margin: 0.5em 0.5em 0 0
+
 /* -------------------------------------------------------------------------- */
 /* GRID
 /* -------------------------------------------------------------------------- */
@@ -303,8 +311,11 @@ button
   font-weight: bold
   border: 0.1em solid #C2CBD5 - 18
   padding: 0.5em 0.8em 0.35em 0.6em
+  float: left
 
 a.button
+  text-decoration: none
+
   &:before
     font-family: icons
     font-weight: normal
@@ -318,10 +329,17 @@ a.button
   &.upload:before
     content: "↑"
 
+  &.edit:before
+    content: "✎"
+
+  &.delete:before
+    content: "➖"
+
 /* -------------------------------------------------------------------------- */
 /* TABLE
 /* -------------------------------------------------------------------------- */
 table
+  border-bottom: 0.1em solid $light-grey
   width: 100%
   float: left
 
@@ -335,7 +353,7 @@ thead th
 td
   padding: 0.8em 1em
 
-tr:nth-child(even)
+tr:nth-child(odd)
   td, th
     background-color: #F7F8F9
 
