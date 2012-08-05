@@ -8,11 +8,11 @@ module Islay
       before_filter :find_album, :only => [:new, :create]
 
       def index
-        klass = case params[:type]
-        when :image_assets    then ImageAsset
-        when :document_assets then DocumentAsset
-        when :video_assets    then VideoAsset
-        when :audio_assets    then AudioAsset
+        klass = case params[:filter]
+        when 'images'    then ImageAsset
+        when 'documents' then DocumentAsset
+        when 'videos'    then VideoAsset
+        when 'audio'     then AudioAsset
         else Asset
         end
 

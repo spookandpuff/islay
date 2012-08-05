@@ -53,13 +53,10 @@
           = sub_header_entry
         - elsif filter_nav?
           %ul.filters
-            - filter_nav_entries.each do |entry|
-              %li= entry
+            = filter_nav_entries
 
         - if sort_nav?
-          %p.sort Order
           %ul.sort
-            - sort_nav_entries.each do |entry|
-              %li= entry
+            = sort_nav_entries
 
     = yield

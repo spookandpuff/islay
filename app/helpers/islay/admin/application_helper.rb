@@ -3,7 +3,7 @@ module Islay
     module ApplicationHelper
       # Accessors used to store various bits of configuration, which are then
       # used in the main layout of the admin,
-      attr_reader :sub_nav_entries, :filter_nav_entries, :sort_nav_entries, :control_entries, :sub_header_entry, :filter_entries
+      attr_reader :sub_nav_entries, :control_entries, :sub_header_entry
 
       # A convenience helper which automatically injects the Islay::Formbuilder
       # into the options and injects an error display if necessary.
@@ -119,42 +119,107 @@ module Islay
         ivar << link_to(name, url, opts)
       end
 
+      # A helper method for adding navigation entried for the filter and sort
+      # controls.
+      #
+      # @param Hash<Array> config
+      #
+      # @return String
+      def output_nav_entries(config)
+        if !config[:current] and config[:default]
+          config[:default] << true
+        end
+
+        config[:entries].map do |e|
+          name, url, current = e
+          if current
+            content_tag(:li, link_to(name, url, :class => 'current'))
+          else
+            content_tag(:li, link_to(name, url))
+          end
+        end.join.html_safe
+      end
+
       # Adds an entry into the filter navigation, which appears below the
       # sub-navigation. Typically used to filter lists of records.
       #
-      # @param String name displayed in the link
-      # @param String url href value for link
-      # @param Hash opts options which are passed directly to the link_to helper
+      # @param Symbol route the route set to use to generate link
+      # @param String name to display
+      # @param String by the field to filter by
       #
-      # @return Array<String>
-      def filter_nav(name, url, opts = {})
-        add_nav_entry(@filter_nav_entries ||= [], name, url, opts)
+      # @return Hash<Array>
+      def filter_nav(route, name, by = nil)
+        @filter_nav ||= {:entries => []}
+
+        if by
+          url = path(:filter_and_sort, route, :filter => by, :sort => params[:sort])
+          if request.original_url.match(%r{^#{url}})
+            @filter_nav[:current] = url
+            @filter_nav[:entries] << [name, url, true]
+          else
+            @filter_nav[:entries] << [name, url]
+          end
+        else
+          url = path(:filter_and_sort, route, :filter => nil, :sort => params[:sort])
+          entry = [name, url]
+          @filter_nav[:default] = entry
+          @filter_nav[:entries] << entry
+        end
       end
 
       # Indicates if any filter nav entries have been specified.
       #
       # @return Boolean
       def filter_nav?
-        @filter_nav_entries and !@filter_nav_entries.empty?
+        !!@filter_nav
+      end
+
+      # Generates a HTML safe string of the filter nav entries
+      #
+      # @return String
+      def filter_nav_entries
+        output_nav_entries(@filter_nav)
       end
 
       # Adds an entry into the sort navigation. This is a control which allows
       # uses to change the order in which lists of records are displayed.
       #
-      # @param String name displayed in the link
-      # @param String url href value for link
-      # @param Hash opts options which are passed directly to the link_to helper
+      # @param Symbol route the route set to use to generate link
+      # @param String name to display
+      # @param String by the field to sort by
       #
-      # @return Array<String>
-      def sort_nav(name, url, opts = {})
-        add_nav_entry(@sort_nav_entries ||= [], name, url, opts)
+      # @return Hash<Array>
+      def sort_nav(route, name, by = nil)
+        @sort_nav ||= {:entries => []}
+
+        if by
+          url = path(:filter_and_sort, route, :sort => by, :filter => params[:filter])
+          if request.original_url.match(%r{^#{url}})
+            @sort_nav[:current] = url
+            @sort_nav[:entries] << [name, url, true]
+          else
+            @sort_nav[:entries] << [name, url]
+          end
+        else
+          url = path(:filter_and_sort, route, :sort => nil, :filter => params[:filter])
+          entry = [name, url]
+          @sort_nav[:default] = entry
+          @sort_nav[:entries] << entry
+        end
       end
 
       # Indicates if any sort nav entries have been specified.
       #
       # @return Boolean
       def sort_nav?
-        @sort_nav_entries and !@sort_nav_entries.empty?
+        !!@sort_nav
+      end
+
+      # Generates a HTML safe string of the sort nav entries
+      #
+      # @return String
+      def sort_nav_entries
+        output_nav_entries(@sort_nav)
       end
 
       # Adds an entry into the sub navigation, which will appear in the bar

@@ -167,12 +167,6 @@ body.has-sub-header
 /* Filters listings of records
 /* -------------------------------------------------------------------------- */
 #sub-header
-  p.filters,
-  p.sort
-    margin: 1.1em 0.5em 0 0.5em
-    font-weight: bold
-    float: left
-
   ul.filters,
   ul.sort
     margin: 0.7em 0 0 0.5em
@@ -192,10 +186,19 @@ body.has-sub-header
         background-color: $light-grey
         border-color: $mid-grey
 
-  p.sort
+  ul.sort
     border-left: 0.1em solid $mid-grey
     margin-left: 1em
     padding-left: 1em
+
+    &:before
+      color: $mid-grey
+      font-family: icons
+      font-size: 1.8em
+      margin-right: 0.5em
+      margin-top: 0.05em
+      content: "☰"
+      float: left
 
 /* -------------------------------------------------------------------------- */
 /* SIDE BAR

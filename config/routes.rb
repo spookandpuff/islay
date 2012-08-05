@@ -28,7 +28,7 @@ Rails.application.routes.draw do
         # Assets
         asset_resource = lambda do
           collection do
-            get '(sort-:sort)', :action => 'index', :as => 'sort'
+            get '(/filter-:filter)(/sort-:sort)', :action => :index, :as => 'filter_and_sort'
             get :bulk
             post :bulk, :action => 'bulk_create'
           end

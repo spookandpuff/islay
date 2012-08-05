@@ -1,8 +1,12 @@
-- filter_nav('All', path(:assets), :root => true)
-- filter_nav('Images', path(:image_assets))
-- filter_nav('Documents', path(:document_assets))
-- filter_nav('Videos', path(:video_assets))
-- filter_nav('Audio', path(:audio_assets))
+- filter_nav(:assets, 'All')
+- filter_nav(:assets, 'Images', 'images')
+- filter_nav(:assets, 'Documents', 'documents')
+- filter_nav(:assets, 'Videos', 'videos')
+- filter_nav(:assets, 'Audio', 'audio')
+
+- sort_nav(:assets, 'Name')
+- sort_nav(:assets, 'Created', 'created_at')
+- sort_nav(:assets, 'Updated', 'updated_at')
 
 = content do
   = render :partial => 'grid', :locals => {:assets => @assets, :size => 2}
