@@ -59,11 +59,12 @@ module Islay
 
       # Writes out a sub heading bar. Can be also used as a sub navigation bar
       # by passing a block with the markup.
-      def sub_header(header = nil, suffix = nil, &blk)
-        header << ": #{suffix}" if suffix
-        @sub_header_entry = content = ''.html_safe
-        @sub_header_entry << content_tag(:h2, header) if header
-        @sub_header_entry << capture(&blk) if block_given?
+      def sub_header(header, suffix = nil)
+        @sub_header_entry = if suffix
+          content_tag(:h2, (content_tag(:strong, header + ': ') + suffix).html_safe)
+        else
+          content_tag(:h2, header)
+        end
       end
 
       # Indicates if there is a sub-header defined.
@@ -222,6 +223,13 @@ module Islay
         output_nav_entries(@sort_nav)
       end
 
+      # Indicates if the filter or sorting nav should be displayed.
+      #
+      # @return Boolean
+      def filter_or_sort_nav?
+        sort_nav? or filter_nav?
+      end
+
       # Adds an entry into the sub navigation, which will appear in the bar
       # below the main header. Works in conjunction with the #control helper
       # but not the #sub_header helper; the nav and sub header sit in the same
@@ -318,7 +326,7 @@ module Islay
       def body_class
         output = params['action'].dasherize
         output << ' has-footer' if @has_footer
-        output << ' has-sub-header' if show_sub_bar?
+        output << ' has-sub-header' if sub_header?
 
         output
       end

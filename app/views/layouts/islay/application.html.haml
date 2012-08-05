@@ -52,12 +52,12 @@
         - if sub_header?
           = sub_header_entry
 
-        - if filter_nav?
-          %ul.filters
-            = filter_nav_entries
-
         - if sort_nav?
           %ul.sort
             = sort_nav_entries
+
+        - if filter_nav?
+          %ul.filters
+            = filter_nav_entries
 
     = yield
