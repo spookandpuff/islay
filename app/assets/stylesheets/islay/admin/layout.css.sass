@@ -21,6 +21,8 @@ $dark-grey: #666
 $highlight-color: #2C5A8D
 $positive-color: #39A22B
 $negative-color: #C42217
+$neutral-color: #439DF3
+$header-border-color: #C2CBD5
 
 /* -------------------------------------------------------------------------- */
 /* MIXINS
@@ -149,7 +151,7 @@ body.has-sub-header
 /* -------------------------------------------------------------------------- */
 #sub-header
   +background-image(linear-gradient(#FFFFFF, #ECECEC))
-  border-bottom: 0.1em solid #C2CBD5
+  border-bottom: 0.1em solid $header-border-color
 
   h2
     +islay-text-shadow
