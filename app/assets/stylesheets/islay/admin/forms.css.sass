@@ -330,6 +330,18 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     margin-left: 1.5em
 
 /* -------------------------------------------------------------------------- */
+/* ERROR FLAGS
+/* -------------------------------------------------------------------------- */
+span.error
+  +border-radius(0 0.2em 0.2em 0)
+  background: left center no-repeat image-url('islay/admin/error-tag.png')
+  color: white
+  padding: $input-v-padding 0.6em $input-v-padding 1.3em
+  margin: 0.35em 0 0 1em
+  float: left
+
+
+/* -------------------------------------------------------------------------- */
 /* MEMBER TREE
 /* -------------------------------------------------------------------------- */
 fieldset.member-tree
