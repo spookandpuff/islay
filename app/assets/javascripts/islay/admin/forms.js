@@ -409,7 +409,7 @@ Islay.Widgets.Select = Islay.Widgets.Base.extend({
 
   render: function() {
     this.display = $H('div.display');
-    this.button = $H('div.button', $H('span', '>'));
+    this.button = $H('div.button', $H('span', '▾'));
     var frame = $H('div.frame', [this.display, this.button]);
     this.list = $H('ul.list');
 
@@ -455,8 +455,8 @@ Islay.Widgets.Boolean = Islay.Widgets.Base.extend({
   },
 
   render: function() {
-    this.optionOff = $H('li.button.optionOff', $H('span', 'x'));
-    this.optionOn = $H('li.button.optionOn', $H('span', 't'));
+    this.optionOff = $H('li.button.optionOff', $H('span', '✕'));
+    this.optionOn = $H('li.button.optionOn', $H('span', '✓'));
     var frame = $H('ul.frame', [this.optionOff, this.optionOn]);
     this.widget.append(frame);
 
@@ -498,7 +498,7 @@ Islay.Widgets.Destroy = Islay.Widgets.SimpleBase.extend({
 
   render: function() {
     this.$el.children().remove();
-    this.$el.addClass('delete').addClass('widget').append($H('div', $H('span', 'x')));
+    this.$el.addClass('delete').addClass('widget').append($H('div', $H('span', '✖')));
 
     return this;
   }
@@ -531,8 +531,8 @@ Islay.Widgets.Position = Islay.Widgets.SimpleBase.extend({
     this.$el.find('input').hide();
     this.$el.addClass('position').addClass('widget');
     this.$el.append(
-      $H('div.up', $H('span', '>')),
-      $H('div.down', $H('span', '<'))
+      $H('div.up', $H('span', '▴')),
+      $H('div.down', $H('span', '▾'))
     );
 
     return this;

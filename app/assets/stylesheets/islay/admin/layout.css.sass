@@ -41,8 +41,8 @@ body
   background: $body-color
   margin: $header-height 0 0 $body-margin-left
 
-body.has-footer
-  margin-bottom: $footer-height + 1em
+body.has-footer #content
+  margin-bottom: $footer-height + 1em !important
 
 body.has-sub-header
   margin-top: $header-height + $sub-header-height
@@ -277,12 +277,13 @@ body.has-sub-header
   border-top: 0.1em solid #C2CBD5
 
   .button
-    margin: 0.5em 0 0 0.5em
+    margin: 0.5em 0 0 1em
 
   .edit,
-  .delete
+  .delete,
+  .save
     float: right
-    margin: 0.5em 0.5em 0 0
+    margin: 0.5em 1em 0 0
 
 /* -------------------------------------------------------------------------- */
 /* GRID
@@ -323,9 +324,6 @@ button
   padding: 0.5em 0.8em 0.35em 0.6em
   float: left
 
-a.button
-  text-decoration: none
-
   &:before
     font-family: icons
     font-weight: normal
@@ -333,6 +331,10 @@ a.button
     padding-right: 0.4em
     color: $dark-grey
 
+button
+  padding: 0.45em 0.8em 0.3em 0.6em
+
+.button
   &.new:before
     content: "➕"
 
@@ -344,6 +346,34 @@ a.button
 
   &.delete:before
     content: "➖"
+
+button.save,
+.button.delete,
+.button.edit
+  +text-shadow(rgba(0, 0, 0, 0.3) -1px -1px 2px)
+  color: white
+
+  &:before
+    color: white
+
+button.save
+  +background-image(linear-gradient(#4D7BAE, $highlight-color - 10))
+  font-size: 1em
+  border-color: #395C7F
+
+  &:before
+    content: '⚡'
+
+.button.delete
+  +background-image(linear-gradient(#FF1646, #B2000C))
+  border-color: #A62325
+
+.button.edit
+  +background-image(linear-gradient(#38B347, #1D8329))
+  border-color: #448844
+
+a.button
+  text-decoration: none
 
 /* -------------------------------------------------------------------------- */
 /* TABLE

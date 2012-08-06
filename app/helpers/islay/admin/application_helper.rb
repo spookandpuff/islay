@@ -288,6 +288,13 @@ module Islay
         link_to('Delete', path(:delete, record), :class => 'button delete')
       end
 
+      # Creates a save button for a record. To be used within a form.
+      #
+      # @return String
+      def save_button
+        content_tag(:button, 'Save', :class => 'save', :name => 'save')
+      end
+
       # Creates a new button for a record.
       #
       # @param String text link text
