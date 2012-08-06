@@ -3,9 +3,9 @@ module ActiveRecord
     class TableDefinition
       # This is a migration helper for adding columns used when tracking user
       # edits to records. It works in conjunction with the extensions to AR:Base.
-      def user_tracking(*args)
-        column(:creator_id, :integer, :null => false, :references => :users)
-        column(:updater_id, :integer, :null => false, :references => :users)
+      def user_tracking(nullable = false)
+        column(:creator_id, :integer, :null => nullable, :references => :users)
+        column(:updater_id, :integer, :null => nullable, :references => :users)
       end
     end
   end
