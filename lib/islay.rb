@@ -16,6 +16,7 @@ require 'mime/types'
 require 'streamio-ffmpeg'
 require 'zipruby'
 require 'jsonify-rails'
+require 'kaminari'
 
 require "islay/engine"
 require "islay/coercion"

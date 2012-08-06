@@ -414,27 +414,25 @@ tr td:first-child
 /* PAGINATION
 /* -------------------------------------------------------------------------- */
 #pagination
-  padding-top: 1em
-  width: 100%
+  padding-top: 0.7em
+  margin-left: 1em
   float: left
 
-  li
+  li, a
     float: left
 
   a
-    padding: 0 1em
+    +unstyled-link
+    +border-radius(0.2em)
+    border: 0.1em solid $light-grey - 20
+    padding: 0.3em 0.5em
+    margin-right: 0.7em
+    float: left
 
-  .previous
-    width: 15%
-
-  .count
-    text-align: center
-    width: 70%
-
-  .next
-    text-align: right
-    width: 15%
-    float: right
+  .current-true a
+    border-color: $neutral-color - 20
+    color: $neutral-color - 40
+    font-weight: bold
 
 /* -------------------------------------------------------------------------- */
 /* SUB-NAV

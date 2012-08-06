@@ -34,6 +34,7 @@ Gem::Specification.new do |s|
   s.add_dependency "zipruby",                       "~> 0.3.6"
   s.add_dependency "jquery-rails",                  "~> 2.0.2"
   s.add_dependency "jsonify-rails",                 "~> 0.3.2"
+  s.add_dependency "kaminari",                      "~> 0.13.0"
 
   # Strictly speaking, these are dev dependencies, but we need to ensure it is
   # installed when using other Islay engines.
