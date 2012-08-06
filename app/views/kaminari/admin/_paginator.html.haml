@@ -1,5 +1,5 @@
-= paginator.render do
-  %div#footer
+= footer do
+  = paginator.render do
     %ul#pagination
       = prev_page_tag unless current_page.first?
       - each_page do |page|
