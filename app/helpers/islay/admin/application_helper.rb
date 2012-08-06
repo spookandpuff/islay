@@ -143,7 +143,7 @@ module Islay
         @filter_nav ||= {:entries => []}
 
         if by
-          url = path(:filter_and_sort, route, :filter => by, :sort => params[:sort])
+          url = path(:filter_and_sort, route, :filter => by, :sort => params[:sort], :page => params[:page])
           if request.original_url.match(%r{^#{url}})
             @filter_nav[:current] = url
             @filter_nav[:entries] << [name, url, true]
@@ -151,7 +151,7 @@ module Islay
             @filter_nav[:entries] << [name, url]
           end
         else
-          url = path(:filter_and_sort, route, :filter => nil, :sort => params[:sort])
+          url = path(:filter_and_sort, route, :filter => nil, :sort => params[:sort], :page => params[:page])
           entry = [name, url]
           @filter_nav[:default] = entry
           @filter_nav[:entries] << entry
@@ -184,7 +184,7 @@ module Islay
         @sort_nav ||= {:entries => []}
 
         if by
-          url = path(:filter_and_sort, route, :sort => by, :filter => params[:filter])
+          url = path(:filter_and_sort, route, :sort => by, :filter => params[:filter], :page => params[:page])
           if request.original_url.match(%r{^#{url}})
             @sort_nav[:current] = url
             @sort_nav[:entries] << [name, url, true]
@@ -192,7 +192,7 @@ module Islay
             @sort_nav[:entries] << [name, url]
           end
         else
-          url = path(:filter_and_sort, route, :sort => nil, :filter => params[:filter])
+          url = path(:filter_and_sort, route, :sort => nil, :filter => params[:filter], :page => params[:page])
           entry = [name, url]
           @sort_nav[:default] = entry
           @sort_nav[:entries] << entry
