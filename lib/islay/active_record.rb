@@ -7,6 +7,12 @@ module ActiveRecord
         column(:creator_id, :integer, :null => nullable, :references => :users)
         column(:updater_id, :integer, :null => nullable, :references => :users)
       end
+
+      def publishing
+        column(:published, :boolean, :null => false, :default => :false)
+        column(:published_at, :timestamp, :null => true)
+        column(:first_published_at, :timestamp, :null => true)
+      end
     end
   end
 
