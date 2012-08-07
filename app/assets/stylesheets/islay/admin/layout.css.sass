@@ -308,12 +308,16 @@ $gutter-count: $column-count - 1
 $gutter-width: 1.5%
 $column-width: (100% - $gutter-width * $gutter-count) / $column-count
 
-#content .column
-  width: 100%
-  float: left
+#content
+  .column
+    width: 100%
+    float: left
 
-  &:last-child
-    margin-right: 0
+    &:last-child
+      margin-right: 0
+
+  .last
+    margin-right: 0 !important
 
 // Construct the classes for setting the widths of columns
 $i: 0
