@@ -279,6 +279,16 @@ module Islay
         link_to('Edit', path(:edit, record), :class => 'button edit')
       end
 
+      # Creates an cancel button for a record. Default route will point to the
+      # show action for the record.
+      #
+      # @param ActiveRecord::Base record
+      #
+      # @return String
+      def cancel_button(record, path = nil)
+        link_to('Cancel', path(path || record), :class => 'button cancel')
+      end
+
       # Creates a delete button for a record.
       #
       # @param ActiveRecord::Base record
