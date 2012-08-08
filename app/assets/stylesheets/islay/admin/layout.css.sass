@@ -402,6 +402,18 @@ table
   width: 100%
   float: left
 
+  th.select span
+    +hide
+
+  .select
+    padding-left: 0
+    padding-right: 0
+    width: 2.5em
+    text-align: center
+
+    input
+      margin: 0
+
 thead th
   text-transform: uppercase
   border-bottom: 0.1em solid $light-grey
@@ -424,6 +436,7 @@ th.control
 th,
 td
   border-left: 0.1em solid $light-grey
+  vertical-align: top
 
 tr th:first-child,
 tr td:first-child
