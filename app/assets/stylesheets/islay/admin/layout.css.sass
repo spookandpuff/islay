@@ -164,14 +164,12 @@ body.has-sub-header
     strong
       color: $dark-grey
 
-  a
-    +unstyled-link
-
 /* -------------------------------------------------------------------------- */
 /* FILTERS
 /* Filters listings of records
 /* -------------------------------------------------------------------------- */
-#sub-header
+#sub-header,
+.dialog
   ul.filters,
   ul.sort
     margin: 0.7em 1em 0 0.5em
@@ -191,6 +189,7 @@ body.has-sub-header
 
     a
       +border-radius(0.4em)
+      +unstyled-link
       color: $dark-grey
       border: 0.1em solid transparent
       padding: 0.35em 0.6em
@@ -465,35 +464,3 @@ tr td:first-child
     border-color: $neutral-color - 20
     color: $neutral-color - 40
     font-weight: bold
-
-/* -------------------------------------------------------------------------- */
-/* SUB-NAV
-/* Used to navigate each section and in dialogs
-/* -------------------------------------------------------------------------- */
-.dialog .filter li
-.sub-nav a
-  +border-radius(0.3em)
-  border: 0.1em solid transparent
-  cursor: pointer
-  margin-top: 0.6em
-  padding: 0.5em 0.9em
-  font-weight: bold
-  color: $dark-grey
-  float: left
-
-.sub-nav,
-.dialog .filter
-  margin-left: 1em
-  float: left
-
-  .selected
-    +background-image(linear-gradient(#D2D2D2, #DEDEDE))
-    border-color: #BABABA
-    color: black
-
-.sub-nav
-  li
-    float: left
-
-  a
-    +unstyled-link

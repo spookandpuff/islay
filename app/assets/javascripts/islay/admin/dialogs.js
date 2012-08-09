@@ -418,7 +418,7 @@ Islay.Dialogs.AssetAlbums = Backbone.View.extend({
 
 Islay.Dialogs.AssetFilters = Backbone.View.extend({
   events: {click: 'click'},
-  className: 'filter',
+  className: 'filters',
   tagName: 'ul',
   filterOpts: {all: 'All', image: 'Images', document: 'Documents', video: 'Video', audio: 'Audio'},
 
@@ -433,20 +433,20 @@ Islay.Dialogs.AssetFilters = Backbone.View.extend({
 
   click: function(e) {
     var target = $(e.target);
-    if (target.is('li')) {
+    if (target.is('a')) {
       this.currentFilter = target.attr('data-id');
       this.trigger('filter');
 
-      this.currentEl.removeClass('selected');
-      this.currentEl = target.addClass('selected');
+      this.currentEl.removeClass('current');
+      this.currentEl = target.addClass('current');
     }
   },
 
   render: function() {
     _.each(this.filterOpts, function(f, k) {
-      var node = $H('li', {'data-id':k}, f);
-      if (!this.currentEl) {this.currentEl = node.addClass('selected');}
-      this.$el.append(node);
+      var node = $H('a', {'data-id':k}, f);
+      if (!this.currentEl) {this.currentEl = node.addClass('current');}
+      this.$el.append($H('li', node));
     }, this);
 
     return this

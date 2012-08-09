@@ -1,5 +1,5 @@
 class VideoAsset < Asset
-  self.kind = 'video'
+  self.kind = 'image'
   self.friendly_kind = 'Video'
   mount_uploader :upload, VideoUploader
   before_save :set_video_metadata

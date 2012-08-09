@@ -1,5 +1,5 @@
 class AudioAsset < Asset
-  self.kind = 'music-alt'
+  self.kind = 'audio'
   self.friendly_kind = 'Audio'
   mount_uploader :upload, AudioUploader
 
