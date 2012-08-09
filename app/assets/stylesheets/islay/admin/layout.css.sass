@@ -310,13 +310,31 @@ body.has-sub-header
   color: white
 
 /* -------------------------------------------------------------------------- */
-/* CONTENT
+/* INSET CONTENT
 /* -------------------------------------------------------------------------- */
-#content.inset
+table.inset
+  border: 0.1em solid $header-border-color
   margin-left: 2%
-  margin-right: 2%
-  margin-top: 1.5em
   width: 96%
+
+#content
+  &.inset
+    margin-left: 2%
+    margin-right: 2%
+    margin-top: 1.5em
+    width: 96%
+
+    table
+      border: 0.1em solid $header-border-color
+      margin-left: 0
+      width: 100%
+
+  h3.inset
+    border-top: 0.1em solid $header-border-color
+    margin-top: 1.5em
+    padding-top: 1.5em
+    padding-left: 2%
+    width: 96%
 
 /* -------------------------------------------------------------------------- */
 /* FOOTER
@@ -498,7 +516,6 @@ table
   .level-4 .title
     margin-left: 4em
 
-
 /* -------------------------------------------------------------------------- */
 /* PAGINATION
 /* -------------------------------------------------------------------------- */
@@ -522,3 +539,13 @@ table
     border-color: $neutral-color - 20
     color: $neutral-color - 40
     font-weight: bold
+
+/* -------------------------------------------------------------------------- */
+/* RECORD OVERVIEW
+/* Displays at the top of a record 'show' template.
+/* -------------------------------------------------------------------------- */
+#content
+  .overview
+    padding: 1.5em 2% 0 2%
+    width: 96%
+    float: left
