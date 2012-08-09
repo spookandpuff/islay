@@ -222,7 +222,7 @@ Islay.Form = Backbone.View.extend({
         widget = null,
         subscribe = null;
 
-    var match = $el.attr('class').match(/^field ([\w\d\-_]+) .+$/);
+    var match = $el.attr('class').match(/^field ([\w\d\-_]+)/);
 
     if (match) {
       switch(match[1]) {
@@ -243,6 +243,9 @@ Islay.Form = Backbone.View.extend({
         break;
         case 'check_boxes':
           widget = 'Checkboxes';
+        break;
+        case 'multi-images':
+          widget = 'MultipleAssets';
         break;
         case 'integer':
           if ($el.find(':input[name*=position]').length) {
@@ -644,6 +647,89 @@ Islay.Widgets.MultiSelect = Islay.Widgets.Base.extend({
 
   render: function() {
 
+    return this;
+  }
+});
+
+/* -------------------------------------------------------------------------- */
+/* MULTI-ASSET SELECTOR
+/* Actually delegates selection to the asset browser dialog.
+/* -------------------------------------------------------------------------- */
+Islay.Widgets.MultipleAssets = Islay.Widgets.Base.extend({
+  tagName: 'ul',
+  widgetClass: 'multi-assets',
+  removeSelector: 'ul',
+
+  initFields: function() {
+    // _.each(this.$el.find('li'), function(li) {
+    //   var $li = $(li);
+
+    //   var field   = $li.find(':input[type!=hidden]'),
+    //       name    = field.attr('name')
+    //       title   = $li.find('label').text()
+    //       url     = $li.find('img').attr('src');
+
+    //   this.addField(name, field.val());
+    // }, this);
+
+  },
+
+  addField: function(name, val, title, url) {
+    var node = $H('li.entry', [
+      $H('label', title),
+      $H('input.islay', {type: 'hidden', value: val, name: name}),
+      $H('img', {src: url})
+    ]);
+
+    this.fields[val] = node;
+    this.$el.append(node);
+
+    return node;
+  },
+
+  getInitialValue: function() {
+    return _.map(this.$el.find('input'), function(i) {return i.val();});
+  },
+
+  click: function(e) {
+    var target = $(e.target);
+
+    switch(target.attr('class')) {
+      case 'entry':
+        // Remove element
+      break;
+      case 'add':
+        this.openDialog();
+      break;
+    }
+
+    e.preventDefault();
+  },
+
+  openDialog: function() {
+    if (this.dialog) {
+      this.dialog.show();
+    }
+    else {
+      _.bindAll(this, 'updateSelection');
+      this.dialog = new Islay.Dialogs.AssetBrowser({add: this.updateSelection});
+    }
+  },
+
+  updateSelection: function(selections) {
+    _.each(selections, function(selection) {
+      this.addField(
+        'product[asset_ids][]',
+        selection.id,
+        selection.get('name'),
+        selection.get('url')
+      );
+    }, this);
+  },
+
+  render: function() {
+    var add = $H('li.add', 'Add Asset');
+    this.$el.append(add);
     return this;
   }
 });
