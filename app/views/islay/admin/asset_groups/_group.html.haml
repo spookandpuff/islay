@@ -1,0 +1,12 @@
+%tr(class="level-#{level} #{group.type.tableize.singularize.gsub('_', '-')}")
+  %td
+    = link_to(group.name, path(group), :class => 'title')
+  %td
+    %span.indicator.numeric.neutral= group.assets_count
+  %td
+    %span.time= group.updated_at
+    by #{group.updater_name}
+
+- if group.collection? and !group.children.empty?
+  - group.children.summary.each do |group|
+    = render :partial => 'group', :locals => {:group => group, :level => level + 1}

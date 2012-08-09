@@ -209,3 +209,22 @@ ul.key-value
     width: 100%
     float: left
 
+/* -------------------------------------------------------------------------- */
+/* COLLECTION LISTING
+/* -------------------------------------------------------------------------- */
+table
+  .asset-album,
+  .asset-collection
+    .title:before
+      font-family: icons
+      font-size: 1.4em
+      margin-right: 0.3em
+      color: $dark-grey !important
+      text-decoration: none !important
+
+  .asset-album .title
+    +icon-bag
+
+  .asset-collection .title
+    +icon-folder
+

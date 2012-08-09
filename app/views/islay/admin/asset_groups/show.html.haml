@@ -1,7 +1,8 @@
 - sub_header('Album', @asset_group.name)
-- control('Asset', path(:new, :asset, @asset_group), :new)
-- control('Edit', path(:edit, @asset_group), :edit)
-- control('Delete', path(:delete, @asset_group), :delete)
 
 = content do
   = render :partial => 'islay/admin/assets/grid', :locals => {:assets => @asset_group.assets, :size => 2}
+
+= footer do
+  = edit_button(@asset_group)
+  = delete_button(@asset_group)
