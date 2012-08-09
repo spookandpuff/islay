@@ -310,6 +310,15 @@ body.has-sub-header
   color: white
 
 /* -------------------------------------------------------------------------- */
+/* CONTENT
+/* -------------------------------------------------------------------------- */
+#content.inset
+  margin-left: 2%
+  margin-right: 2%
+  margin-top: 1.5em
+  width: 96%
+
+/* -------------------------------------------------------------------------- */
 /* FOOTER
 /* -------------------------------------------------------------------------- */
 #footer
@@ -331,7 +340,7 @@ body.has-sub-header
 $column-count: 12
 $gutter-count: $column-count - 1
 $gutter-width: 1.5%
-$column-width: (100% - $gutter-width * $gutter-count) / $column-count
+$column-width: (100% - ($gutter-width * $gutter-count)) / $column-count
 
 #content
   .column
