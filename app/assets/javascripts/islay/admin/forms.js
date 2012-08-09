@@ -661,6 +661,7 @@ Islay.Widgets.MultipleAssets = Islay.Widgets.Base.extend({
   removeSelector: 'ul',
 
   initFields: function() {
+    this.fieldName = this.$el.find('ul').attr('data-name');
     this.ulEl = $H('ul');
     this.widget.append(this.ulEl);
 
@@ -726,7 +727,7 @@ Islay.Widgets.MultipleAssets = Islay.Widgets.Base.extend({
   updateSelection: function(selections) {
     _.each(selections, function(selection) {
       this.addField(
-        'product[asset_ids][]',
+        this.fieldName,
         selection.id,
         selection.get('name'),
         selection.get('url')
