@@ -306,7 +306,7 @@ Islay.Widgets.Base = Backbone.View.extend({
     this.$el.append(this.widget);
     this.initialValue = this.getInitialValue();
     this.initFields();
-    this.$el.find(this.removeSelector).remove();
+    this.$el.find(this.removeSelector + ':not(.widget *)').remove();
   },
 
   update: function(value, field) {
@@ -661,46 +661,53 @@ Islay.Widgets.MultipleAssets = Islay.Widgets.Base.extend({
   removeSelector: 'ul',
 
   initFields: function() {
-    // _.each(this.$el.find('li'), function(li) {
-    //   var $li = $(li);
+    this.ulEl = $H('ul');
+    this.widget.append(this.ulEl);
 
-    //   var field   = $li.find(':input[type!=hidden]'),
-    //       name    = field.attr('name')
-    //       title   = $li.find('label').text()
-    //       url     = $li.find('img').attr('src');
+    _.each(this.$el.find('li:not(.add)'), function(li) {
+      var $li = $(li);
 
-    //   this.addField(name, field.val());
-    // }, this);
+      var field   = $li.find(':input[type!=hidden]'),
+          name    = field.attr('name')
+          title   = $li.find('label').text()
+          url     = $li.find('img').attr('src');
+
+      this.addField(name, field.val(), title, url);
+    }, this);
 
   },
 
   addField: function(name, val, title, url) {
     var node = $H('li.entry', [
-      $H('label', title),
       $H('input.islay', {type: 'hidden', value: val, name: name}),
-      $H('img', {src: url})
+      $H('img', {src: url, alt: title})
     ]);
 
     this.fields[val] = node;
-    this.$el.append(node);
+    if (this.addEl) {
+      this.addEl.before(node);
+    }
+    else {
+      this.ulEl.append(node);
+    }
 
     return node;
   },
 
   getInitialValue: function() {
-    return _.map(this.$el.find('input'), function(i) {return i.val();});
+    return _.map(this.$el.find('input'), function(i) {return $(i).val();});
   },
 
   click: function(e) {
     var target = $(e.target);
 
-    switch(target.attr('class')) {
-      case 'entry':
-        // Remove element
-      break;
-      case 'add':
-        this.openDialog();
-      break;
+    if (target.is('img')) {
+      var parent = target.parent();
+      delete this.fields[parent.find('input').val()];
+      parent.remove();
+    }
+    else if (target.is('.add')) {
+      this.openDialog();
     }
 
     e.preventDefault();
@@ -728,8 +735,8 @@ Islay.Widgets.MultipleAssets = Islay.Widgets.Base.extend({
   },
 
   render: function() {
-    var add = $H('li.add', 'Add Asset');
-    this.$el.append(add);
+    this.addEl = $H('li.add', 'Add Asset');
+    this.ulEl.append(this.addEl);
     return this;
   }
 });

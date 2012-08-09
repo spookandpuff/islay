@@ -306,8 +306,24 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     +widget-border-radius(right)
     margin-left: 0.1em
 
-/* ADD */
+/* MULTI-ASSETS */
+.widget.multi-assets
+  width: auto
 
+  ul
+    float: left
+
+  li
+    +border-radius(0.5em)
+    border: 0.1em solid $widget-border-color
+    overflow: hidden
+    margin-right: 1em
+    width: 150px
+    height: 130px
+    float: left
+
+  .add
+    cusor: pointer
 
 /* -------------------------------------------------------------------------- */
 /* TAB SET
