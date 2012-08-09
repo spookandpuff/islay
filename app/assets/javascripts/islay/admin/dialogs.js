@@ -265,7 +265,6 @@ Islay.Dialogs.AssetGrid = Backbone.View.extend({
 Islay.Dialogs.AssetEntry = Backbone.View.extend({
   events: {click: 'click'},
   tagName: 'li',
-  className: 'asset',
 
   initialize: function() {
     _.bindAll(this, 'click');
@@ -304,7 +303,7 @@ Islay.Dialogs.AssetEntry = Backbone.View.extend({
   render: function() {
     var frame = $H('div.frame'),
         name  = $H('span.name', this.model.get('name')),
-        type  = $H('span', {class: 'type icon-' + this.model.get('kind')}, this.model.get('friendly_kind')),
+        type  = $H('span', {class: 'asset ' + this.model.get('kind')}, this.model.get('friendly_kind')),
         preview;
 
     if (this.model.get('previewable')) {
@@ -470,7 +469,7 @@ Islay.Dialogs.AssetSelection = Backbone.View.extend({
     }
     else {
       var name = [model.get('name'), $H('span', model.get('friendly_kind'))];
-      node = $H('li', {'data-id': model.id, class: 'icon-' + model.get('kind')}, name);
+      node = $H('li', {'data-id': model.id, class: 'asset ' + model.get('kind')}, name);
       this.entries[model.id] = {node: node, model: model};
     }
     this.$el.append(node);

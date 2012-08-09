@@ -7,4 +7,4 @@
         - else
           %span(class='no-preview icon-#{asset.kind}') &nbsp;
       = link_to(asset.name, path(asset), :class => 'name')
-      %span(class='type icon-#{asset.kind}')= asset.friendly_kind
+      %span(class='asset #{asset.kind}')= asset.friendly_kind

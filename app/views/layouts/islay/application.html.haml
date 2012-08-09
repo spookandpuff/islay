@@ -20,10 +20,10 @@
         %input(type='text' placeholder='Search')
 
       %ul
-        = main_nav('Dashboard', :dashboard, :root => true, :class => 'icon-home')
+        = main_nav('Dashboard', :dashboard, :root => true)
         = extension_nav_entries
-        = main_nav('Asset Library', :asset_library, :class => 'icon-picture')
-        = main_nav('Users', :users, :class => 'icon-users')
+        = main_nav('Asset Library', :asset_library)
+        = main_nav('Users', :users)
 
       %p#current-user
         = current_user.name
