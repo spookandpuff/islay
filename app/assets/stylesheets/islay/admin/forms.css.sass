@@ -72,6 +72,19 @@ $form-inset-color: $light-grey + 20
   input:focus
     outline: none
 
+  .count-inline,
+  .count-first-inline
+    width: auto
+
+    label
+      margin-left: 1em
+      width: auto
+
+  .count-first-inline label
+    width: 8em
+    margin-left: 0
+
+form
   input[type=text],
   input[type=email],
   input[type=password],
@@ -89,18 +102,6 @@ $form-inset-color: $light-grey + 20
 
   .small
     width: 5em !important
-
-  .count-inline,
-  .count-first-inline
-    width: auto
-
-    label
-      margin-left: 1em
-      width: auto
-
-  .count-first-inline label
-    width: 8em
-    margin-left: 0
 
 /* -------------------------------------------------------------------------- */
 /* FANCY WIDGETS
