@@ -467,6 +467,69 @@ table
     input
       margin: 0
 
+  /* UPDATE/EDIT META-DATA */
+  th.meta,
+  td.meta
+    width: 15em
+
+  /* YES/NO FLAGS */
+  th.boolean,
+  td.boolean
+    width: 4em
+
+  span.boolean
+    text-align: center
+    width: 3.5em
+    float: left
+
+    &:before
+      font-size: 1.6em
+
+    &.true:before
+      color: $positive-color
+      content: "✓"
+
+    &.false:before
+      color: $negative-color
+      content: "✕"
+
+    span
+      +hide
+
+  /* THE MAIN COLUMN */
+  .title
+    font-size: 1.2em
+    text-decoration: none
+    float: left
+
+  /* INDICATOR FOR COUNTS, STATUSES */
+  th.indicator,
+  td.indicator
+    width: 6em
+
+  td.indicator
+    padding-top: 0.5em
+    padding-bottom: 0.5em
+
+  /* DIRECTION */
+  .dir
+    margin: 0.35em 0 0 0.5em
+    float: left
+
+    &:before
+      color: $mid-grey
+      font: Icons
+      font-size: 1.4em
+
+    &.up
+      +icon-up-thin
+
+    &.down
+      +icon-down-thin
+
+    span
+      +hide
+
 thead th
   text-transform: uppercase
   border-bottom: 0.1em solid $light-grey

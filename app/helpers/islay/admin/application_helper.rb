@@ -21,13 +21,18 @@ module Islay
         end
       end
 
-      # Creates a class name based on the #published? method of the argument.
+      # Creates a span element classed to display a tick or cross depending on
+      # the value of the boolean it's given.
       #
-      # @param ActiveRecord::Base obj
+      # @param Boolean bool
       #
       # @return String
-      def published_class(obj)
-        obj.published ? 'published icon-ok' : 'unpublished icon-cancel'
+      def boolean_indicator(bool)
+        content_tag(
+          :span,
+          content_tag(:span, friendly_bool(bool)),
+          :class => "boolean #{bool}"
+        )
       end
 
       # Converts a boolean value into a friendlier yes or no.
