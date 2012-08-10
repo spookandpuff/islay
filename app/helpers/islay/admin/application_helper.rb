@@ -21,6 +21,28 @@ module Islay
         end
       end
 
+      # Creates markup for displaying an update time and the name of the user
+      # who updated the record.
+      #
+      # @param ActiveRecord::Base model
+      #
+      # @return string
+      def update_time(model)
+        tag = content_tag(:span, model.updated_at, :class => 'time', :title => model.updated_at)
+        tag + "by #{model[:updater_name] || model.updater.name}"
+      end
+
+      # Creates markup for displaying an creation time and the name of the user
+      # who created the record.
+      #
+      # @param ActiveRecord::Base model
+      #
+      # @return string
+      def creation_time(model)
+        tag = content_tag(:span, model.created_at, :class => 'time', :title => model.created_at)
+        (tag + " by #{model[:creator_name] || model.creator.name}").html_safe
+      end
+
       # Creates a span element classed to display a tick or cross depending on
       # the value of the boolean it's given.
       #
@@ -290,8 +312,8 @@ module Islay
       # @param ActiveRecord::Base record
       #
       # @return String
-      def cancel_button(record, path = nil)
-        link_to('Cancel', path(path || record), :class => 'button cancel')
+      def cancel_button(record, p = nil)
+        link_to('Cancel', p || path(record), :class => 'button cancel')
       end
 
       # Creates a delete button for a record.
