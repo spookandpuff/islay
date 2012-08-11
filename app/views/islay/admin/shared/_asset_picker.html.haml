@@ -1,0 +1,9 @@
+%div.field.multi-images
+  %label Assets
+  %ul(data-name="blog_entry[asset_ids][]")
+    - f.object.assets.each do |asset|
+      %li{:id => "asset-#{asset.id}"}
+        %label
+          = asset.name
+          = check_box_tag("#{f.object_name}[asset_ids][]", asset.id, :boolean => true)
+        = image_tag(asset.preview.url(:thumb_medium))

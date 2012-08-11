@@ -21,6 +21,10 @@ module Islay
         end
       end
 
+      def asset_picker(f)
+        render :partial => 'islay/admin/shared/asset_picker', :locals => {:f => f}
+      end
+
       # Creates markup for displaying an update time and the name of the user
       # who updated the record.
       #
