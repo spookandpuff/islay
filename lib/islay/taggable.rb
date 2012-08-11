@@ -5,7 +5,7 @@ module Islay
         include InstanceMethods
         extend ClassMethods
 
-        before_save :rebuild_taggings
+        after_save :rebuild_taggings
         validates :tag_summary, :presence => true
         attr_accessible :tag_summary
       end
