@@ -8,7 +8,7 @@
       - else
         %span(class='no-preview icon-#{@asset.kind}') &nbsp;
 
-  = column(8, :class => 'last') do
+  = column(7, :class => 'last') do
     %h3 Info
     = render :partial => "#{@asset.friendly_kind.downcase}_metadata"
 
@@ -29,13 +29,10 @@
               - @asset.version_info.each do |name, version|
                 %li= link_to("#{version[:name]} (#{version[:size]}/#{version[:format]})", version[:url])
 
-    %h3 Download & Share
-    %p Download: #{link_to(@asset.upload.url, @asset.upload.url)}
-
-    = form_for([:reprocess, :admin, @asset]) do
-      %button Reprocess
-
-    %p= link_to('Go Back', path(@asset.album))
+    %h3 Tags
+    %ul#tag-cloud
+      - @asset.tags.each do |tag|
+        %li= link_to(tag.name, path(tag))
 
     %p.edit-info
       Created <span class='time'>#{@asset.created_at}</span> by #{@asset.creator.name}
@@ -43,5 +40,8 @@
       Updated <span class='time'>#{@asset.updated_at}</span> by #{@asset.updater.name}
 
 = footer do
+  = link_to("Download", @asset.upload.url, :class => 'button')
+  = form_for([:reprocess, :admin, @asset]) do
+    %button Reprocess
   = edit_button(@asset)
   = delete_button(@asset)
