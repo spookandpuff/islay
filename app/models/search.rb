@@ -1,6 +1,10 @@
 class Search < ActiveRecord::Base
+  belongs_to :searchable, :polymorphic => true
+
   @@queries = []
+
   def self.columns() @columns ||= []; end
+  def readonly?; true; end
 
   def self.register(query)
     @@queries << query

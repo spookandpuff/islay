@@ -18,22 +18,25 @@ module Islay
       end
     end
 
-    COLUMNS = [:id, :name, :desc].freeze
-
     module ClassMethods
       def search_terms(opts)
-        columns = opts[:return] || {}
-        terms = opts[:against]
+        columns   = opts[:map] || {}
+        type      = columns.delete(:type)
+        terms     = opts[:against]
 
-        projections = COLUMNS.map do |col|
-          "#{columns[col] || col} AS #{col}"
+        projections = ["id, id AS searchable_id"]
+
+        projections << if columns[:name]
+          "#{columns[name]} AS name"
+        else
+          "name"
         end
 
-        projections << unless columns.has_key?(:desc)
-          "'#{self.to_s.humanize}' AS desc"
+        projections << if type == :inherited
+          "type AS searchable_type"
+        else
+          "'#{self.to_s}' AS searchable_type"
         end
-
-        projections << "'#{table_name.singularize}' AS path"
 
         Search.register(select(projections.join(', ')))
 
