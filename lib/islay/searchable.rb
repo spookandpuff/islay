@@ -18,9 +18,24 @@ module Islay
       end
     end
 
+    COLUMNS = [:id, :name, :type].freeze
+
     module ClassMethods
-      def search_terms(projections, terms)
-        Search.register(self, select(projections))
+      def search_terms(opts)
+        columns = opts[:return] || {}
+        terms = opts[:against]
+
+        projections = COLUMNS.map do |col|
+          "#{columns[col] || col} AS #{col}"
+        end
+
+        projections << unless columns.has_key?(:type)
+          "'#{self.to_s}' AS type"
+        end
+
+        projections << "'#{table_name.singularize}' AS path"
+
+        Search.register(select(projections.join(', ')))
 
         update = terms.map do |c, r|
           term = if c == :id
@@ -31,6 +46,7 @@ module Islay
 
           "setweight(to_tsvector('pg_catalog.english', #{term}), '#{r}')"
         end
+
         self.search_term_statement = "UPDATE #{table_name} SET terms = (#{update.join(' || ')}) WHERE id = ?"
       end
     end

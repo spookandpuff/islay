@@ -2,7 +2,7 @@ class Asset < ActiveRecord::Base
   include Islay::Taggable
   include Islay::Searchable
 
-  search_terms("id, NULL AS slug, name", :name => 'A')
+  search_terms :against => {:name => 'A'}
 
   belongs_to  :album, :class_name => 'AssetAlbum', :foreign_key => 'asset_group_id', :counter_cache => true
   has_many    :taggings, :class_name => 'AssetTagging'

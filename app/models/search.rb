@@ -2,20 +2,15 @@ class Search < ActiveRecord::Base
   @@queries = []
   def self.columns() @columns ||= []; end
 
-  def self.register(klass, query)
-    @@queries << [klass.to_s, klass.table_name.singularize, query]
+  def self.register(query)
+    @@queries << query
+                  .select("ts_rank(terms, to_tsquery(:term)) AS rank")
+                  .order('rank DESC')
+                  .limit(20).to_sql
   end
 
   def self.search(term)
-    query = @@queries.map do |q|
-      type, name, fragment = q
-      terms = if fragment.to_sql.index('type')
-        sanitize_sql_array(["'#{name}' AS helper, ts_rank(terms, to_tsquery(?)) AS rank", term])
-      else
-        sanitize_sql_array(["'#{type}' AS type, '#{name}' AS helper, ts_rank(terms, to_tsquery(?)) AS rank", term])
-      end
-      fragment.select(terms).order('rank DESC').limit(20).to_sql
-    end.join('\nUNION ALL\n')
+    query = sanitize_sql_array([@@queries.join('\nUNION ALL\n'), {:term => term}])
 
     sql = select('*')
             .from("(#{query}) AS candidates")
