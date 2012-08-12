@@ -18,7 +18,7 @@ module Islay
       end
     end
 
-    COLUMNS = [:id, :name, :type].freeze
+    COLUMNS = [:id, :name, :desc].freeze
 
     module ClassMethods
       def search_terms(opts)
@@ -29,8 +29,8 @@ module Islay
           "#{columns[col] || col} AS #{col}"
         end
 
-        projections << unless columns.has_key?(:type)
-          "'#{self.to_s}' AS type"
+        projections << unless columns.has_key?(:desc)
+          "'#{self.to_s.humanize}' AS desc"
         end
 
         projections << "'#{table_name.singularize}' AS path"
