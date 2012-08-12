@@ -25,6 +25,8 @@ Rails.application.routes.draw do
         resources(:asset_collections, :controller => 'asset_groups', :path => 'collections', :defaults => {:type => 'collection'}) { get :delete, :on => :member }
         resources(:asset_albums,      :controller => 'asset_groups', :path => 'collections/albums', :defaults => {:type => 'album'}) { get :delete, :on => :member }
 
+        resources :asset_tags, :path => 'tags', :only => %w(index show)
+
         # Assets
         asset_resource = lambda do
           collection do

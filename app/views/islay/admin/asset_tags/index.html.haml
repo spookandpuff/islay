@@ -1,0 +1,18 @@
+- sub_header('Asset Tags')
+= content do
+  %table
+    %thead
+      %tr
+        %th Tag
+        %th Entries
+        %th Last Addition
+
+    %tbody
+      - @asset_tags.each do |tag|
+        %tr
+          %td
+            = link_to(tag.name, path(tag), :class => 'title')
+          %td.indicator
+            %span.indicator= tag.assets_count
+          %td.meta
+            %span.time jhh

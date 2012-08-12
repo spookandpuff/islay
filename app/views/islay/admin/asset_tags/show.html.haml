@@ -1,0 +1,4 @@
+- sub_header('Asset Tag', @asset_tag.name)
+
+= content(:class => 'inset') do
+  = render :partial => 'islay/admin/assets/grid', :locals => {:assets => @assets}

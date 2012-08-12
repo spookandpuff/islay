@@ -151,6 +151,9 @@ body.has-sub-header
       &.inbox
         +icon-download
 
+      &.tags
+        +icon-tag
+
     li:first-child a
       border-left-width: 0
 
@@ -619,4 +622,24 @@ table
   .overview
     padding: 1.5em 2% 0 2%
     width: 96%
+    float: lef
+
+/* -------------------------------------------------------------------------- */
+/* TAG CLOUD
+/* -------------------------------------------------------------------------- */
+#tag-cloud
+  border-bottom: 0.1em solid $light-grey
+  margin-bottom: 2em
+  width: 100%
+  float: left
+
+  li, a
     float: left
+
+  a
+    +unstyled-link
+    +border-radius(0.3em)
+    +background-image(linear-gradient(#FFFFFF, #EBEBEB))
+    border: 0.1em solid $mid-grey + 30
+    padding: 0.6em 1em
+    margin: 0 1em 1em 0
