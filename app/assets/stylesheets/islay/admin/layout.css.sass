@@ -27,8 +27,8 @@ $header-border-color: #C2CBD5
 /* -------------------------------------------------------------------------- */
 /* MIXINS
 /* -------------------------------------------------------------------------- */
-@mixin islay-text-shadow($offset: 1px)
-  +text-shadow(rgba(255, 255, 255, 0.9) $offset $offset 0)
+@mixin islay-text-shadow($offset: 1px, $opacity: 0.9)
+  +text-shadow(rgba(255, 255, 255, $opacity) $offset $offset 0)
 
 @mixin hide
   position: absolute
@@ -639,7 +639,8 @@ table
   a
     +unstyled-link
     +border-radius(0.3em)
-    +background-image(linear-gradient(#FFFFFF, #EBEBEB))
-    border: 0.1em solid $mid-grey + 30
+    +background-image(linear-gradient(#FAEC7F, #E7CF63))
+    +islay-text-shadow(1px, 0.5)
+    border: 0.1em solid #DBA960
     padding: 0.6em 1em
     margin: 0 1em 1em 0
