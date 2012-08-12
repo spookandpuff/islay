@@ -10,5 +10,7 @@ class CreateAssetGroups < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_column(:asset_groups, :terms, :tsvector)
   end
 end

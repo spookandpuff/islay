@@ -47,5 +47,7 @@ class CreateAssets < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_column(:assets, :terms, :tsvector)
   end
 end
