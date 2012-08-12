@@ -1,5 +1,9 @@
 class Asset < ActiveRecord::Base
-  belongs_to :album, :class_name => 'AssetAlbum', :foreign_key => 'asset_group_id', :counter_cache => true
+  include Islay::Taggable
+
+  belongs_to  :album, :class_name => 'AssetAlbum', :foreign_key => 'asset_group_id', :counter_cache => true
+  has_many    :taggings, :class_name => 'AssetTagging'
+  has_many    :tags, :through => :taggings
 
   class_attribute :kind, :friendly_kind
 

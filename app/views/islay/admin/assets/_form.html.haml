@@ -3,6 +3,7 @@
     = f.input(:upload, :label => 'File')
     = f.hidden_field(:upload_cache)
     = f.input(:name)
+    = f.input(:tag_summary, :label => 'Tags')
     - if @asset_group
       %p This file will be added to the '#{@asset_group.name}' album
       = f.hidden_field(:asset_group_id, :value => @asset_group.id)

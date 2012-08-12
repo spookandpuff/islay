@@ -6,7 +6,6 @@ module Islay
         extend ClassMethods
 
         after_save :rebuild_taggings
-        validates :tag_summary, :presence => true
         attr_accessible :tag_summary
       end
     end
