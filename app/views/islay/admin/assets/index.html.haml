@@ -10,5 +10,5 @@
 - sort_nav(:assets, 'Created', 'created_at')
 - sort_nav(:assets, 'Updated', 'updated_at')
 
-= content do
-  = render :partial => 'grid', :locals => {:assets => @assets, :size => 2}
+= content(:class => 'inset') do
+  = render :partial => 'grid', :locals => {:assets => @assets}

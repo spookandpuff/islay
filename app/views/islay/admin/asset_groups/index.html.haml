@@ -1,6 +1,10 @@
 - sub_header('Asset Collections')
 
-= content do
+= content(:class => 'inset') do
+  %h3 Latest Uploads
+  = render :partial => 'islay/admin/assets/grid', :locals => {:assets => @latest_assets}
+
+  %h3 Collections
   %table
     %thead
       %tr
@@ -12,5 +16,3 @@
       - @groups.each do |group|
         = render :partial => 'group', :locals => {:group => group, :level => 0}
 
-  %h3 Latest Uploads
-  = render :partial => 'islay/admin/assets/grid', :locals => {:assets => @latest_assets, :size => 2}
