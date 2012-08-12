@@ -5,8 +5,9 @@ module Islay
       nav 'nav'
 
       def index
-        @asset_groups = AssetGroup.where(:asset_group_id => nil).order('type DESC, name DESC')
-        @latest_assets = Asset.limit(12).order("created_at DESC")
+        @groups         = AssetGroup.summary.where(:asset_group_id => nil).order('name')
+        @latest_assets  = Asset.limit(12).order("updated_at DESC")
+        @asset_tags     = AssetTag.order('name')
       end
 
       def browser

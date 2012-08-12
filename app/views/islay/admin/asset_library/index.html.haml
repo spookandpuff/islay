@@ -1,18 +1,14 @@
-= content do
-  = column(5) do
-    %h3 Browse Library
-    %ul.asset-tree
-      - @asset_groups.each do |group|
-        - case group
-        - when AssetCollection
-          = render :partial => 'collection', :locals => {:group => group}
-        - when AssetGroup
-          %li.album
-            = link_to(group.name, path(group), :class => 'album-name icon-picture')
-            %span.count= group.assets_count
-            = link_to('Edit', path(:edit, group), :class => 'edit')
-            = link_to('Delete', path(:delete, group), :class => 'delete')
+- sub_header('Asset Library')
 
-  = column(7) do
-    %h3 Latest Uploads
-    = render :partial => 'islay/admin/assets/grid', :locals => {:assets => @latest_assets, :size => 4}
+= content(:class => 'inset') do
+  %h3 Tags
+  %ul#tag-cloud
+    - @asset_tags.each do |tag|
+      %li
+        = link_to(tag.name, path(tag))
+
+  %h3 Latest Uploads
+  = render :partial => 'islay/admin/assets/grid', :locals => {:assets => @latest_assets}
+
+  %h3 Collections
+  = render :partial => 'islay/admin/asset_groups/table'

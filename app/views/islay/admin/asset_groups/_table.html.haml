@@ -1,0 +1,10 @@
+%table
+  %thead
+    %tr
+      %th Name
+      %th Assets
+      %th Last Update
+
+  %tbody
+    - @groups.each do |group|
+      = render :partial => 'islay/admin/asset_groups/group', :locals => {:group => group, :level => 0}
