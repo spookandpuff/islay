@@ -1,14 +1,17 @@
 = resource_form(@asset, :html =>  {:multipart => true}) do |f|
   = content do
-    = f.input(:upload, :label => 'File')
-    = f.hidden_field(:upload_cache)
-    = f.input(:name)
-    = f.input(:tag_summary, :label => 'Tags')
-    - if @asset_group
-      %p This file will be added to the '#{@asset_group.name}' album
-      = f.hidden_field(:asset_group_id, :value => @asset_group.id)
-    - else
-      = f.input(:asset_group_id, :collection => AssetAlbum.all, :label => 'Album', :include_blank => false)
+    = f.fieldset(:class => 'primary') do
+      = f.input(:upload, :label => 'File')
+      = f.hidden_field(:upload_cache)
+      = f.input(:name)
+
+    = f.fieldset('Organise') do
+      = f.input(:tag_summary, :label => 'Tags')
+      - if @asset_group
+        %p This file will be added to the '#{@asset_group.name}' album
+        = f.hidden_field(:asset_group_id, :value => @asset_group.id)
+      - else
+        = f.input(:asset_group_id, :collection => AssetAlbum.all, :label => 'Album', :include_blank => false)
 
   = footer do
-    = f.submit 'Save'
+    = save_button
