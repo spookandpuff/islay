@@ -29,8 +29,13 @@ module Islay
         :nav_entries => [],
         :admin_scripts => false,
         :admin_styles => false,
-        :public_styles => false
+        :public_styles => false,
+        :dashboard => []
       }
+    end
+
+    def dashboard(col, pos, name)
+      @config[:dashboard] << {:col => col, :pos => pos, :name => name}
     end
 
     def admin_scripts(flag)

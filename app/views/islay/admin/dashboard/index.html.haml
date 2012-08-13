@@ -1,9 +1,13 @@
-= content do
-  = column(3) do
-    %p Call me fishmeal
+= content(:class => 'inset') do
+  = column(8) do
+    - primary_cells.each do |n|
+      %div.cell(id="#{n.to_s.parameterize}-cell")
+        = render_cell n, :index
 
-  = column(9) do
-    %p Call me fishmeal
+    %div#activity-cell.cell
+      %h3 Activity Log
 
-= footer do
-  %p Footer
+  = column(4) do
+    - secondary_cells.each do |n|
+      %div.cell(id="#{n.to_s.parameterize}-cell")
+        = render_cell n, :index
