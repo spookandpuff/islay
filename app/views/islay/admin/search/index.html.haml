@@ -1,6 +1,8 @@
-- sub_header('You searched for', "'#{params[:term]}'")
-
 = content(:class => 'inset') do
+  %h2
+    You searched for
+    %strong '#{params[:term]}'
+
   - if @results.empty?
     %h3.no-results
       No Matches
