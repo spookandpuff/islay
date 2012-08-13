@@ -14,7 +14,7 @@ class Search < ActiveRecord::Base
   end
 
   def self.search(term)
-    query = sanitize_sql_array([@@queries.join('\nUNION ALL\n'), {:term => term}])
+    query = sanitize_sql_array([@@queries.join('\nUNION ALL\n'), {:term => term.split(' ').join('&')}])
 
     sql = select('*')
             .from("(#{query}) AS candidates")
