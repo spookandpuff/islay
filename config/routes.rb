@@ -8,8 +8,9 @@ Rails.application.routes.draw do
 
   scope :module => 'islay' do
     namespace :admin do
-      # DASHBOARD
-      get '/' => 'dashboard#index', :as => 'dashboard'
+      # DASHBOARD & SEARCH
+      get '/'       => 'dashboard#index', :as => 'dashboard'
+      get '/search' => 'search#index',    :as => 'search'
 
       # USERS
       resources :users do

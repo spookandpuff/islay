@@ -16,8 +16,8 @@
       %h1 Islay
 
     %div#side-bar
-      %form
-        %input(type='text' placeholder='Search')
+      = form_tag(path(:search), :method => :get) do
+        = text_field_tag('term', nil, :placeholder => 'Search')
 
       %ul
         = main_nav('Dashboard', :dashboard, :root => true)

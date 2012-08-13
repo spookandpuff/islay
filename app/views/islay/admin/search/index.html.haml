@@ -1,0 +1,15 @@
+- sub_header('You searched for', "'#{params[:term]}'")
+
+= content(:class => 'inset') do
+  - if @results.empty?
+    %h3.no-results
+      No Matches
+  - else
+    %ul.search-results
+      - @results.each do |result|
+        %li
+          %h3(class="#{result.searchable_type.underscore.dasherize}")
+            = link_to(result.name, path(result.searchable))
+          %p.type
+            = result.searchable_type.underscore.humanize
+
