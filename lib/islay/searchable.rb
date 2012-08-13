@@ -27,7 +27,7 @@ module Islay
         projections = ["id, id AS searchable_id"]
 
         projections << if columns[:name]
-          "#{columns[name]} AS name"
+          "#{columns[:name]} AS name"
         else
           "name"
         end

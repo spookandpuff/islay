@@ -7,14 +7,16 @@ class Search < ActiveRecord::Base
   def readonly?; true; end
 
   def self.register(query)
-    @@queries << query
-                  .select("ts_rank(terms, to_tsquery(:term)) AS rank")
-                  .order('rank DESC')
-                  .limit(20).to_sql
+    sql = query
+            .select("ts_rank(terms, to_tsquery(:term)) AS rank")
+            .order('rank DESC')
+            .limit(20).to_sql
+
+    @@queries << "(#{sql})"
   end
 
   def self.search(term)
-    query = sanitize_sql_array([@@queries.join('\nUNION ALL\n'), {:term => term.split(' ').join('&')}])
+    query = sanitize_sql_array([@@queries.join(" UNION ALL "), {:term => term.split(' ').join('&')}])
 
     sql = select('*')
             .from("(#{query}) AS candidates")
