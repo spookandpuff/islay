@@ -133,7 +133,7 @@ Islay.FormTabs = Backbone.View.extend({
 
     _.each(this.options.tabs, function(t, i) {
       var tab = $(t), name = 'tab-' + i;
-      var node = $H('li', {'data-index': name}, tab.find('legend').remove().text());
+      var node = $H('li', {'data-index': name}, tab.find('> legend').remove().text());
       this.tabs[name] = tab;
 
       if (hash !== '') {
