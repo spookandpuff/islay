@@ -42,9 +42,7 @@ class CreateAssets < ActiveRecord::Migration
       t.string    :error,               :null => true,  :limit => 255
       t.integer   :retries,             :null => false, :limit => 2, :default => 0
 
-      t.integer   :creator_id, :null => false, :references => :users
-      t.integer   :updater_id, :null => false, :references => :users
-
+      t.user_tracking
       t.timestamps
     end
 
