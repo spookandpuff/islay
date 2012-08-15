@@ -22,6 +22,13 @@ class Settings
     end
   end
 
+  # Checks to see if the variables required for S3 have been defined.
+  #
+  # @return Boolean
+  def self.use_s3?
+    !!(@@config[:islay][:aws_id] and @@config[:islay][:aws_secret])
+  end
+
   # Pulls in the IC_ prefixed environment variables and constructs the
   # configuration hash.
   #
@@ -31,9 +38,9 @@ class Settings
       matches = name.match(/^IC_([A-Z]+)_(.+)/)
       if matches
         parsed_val = case val
-          when /\d+/    then val.to_i
-          when /true/   then true
-          when /false/  then false
+          when /^[\d\.]+$/  then val.to_i
+          when /true/       then true
+          when /false/      then false
           else val
         end
 
