@@ -7,11 +7,7 @@
 
     = f.fieldset('Organise') do
       = f.input(:tag_summary, :label => 'Tags')
-      - if @asset_group
-        %p This file will be added to the '#{@asset_group.name}' album
-        = f.hidden_field(:asset_group_id, :value => @asset_group.id)
-      - else
-        = f.input(:asset_group_id, :collection => AssetAlbum.all, :label => 'Album', :include_blank => false)
+      = f.input(:asset_group_id, :collection => AssetAlbum.all, :label => 'Album', :include_blank => false)
 
   = footer do
     = save_button

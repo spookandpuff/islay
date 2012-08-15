@@ -5,8 +5,6 @@ module Islay
       header 'Asset Library'
       nav 'islay/admin/asset_library/nav'
 
-      before_filter :find_album, :only => [:new, :create]
-
       def index
         klass = case params[:filter]
         when 'images'    then ImageAsset
@@ -48,13 +46,6 @@ module Islay
         @asset = Asset.find(params[:id])
         @asset.enqueue_upload_background_job
         redirect_to path(@asset)
-      end
-
-      private
-
-      def find_album
-        id = params[:asset] ? params[:asset][:asset_group_id] : params[:asset_album_id]
-        @asset_group = AssetAlbum.find(id) if id
       end
     end
   end
