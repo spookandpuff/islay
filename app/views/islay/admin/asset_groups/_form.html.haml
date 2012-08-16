@@ -1,7 +1,9 @@
 = resource_form(@asset_group, :as => :asset_group) do |f|
   = content do
-    = f.input(:name)
-    = f.input(:asset_group_id, :collection => @asset_collections, :label => 'Collection')
+    = f.fieldset(:class => 'primary') do
+      = f.input(:name)
+      - unless @asset_collections.empty?
+        = f.input(:asset_group_id, :collection => @asset_collections, :label => 'Collection')
 
   = footer do
-    = f.submit 'Save'
+    = save_button
