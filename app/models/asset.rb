@@ -75,6 +75,10 @@ class Asset < ActiveRecord::Base
     @file
   end
 
+  # A regex of illegal characters that will be removed from the uploaded file
+  # in order to create a URL friendly name.
+  ILLEGAL_CHARS = /[^\w `#`~!@''\$%&\(\)_\-\+=\[\]\{\};,\.]/.freeze
+
   # Assigns a file to the asset. This method will generate a sanitized filename
   # store the original filename and create a key by SHA hashing the filename
   # with the time.
@@ -82,11 +86,9 @@ class Asset < ActiveRecord::Base
   # @param File file
   #
   # @return File
-  #
-  # @todo Fix the filename sanitization
   def file=(file)
     self[:original_filename] = file.original_filename
-    self[:filename] = self[:original_filename].gsub(' ', '-')
+    self[:filename] = self[:original_filename].gsub(ILLEGAL_CHARS, '-').downcase
     self[:key] = Digest::SHA1.hexdigest(self[:original_filename] + Time.now.to_s)
 
     @file = file
@@ -118,7 +120,7 @@ class Asset < ActiveRecord::Base
 
   def set_name
     if name.blank? and filename_changed?
-      self.name = filename.split('.').first
+      self.name = original_filename.split('.').first
     end
   end
 end
