@@ -3,7 +3,7 @@
 = content(:class => 'inset') do
   = column(4, :class => 'asset-preview') do
     %div.frame
-      - if @asset.preview?
+      - if @asset.preview? and @asset.processed?
         = image_tag(@asset.previews.url(:thumb))
       - else
         %span(class='no-preview icon-#{@asset.kind}') &nbsp;
@@ -22,12 +22,13 @@
           %li
             %span.key Error
             %span.value= @asset.error
-        %li
-          %span.key Sizes/Formats
-          %span.value
-            %ul
-              - @asset.versions.urls.each do |name, path|
-                %li= link_to(name, @asset.versions.url(name))
+        - if @asset.processed?
+          %li
+            %span.key Sizes/Formats
+            %span.value
+              %ul
+                - @asset.versions.urls.each do |name, path|
+                  %li= link_to(name, @asset.versions.url(name))
 
     %h3 Tags
     %ul#tag-cloud
