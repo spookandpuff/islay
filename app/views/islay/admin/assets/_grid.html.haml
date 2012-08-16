@@ -2,8 +2,8 @@
   - assets.each do |asset|
     %li(class='#{asset.kind}')
       %a.frame(href='#{path(asset)}')
-        - if asset.preview.present?
-          = image_tag(asset.preview.url(:thumb_medium))
+        - if asset.preview?
+          = image_tag(asset.previews.url(:thumb_medium))
         - else
           %span(class='no-preview icon-#{asset.kind}') &nbsp;
       = link_to(asset.name, path(asset), :class => 'name')
