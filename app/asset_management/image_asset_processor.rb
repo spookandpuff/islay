@@ -1,12 +1,12 @@
 class ImageAssetProcessor < AssetProcessor
-  def process_version!(source, path, &blk)
+  def process_version!(path, &blk)
     copy = source.copy
     blk.call(copy)
     copy.write(path)
   end
 
-  def source(file)
-    Magick::ImageList.new(file).first
+  def source
+    @source ||= Magick::ImageList.new(@file).first
   end
 end
 

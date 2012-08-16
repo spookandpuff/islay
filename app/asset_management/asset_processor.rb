@@ -41,11 +41,9 @@ class AssetProcessor
 
   # @todo Add preview processing.
   def process!
-    s = source(@file)
-
     versions.each do |name, blk|
       path = File.join(@dir, "#{name}_#{@filename}")
-      process_version!(s, path, &blk)
+      process_version!(path, &blk)
       @paths << path
     end
 
