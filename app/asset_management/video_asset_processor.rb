@@ -1,0 +1,3 @@
+class VideoAssetProcessor < AssetProcessor
+
+end

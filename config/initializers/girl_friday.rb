@@ -1,4 +1,3 @@
-CARRIERWAVE_QUEUE = GirlFriday::WorkQueue.new(:carrierwave) do |msg|
-  worker = msg[:worker]
+ASSET_QUEUE = GirlFriday::WorkQueue.new(:asset_processing) do |worker|
   worker.perform
 end

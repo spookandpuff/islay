@@ -42,7 +42,7 @@ class Settings
           when /true/       then true
           when /false/      then false
           else val
-        end
+        end.freeze
 
         @@config[matches[1].downcase.to_sym][matches[2].downcase.to_sym] = parsed_val
       end

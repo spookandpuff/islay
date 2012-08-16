@@ -1,0 +1,3 @@
+class AudioAssetProcessor < AssetProcessor
+
+end

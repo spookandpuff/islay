@@ -3,16 +3,13 @@
 = content(:class => 'inset') do
   = column(4, :class => 'asset-preview') do
     %div.frame
-      - if @asset.preview.present?
-        = image_tag(@asset.preview.url(:thumb))
-      - else
-        %span(class='no-preview icon-#{@asset.kind}') &nbsp;
+      %span(class='no-preview icon-#{@asset.kind}') &nbsp;
 
   = column(7, :class => 'last') do
     %h3 Info
     = render :partial => "#{@asset.friendly_kind.downcase}_metadata"
 
-    - if @asset.version_info
+    - unless @asset.versions.empty?
       %h3 Versions
       %ul.key-value
         %li
@@ -26,8 +23,8 @@
           %span.key Sizes/Formats
           %span.value
             %ul
-              - @asset.version_info.each do |name, version|
-                %li= link_to("#{version[:name]} (#{version[:size]}/#{version[:format]})", version[:url])
+              - @asset.versions.urls.each do |name, path|
+                %li= link_to(name, @asset.versions.url(name))
 
     %h3 Tags
     %ul#tag-cloud
@@ -40,7 +37,7 @@
       Updated <span class='time'>#{@asset.updated_at}</span> by #{@asset.updater.name}
 
 = footer do
-  = link_to("Download", @asset.upload.url, :class => 'button')
+  = link_to("Download", '', :class => 'button')
   = form_for([:reprocess, :admin, @asset]) do
     %button Reprocess
   = edit_button(@asset)

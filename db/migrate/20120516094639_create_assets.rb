@@ -4,12 +4,11 @@ class CreateAssets < ActiveRecord::Migration
       t.integer   :asset_group_id,      :null => false, :on_delete => :cascade
       t.string    :type,                :null => false, :limit => 50
       t.string    :name,                :null => false, :limit => 200, :index => {:unique => true, :with => ['type', 'asset_group_id']}
-      t.string    :upload,              :null => false, :limit => 200
-      t.string    :path,                :null => false, :limit => 200
-      t.string    :original_filename,   :null => false, :limit => 200
 
-      # Thumbnails for video and documents
-      t.string    :preview,             :null => true, :limit => 200
+      # Storage info
+      t.string    :key,                 :null => false, :limit => 200
+      t.string    :filename,            :null => false, :limit => 200
+      t.string    :original_filename,   :null => false, :limit => 200
 
       # Metadata
       t.integer   :filesize,            :null => true,  :precision => 20, :scale => 0

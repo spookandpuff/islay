@@ -1,0 +1,3 @@
+class DocumentAssetProcessor < AssetProcessor
+
+end

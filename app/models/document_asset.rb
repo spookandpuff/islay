@@ -1,5 +1,5 @@
 class DocumentAsset < Asset
   self.kind = 'document'
   self.friendly_kind = 'Document'
-  mount_uploader :upload, DocumentUploader
+  self.asset_processor = DocumentAssetProcessor
 end

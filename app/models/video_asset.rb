@@ -1,23 +1,8 @@
 class VideoAsset < Asset
   self.kind = 'image'
   self.friendly_kind = 'Video'
-  mount_uploader :upload, VideoUploader
-  before_save :set_video_metadata
 
-  class_attribute :encode_options
-  self.encode_options = {}
-
-  def self.encode(version)
-    self.encode_options[:"v#{version}"] = true
-  end
-
-  def self.preview(size)
-
-  end
-
-  def resolution
-    "#{width}x#{height}" if width? and height?
-  end
+  self.asset_processor = VideoAssetProcessor
 
   private
 

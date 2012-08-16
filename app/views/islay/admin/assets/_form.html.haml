@@ -1,8 +1,7 @@
 = resource_form(@asset, :html =>  {:multipart => true}) do |f|
   = content do
     = f.fieldset(:class => 'primary') do
-      = f.input(:upload, :label => 'File')
-      = f.hidden_field(:upload_cache)
+      = f.input(:file, :label => 'File', :as => 'file')
       = f.input(:name)
 
     = f.fieldset('Organise') do

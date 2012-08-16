@@ -11,12 +11,14 @@ require 'schema_plus'
 require 'activerecord-postgres-hstore'
 require 'carrierwave'
 require 'carrierwave_backgrounder'
+require 'fog'
 require 'girl_friday'
 require 'mime/types'
 require 'streamio-ffmpeg'
 require 'zipruby'
 require 'jsonify-rails'
 require 'kaminari'
+require 'rmagick'
 
 require "islay/engine"
 require "islay/coercion"
