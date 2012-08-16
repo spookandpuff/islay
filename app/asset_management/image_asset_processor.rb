@@ -13,6 +13,18 @@ class ImageAssetProcessor < AssetProcessor
     @file
   end
 
+  # Returns a hash of meta data extracted from the image e.g. colorspace,
+  # dimensions etc.
+  #
+  # @return Hash
+  def extract_metadata!
+    super({
+      :width      => source.columns,
+      :height     => source.rows,
+      :colorspace => source.colorspace.to_s.match(/^(.+)Colorspace/)[1]
+    })
+  end
+
   private
 
   def source

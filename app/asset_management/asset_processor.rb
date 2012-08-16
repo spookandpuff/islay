@@ -34,7 +34,9 @@ class AssetProcessor
     @paths    = []
   end
 
-  # @todo Add preview processing.
+  # Processes the versions and previews for an asset.
+  #
+  # @return Array<String>
   def process!
     process_previews! if self.class.preview?
 
@@ -47,8 +49,31 @@ class AssetProcessor
     @paths
   end
 
-  def process_version!(source, path, &blk)
+  # Processes an individual version, using the provided blog and saving it at
+  # the specified path. This should be implemented in each sub-class.
+  #
+  # @param String path
+  # @param Proc blk
+  #
+  # @return nil
+  def process_version!(path, &blk)
     raise NotImplementedError
+  end
+
+  # Extracts what metadata it can from an asset and returns it as a hash. The
+  # keys in the hash correspond to the attributes in the Asset model.
+  #
+  # This should be over-ridden in each sub-class.
+  #
+  # @return Hash
+  def extract_metadata!(data)
+    data.tap do |d|
+      file = File.open(@file)
+      d[:filesize] = file.size
+      file.close
+
+      d[:content_type] = MIME::Types.type_for(@file).first.to_s
+    end
   end
 
   # Indicates if the processor provides an image from which previews can be

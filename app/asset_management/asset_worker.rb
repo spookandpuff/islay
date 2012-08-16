@@ -11,9 +11,13 @@ class AssetWorker
 
   # @todo Update record with processing status
   def perform
-    paths = @asset.asset_processor.new(@file_path).process!
+    processor = @asset.asset_processor.new(@file_path)
+    paths = processor.process!
+    data = processor.extract_metadata!
     paths << @file_path if @store_original
     AssetStorage.store!(@asset.key, paths)
     AssetStorage.flush!(@asset.key)
+
+    @asset.update_attributes(data)
   end
 end

@@ -14,7 +14,11 @@ class Asset < ActiveRecord::Base
   has_many    :tags,      :through => :taggings, :order => 'name'
 
   class_attribute :kind, :friendly_kind, :asset_processor
-  attr_accessible :name, :file, :asset_group_id, :status, :error, :retries, :album
+
+  attr_accessible(
+    :name, :file, :asset_group_id, :status, :error, :retries, :album, :width,
+    :height, :colorspace, :filesize, :content_type
+  )
 
   before_save   :set_name
   after_commit  :enqueue_file_processing
