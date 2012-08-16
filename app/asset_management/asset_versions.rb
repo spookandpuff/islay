@@ -1,13 +1,13 @@
 class AssetVersions
   attr_accessor :urls
 
-  def initialize(key, filename, version_names)
+  def initialize(dir, key, filename, version_names)
     @urls  = version_names.inject({}) do |acc, name|
-      acc[name] = AssetStorage.partial_url_for(key, "#{name}_#{filename}")
+      acc[name] = AssetStorage.partial_url_for(dir, key, "#{name}_#{filename}")
       acc
     end
 
-    @urls[:original] = AssetStorage.partial_url_for(key, filename)
+    @urls[:original] = AssetStorage.partial_url_for(dir, key, filename)
   end
 
   def empty?

@@ -7,6 +7,7 @@ class CreateAssets < ActiveRecord::Migration
 
       # Storage info
       t.string    :key,                 :null => false, :limit => 200
+      t.string    :dir,                 :null => false, :limit => 6
       t.string    :filename,            :null => false, :limit => 200
       t.string    :original_filename,   :null => false, :limit => 200
 
@@ -37,7 +38,7 @@ class CreateAssets < ActiveRecord::Migration
       t.float     :duration,            :null => true,  :limit => 15
 
       # Processing (in progress, errors etc)
-      t.string    :status,              :null => false, :limit => 20, :default => 'pending'
+      t.string    :status,              :null => false, :limit => 20, :default => 'enqueued'
       t.string    :error,               :null => true,  :limit => 255
       t.integer   :retries,             :null => false, :limit => 2, :default => 0
 

@@ -93,6 +93,7 @@ class Asset < ActiveRecord::Base
   def file=(file)
     self[:original_filename] = file.original_filename
     self[:filename] = self[:original_filename].gsub(ILLEGAL_CHARS, '-').downcase
+    self[:dir] = dir = Time.now.strftime('%Y%m')
     self[:key] = Digest::SHA1.hexdigest(self[:original_filename] + Time.now.to_s)
 
     @file = file
@@ -103,6 +104,10 @@ class Asset < ActiveRecord::Base
     if @file
       path = AssetStorage.cache_file!(key, filename, file)
       AssetWorker.enqueue!(self, path, true)
+
+      # Remove the file, otherwise you end up in an endless loop of re-queuing
+      # everytime this instance of the asset is updated.
+      @file = nil
     end
   end
 
@@ -111,7 +116,7 @@ class Asset < ActiveRecord::Base
   #
   # @return AssetVersions
   def versions
-    @versions ||= AssetVersions.new(key, filename, asset_processor.version_names)
+    @versions ||= AssetVersions.new(dir, key, filename, asset_processor.version_names)
   end
 
   # Creates an instance of the AssetVersions class, which generates and provides
@@ -119,7 +124,7 @@ class Asset < ActiveRecord::Base
   #
   # @return AssetVersions
   def previews
-    @previews ||= AssetVersions.new(key, 'preview.jpg', asset_processor.preview_names)
+    @previews ||= AssetVersions.new(dir, key, 'preview.jpg', asset_processor.preview_names)
   end
 
   def set_name
