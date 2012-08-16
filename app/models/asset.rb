@@ -60,6 +60,14 @@ class Asset < ActiveRecord::Base
     asset_processor.preview?
   end
 
+  # Indicates if the asset has been processed and therefore has it's previews —
+  # potentially — and versions available.
+  #
+  # @return Boolean
+  def processed?
+    status == 'processed'
+  end
+
   # Just a simple accessor for exposing an uploaded file before it is processed.
   #
   # @return [File, nil]
