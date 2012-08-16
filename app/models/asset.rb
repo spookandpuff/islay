@@ -22,6 +22,7 @@ class Asset < ActiveRecord::Base
 
   before_save   :set_name
   after_commit  :enqueue_file_processing
+  after_destroy :destroy_file
 
   track_user_edits
 
@@ -109,6 +110,12 @@ class Asset < ActiveRecord::Base
       # everytime this instance of the asset is updated.
       @file = nil
     end
+  end
+
+  def destroy_file
+    version_names = asset_processor.version_names.map {|v| "#{v}_#{filename}"}
+    preview_names = asset_processor.preview_names.map {|v| "#{v}_preview.jpg"}
+    AssetStorage.destroy!(dir, key, version_names + preview_names + [filename])
   end
 
   # Creates an instance of the AssetVersions class, which generates and provides

@@ -29,15 +29,16 @@ class AssetStorage
 
   # Removes all the files at a particular prefix.
   #
+  # @param String dir
   # @param String key
   # @param Array<String> paths
   #
   # @return Array<String>
-  def self.destroy!(key, paths)
+  def self.destroy!(dir, key, paths)
     bucket = get_bucket
 
     paths.map do |path|
-      File.join(key, File.basename(path)).tap do |l|
+      File.join(dir, key, File.basename(path)).tap do |l|
         bucket.files.destroy(l)
       end
     end
