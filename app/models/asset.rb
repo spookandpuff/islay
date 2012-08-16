@@ -52,6 +52,14 @@ class Asset < ActiveRecord::Base
     "#{(duration / 60).round(2)} minutes" if duration
   end
 
+  # Indicates if the asset has any previews. For some assets, we can't provide
+  # preview images.
+  #
+  # @return Boolean
+  def preview?
+    asset_processor.preview?
+  end
+
   # Just a simple accessor for exposing an uploaded file before it is processed.
   #
   # @return [File, nil]
@@ -89,7 +97,15 @@ class Asset < ActiveRecord::Base
   #
   # @return AssetVersions
   def versions
-    @versions ||= AssetVersions.new(key, filename, asset_processor)
+    @versions ||= AssetVersions.new(key, filename, asset_processor.version_names)
+  end
+
+  # Creates an instance of the AssetVersions class, which generates and provides
+  # the URLs for the different versions of an asset, in this case the previews.
+  #
+  # @return AssetVersions
+  def previews
+    @previews ||= AssetVersions.new(key, 'preview.jpg', asset_processor.preview_names)
   end
 
   def set_name

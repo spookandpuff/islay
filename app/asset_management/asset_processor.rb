@@ -17,6 +17,10 @@ class AssetProcessor
     versions.keys
   end
 
+  def self.preview_names
+    previews.keys
+  end
+
   def self.preview(name, &blk)
     previews[name] = blk
   end
@@ -30,17 +34,10 @@ class AssetProcessor
     @paths    = []
   end
 
-  # Indicates if the processor provides an image from which previews can be
-  # generated. By default this is false. Subclasses should over-ride this
-  # method if they do provide one.
-  #
-  # @return Boolean
-  def preview?
-    false
-  end
-
   # @todo Add preview processing.
   def process!
+    process_previews! if self.class.preview?
+
     versions.each do |name, blk|
       path = File.join(@dir, "#{name}_#{@filename}")
       process_version!(path, &blk)
@@ -50,12 +47,17 @@ class AssetProcessor
     @paths
   end
 
-  def source(file)
+  def process_version!(source, path, &blk)
     raise NotImplementedError
   end
 
-  def process_version!(source, path, &blk)
-    raise NotImplementedError
+  # Indicates if the processor provides an image from which previews can be
+  # generated. By default this is false. Subclasses should over-ride this
+  # method if they do provide one.
+  #
+  # @return Boolean
+  def self.preview?
+    false
   end
 
   # Provides an image which is used to generate previews. The implementation
@@ -64,13 +66,27 @@ class AssetProcessor
   # method.
   #
   # @return String path location of the file on disk
-  def preview_image
+  def preview_path
     raise NotImplementedError
   end
 
-  def process_previews!(path)
-    source = Magick::ImageList.new(@file).first
-    # Iterate over the preview versions
+  # Generate the previews for the asset.
+  #
+  # @return Array<String>
+  def process_previews!
+    source = Magick::ImageList.new(preview_path).first
+
+    previews.each do |name, blk|
+      path = File.join(@dir, "#{name}_preview.jpg")
+
+      copy = source.copy
+      blk.call(copy)
+      copy.write(path)
+
+      @paths << path
+    end
+
+    @paths
   end
 end
 

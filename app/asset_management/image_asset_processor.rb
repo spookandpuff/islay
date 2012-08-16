@@ -5,6 +5,16 @@ class ImageAssetProcessor < AssetProcessor
     copy.write(path)
   end
 
+  def self.preview?
+    true
+  end
+
+  def preview_path
+    @file
+  end
+
+  private
+
   def source
     @source ||= Magick::ImageList.new(@file).first
   end
