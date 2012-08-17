@@ -5,6 +5,8 @@ module Islay
       header 'Asset Library'
       nav 'islay/admin/asset_library/nav'
 
+      before_filter :set_params, :only => :update
+
       def index
         klass = case params[:filter]
         when 'images'    then ImageAsset
@@ -46,6 +48,19 @@ module Islay
         @asset = Asset.find(params[:id])
         @asset.reprocess!
         redirect_to path(@asset)
+      end
+
+      private
+
+      # This is a bit of a hack to make this controller play nice with the
+      # resourceful declaration. Basically, the param names are inferred from the
+      # symbol you pass to the ::resourceful method. This unfortunately doesn't
+      # play nice when we use reuse a controller for single-inheritance
+      # models. Hence this hack here.
+      #
+      # @todo Fix this nonsense.
+      def set_params
+        params[:asset] = params.delete("#{params[:type]}_asset")
       end
     end
   end

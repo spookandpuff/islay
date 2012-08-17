@@ -92,6 +92,12 @@ class Asset < ActiveRecord::Base
   #
   # @return File
   def file=(file)
+    # If we're updating this file, cache the older details so we can use them
+    # after a commit
+    unless new_record?
+      @existing = {:dir => dir, :key => key, :filenames => filenames}
+    end
+
     self[:original_filename] = file.original_filename
     self[:filename] = self[:original_filename].gsub(ILLEGAL_CHARS, '-').downcase
     self[:dir] = dir = Time.now.strftime('%Y%m')
@@ -108,7 +114,13 @@ class Asset < ActiveRecord::Base
   def enqueue_file_processing
     if @file
       path = AssetStorage.cache_file!(key, filename, file)
-      AssetWorker.enqueue!(self, :new, :file_path => path)
+
+      if @existing
+        logger.debug("RUNNING UPDATE")
+        AssetWorker.enqueue!(self, :update, :file_path => path, :existing => @existing)
+      else
+        AssetWorker.enqueue!(self, :new, :file_path => path)
+      end
 
       # Remove the file, otherwise you end up in an endless loop of re-queuing
       # everytime this instance of the asset is updated.
@@ -116,10 +128,14 @@ class Asset < ActiveRecord::Base
     end
   end
 
-  def destroy_file
+  def filenames
     version_names = asset_processor.version_names.map {|v| "#{v}_#{filename}"}
     preview_names = asset_processor.preview_names.map {|v| "#{v}_preview.jpg"}
-    AssetStorage.destroy!(dir, key, version_names + preview_names + [filename])
+    version_names + preview_names + [filename]
+  end
+
+  def destroy_file
+    AssetStorage.destroy!(dir, key, filenames)
   end
 
   # Creates an instance of the AssetVersions class, which generates and provides

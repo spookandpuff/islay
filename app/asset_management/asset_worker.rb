@@ -35,13 +35,15 @@ class AssetWorker
       end
 
       if @mode == :update
-        # remove the old ones
+        existing = @opts[:existing]
+        AssetStorage.destroy!(existing[:dir], existing[:key], existing[:filenames])
       end
 
       AssetStorage.store!(@asset.dir, @asset.key, paths)
       AssetStorage.flush!(@asset.key)
 
       data[:status] = 'processed'
+      data[:error] = nil
       @asset.update_attributes(data)
     rescue => e
       @asset.update_attributes(:status => 'errored', :error => e.to_s)
