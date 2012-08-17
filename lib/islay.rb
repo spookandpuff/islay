@@ -9,8 +9,6 @@ require 'simple_form'
 require 'pg'
 require 'schema_plus'
 require 'activerecord-postgres-hstore'
-require 'carrierwave'
-require 'carrierwave_backgrounder'
 require 'fog'
 require 'girl_friday'
 require 'mime/types'
@@ -28,7 +26,6 @@ require "islay/publishable"
 require "islay/taggable"
 require "islay/searchable"
 require "islay/query"
-require "islay/carrierwave"
 require "islay/extensions"
 require "islay/resourceful_controller"
 require "islay/sprockets"
