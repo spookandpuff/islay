@@ -16,7 +16,7 @@ require 'streamio-ffmpeg'
 require 'zipruby'
 require 'jsonify-rails'
 require 'kaminari'
-require 'Rmagick'
+require 'RMagick'
 
 require "islay/engine"
 require "islay/coercion"
