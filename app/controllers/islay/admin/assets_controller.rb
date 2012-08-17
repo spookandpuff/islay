@@ -44,7 +44,7 @@ module Islay
 
       def reprocess
         @asset = Asset.find(params[:id])
-        @asset.enqueue_upload_background_job
+        @asset.reprocess!
         redirect_to path(@asset)
       end
     end

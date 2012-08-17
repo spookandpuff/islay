@@ -1,26 +1,50 @@
 class AssetWorker
-  def self.enqueue!(asset, file_path, store_original = false)
-    ASSET_QUEUE << self.new(asset, file_path, store_original)
+  def self.enqueue!(asset, mode, opts = {})
+    ASSET_QUEUE << self.new(asset, mode, opts)
   end
 
-  def initialize(asset, file_path, store_original = false)
+  # Stores the options to be used later when perform is run.
+  #
+  # @param Asset asset
+  # @param Symbol mode
+  # @param Hash opts
+  def initialize(asset, mode, opts = {})
     @asset = asset
-    @file_path = file_path
-    @store_original = store_original
+    @mode = mode
+    @opts = opts
   end
 
-  # @todo Update record with processing status
   def perform
-    @asset.update_attribute(:status, 'processing')
+    begin
+      @asset.update_attribute(:status, 'processing')
 
-    processor = @asset.asset_processor.new(@file_path)
-    paths = processor.process!
-    data = processor.extract_metadata!
-    paths << @file_path if @store_original
-    AssetStorage.store!(@asset.dir, @asset.key, paths)
-    AssetStorage.flush!(@asset.key)
+      # If we're reprocessing, grab the original
+      original_path = if @mode == :reprocess
+        AssetStorage.cache!(@asset.dir, @asset.key, @asset.filename)
+      else
+        @opts[:file_path]
+      end
 
-    data[:status] = 'processed'
-    @asset.update_attributes(data)
+      processor = @asset.asset_processor.new(original_path)
+      paths     = processor.process!
+      data      = processor.extract_metadata!
+
+      # If this is an update, we need to upload the original file as well.
+      if @mode == :new or @mode == :update
+        paths << original_path
+      end
+
+      if @mode == :update
+        # remove the old ones
+      end
+
+      AssetStorage.store!(@asset.dir, @asset.key, paths)
+      AssetStorage.flush!(@asset.key)
+
+      data[:status] = 'processed'
+      @asset.update_attributes(data)
+    rescue => e
+      @asset.update_attributes(:status => 'errored', :error => e.to_s)
+    end
   end
 end

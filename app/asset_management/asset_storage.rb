@@ -46,19 +46,20 @@ class AssetStorage
 
   # Copies a file from out of the store into a temporary directory.
   #
+  # @param String dir
   # @param String key
   # @param String path
   #
-  # @return File
-  def self.cache!(key, path)
-    if cached?(key)
-      File.open(File.join(key, path))
-    else
-      File.open(File.join(temp_dir_at(key), path), 'wb+') do |f|
-        file = get_bucket.files.get(File.join(key, path))
-        f.write(file.body)
-      end
+  # @return String
+  def self.cache!(dir, key, path)
+    full_path = File.join(temp_dir_at(key), path)
+
+    File.open(full_path, 'wb+') do |f|
+      file = get_bucket.files.get(File.join(dir, key, path))
+      f.write(file.body)
     end
+
+    full_path
   end
 
   # Caches a file into temporary direcory,

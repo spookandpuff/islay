@@ -100,11 +100,15 @@ class Asset < ActiveRecord::Base
     @file = file
   end
 
+  def reprocess!
+    AssetWorker.enqueue!(self, :reprocess)
+  end
+
   # @todo need to check if this is updating an existing file.
   def enqueue_file_processing
     if @file
       path = AssetStorage.cache_file!(key, filename, file)
-      AssetWorker.enqueue!(self, path, true)
+      AssetWorker.enqueue!(self, :new, :file_path => path)
 
       # Remove the file, otherwise you end up in an endless loop of re-queuing
       # everytime this instance of the asset is updated.
