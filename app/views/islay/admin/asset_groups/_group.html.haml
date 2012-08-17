@@ -9,4 +9,4 @@
 
 - if group.collection? and !group.children.empty?
   - group.children.summary.each do |group|
-    = render :partial => 'group', :locals => {:group => group, :level => level + 1}
+    = render :partial => 'islay/asset_groups/group', :locals => {:group => group, :level => level + 1}
