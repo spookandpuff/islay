@@ -32,7 +32,7 @@ class Asset < ActiveRecord::Base
   # @return ActiveRecord::Relation
   def self.summaries
     select(%{
-      id, asset_group_id, name, key, filename, type,
+      id, asset_group_id, name, key, filename, type, dir,
       CASE
         WHEN id IN (SELECT id FROM assets ORDER BY updated_at DESC LIMIT 10) THEN true
         ELSE false
