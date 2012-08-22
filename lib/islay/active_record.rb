@@ -17,6 +17,14 @@ module ActiveRecord
   end
 
   class Base
+    # Indicates if the record can be destroyed. By default this is true, but for
+    # some sub-classes it should be over-ridden.
+    #
+    # @return Boolean
+    def destroyable?
+      true
+    end
+
     private
 
     # Provides access to the user model provided by Devise.
