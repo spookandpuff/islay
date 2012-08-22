@@ -19,16 +19,14 @@ $form-inset-color: $light-grey + 20
 
   fieldset,
   .tabset
-    border-bottom: 0.15em solid $light-grey
+    border-top: 0.15em solid $light-grey
     padding-top: $field-margin
     width: 100%
     float: left
 
   fieldset.primary
+    border-top-width: 0
     background: $form-inset-color
-
-  fieldset:last-child
-    border-bottom-width: 0
 
   legend
     +text-shadow(-1px -1px 0 rgba(0, 0, 0, 0.1))
