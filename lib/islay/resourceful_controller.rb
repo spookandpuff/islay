@@ -29,13 +29,15 @@ module Islay
     end
 
     def delete
-
+      record = set_ivar(find_record)
+      @cancel_url = redirect_for(record)
+      render :template => 'islay/admin/shared/delete'
     end
 
     def destroy
       record = resource_class[:class].find(params[:id])
       record.destroy
-      redirect_to url_for([:admin, resource_class[:plural]])
+      redirect_to destroy_redirect_for(record)
     end
 
     private
@@ -51,6 +53,10 @@ module Islay
     end
 
     def redirect_for(record)
+      url_for([:admin, record])
+    end
+
+    def destroy_redirect_for(record)
       url_for([:admin, record])
     end
 
