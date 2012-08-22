@@ -17,13 +17,13 @@ $(function() {
   $('#content .time').prettyDate({value: timeValue});
 
   // EDIT DIALOG
-  $('#header .new, #footer .edit').click(function(e){
+  $('#header .new, #content .edit, #footer .edit').click(function(e){
     var dialog = new Islay.Dialogs.Edit({url: e.target.href});
     e.preventDefault();
   });
 
   // DELETE DIALOG
-  $('#content .delete, #footer .delete').click(function(e){
+  $('#content .delete, #content .delete, #footer .delete').click(function(e){
     var dialog = new Islay.Dialogs.Delete({url: e.target.href});
     e.preventDefault();
   });

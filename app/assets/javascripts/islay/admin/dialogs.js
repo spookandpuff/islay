@@ -9,6 +9,7 @@ Islay.Dialogs.Base = Backbone.View.extend({
   dimensions: {width: "35em", height: "25em"},
   sizing: 'fixed',
   format: 'JSON',
+  closeButton: false,
 
   initialize: function() {
     _.bindAll(this, 'close', '_resizeFixed', '_resizeFlexible', '_ajaxSuccess');
@@ -51,8 +52,13 @@ Islay.Dialogs.Base = Backbone.View.extend({
     this.dialogEl = $H('div.dialog');
     this.$el.append(this.dialogEl);
 
-    this.closeEl = $H('div.close.icon-cancel-circle', 'Close').click(this.close);
-    this.titleEl = $H('div.title', [$H('h1', this.titleText), this.closeEl]);
+    this.titleEl = $H('div.title', $H('h1', this.titleText));
+
+    if (this.closeButton) {
+      this.closeEl = $H('div.close.icon-cancel-circle', 'Close').click(this.close);
+      this.titleEl.append(this.closeEl)
+    }
+
     this.controlsEl = $H('div.controls');
     this.contentEl = $H('div.content');
     this.dialogEl.append(this.titleEl, this.contentEl, this.controlsEl);
@@ -158,6 +164,7 @@ Islay.Dialogs.AssetBrowser = Islay.Dialogs.Base.extend({
   url: '/admin/library/browser.json',
   offset: {x: 70, y: 70},
   sizing: 'flexible',
+  closeButton: true,
 
   loaded: function(res) {
     this.grid.load(res);
