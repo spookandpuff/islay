@@ -79,7 +79,7 @@ module Islay
     end
 
     def find_parent
-      parent = resource_parent[:class].find(resource_parent[:param])
+      parent = resource_parent[:class].find(params[resource_parent[:param]])
       instance_variable_set("@#{resource_parent[:name]}", parent)
     end
   end

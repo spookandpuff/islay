@@ -14,7 +14,8 @@ module Islay
           :html   => {:id => 'islay-form'}
         )
 
-        if object.is_a?(Symbol)
+        case object
+        when Symbol, Array
           form_for(object, *(args << options), &block)
         else
           form_for([:admin, object], *(args << options), &block)
