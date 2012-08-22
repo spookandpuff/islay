@@ -43,7 +43,7 @@ module Islay
       when :integer, :float
         options[:class] = 'small'
       when :text
-        options[:as] => 'text'
+        options[:as] = 'text'
       end
 
       # TODO: Support other types like URL, Email, etc.
