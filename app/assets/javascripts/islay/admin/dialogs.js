@@ -8,6 +8,7 @@ Islay.Dialogs.Base = Backbone.View.extend({
   className: 'dialog-overlay',
   dimensions: {width: "35em", height: "25em"},
   sizing: 'fixed',
+  format: 'JSON',
 
   initialize: function() {
     _.bindAll(this, 'close', '_resizeFixed', '_resizeFlexible', '_ajaxSuccess');
@@ -26,7 +27,12 @@ Islay.Dialogs.Base = Backbone.View.extend({
     if (this.options.url || this.url) {
       // TODO: Show loading widget
       var url = this.options.url || this.url;
-      $.getJSON(url, this._ajaxSuccess);
+      if (this.format == 'JSON') {
+        $.getJSON(url, this._ajaxSuccess);
+      }
+      else {
+        $.get(url, this._ajaxSuccess);
+      }
     }
 
     this._render();
@@ -88,6 +94,33 @@ Islay.Dialogs.Base = Backbone.View.extend({
 });
 
 /* -------------------------------------------------------------------------- */
+/* EDIT DIALOG
+/* -------------------------------------------------------------------------- */
+Islay.Dialogs.Edit = Islay.Dialogs.Base.extend({
+  titleText: 'Edit',
+  offset: {x: 30, y: 30},
+  sizing: 'flexible',
+  format: 'HTML',
+  bindings: ['save'],
+
+  loaded: function(res) {
+    this.contentEl.append(res);
+    this.formEl = this.$el.find('form');
+    this.form = new Islay.Form({el: this.formEl});
+  },
+
+  save: function() {
+    this.formEl.submit();
+  },
+
+  render: function() {
+    this.cancelEl = $H('button.cancel', 'Cancel').click(this.close);
+    this.saveEl = $H('button.save', 'Save').click(this.save);
+    this.controlsEl.append(this.cancelEl, this.saveEl)
+  }
+});
+
+/* -------------------------------------------------------------------------- */
 /* ASSET BROWSER
 /* -------------------------------------------------------------------------- */
 Islay.Dialogs.AssetBrowser = Islay.Dialogs.Base.extend({
@@ -95,7 +128,7 @@ Islay.Dialogs.AssetBrowser = Islay.Dialogs.Base.extend({
   titleText: 'Choose Assets',
   bindings: ['search', 'filter', 'selected', 'unselected', 'add', 'upload'],
   url: '/admin/library/browser.json',
-  offset: {x: 30, y: 30},
+  offset: {x: 70, y: 70},
   sizing: 'flexible',
 
   loaded: function(res) {

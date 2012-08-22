@@ -286,20 +286,36 @@ module Islay
 
       # This method is used to capture the main content for a page and wrap it
       # in a containing element.
+      #
+      # The content wrapper will be suppressed for AJAX requests.
+      #
+      # @param Hash opts
+      # @param Proc blk
+      #
+      # @return String
       def content(opts = {}, &blk)
-        content_tag(:div, capture(&blk), opts.merge(:id => 'content'))
+        output = capture(&blk)
+        if request.xhr?
+          output
+        else
+          content_tag(:div, output, opts.merge(:id => 'content'))
+        end
       end
 
       # Places the contents of a block in a div positioned at the bottom of the
       # screen.
       #
+      # The contents of the footer will be supressed in AJAX requests.
+      #
       # @param Hash opts
       # @param Block
       #
-      # @return String
+      # @return [String, nil]
       def footer(opts = {}, &blk)
-        @has_footer = true
-        content_tag(:div, capture(&blk), opts.merge(:id => 'footer'))
+        unless request.xhr?
+          @has_footer = true
+          content_tag(:div, capture(&blk), opts.merge(:id => 'footer'))
+        end
       end
 
       # Creates an edit button for a record.

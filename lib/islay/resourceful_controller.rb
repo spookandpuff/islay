@@ -13,6 +13,7 @@ module Islay
     def new
       set_ivar(new_record)
       dependencies
+      render :layout => !request.xhr?
     end
 
     def create
@@ -22,6 +23,7 @@ module Islay
     def edit
       set_ivar(find_record)
       dependencies
+      render :layout => !request.xhr?
     end
 
     def update
@@ -31,7 +33,7 @@ module Islay
     def delete
       record = set_ivar(find_record)
       @cancel_url = redirect_for(record)
-      render :template => 'islay/admin/shared/delete'
+      render :template => 'islay/admin/shared/delete', :layout => !request.xhr?
     end
 
     def destroy

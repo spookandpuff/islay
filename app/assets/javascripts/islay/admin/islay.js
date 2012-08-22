@@ -15,6 +15,10 @@ $(function() {
   };
 
   $('#content .time').prettyDate({value: timeValue});
+  $('#header .new, #footer .edit').click(function(e){
+    var dialog = new Islay.Dialogs.Edit({url: e.target.href});
+    e.preventDefault();
+  });
 
   $SP.init();
 });
