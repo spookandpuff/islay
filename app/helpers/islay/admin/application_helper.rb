@@ -344,8 +344,8 @@ module Islay
       # @param Hash opts options passed to the url generator
       #
       # @return String
-      def new_button(text, resource, opts = {})
-        link_to(text, path(:new, resource, opts), :class => 'button new')
+      def new_button(text, *args)
+        link_to(text, path(:new, *args), :class => 'button new')
       end
 
       # Used to attach an ID to the body of the layout. This is then used as a
