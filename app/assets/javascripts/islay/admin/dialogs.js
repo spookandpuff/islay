@@ -121,6 +121,32 @@ Islay.Dialogs.Edit = Islay.Dialogs.Base.extend({
 });
 
 /* -------------------------------------------------------------------------- */
+/* DELETE DIALOG
+/* -------------------------------------------------------------------------- */
+Islay.Dialogs.Delete = Islay.Dialogs.Base.extend({
+  titleText: 'Confirm Deletion',
+  offset: {x: 30, y: 30},
+  sizing: 'flexible',
+  format: 'HTML',
+  bindings: ['delete'],
+
+  loaded: function(res) {
+    this.contentEl.append(res);
+    this.formEl = this.$el.find('form');
+  },
+
+  delete: function() {
+    this.formEl.submit();
+  },
+
+  render: function() {
+    this.cancelEl = $H('button.cancel', 'Cancel').click(this.close);
+    this.deleteEl = $H('button.delete', 'Delete').click(this.delete);
+    this.controlsEl.append(this.cancelEl, this.deleteEl)
+  }
+});
+
+/* -------------------------------------------------------------------------- */
 /* ASSET BROWSER
 /* -------------------------------------------------------------------------- */
 Islay.Dialogs.AssetBrowser = Islay.Dialogs.Base.extend({

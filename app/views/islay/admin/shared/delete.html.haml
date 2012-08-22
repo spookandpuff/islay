@@ -4,5 +4,6 @@
   = content do
     %h3 Delete this Record?
     %p This action cannot be undone.
-    = cancel_button(nil, @cancel_url)
-    = button_tag('Delete', :class => 'delete')
+    - unless request.xhr?
+      = cancel_button(nil, @cancel_url)
+      = button_tag('Delete', :class => 'delete')
