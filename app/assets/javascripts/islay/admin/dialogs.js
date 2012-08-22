@@ -121,6 +121,10 @@ Islay.Dialogs.Edit = Islay.Dialogs.Base.extend({
     this.formEl.submit();
   },
 
+  resize: function(h) {
+    this.contentEl.css({height: h});
+  },
+
   render: function() {
     this.cancelEl = $H('button.cancel', 'Cancel').click(this.close);
     this.saveEl = $H('button.save', 'Save').click(this.save);
