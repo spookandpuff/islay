@@ -21,7 +21,6 @@ Islay.Dialogs.Base = Backbone.View.extend({
     }
     else {
       this.window = $(window).resize(this._resizeFlexible);
-      // this._resizeFlexible();
     }
 
     if (this.options.url || this.url) {
@@ -67,7 +66,8 @@ Islay.Dialogs.Base = Backbone.View.extend({
 
   initResize: function() {
     if (this.sizing == 'fixed') {
-
+      this.dialogEl.css({width: this.size.width, height: this.size.height});
+      this._resizeFixed();
     }
     else {
       this.dialogEl.css({left: this.offset.x, top: this.offset.y});
@@ -79,8 +79,10 @@ Islay.Dialogs.Base = Backbone.View.extend({
     // get the window size title and control sizes
     // Resize the dialog.
     // If it's defined, pass the values onto the resize function.
-    var windowHeight, remainingHeight;
-    if (this.resize) {this.resize(remainingHeight);}
+    var left = (this.window.width() - this.dialogEl.width()) / 2,
+        top = (this.window.height() - this.dialogEl.height()) / 2;
+
+    this.dialogEl.css({left: left, top: top});
   },
 
   _resizeFlexible: function() {
@@ -125,8 +127,8 @@ Islay.Dialogs.Edit = Islay.Dialogs.Base.extend({
 /* -------------------------------------------------------------------------- */
 Islay.Dialogs.Delete = Islay.Dialogs.Base.extend({
   titleText: 'Confirm Deletion',
-  offset: {x: 30, y: 30},
-  sizing: 'flexible',
+  size: {width: "40em", height: "20em"},
+  sizing: 'fixed',
   format: 'HTML',
   bindings: ['delete'],
 
