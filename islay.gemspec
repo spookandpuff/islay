@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.add_dependency "compass-rails",                 "~> 1.0.1"
   s.add_dependency "pg",                            "~> 0.13.2"
   s.add_dependency "schema_plus",                   "~> 0.4.0"
-  s.add_dependency "activerecord-postgres-hstore",  "~> 0.3.0"
+  s.add_dependency "activerecord-postgres-hstore",  "~> 0.4.0"
   s.add_dependency "inherited_resources",           "~> 1.3.1"
   s.add_dependency "rmagick",                       "~> 2.13.1"
   s.add_dependency "mime-types",                    "~> 1.19"
