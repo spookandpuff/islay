@@ -17,6 +17,13 @@ Rails.application.routes.draw do
         get :delete, :on => :member
       end
 
+      # PAGE CONTENT
+      scope :path => 'pages', :controller => 'pages' do
+        get '',      :action => 'index',  :as => 'pages'
+        get ':id',  :action => 'edit',    :as => 'page'
+        put ':id',  :action => 'update'
+      end
+
       # ASSET LIBRARY
       scope :path => 'library' do
         get '/' => 'asset_library#index', :as => 'asset_library'

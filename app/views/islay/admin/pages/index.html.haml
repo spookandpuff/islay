@@ -1,0 +1,16 @@
+= content do
+  %table
+    %thead
+      %tr
+        %th Name
+        %th Content
+        %th Updated at
+    %tbody
+      %tr
+        %th(colspan=3) Pages
+      - @pages.each do |slug, page|
+        = render :partial => 'page', :locals => {:page => page, :level => 0}
+      %tr
+        %th(colspan=3) Shared
+      - @shared.each do |slug, page|
+        = render :partial => 'page', :locals => {:page => page, :level => 0}

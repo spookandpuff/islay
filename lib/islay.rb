@@ -27,6 +27,7 @@ require "islay/taggable"
 require "islay/searchable"
 require "islay/query"
 require "islay/extensions"
+require "islay/pages"
 require "islay/resourceful_controller"
 require "islay/sprockets"
 

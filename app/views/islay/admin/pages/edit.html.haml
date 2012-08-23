@@ -1,0 +1,12 @@
+- sub_header('Edit Page', @page.name)
+
+= resource_form(@page, :url => path(:page, :id => params[:id]), :method => :put) do |f|
+  = content do
+    - @page.each do |slug, type, name, val|
+      %div.field
+        = label(name, slug)
+        = contents_field(slug, type, val)
+
+  = footer do
+    = cancel_button(@page, path(:pages))
+    = save_button

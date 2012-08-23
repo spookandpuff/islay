@@ -315,6 +315,9 @@ body.has-sub-header
 #users-nav
   +icon-users
 
+#page-content-nav
+  +icon-doc-text
+
 #current-user
   position: absolute
   left: 1em
@@ -555,7 +558,8 @@ thead th
   font-size: 0.85em
   padding: 1.2em 1em
 
-td
+td,
+tbody th
   padding: 0.8em 1em
 
 tr:nth-child(even)
@@ -566,6 +570,13 @@ th.control
   text-indent: -1000em
   letter-spacing: -1000em
   width: 4em
+
+tbody th
+  border-top: 0.1em solid $light-grey
+  border-bottom: 0.1em solid $light-grey
+  background-color: white
+  font-weight: bold
+  color: $dark-grey
 
 th,
 td

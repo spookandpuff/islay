@@ -13,6 +13,12 @@ module Islay
       Islay::Sprockets.configure(Rails.application)
     end
 
+    def self.content
+      @@pages ||= Pages.new
+      yield(@@pages) if block_given?
+      @@pages
+    end
+
     def self.extensions
       @@extensions ||= Extensions.new
       yield(@@extensions) if block_given?

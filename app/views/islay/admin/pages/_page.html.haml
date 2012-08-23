@@ -1,0 +1,12 @@
+%tr(class="level-#{level}")
+  %td= link_to(page.name, path(:page, :id => page.slug), :class => 'title')
+  %td= page.content_summary
+  %td
+    - if page.record
+      %span.time= page.record.updated_at
+      by #{page.record.updater.name}
+    - else
+      &nbsp;
+- unless page.pages.empty?
+  - page.pages.each do |slug, page|
+    = render :partial => 'page', :locals => {:page => page, :level => level + 1}
