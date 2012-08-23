@@ -39,8 +39,8 @@ module Islay::Public::ApplicationHelper
     raise "The page '#{name}' has not been defined" if page.nil?
     raise "The content '#{content}' has not been defined" if page.contents[content].nil?
 
-    if page.record
-      config = page.record.content_with_config(content)
+    if record = page.record
+      config = record.content_with_config(content)
 
       case config[:type]
       when :markdown  then render_markdown(config[:value], opts[:level] || 1)

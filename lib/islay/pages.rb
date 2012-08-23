@@ -39,7 +39,7 @@ module Islay
       end
 
       def record
-        @record ||= ::Page.where(:slug => slug).first
+        ::Page.where(:slug => slug).first
       end
 
       def content_summary
