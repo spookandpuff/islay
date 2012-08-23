@@ -16,6 +16,15 @@ class Page < ActiveRecord::Base
     end
   end
 
+  # The configuration and value merged together.
+  #
+  # @param [Symbol, String] name
+  #
+  # @return Hash
+  def content_with_config(name)
+    definition.contents[name.to_sym].merge(:value => entries[name.to_s])
+  end
+
   # The contents defined against the page. For any contents that are missing,
   # we stub it out.
   #
