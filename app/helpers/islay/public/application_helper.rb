@@ -35,7 +35,7 @@ module Islay::Public::ApplicationHelper
   #
   # @return [String, nil]
   def content(name, content, opts = {})
-    page = Islay::Engine.content.pages[name]
+    page = Islay::Pages.definitions[name]
     raise "The page '#{name}' has not been defined" if page.nil?
     raise "The content '#{content}' has not been defined" if page.contents[content].nil?
 
