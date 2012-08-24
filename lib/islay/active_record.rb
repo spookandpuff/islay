@@ -38,7 +38,7 @@ module ActiveRecord
     # This is a dirty hack which allows us to extend models within an application
     # by adding a corresponding file in ./app/model_extensions.
     def self.check_for_extensions
-      target = File.join(Rails.root, "app/model_extensions/#{self.to_s.underscore}.rb")
+      target = File.join(Rails.root, "app/models/#{self.to_s.underscore}_extensions.rb")
       require_dependency(target) if File.exists?(target)
     end
 
