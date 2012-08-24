@@ -31,13 +31,3 @@ class ImageAssetProcessor < AssetProcessor
     @source ||= Magick::ImageList.new(@file).first
   end
 end
-
-ImageAssetProcessor.config do
-  version(:derp) do |img|
-    img.resize_to_fit!(50, 50)
-  end
-
-  version(:what) do |img|
-    img.resize_to_fill!(500, 800)
-  end
-end
