@@ -1,6 +1,8 @@
 module Islay
   module Admin
     module ApplicationHelper
+      include ::Islay::ApplicationHelper
+
       # Accessors used to store various bits of configuration, which are then
       # used in the main layout of the admin,
       attr_reader :sub_nav_entries, :control_entries, :sub_header_entry
