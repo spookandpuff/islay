@@ -365,7 +365,7 @@ Islay.Widgets.Base = Backbone.View.extend({
   eachLabelAndInput: function(fn) {
     _.each(this.inputs, function(input) {
       var i = $(input);
-      fn(i, i.attr('name'), i.attr('value'), i.parent('label').text());
+      fn.apply(this, [i, i.attr('name'), i.attr('value'), i.parent('label').text()]);
     }, this);
   },
 
@@ -610,12 +610,14 @@ Islay.Widgets.Checkboxes = Islay.Widgets.Base.extend({
   },
 
   highlight: function(el) {
+    var input = this.$el.find('[value=' + el.attr('data-value') + ']');
+
     if (el.hasClass('selected')) {
-      this.update(0, el.attr('name'));
+      input.attr('disabled', 'disabled');
       el.removeClass('selected');
     }
     else {
-      this.update(1, el.attr('name'));
+      input.attr('disabled', null);
       el.addClass('selected');
     }
   },
@@ -625,7 +627,16 @@ Islay.Widgets.Checkboxes = Islay.Widgets.Base.extend({
 
     this.eachLabelAndInput(function(input, name, value, text) {
       var node = $H('li.button', {'data-value': value, name: name}, $H('span', text));
-      if (input.checked) {node.addClass('selected');}
+
+      if (input.attr('checked')) {
+        node.addClass('selected');
+      }
+      else {
+        // A dirty, dirty hack. This will have to be fixed at some point.
+        var hiddenName = '[type=hidden][value=' + input.attr('value') + ']';
+        this.$el.find(hiddenName).attr('disabled', 'disabled');
+      }
+
       frame.append(node);
     });
 
