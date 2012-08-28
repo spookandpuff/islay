@@ -1,6 +1,7 @@
 class Islay::Admin::PagesController < Islay::Admin::ApplicationController
   header 'Page Content'
-  before_filter :find_page, :except => [:index]
+  before_filter :find_page,   :except => [:index]
+  before_filter :find_assets, :except => [:index]
 
   def index
     @pages = Islay::Engine.content.pages
@@ -20,6 +21,10 @@ class Islay::Admin::PagesController < Islay::Admin::ApplicationController
   end
 
   private
+
+  def find_assets
+    @assets = ImageAsset.order('name').map {|a| [a.name, a.id]}
+  end
 
   def find_page
     @page = Page.where(:slug => params[:id]).first || Page.new(:slug => params[:id])
