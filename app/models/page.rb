@@ -43,7 +43,7 @@ class Page < ActiveRecord::Base
   #
   # @return Hash
   def content_with_config(name)
-    definition.contents[name.to_sym].merge(:value => entries[name.to_s])
+    definition.contents[name.to_sym].merge(:value => contents[name])
   end
 
   # The contents defined against the page. For any contents that are missing,

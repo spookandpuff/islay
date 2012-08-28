@@ -20,7 +20,7 @@ module Islay::Public::ApplicationHelper
       when :markdown  then render_markdown(config[:value], opts[:level] || 1)
       when :text      then simple_format(config[:value])
       when :string    then config[:value]
-      when :image     then version_image_tag(config[:value], opts[:version])
+      when :image     then version_image_tag(config[:value].asset, opts[:version]) if config[:value]
       end
     end
   end
