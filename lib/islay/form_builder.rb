@@ -42,8 +42,8 @@ module Islay
         options[:collection] = extract_values(metaopts[:values])
       when :integer, :float
         options[:class] = 'small'
-      when :text
-        options[:as] = 'text'
+      when :text, :boolean, :date
+        options[:as] = metaopts[:type]
       end
 
       # TODO: Support other types like URL, Email, etc.

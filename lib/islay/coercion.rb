@@ -4,6 +4,17 @@ module Islay
       v.to_s
     end
 
+    def coerce_date(v)
+      if v.blank?
+        Date.today
+      else
+        case v
+        when String then Date.parse(v)
+        else v
+        end
+      end
+    end
+
     def coerce_boolean(v)
       case v
       when 0, "0", "f", "false", false  then false
