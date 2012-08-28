@@ -26,4 +26,23 @@ module Islay::ApplicationHelper
       RDiscount.new(content).to_html.html_safe
     end
   end
+
+  # Creates an image tag for the specified image asset and version. Optionally
+  # if the :placeholder option is passed in, a div will be rendered in cases
+  # where the asset is absent.
+  #
+  # @param Asset asset
+  # @param Symbol version
+  # @param Hash opts
+  #
+  # @return String
+  def version_image_tag(asset, version, opts = {})
+    if asset.nil?
+      if opts[:placeholder]
+        content_tag(:div, 'No Image', :class => 'image-missing')
+      end
+    else
+      image_tag(asset.versions.url(version))
+    end
+  end
 end
