@@ -88,9 +88,6 @@ ul.asset-grid li
     text-align: center
     border: 0.1em solid $light-grey
     background: white
-    margin: 0 0 0 10%
-    width: 80%
-    margin-top: 1em
     overflow: hidden
     float: left
 
@@ -102,9 +99,22 @@ ul.asset-grid li
       color: #CCC + 30
       font-size: 5.5em
 
-.asset-preview
+ul.asset-grid li
   .frame
-    margin-bottom: 1em
+    margin: 1em 0 0 10%
+    width: 80%
+
+.asset-preview
+  position: relative
+  min-height: 240px
+
+  .frame
+    position: absolute
+    top: 1em
+    right: 1em
+    bottom: 1em
+    left: 1em
+    margin: 0!important
 
   .no-preview
     margin: 2em 0
