@@ -13,6 +13,13 @@ module Islay
 
       private
 
+      # Will either redirect the user back to the originating URL or another URL
+      # specified via the params. A redirection is specified using the
+      # _return_to param key.
+      def bounce_back
+        redirect_to params[:_return_to] ? params[:_return_to] : request.referrer
+      end
+
       def self.header(name)
         self._header = name
       end

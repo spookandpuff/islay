@@ -9,6 +9,8 @@
         %span(class='no-preview icon-#{@asset.kind}') &nbsp;
 
   = column(7, :class => 'last') do
+    %h3(class="asset #{@asset.kind}")= @asset.friendly_kind
+
     %h3 Info
     = render :partial => "#{@asset.friendly_kind.downcase}_metadata"
 
@@ -26,22 +28,24 @@
           %li
             %span.key Sizes/Formats
             %span.value
-              %ul
+              %ul.versions
                 - @asset.versions.urls.each do |name, path|
-                  %li= link_to(name, @asset.versions.url(name))
+                  %li= link_to(name.to_s.humanize, @asset.versions.url(name))
 
     %h3 Tags
     %ul#tag-cloud
       - @asset.tags.each do |tag|
         %li= link_to(tag.name, path(tag))
 
-    %p.edit-info
-      Created <span class='time'>#{@asset.created_at}</span> by #{@asset.creator.name}
-      %br
-      Updated <span class='time'>#{@asset.updated_at}</span> by #{@asset.updater.name}
+    %ul.key-value.edit-info
+      %li
+        %span.key Created
+        %span.value= creation_time(@asset)
+      %li
+        %span.key Updated
+        %span.value= update_time(@asset)
 
 = footer do
-  = link_to("Download", '', :class => 'button')
   = form_for([:reprocess, :admin, @asset]) do
     %button Reprocess
   = edit_button(@asset)

@@ -40,6 +40,24 @@ class Asset < ActiveRecord::Base
     }).order('name ASC')
   end
 
+  # Creates a scope, which filters the records by the specified status.
+  #
+  # @param String filter
+  #
+  # @return ActiveRecord::Relation
+  def self.filtered(filter)
+    filter ? where(:status => filter) : scoped
+  end
+
+  # Creates a scope, which sorts the records by the specified field.
+  #
+  # @param String sort
+  #
+  # @return ActiveRecord::Relation
+  def self.sorted(sort)
+    sort ? order(sort) : order('updated_at DESC')
+  end
+
   # Chooses the appropriate asset type based on the extension.
   #
   # @return Asset
@@ -49,7 +67,7 @@ class Asset < ActiveRecord::Base
     when *DOCUMENT_EXTENSIONS  then DocumentAsset.new
     when *VIDEO_EXTENSIONS     then VideoAsset.new
     when *AUDIO_EXTENSIONS     then AudioAsset.new
-    else self.new
+    else DocumentAsset.new
     end
   end
 

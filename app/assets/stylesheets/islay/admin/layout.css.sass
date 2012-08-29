@@ -172,6 +172,9 @@ body.has-sub-header
       &.tags
         +icon-tag
 
+      &.processing
+        +icon-retweet
+
     li:first-child a
       border-left-width: 0
 
@@ -241,13 +244,11 @@ body.has-sub-header
       padding-left: 0
 
     &:before
-      +islay-text-inset
-      font-family: icons
-      font-size: 1.8em
+      color: $dark-grey
+      font-weight: bold
+      margin-right: 0.6em
+      margin-top: 0.35em
       float: left
-      margin-right: 0.3em
-      margin-top: 0.05em
-      line-height: 1
 
     li, a
       float: left
@@ -257,19 +258,26 @@ body.has-sub-header
       +unstyled-link
       color: $dark-grey
       padding: 0.35em 0.6em
+      display: none
 
       &.current
         +islay-text-shadow
         +box-shadow($shadow-color 0 1px 0.3em 0 true, rgb(255,255,255) 0 1px 0 0)
-        background-color: $dark-grey
-        color: #FFF
+        color: #222
+        background-color: $light-grey
+        border-color: $mid-grey + 35
+        display: block
+
+    &:hover,
+    &.fold-false
+      a
+        display: block
 
   ul.sort
     border-left: 0.1em solid $light-grey
 
     &:before
-      content: "☰"
-      line-height: 1
+      content: "Sort"
 
   ul.filters
     li
@@ -288,8 +296,7 @@ body.has-sub-header
       float: right
 
     &:before
-      content: "⚏"
-      
+      content: "Show"
 
 /* -------------------------------------------------------------------------- */
 /* SIDE BAR
@@ -420,6 +427,26 @@ table.inset
   .save
     float: right
     margin: 0.5em 1em 0 0
+
+  .move-up,
+  .move-down
+    margin: 0.5em 0 0 0
+    float: right
+
+    &:before
+      font-family: Icons
+
+  .move-up
+    +icon-up
+    +border-top-right-radius(0)
+    +border-bottom-right-radius(0)
+
+  .move-down
+    +icon-down
+    +border-top-left-radius(0)
+    +border-bottom-left-radius(0)
+    border-left-width: 0
+    margin-right: 1em
 
 /* -------------------------------------------------------------------------- */
 /* GRID
