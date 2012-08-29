@@ -81,13 +81,27 @@ module Islay
         content_tag(opts.delete(:el) || :div, capture(&blk), opts)
       end
 
-      # Writes out a sub heading bar. Can be also used as a sub navigation bar
-      # by passing a block with the markup.
-      def sub_header(header, suffix = nil)
-        @sub_header_entry = if suffix
-          content_tag(:h2, (content_tag(:strong, header + ': ') + suffix).html_safe)
+      # Adds an entry into the sub header navigation, which is used to create breadcrumbs or headings
+      #
+      # @param content string
+      #
+      # @return Array
+      
+
+      # Writes out a bread-crumb or sub-heading. 
+      def sub_header(item = nil)
+        @sub_header_items ||= []
+
+        @sub_header_items << item if item
+
+        if @sub_header_items.count > 1
+          crumb_items = @sub_header_items.reduce([]) do |str, c|
+            str << content_tag(:li, c)
+          end.join
+
+          content_tag(:ol, crumb_items.html_safe, :class => 'breadcrumb')
         else
-          content_tag(:h2, header)
+          content_tag(:h2, *@sub_header_items)
         end
       end
 
@@ -95,7 +109,7 @@ module Islay
       #
       # @return Boolean
       def sub_header?
-        !!@sub_header_entry
+        !!@sub_header_items
       end
 
       # Adds and entry to the main navigation bar. It will additionally highlight
