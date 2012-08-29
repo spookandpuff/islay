@@ -202,11 +202,10 @@ body.has-sub-header
     float: right
 
     &:before
-      color: $mid-grey
-      font-family: icons
-      font-size: 1.8em
-      margin-right: 0.3em
-      margin-top: 0.05em
+      color: $dark-grey
+      font-weight: bold
+      margin-right: 0.6em
+      margin-top: 0.35em
       float: left
 
     li, a
@@ -218,27 +217,24 @@ body.has-sub-header
       color: $dark-grey
       border: 0.1em solid transparent
       padding: 0.35em 0.6em
+      display: none
 
       &.current
         color: black
         background-color: $light-grey
         border-color: $mid-grey
+        display: block
+
+    &:hover,
+    &.fold-false
+      a
+        display: block
 
   ul.sort
     border-left: 0.1em solid $mid-grey
 
-    a
-      display: none
-
-    .current
-      display: block
-
-    &:hover
-      a
-        display: block
-
     &:before
-      content: "☰"
+      content: "Sort"
 
   ul.filters
     li
@@ -257,7 +253,7 @@ body.has-sub-header
       float: right
 
     &:before
-      content: "⚏"
+      content: "Show"
 
 /* -------------------------------------------------------------------------- */
 /* SIDE BAR

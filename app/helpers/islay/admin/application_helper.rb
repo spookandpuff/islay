@@ -165,6 +165,30 @@ module Islay
         end.join.html_safe
       end
 
+
+      # Provides control over the 'folding' behaviour of the filter nav. By
+      # default it only displays the current selection, but in some cases we
+      # need all of them shown.
+      #
+      # @param Boolean bool
+      #
+      # @return Boolean
+      def fold_filter_nav(bool)
+        @fold_filter_nav = bool
+      end
+
+      # Checks to see if the filter nav should be folded away. By default this
+      # is true. It can be overridden with #fold_filter_nav
+      #
+      # @return Boolean
+      def fold_filter_nav?
+        if defined? @fold_filter_nav
+          @fold_filter_nav
+        else
+          true
+        end
+      end
+
       # Adds an entry into the filter navigation, which appears below the
       # sub-navigation. Typically used to filter lists of records.
       #

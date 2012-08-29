@@ -58,7 +58,7 @@
             = sort_nav_entries
 
         - if filter_nav?
-          %ul.filters
+          %ul(class="filters fold-#{fold_filter_nav?}")
             = filter_nav_entries
 
     = yield
