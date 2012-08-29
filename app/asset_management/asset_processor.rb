@@ -120,14 +120,14 @@ end
 # done if necessary.
 AssetProcessor.config do
   preview(:thumb) do |img|
-    img.resize_to_fill!(300, 280, ::Magick::CenterGravity)
+    img.resize_to_fit!(300, 280, ::Magick::CenterGravity)
   end
 
   preview(:thumb_medium) do |img|
-    img.resize_to_fill!(150, 130, ::Magick::CenterGravity)
+    img.resize_to_fit!(150, 130, ::Magick::CenterGravity)
   end
 
   preview(:thumb_small) do |img|
-    img.resize_to_fill!(70, 55, ::Magick::CenterGravity)
+    img.resize_to_fit!(70, 55, ::Magick::CenterGravity)
   end
 end
