@@ -227,6 +227,16 @@ body.has-sub-header
   ul.sort
     border-left: 0.1em solid $mid-grey
 
+    a
+      display: none
+
+    .current
+      display: block
+
+    &:hover
+      a
+        display: block
+
     &:before
       content: "☰"
 
