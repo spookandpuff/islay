@@ -15,20 +15,38 @@ $body-margin-left: 13.5em
 $body-color: white
 $alt-body-color: #F9F9F9
 $side-bar-color: #232323
+
+$very-light-grey: #F4F4F4
 $light-grey: #E1E1E1
 $mid-grey: #979797
 $dark-grey: #666
+
 $highlight-color: #2C5A8D
 $positive-color: #39A22B
 $negative-color: #C42217
 $neutral-color: #439DF3
 $header-border-color: #C2CBD5
 
+$shadow-color: rgba(0,0,0,0.3)
+
+$link-color: #2E56E0
+$link-hover-color: $link-color + 20
+$link-active-color: #AA3E1C
+$link-visited-color: #584BB1
+
 /* -------------------------------------------------------------------------- */
 /* MIXINS
 /* -------------------------------------------------------------------------- */
-@mixin islay-text-shadow($offset: 1px, $opacity: 0.9)
+
+@mixin islay-text-shadow($offset-x: 1px, $offset-y: 1px, $blur: 1px, $color: $shadow-color)
+  +text-shadow($color $offset-x $offset-y $blur)
+
+@mixin islay-text-engraved($offset: 1px, $opacity: 0.9)
   +text-shadow(rgba(255, 255, 255, $opacity) $offset $offset 0)
+
+@mixin islay-text-inset
+  +text-shadow(rgba(0,0,0,0.4) 0 -1px 1px, rgba(255,255,255,0.9) 0 1px 0)
+  color:  rgba(0, 0, 0, 0.0)
 
 @mixin hide
   position: absolute
@@ -100,7 +118,7 @@ body.has-sub-header
   border-bottom: 0.1em solid #B7B9C6
 
   h1
-    +islay-text-shadow
+    +islay-text-engraved
     font-size: 1.2em
     margin: 0.65em 0 0 0.6em
     float: left
@@ -175,8 +193,9 @@ body.has-sub-header
   +background-image(linear-gradient(#FFFFFF, #ECECEC))
   border-bottom: 0.1em solid $header-border-color
 
-  h2
-    +islay-text-shadow
+  h2,
+  .breadcrumb
+    +islay-text-engraved
     font-weight: bold
     font-size: 1.1em
     margin-left: 0.6em
@@ -185,6 +204,25 @@ body.has-sub-header
 
     strong
       color: $dark-grey
+
+  .breadcrumb
+    li
+      display: inline-block
+      &:after
+        +islay-text-inset
+        content: '❯'
+        line-height: 1.2
+        margin-right: 0.6em
+        padding-left: 0.75em
+        vertical-align: -0.15em
+      &:last-child:after
+        content: none
+    a
+      color: $dark-grey
+      display: inline-block
+      font-weight: normal
+      text-decoration: none
+
 
 /* -------------------------------------------------------------------------- */
 /* FILTERS
@@ -197,35 +235,41 @@ body.has-sub-header
     margin: 0.7em 1em 0 0.5em
     padding-left: 1em
     float: right
+    font-size: 0.9em
+
+    &:last-child
+      padding-left: 0
 
     &:before
-      color: $mid-grey
+      +islay-text-inset
       font-family: icons
       font-size: 1.8em
+      float: left
       margin-right: 0.3em
       margin-top: 0.05em
-      float: left
+      line-height: 1
 
     li, a
       float: left
 
     a
-      +border-radius(0.4em)
+      +border-radius(0.6em)
       +unstyled-link
       color: $dark-grey
-      border: 0.1em solid transparent
       padding: 0.35em 0.6em
 
       &.current
-        color: black
-        background-color: $light-grey
-        border-color: $mid-grey
+        +islay-text-shadow
+        +box-shadow($shadow-color 0 1px 0.3em 0 true, rgb(255,255,255) 0 1px 0 0)
+        background-color: $dark-grey
+        color: #FFF
 
   ul.sort
-    border-left: 0.1em solid $mid-grey
+    border-left: 0.1em solid $light-grey
 
     &:before
       content: "☰"
+      line-height: 1
 
   ul.filters
     li
@@ -245,6 +289,7 @@ body.has-sub-header
 
     &:before
       content: "⚏"
+      
 
 /* -------------------------------------------------------------------------- */
 /* SIDE BAR
@@ -261,13 +306,19 @@ body.has-sub-header
     input
       +border-radius(2em)
       +single-box-shadow($side-bar-color - 7, 0, 0, 0.3em, 0, true)
-      color: white
       background: $side-bar-color + 30
       border: 0.1em solid $side-bar-color - 6
-      width: $body-margin-left - 1.8em
+      color: white
       margin-left: 1em
       margin-top: 0.4em
+      outline: none
       padding: 0.6em 1em
+      width: $body-margin-left - 1.8em
+
+      &:focus
+        +single-box-shadow($highlight-color, 0, 0, 0.35em, 0.25em, true)
+        border-color: $highlight-color
+        background: $side-bar-color + 20
 
   ul
     border-top: 0.1em solid $side-bar-color + 6
@@ -361,6 +412,9 @@ table.inset
   .button, button
     margin: 0.5em 0 0 1em
 
+  .new
+    color: $dark-grey
+
   .edit,
   .delete,
   .save
@@ -373,7 +427,7 @@ table.inset
 $column-count: 12
 $gutter-count: $column-count - 1
 $gutter-width: 1.5%
-$column-width: (100% - ($gutter-width * $gutter-count)) / $column-count
+$column-width: (100% / $column-count) - $gutter-width
 
 #content
   .column
@@ -392,7 +446,7 @@ $i: 0
   $j: $i
   $i: $i + 1
   #content .count-#{$i}
-    width: $column-width * $i + $gutter-width * $j
+    width: $column-width * $i + ($gutter-width * $j)
     margin-right: $gutter-width
 
 /* -------------------------------------------------------------------------- */
@@ -403,7 +457,7 @@ button
   +border-radius(0.3em)
   +background-image(linear-gradient(white, $light-grey))
   +box-shadow(rgba(0, 0, 0, 0.05), -1px -1px 1px)
-  +islay-text-shadow
+  +islay-text-engraved
   color: #222
   font-weight: bold
   border: 0.1em solid #C2CBD5 - 18
@@ -488,18 +542,25 @@ table
   td.meta
     width: 15em
 
+  td.meta
+    color: $dark-grey
+    font-size: 0.8em
+
   /* YES/NO FLAGS */
   th.boolean,
   td.boolean
     width: 4em
 
   span.boolean
+    font-family: icons
+
     text-align: center
     width: 3.5em
     float: left
 
     &:before
       font-size: 1.6em
+      font-weight: bold
 
     &.true:before
       color: $positive-color
@@ -640,7 +701,7 @@ table
   .overview
     padding: 1.5em 2% 0 2%
     width: 96%
-    float: lef
+    float: left
 
 /* -------------------------------------------------------------------------- */
 /* TAG CLOUD
@@ -658,7 +719,7 @@ table
     +unstyled-link
     +border-radius(0.3em)
     +background-image(linear-gradient(#FAEC7F, #E7CF63))
-    +islay-text-shadow(1px, 0.5)
+    +islay-text-engraved(1px, 0.5)
     border: 0.1em solid #DBA960
     padding: 0.6em 1em
     margin: 0 1em 1em 0
