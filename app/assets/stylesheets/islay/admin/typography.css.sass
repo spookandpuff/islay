@@ -1,7 +1,10 @@
 @import compass/typography
 
+$default-font-family: "Lucida Grande", "Helvetica Neue", Helvetica, Arial, sans-serif
+$alternate-font-family: 'Dosis Medium'
+
 body
-  font-family: "Lucida Grande", "Helvetica Neue", Helvetica, Arial, sans-serif
+  font-family: $default-font-family
   font-size: 13px
   -webkit-font-smoothing: anti-aliased
 
@@ -20,7 +23,7 @@ a
 
 #content
   h3
-    font-family: 'Dosis Medium'
+    font-family: $alternate-font-family
     color: $dark-grey
     font-size: 1.1em
     text-transform: uppercase

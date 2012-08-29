@@ -256,22 +256,49 @@ body.has-sub-header
     a
       +border-radius(0.6em)
       +unstyled-link
+      +transition-property(width, margin-right)
+      +transition-duration(0.2s)
+      border: 1px solid transparent
       color: $dark-grey
-      padding: 0.35em 0.6em
-      display: none
+      display: block
+      margin-right: 0em
+      overflow: hidden
+      padding: 0.35em 0
+      text-align: center
+      width: 0
 
-      &.current
-        +islay-text-shadow
-        +box-shadow($shadow-color 0 1px 0.3em 0 true, rgb(255,255,255) 0 1px 0 0)
+      &:hover,
+      &:focus
+        +box-shadow($shadow-color 0 1px 0.3em 0)
+        background-color: #FFF
+        border-color: $light-grey + 35
+
+      &.current,
+      &.current:hover,
+      &.current:focus
+        +box-shadow($shadow-color 0 1px 0.3em 0 inset, rgb(255,255,255) 0 1px 0 0)
         color: #222
         background-color: $light-grey
-        border-color: $mid-grey + 35
-        display: block
+        padding: 0.35em 0.6em
+        width: auto!important
 
     &:hover,
     &.fold-false
       a
-        display: block
+        border-color: $light-grey
+        margin-right: 0.6em
+        padding: 0.35em 0.6em
+
+    &:hover
+      a
+        width: 6em
+
+
+    &.fold-false
+      a
+        width: auto
+        
+
 
   ul.sort
     border-left: 0.1em solid $light-grey
