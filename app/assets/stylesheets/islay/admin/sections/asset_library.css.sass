@@ -7,72 +7,6 @@
   background: $alt-body-color
 
 /* -------------------------------------------------------------------------- */
-/* ASSET TREE
-/* -------------------------------------------------------------------------- */
-ul.asset-tree
-  border-bottom: 0.1em solid $light-grey
-  float: left
-
-  li
-    border-top: 0.1em solid $light-grey
-
-  li, ul
-    width: 100%
-    float: left
-
-  .album-name,
-  .collection-name
-    &:before
-      padding-right: 0.3em
-      font-size: 1.2em
-
-    font-size: 1.2em
-    margin-left: 0.2em
-    padding: 0.4em 0
-    float: left
-
-  .collection-name
-    color: #666
-    font-weight: bold
-
-  .album-name
-    text-decoration: none !important
-    color: inherit !important
-
-  .edit, .delete
-    font-size: 0.9em
-    margin: 0.8em 0 0 0.5em
-    float: right
-
-  .count
-    +border-radius(1em)
-    background: $highlight-color
-    color: white
-    text-align: center
-    margin: 0.75em 0 0 0.6em
-    padding: 0.25em 0 0.35em 0
-    font-size: 0.85em
-    width: 1.5em
-
-    float: left
-
-  li li
-    .album-name, .collection-name
-      margin-left: 1.3em
-
-  li li li
-    .album-name, .collection-name
-      margin-left: 2.6em
-
-  li li li li
-    .album-name, .collection-name
-      margin-left: 3.8em
-
-  li li li li li
-    .album-name, .collection-name
-      margin-left: 5em
-
-/* -------------------------------------------------------------------------- */
 /* ASSET PREVIEW
 /* -------------------------------------------------------------------------- */
 .asset-preview,
@@ -199,6 +133,18 @@ ul.key-value
 /* -------------------------------------------------------------------------- */
 #islay-admin-assets.show #content
   h3, p
+    width: 100%
+    float: left
+
+  .asset
+    font-size: 1.6em
+
+    &:before
+      font-size: 1.4em
+      margin-right: 0.2em
+      font-family: Icons
+
+  .versions li
     width: 100%
     float: left
 

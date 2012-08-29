@@ -36,7 +36,7 @@ module Islay
       # @return string
       def update_time(model)
         tag = content_tag(:span, model.updated_at, :class => 'time', :title => model.updated_at)
-        tag + "by #{model[:updater_name] || model.updater.name}"
+        tag + " by #{model[:updater_name] || model.updater.name}"
       end
 
       # Creates markup for displaying an creation time and the name of the user
