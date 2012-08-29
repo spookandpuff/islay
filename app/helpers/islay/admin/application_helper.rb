@@ -366,6 +366,31 @@ module Islay
         link_to(text, path(:new, *args), :class => 'button new')
       end
 
+      # Creates a set of buttons to be used when moving selections within a list
+      # up or down in position.
+      #
+      # @return String
+      def position_buttons
+        content_tag(:button, 'Down', :name => 'do', :value => 'move_down', :class => 'move-down') +
+        content_tag(:button, 'Up', :name => 'do', :value => 'move_up', :class => 'move-up')
+      end
+
+      # Checks to see if a record with this ID has been selected.
+      #
+      # @param Integer id
+      #
+      # @return Boolean
+      def selected?(id)
+        !ids.empty? and ids.include?(id)
+      end
+
+      # Returns a list of ids stored in the flash, coerced to ints.
+      #
+      # @return Array<Integer>
+      def ids
+        @ids ||= (flash[:ids] ? flash[:ids].map(&:to_i) : [])
+      end
+
       # Used to attach an ID to the body of the layout. This is then used as a
       # hook for attaching Javascript initializers to specific pages.
       #

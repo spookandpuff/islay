@@ -17,6 +17,7 @@ require 'zipruby'
 require 'jsonify-rails'
 require 'kaminari'
 require 'RMagick'
+require 'acts_as_list'
 
 require "islay/engine"
 require "islay/coercion"
