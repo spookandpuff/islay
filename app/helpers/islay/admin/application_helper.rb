@@ -86,22 +86,24 @@ module Islay
       # @param content string
       #
       # @return Array
-      
+      def sub_header(text, link = nil)
+        @sub_header_entries ||= []
 
-      # Writes out a bread-crumb or sub-heading. 
-      def sub_header(item = nil)
-        @sub_header_items ||= []
 
-        @sub_header_items << item if item
-
-        if @sub_header_items.count > 1
-          crumb_items = @sub_header_items.reduce([]) do |str, c|
-            str << content_tag(:li, c)
-          end.join
-
-          content_tag(:ol, crumb_items.html_safe, :class => 'breadcrumb')
+        @sub_header_entries <<  if link
+          link_to(text, link)
         else
-          content_tag(:h2, *@sub_header_items)
+          text
+        end
+      end
+
+      def prefixed_sub_header(prefix, text, link = nil)
+        @sub_header_entries ||= []
+
+        @sub_header_entries << if link
+          link_to("#{content_tag(:strong, prefix)} #{text}", link)
+        else
+          "#{content_tag(:strong, prefix)} #{text}".html_safe
         end
       end
 
@@ -109,7 +111,19 @@ module Islay
       #
       # @return Boolean
       def sub_header?
-        !!@sub_header_items
+        !!@sub_header_entries
+      end
+
+      def output_sub_header
+        if @sub_header_entries.count > 1
+          crumb_items = @sub_header_entries.map do |c|
+            content_tag(:li, c)
+          end.join
+
+          content_tag(:ol, crumb_items.html_safe, :class => 'breadcrumb')
+        else
+          content_tag(:h2, *@sub_header_entries)
+        end
       end
 
       # Adds and entry to the main navigation bar. It will additionally highlight

@@ -11,6 +11,8 @@
     = stylesheet_link_tag('islay/admin/islay')
     = javascript_include_tag('islay/admin/islay')
 
+
+
   %body(id=body_id class=body_class)
     %div#main-header
       %h1 Islay
@@ -51,7 +53,7 @@
     - if show_sub_bar?
       %div#sub-header
         - if sub_header?
-          = sub_header
+          = output_sub_header
 
         - if sort_nav?
           %ul.sort
