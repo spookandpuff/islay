@@ -16,7 +16,7 @@ module Islay
         else Asset
         end
 
-        @assets = klass.order('name')
+        @assets = klass.page(params[:page]).order('name')
       end
 
       def create
@@ -28,6 +28,20 @@ module Islay
         end
 
         persist!(@asset)
+      end
+
+      def processing
+        @assets = Asset.filtered(params[:filter]).sorted(params[:sort])
+      end
+
+      def bulk_reprocess
+        if params[:all]
+          Asset.all.each(&:reprocess!)
+        else
+          Asset.where(:id => params[:ids]).each(&:reprocess!)
+        end
+
+        bounce_back
       end
 
       def bulk

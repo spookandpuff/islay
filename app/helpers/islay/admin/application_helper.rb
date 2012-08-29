@@ -350,9 +350,11 @@ module Islay
 
       # Creates a save button for a record. To be used within a form.
       #
+      # @param String text
+      #
       # @return String
-      def save_button
-        content_tag(:button, 'Save', :class => 'save', :name => 'save')
+      def save_button(text = 'Save')
+        content_tag(:button, text, :class => 'save', :name => 'save')
       end
 
       # Creates a new button for a record.

@@ -35,6 +35,15 @@ Rails.application.routes.draw do
 
         resources :asset_tags, :path => 'tags', :only => %w(index show)
 
+        # Processing
+        resources :asset_processes, :path => 'processing', :controller => 'assets', :only => :index do
+          collection do
+            get '',                               :action => :processing, :as => 'index'
+            get '(/filter-:filter)(/sort-:sort)', :action => :processing, :as => 'filter_and_sort'
+            put '',                               :action => :bulk_reprocess
+          end
+        end
+
         # Assets
         asset_resource = lambda do
           collection do

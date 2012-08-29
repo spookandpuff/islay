@@ -1,0 +1,32 @@
+- sub_header('Asset Processing')
+
+- filter_nav(:asset_processes, 'All')
+- filter_nav(:asset_processes, 'Enqueued', 'enqueued')
+- filter_nav(:asset_processes, 'Processing', 'processing')
+- filter_nav(:asset_processes, 'Processed', 'processed')
+- filter_nav(:asset_processes, 'Errors', 'errored')
+
+- sort_nav(:asset_processes, 'Updated at')
+- sort_nav(:asset_processes, 'Name', 'name')
+- sort_nav(:asset_processes, 'Status', 'status')
+
+= form_tag(path(:asset_processes), :method => :put) do
+  = content do
+    %table
+      %thead
+        %tr
+          %th.select= check_box_tag('all')
+          %th Status
+          %th Asset
+          %th Updated at
+
+      %tbody
+        - @assets.each do |asset|
+          %tr
+            %td.select= check_box_tag("ids[]", asset.id)
+            %td= asset.status.capitalize
+            %td= link_to(asset.name, path(asset), :class => 'title')
+            %td= update_time(asset)
+
+  = footer do
+    = save_button('Process')
