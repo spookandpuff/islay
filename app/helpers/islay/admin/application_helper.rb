@@ -425,8 +425,12 @@ module Islay
       #
       # @return String
       def position_buttons
-        content_tag(:button, 'Down', :name => 'do', :value => 'move_down', :class => 'move-down') +
-        content_tag(:button, 'Up', :name => 'do', :value => 'move_up', :class => 'move-up')
+
+        button_content = content_tag(:label, 'Move selection') +
+        content_tag(:button, content_tag(:span, 'Down'), :name => 'do', :value => 'move_down', :class => 'move-down') +
+        content_tag(:button, content_tag(:span, 'Up'), :name => 'do', :value => 'move_up', :class => 'move-up')
+
+        content_tag(:fieldset, button_content, :class => 'position-controls')
       end
 
       # Checks to see if a record with this ID has been selected.
