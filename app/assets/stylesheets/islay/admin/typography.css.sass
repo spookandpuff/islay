@@ -1,8 +1,5 @@
 @import compass/typography
 
-$default-font-family: "Lucida Grande", "Helvetica Neue", Helvetica, Arial, sans-serif
-$alternate-font-family: 'Dosis Medium'
-
 body
   font-family: $default-font-family
   font-size: 13px
@@ -19,9 +16,11 @@ a
   &:active
     color: $link-active-color
 
-
-
 #content
+  h3,
+  th
+    font-family: $alternate-font-family
+
   h3
     font-family: $alternate-font-family
     color: $dark-grey

@@ -1,0 +1,82 @@
+/* -------------------------------------------------------------------------- */
+/* Centralised 'skin' config for colors, fonts, effects.
+/* -------------------------------------------------------------------------- */
+
+@import compass/layout/stretching
+@import compass/css3
+
+/* -------------------------------------------------------------------------- */
+/* MEASUREMENTS
+/* -------------------------------------------------------------------------- */
+$header-height: 2.8em
+$sub-header-height: 3em
+$footer-height: 3.2em
+$body-margin-left: 13.5em
+
+/* -------------------------------------------------------------------------- */
+/* COLORS
+/* -------------------------------------------------------------------------- */
+$body-color: white
+$alt-body-color: #F9F9F9
+$side-bar-color: #232323
+
+$very-light-grey: #F4F4F4
+$light-grey: #E1E1E1
+$mid-grey: #979797
+$dark-grey: #666
+
+$highlight-color: #2C5A8D
+$positive-color: #39A22B
+$negative-color: #C42217
+$neutral-color: #439DF3
+$header-border-color: #C2CBD5
+
+$selected-background-color: #2C5A8D
+$selected-foreground-color: #FFF
+
+$text-color: #333
+
+$link-color: #2E56E0
+$link-hover-color: $link-color + 20
+$link-active-color: #AA3E1C
+$link-visited-color: #584BB1
+
+$shadow-color: rgba(0,0,0,0.3)
+
+//Button face colors:
+$button-text-color: #FFF
+$button-primary-color: #2C5A8D
+$button-secondary-color: #E1E1E1
+$button-positive-color: #39A22B
+$button-negative-color: #C42217
+
+//These are transparent overlays used for various button states.
+$dimension-raised: linear-gradient(top, rgba(255,255,255,0.5) 0%,rgba(255,255,255,0.15) 5%,rgba(255,255,255,0) 95%, rgba(0,0,0,0.25) 100%)
+$dimension-raised-active: linear-gradient(top, rgba(255,255,255,0.6) 0%,rgba(255,255,255,0.35) 5%,rgba(255,255,255,0.1) 95%, rgba(0,0,0,0.25) 100%)
+$dimension-sunken: linear-gradient(top, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.35) 5%,rgba(0,0,0,0.1) 95%, rgba(255,255,255,0.25) 100%)
+
+/* -------------------------------------------------------------------------- */
+/* FONT-FAMILY SET UP
+/* -------------------------------------------------------------------------- */
+
+$default-font-family: "Lucida Grande", "Helvetica Neue", Helvetica, Arial, sans-serif
+$alternate-font-family: 'Quattrocento Sans'
+
+
+/* -------------------------------------------------------------------------- */
+/* MIXINS
+/* -------------------------------------------------------------------------- */
+
+@mixin islay-text-shadow($offset-x: 1px, $offset-y: 1px, $blur: 1px, $color: $shadow-color)
+  +text-shadow($color $offset-x $offset-y $blur)
+
+@mixin islay-text-engraved($offset: 1px, $opacity: 0.9)
+  +text-shadow(rgba(255, 255, 255, $opacity) $offset $offset 0)
+
+@mixin islay-text-inset
+  +text-shadow(rgba(0,0,0,0.4) 0 -1px 1px, rgba(255,255,255,0.9) 0 1px 0)
+  color:  rgba(0, 0, 0, 0.0)
+
+@mixin hide
+  position: absolute
+  left: -1000em

@@ -1,56 +1,3 @@
-@import compass/layout/stretching
-@import compass/css3
-
-/* -------------------------------------------------------------------------- */
-/* MEASUREMENTS
-/* -------------------------------------------------------------------------- */
-$header-height: 2.8em
-$sub-header-height: 3em
-$footer-height: 3.2em
-$body-margin-left: 13.5em
-
-/* -------------------------------------------------------------------------- */
-/* COLORS
-/* -------------------------------------------------------------------------- */
-$body-color: white
-$alt-body-color: #F9F9F9
-$side-bar-color: #232323
-
-$very-light-grey: #F4F4F4
-$light-grey: #E1E1E1
-$mid-grey: #979797
-$dark-grey: #666
-
-$highlight-color: #2C5A8D
-$positive-color: #39A22B
-$negative-color: #C42217
-$neutral-color: #439DF3
-$header-border-color: #C2CBD5
-
-$shadow-color: rgba(0,0,0,0.3)
-
-$link-color: #2E56E0
-$link-hover-color: $link-color + 20
-$link-active-color: #AA3E1C
-$link-visited-color: #584BB1
-
-/* -------------------------------------------------------------------------- */
-/* MIXINS
-/* -------------------------------------------------------------------------- */
-
-@mixin islay-text-shadow($offset-x: 1px, $offset-y: 1px, $blur: 1px, $color: $shadow-color)
-  +text-shadow($color $offset-x $offset-y $blur)
-
-@mixin islay-text-engraved($offset: 1px, $opacity: 0.9)
-  +text-shadow(rgba(255, 255, 255, $opacity) $offset $offset 0)
-
-@mixin islay-text-inset
-  +text-shadow(rgba(0,0,0,0.4) 0 -1px 1px, rgba(255,255,255,0.9) 0 1px 0)
-  color:  rgba(0, 0, 0, 0.0)
-
-@mixin hide
-  position: absolute
-  left: -1000em
 
 /* -------------------------------------------------------------------------- */
 /* BODY SIZING
@@ -199,16 +146,18 @@ body.has-sub-header
   h2,
   .breadcrumb
     +islay-text-engraved
+    color: $dark-grey
+    float: left
     font-weight: bold
     font-size: 1.1em
     margin-left: 0.6em
     margin-top: 0.95em
-    float: left
 
     strong
       color: $dark-grey
 
   .breadcrumb
+    font-weight: normal
     li
       display: inline-block
       &:after
@@ -218,12 +167,14 @@ body.has-sub-header
         margin-right: 0.6em
         padding-left: 0.75em
         vertical-align: -0.15em
-      &:last-child:after
-        content: none
+      &:last-child
+        color: $text-color
+        font-weight: bold
+        &:after
+          content: none
     a
       color: $dark-grey
       display: inline-block
-      font-weight: normal
       text-decoration: none
 
 
@@ -276,7 +227,7 @@ body.has-sub-header
       &.current,
       &.current:hover,
       &.current:focus
-        +box-shadow($shadow-color 0 1px 0.3em 0 inset, rgb(255,255,255) 0 1px 0 0)
+        +box-shadow(rgba(0,0,0,0.1) 0 1px 0 0 inset, rgb(255,255,255) 0 1px 0 0)
         color: #222
         background-color: $light-grey
         padding: 0.35em 0.6em
@@ -293,12 +244,9 @@ body.has-sub-header
       a
         width: 6em
 
-
     &.fold-false
       a
         width: auto
-        
-
 
   ul.sort
     border-left: 0.1em solid $light-grey
@@ -439,9 +387,22 @@ table.inset
 /* -------------------------------------------------------------------------- */
 /* FOOTER
 /* -------------------------------------------------------------------------- */
-#footer
+
+#footer,
+.table-footer
   +background-image(linear-gradient(#FFFFFF, #ECECEC))
-  border-top: 0.1em solid #C2CBD5
+
+  .default-controls,
+  .selection-controls
+    float: left
+    height: 100%
+    width: 100%
+
+  .default-controls
+    display: block
+
+  .selection-controls
+    display: none
 
   .button, button
     margin: 0.5em 0 0 1em
@@ -458,22 +419,57 @@ table.inset
   .move-up,
   .move-down
     margin: 0.5em 0 0 0
-    float: right
+    float: left
+    padding-right: 0.2em
+
+    span
+      +hide
 
     &:before
       font-family: Icons
 
   .move-up
     +icon-up
-    +border-top-right-radius(0)
-    +border-bottom-right-radius(0)
+    +border-top-left-radius(0)
+    +border-bottom-left-radius(0)
+    border-left-color: $button-secondary-color + 20
 
   .move-down
     +icon-down
-    +border-top-left-radius(0)
-    +border-bottom-left-radius(0)
+    +border-top-right-radius(0)
+    +border-bottom-right-radius(0)
     border-left-width: 0
-    margin-right: 1em
+
+.selection-controls
+  +background-image(linear-gradient($selected-background-color + 80, $selected-background-color + 60))
+
+  .position-controls
+    float: left
+    padding-left: 1em
+    label
+      float: left
+      font-size: 0.9em
+      color: #FFF
+      padding: 1.35em 1em 0 0
+
+#footer
+  border-top: 0.1em solid #C2CBD5
+
+.table-footer
+  float: left
+  margin-left: 2%
+  width: 95.9%
+  .position-controls
+    padding-bottom: 0.5em
+
+.has-selection
+  #footer,
+  .table-footer
+    .default-controls
+      display: none
+
+    .selection-controls
+      display: block
 
 /* -------------------------------------------------------------------------- */
 /* GRID
@@ -505,18 +501,38 @@ $i: 0
 
 /* -------------------------------------------------------------------------- */
 /* BUTTONS
+
+/* Button face colors:
+/* $button-text-color: #FFF
+/* $button-primary-color: #2C5A8D
+/* $button-secondary-color: #E1E1E1
+/* $button-positive-color: #39A22B
+/* $button-negative-color: #C42217
+
 /* -------------------------------------------------------------------------- */
+
 a.button,
 button
   +border-radius(0.3em)
-  +background-image(linear-gradient(white, $light-grey))
+  +background-image($dimension-raised)
   +box-shadow(rgba(0, 0, 0, 0.05), -1px -1px 1px)
   +islay-text-engraved
-  color: #222
+  +transition(background-image, 0.5s)
+  background-color: $button-secondary-color
+  color: #222!important
+  cursor: pointer
   font-weight: bold
-  border: 0.1em solid #C2CBD5 - 18
+  border: 0.1em solid $button-secondary-color - 40
   padding: 0.5em 0.8em 0.35em 0.6em
   float: left
+
+  &:hover,
+  &:focus
+    +background-image($dimension-raised-active)
+
+  &:active
+    +text-shadow(none)
+    +background-image($dimension-sunken)
 
   &:before
     font-family: icons
@@ -546,26 +562,26 @@ button.save,
 .button.delete,
 .button.edit
   +text-shadow(rgba(0, 0, 0, 0.3) -1px -1px 2px)
-  color: white
+  color: white!important
 
   &:before
-    color: white
+    color: white!important
 
 button.save
-  +background-image(linear-gradient(#4D7BAE, $highlight-color - 10))
+  background-color: $button-positive-color
   font-size: 1em
-  border-color: #395C7F
+  border-color: $button-positive-color - 30
 
   &:before
     content: '⚡'
 
 .button.delete
-  +background-image(linear-gradient(#FF1646, #B2000C))
-  border-color: #A62325
+  background-color: $button-negative-color
+  border-color: $button-negative-color - 30
 
 .button.edit
-  +background-image(linear-gradient(#38B347, #1D8329))
-  border-color: #448844
+  background-color: $button-primary-color
+  border-color: $button-primary-color - 30
 
 a.button
   text-decoration: none
@@ -599,10 +615,23 @@ table
   td.meta
     color: $dark-grey
     font-size: 0.8em
+    line-height: 1.5
+
+  th.currency,
+  td.currency
+    font-family: $alternate-font-family
+    text-align: char
+
+  td.boolean,
+  td.indicator,
+  td.select,
+  td.meta
+    vertical-align: middle
 
   /* YES/NO FLAGS */
   th.boolean,
   td.boolean
+    text-align: center
     width: 4em
 
   span.boolean
@@ -626,6 +655,9 @@ table
 
     span
       +hide
+
+  span.time
+    display: block
 
   /* THE MAIN COLUMN */
   .title
@@ -671,11 +703,15 @@ thead th
   border-bottom: 0.1em solid $light-grey
   color: $dark-grey
   font-size: 0.85em
-  padding: 1.2em 1em
+  padding: 1em 1em 0.6em 1em
 
 td,
 tbody th
   padding: 0.8em 1em
+
+tbody
+  td
+    +transition(background, 0.1s)
 
 tr:nth-child(even)
   td, th
@@ -701,6 +737,42 @@ td
 tr th:first-child,
 tr td:first-child
   border-left-width: 0
+
+/* Selected rows*/
+tr.selected
+  td
+    background: $selected-background-color
+    border-color: $selected-background-color + 50
+    color: $selected-foreground-color
+
+    a
+      +islay-text-shadow
+      color: $selected-foreground-color
+
+    .summary
+      color: $selected-background-color + 75
+
+    &.meta
+      color: $selected-background-color + 90
+
+  &:nth-child(odd)
+    td
+      background: $selected-background-color + 10
+
+  .boolean:before
+    color: rgba(255, 255, 255, 0.6)!important
+
+  span.indicator
+    background-color: rgba(0,0,0,0.3)
+
+tfoot
+  th
+    vertical-align: middle
+
+  .total
+    td
+      font-size: 1.2em
+
 
 /* TABLE LEVELS/INDENTATION */
 table
