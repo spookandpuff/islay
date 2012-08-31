@@ -9,6 +9,10 @@ $SP.where('.[edit, new, create, update]').select('#islay-form').run(function(for
   var FormView = new Islay.Form({el: form});
 });
 
+$SP.where('.[show, index]').select('table.sortable').run(function(table) {
+  var SortableTable = new Islay.SortableTable({el: $(table).closest('form')});
+});
+
 $(function() {
   var timeValue = function() {
     return $(this).text();
