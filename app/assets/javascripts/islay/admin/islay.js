@@ -18,7 +18,7 @@ $(function() {
 
   // DELETE DIALOG
   $('#content .delete, #content .delete, #footer .delete').click(function(e){
-    var dialog = new Islay.Dialogs.Delete({url: e.target.href});
+    var dialog = new Islay.Dialogs.Confirmation({url: e.target.href, title: e.target.title});
     e.preventDefault();
   });
 

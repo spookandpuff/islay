@@ -52,7 +52,8 @@ Islay.Dialogs.Base = Backbone.View.extend({
     this.dialogEl = $H('div.dialog');
     this.$el.append(this.dialogEl);
 
-    this.titleEl = $H('div.title', $H('h1', this.titleText));
+    var title = _.isFunction(this.titleText) ? this.titleText() : this.titleText;
+    this.titleEl = $H('div.title', $H('h1', title));
 
     if (this.closeButton) {
       this.closeEl = $H('div.close.icon-cancel-circle', 'Close').click(this.close);
@@ -133,28 +134,31 @@ Islay.Dialogs.Edit = Islay.Dialogs.Base.extend({
 });
 
 /* -------------------------------------------------------------------------- */
-/* DELETE DIALOG
+/* CONFIRMATION DIALOG
 /* -------------------------------------------------------------------------- */
-Islay.Dialogs.Delete = Islay.Dialogs.Base.extend({
-  titleText: 'Confirm Deletion',
+Islay.Dialogs.Confirmation = Islay.Dialogs.Base.extend({
   size: {width: "40em", height: "20em"},
   sizing: 'fixed',
   format: 'HTML',
-  bindings: ['delete'],
+  bindings: ['submit'],
+
+  titleText: function() {
+    return this.options.title;
+  },
 
   loaded: function(res) {
     this.contentEl.append(res);
     this.formEl = this.$el.find('form');
   },
 
-  delete: function() {
+  submit: function() {
     this.formEl.submit();
   },
 
   render: function() {
     this.cancelEl = $H('button.cancel', 'Cancel').click(this.close);
-    this.deleteEl = $H('button.delete', 'Delete').click(this.delete);
-    this.controlsEl.append(this.cancelEl, this.deleteEl)
+    this.submitEl = $H('button.delete', 'OK').click(this.submit);
+    this.controlsEl.append(this.cancelEl, this.submitEl);
   }
 });
 
