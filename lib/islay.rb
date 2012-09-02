@@ -1,4 +1,3 @@
-require 'mixable_engines'
 require 'cells'
 require 'haml'
 require 'sass-rails'
