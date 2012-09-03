@@ -1,4 +1,5 @@
-- sub_header('Edit Page', @page.name)
+- sub_header('Content', path(:pages))
+- prefixed_sub_header('Edit Page', @page.name)
 
 = resource_form(@page, :url => path(:page, :id => params[:id]), :method => :put) do |f|
   = content do
