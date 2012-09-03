@@ -205,10 +205,8 @@ body.has-sub-header
       float: left
 
     a
-      +border-radius(0.6em)
+      +border-radius(0.8em)
       +unstyled-link
-      +transition-property(width, margin-right)
-      +transition-duration(0.2s)
       border: 1px solid transparent
       color: $dark-grey
       display: block
@@ -220,14 +218,18 @@ body.has-sub-header
 
       &:hover,
       &:focus
-        +box-shadow($shadow-color 0 1px 0.3em 0)
         background-color: #FFF
-        border-color: $light-grey + 35
+
+      &:active
+        +background-image($dimension-sunken)
+        background-color: $mid-grey
+        color: #FFF
 
       &.current,
       &.current:hover,
       &.current:focus
-        +box-shadow(rgba(0,0,0,0.1) 0 1px 0 0 inset, rgb(255,255,255) 0 1px 0 0)
+        +box-shadow(rgb(255,255,255) 0 1px 0 0)
+        +background-image($dimension-dished)
         color: #222
         background-color: $light-grey
         padding: 0.35em 0.6em
@@ -240,10 +242,7 @@ body.has-sub-header
         margin-right: 0.6em
         padding: 0.35em 0.6em
 
-    &:hover
-      a
-        width: 6em
-
+    &:hover,
     &.fold-false
       a
         width: auto
