@@ -646,13 +646,15 @@ table
       font-size: 1.6em
       font-weight: bold
 
-    &.true:before
-      color: $positive-color
-      content: "✓"
+    &.true
+      &:before
+        color: $positive-color
+      +icon-ok
 
-    &.false:before
-      color: $negative-color
-      content: "✕"
+    &.false
+      &:before
+        color: $negative-color
+      +icon-remove
 
     span
       +hide
