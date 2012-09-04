@@ -99,16 +99,16 @@ body.has-sub-header
         color: white
 
       &.overview
-        +icon-eye
+        +icon-eye-open
 
       &.folder
-        +icon-folder
+        +icon-folder-open
 
       &.overview
-        +icon-eye
+        +icon-eye-open
 
       &.basket
-        +icon-basket
+        +icon-shopping-cart
 
       &.assets
         +icon-picture
@@ -345,10 +345,10 @@ body.has-sub-header
   +icon-picture
 
 #users-nav
-  +icon-users
+  +icon-group
 
 #page-content-nav
-  +icon-doc-text
+  +icon-edit
 
 #current-user
   position: absolute
@@ -428,13 +428,13 @@ table.inset
       font-family: Icons
 
   .move-up
-    +icon-up
+    +icon-caret-up
     +border-top-left-radius(0)
     +border-bottom-left-radius(0)
     border-left-color: $button-secondary-color + 20
 
   .move-down
-    +icon-down
+    +icon-caret-down
     +border-top-right-radius(0)
     +border-bottom-right-radius(0)
     border-left-width: 0
@@ -545,17 +545,17 @@ button
   padding: 0.45em 0.8em 0.3em 0.6em
 
 .button
-  &.new:before
-    content: "➕"
+  &.new
+    +icon-plus-sign
 
-  &.upload:before
-    content: "↑"
+  &.upload
+    +icon-circle-arrow-up
 
-  &.edit:before
-    content: "✎"
+  &.edit
+    +icon-pencil
 
-  &.delete:before
-    content: "➖"
+  &.delete
+    +icon-minus-sign
 
 button.save,
 .button.delete,
@@ -567,12 +567,10 @@ button.save,
     color: white!important
 
 button.save
+  +icon-bolt
   background-color: $button-positive-color
   font-size: 1em
   border-color: $button-positive-color - 30
-
-  &:before
-    content: '⚡'
 
 .button.delete
   background-color: $button-negative-color
@@ -688,10 +686,10 @@ table
       font-size: 1.4em
 
     &.up
-      +icon-up-thin
+      +icon-arrow-up
 
     &.down
-      +icon-down-thin
+      +icon-arrow-down
 
     span
       +hide
