@@ -9,6 +9,18 @@ module Islay
         @groups = AssetGroup.summary.where(:asset_group_id => nil).order('name')
       end
 
+      def show
+        @asset_group = find_record
+
+        case @asset_group
+        when AssetCollection
+          @groups = @asset_group.children.summary
+          render :collection
+        when AssetAlbum
+          render :album
+        end
+      end
+
       def new
         new_group
         dependencies
