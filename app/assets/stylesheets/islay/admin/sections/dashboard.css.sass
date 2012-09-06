@@ -1,27 +1,27 @@
-#islay-admin-dashboard
-  .cell
-    +border-radius(0.4em)
-    +single-box-shadow(rgba(0, 0, 0, 0.03), 0, 0, 0, 2px)
-    border: 0.1em solid $light-grey
-    margin-bottom: 1em
-    width: 100%
-    float: left
+#islay-admin-dashboard .cell,
+.report-cell
+  +border-radius(0.4em)
+  +single-box-shadow(rgba(0, 0, 0, 0.03), 0, 0, 0, 2px)
+  border: 0.1em solid $light-grey
+  margin-bottom: 1em
+  width: 100%
+  float: left
 
-    ul, li
-      clear: both
-      min-height: 2em
+  ul, li
+    clear: both
+    min-height: 2em
 
-    li
-      padding-left: 0.5em
+  li
+    padding-left: 0.5em
 
-      .key,
-      strong
-        line-height: 1.6
+    .key,
+    strong
+      line-height: 1.6
 
-      .value,
-      .indicator
-        min-width: 1.1em
-        margin-right: 0.6em
+    .value,
+    .indicator
+      min-width: 1.1em
+      margin-right: 0.6em
 
   h3
     border-bottom: 0.1em solid $light-grey
