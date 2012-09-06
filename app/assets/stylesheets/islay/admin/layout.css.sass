@@ -63,6 +63,7 @@ body.has-sub-header
 #header
   background: #F3F3F3
   border-bottom: 0.1em solid #B7B9C6
+  font-family: $alternate-font-family
 
   h1
     +islay-text-engraved
@@ -84,8 +85,8 @@ body.has-sub-header
       +text-shadow(white 1px 1px 1px)
       font-weight: bold
       color: $dark-grey
-      padding: 0.85em 0.8em 0 0.8em
-      height: $header-height - 0.75em
+      padding: 0.95em 0.8em 0 0.8em
+      height: $header-height - 0.85em
 
       &:before
         font-size: 1.2em
@@ -151,13 +152,12 @@ body.has-sub-header
     font-weight: bold
     font-size: 1.1em
     margin-left: 0.6em
-    margin-top: 0.95em
+    margin-top: 1em
 
     strong
       color: $dark-grey
 
   .breadcrumb
-    font-weight: normal
     li
       display: inline-block
       &:after
@@ -169,7 +169,7 @@ body.has-sub-header
         vertical-align: -0.15em
       &:last-child
         color: $text-color
-        font-weight: bold
+        font-family: $alternate-font-family
         &:after
           content: none
     a
@@ -186,10 +186,9 @@ body.has-sub-header
 .dialog
   ul.filters,
   ul.sort
-    margin: 0.7em 1em 0 0.5em
+    margin: 0.8em 1em 0 0.5em
     padding-left: 1em
     float: right
-    font-size: 0.9em
 
     &:last-child
       padding-left: 0
@@ -197,8 +196,7 @@ body.has-sub-header
     &:before
       color: $dark-grey
       font-weight: bold
-      margin-right: 0.6em
-      margin-top: 0.35em
+      margin-top: 0.45em
       float: left
 
     li, a
@@ -210,11 +208,10 @@ body.has-sub-header
       border: 1px solid transparent
       color: $dark-grey
       display: block
-      margin-right: 0em
-      overflow: hidden
-      padding: 0.35em 0
+      margin-left: 0.6em
+      padding: 0.35em 0.6em 0.25em 0.6em
       text-align: center
-      width: 0
+      display: none
 
       &:hover,
       &:focus
@@ -230,22 +227,20 @@ body.has-sub-header
       &.current:focus
         +box-shadow(rgb(255,255,255) 0 1px 0 0)
         +background-image($dimension-dished)
+        border-color: $light-grey - 20 !important
         color: #222
         background-color: $light-grey
-        padding: 0.35em 0.6em
-        width: auto!important
+        display: block
 
     &:hover,
     &.fold-false
       a
         border-color: $light-grey
-        margin-right: 0.6em
-        padding: 0.35em 0.6em
 
     &:hover,
     &.fold-false
       a
-        width: auto
+        display: block
 
   ul.sort
     border-left: 0.1em solid $light-grey
@@ -302,6 +297,7 @@ body.has-sub-header
         background: $side-bar-color + 20
 
   ul
+    font-family: $alternate-font-family
     border-top: 0.1em solid $side-bar-color + 6
     border-bottom: 0.1em solid $side-bar-color - 10
     width: 1005
@@ -667,6 +663,7 @@ table
 
   /* THE MAIN COLUMN */
   .title
+    font-family: $alternate-font-family
     font-size: 1.2em
     text-decoration: none
     float: left
@@ -708,7 +705,7 @@ thead th
   text-transform: uppercase
   border-bottom: 0.1em solid $light-grey
   color: $dark-grey
-  font-size: 0.85em
+  font-size: 0.9em
   padding: 1em 1em 0.6em 1em
 
 td,
