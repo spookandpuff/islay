@@ -63,6 +63,7 @@ body.has-sub-header
 #header
   background: #F3F3F3
   border-bottom: 0.1em solid #B7B9C6
+  font-family: $alternate-font-family
 
   h1
     +islay-text-engraved
@@ -84,8 +85,8 @@ body.has-sub-header
       +text-shadow(white 1px 1px 1px)
       font-weight: bold
       color: $dark-grey
-      padding: 0.85em 0.8em 0 0.8em
-      height: $header-height - 0.75em
+      padding: 0.95em 0.8em 0 0.8em
+      height: $header-height - 0.85em
 
       &:before
         font-size: 1.2em
@@ -99,22 +100,22 @@ body.has-sub-header
         color: white
 
       &.overview
-        +icon-eye
+        +icon-eye-open
 
       &.folder
-        +icon-folder
+        +icon-folder-open
 
       &.overview
-        +icon-eye
+        +icon-eye-open
 
       &.basket
-        +icon-basket
+        +icon-shopping-cart
 
       &.assets
         +icon-picture
 
       &.inbox
-        +icon-download
+        +icon-download-alt
 
       &.tags
         +icon-tag
@@ -151,13 +152,12 @@ body.has-sub-header
     font-weight: bold
     font-size: 1.1em
     margin-left: 0.6em
-    margin-top: 0.95em
+    margin-top: 1em
 
     strong
       color: $dark-grey
 
   .breadcrumb
-    font-weight: normal
     li
       display: inline-block
       &:after
@@ -169,7 +169,7 @@ body.has-sub-header
         vertical-align: -0.15em
       &:last-child
         color: $text-color
-        font-weight: bold
+        font-family: $alternate-font-family
         &:after
           content: none
     a
@@ -186,10 +186,9 @@ body.has-sub-header
 .dialog
   ul.filters,
   ul.sort
-    margin: 0.7em 1em 0 0.5em
+    margin: 0.8em 1em 0 0.5em
     padding-left: 1em
     float: right
-    font-size: 0.9em
 
     &:last-child
       padding-left: 0
@@ -197,8 +196,7 @@ body.has-sub-header
     &:before
       color: $dark-grey
       font-weight: bold
-      margin-right: 0.6em
-      margin-top: 0.35em
+      margin-top: 0.45em
       float: left
 
     li, a
@@ -210,11 +208,10 @@ body.has-sub-header
       border: 1px solid transparent
       color: $dark-grey
       display: block
-      margin-right: 0em
-      overflow: hidden
-      padding: 0.35em 0
+      margin-left: 0.6em
+      padding: 0.35em 0.6em 0.25em 0.6em
       text-align: center
-      width: 0
+      display: none
 
       &:hover,
       &:focus
@@ -230,22 +227,20 @@ body.has-sub-header
       &.current:focus
         +box-shadow(rgb(255,255,255) 0 1px 0 0)
         +background-image($dimension-dished)
+        border-color: $light-grey - 20 !important
         color: #222
         background-color: $light-grey
-        padding: 0.35em 0.6em
-        width: auto!important
+        display: block
 
     &:hover,
     &.fold-false
       a
         border-color: $light-grey
-        margin-right: 0.6em
-        padding: 0.35em 0.6em
 
     &:hover,
     &.fold-false
       a
-        width: auto
+        display: block
 
   ul.sort
     border-left: 0.1em solid $light-grey
@@ -302,6 +297,7 @@ body.has-sub-header
         background: $side-bar-color + 20
 
   ul
+    font-family: $alternate-font-family
     border-top: 0.1em solid $side-bar-color + 6
     border-bottom: 0.1em solid $side-bar-color - 10
     width: 1005
@@ -341,14 +337,17 @@ body.has-sub-header
 #dashboard-nav
   +icon-home
 
+#reports-nav
+  +icon-bar-chart
+
 #asset-library-nav
   +icon-picture
 
 #users-nav
-  +icon-users
+  +icon-group
 
 #page-content-nav
-  +icon-doc-text
+  +icon-edit
 
 #current-user
   position: absolute
@@ -428,13 +427,13 @@ table.inset
       font-family: Icons
 
   .move-up
-    +icon-up
+    +icon-caret-up
     +border-top-left-radius(0)
     +border-bottom-left-radius(0)
     border-left-color: $button-secondary-color + 20
 
   .move-down
-    +icon-down
+    +icon-caret-down
     +border-top-right-radius(0)
     +border-bottom-right-radius(0)
     border-left-width: 0
@@ -545,17 +544,17 @@ button
   padding: 0.45em 0.8em 0.3em 0.6em
 
 .button
-  &.new:before
-    content: "➕"
+  &.new
+    +icon-plus-sign
 
-  &.upload:before
-    content: "↑"
+  &.upload
+    +icon-circle-arrow-up
 
-  &.edit:before
-    content: "✎"
+  &.edit
+    +icon-pencil
 
-  &.delete:before
-    content: "➖"
+  &.delete
+    +icon-minus-sign
 
 button.save,
 .button.delete,
@@ -567,12 +566,10 @@ button.save,
     color: white!important
 
 button.save
+  +icon-bolt
   background-color: $button-positive-color
   font-size: 1em
   border-color: $button-positive-color - 30
-
-  &:before
-    content: '⚡'
 
 .button.delete
   background-color: $button-negative-color
@@ -648,13 +645,15 @@ table
       font-size: 1.6em
       font-weight: bold
 
-    &.true:before
-      color: $positive-color
-      content: "✓"
+    &.true
+      &:before
+        color: $positive-color
+      +icon-ok
 
-    &.false:before
-      color: $negative-color
-      content: "✕"
+    &.false
+      &:before
+        color: $negative-color
+      +icon-remove
 
     span
       +hide
@@ -664,6 +663,7 @@ table
 
   /* THE MAIN COLUMN */
   .title
+    font-family: $alternate-font-family
     font-size: 1.2em
     text-decoration: none
     float: left
@@ -688,10 +688,10 @@ table
       font-size: 1.4em
 
     &.up
-      +icon-up-thin
+      +icon-arrow-up
 
     &.down
-      +icon-down-thin
+      +icon-arrow-down
 
     span
       +hide
@@ -705,7 +705,7 @@ thead th
   text-transform: uppercase
   border-bottom: 0.1em solid $light-grey
   color: $dark-grey
-  font-size: 0.85em
+  font-size: 0.9em
   padding: 1em 1em 0.6em 1em
 
 td,
@@ -798,6 +798,20 @@ table
 
   .level-4 .title
     margin-left: 4em
+
+/* -------------------------------------------------------------------------- */
+/* PLACEHOLDER
+/* Displays a message and links on pages where the user has yet to add records.
+/* -------------------------------------------------------------------------- */
+#placeholder
+  text-align: center
+  font-size: 1.8em
+  margin-top: 5em
+  color: $dark-grey
+
+  a
+    text-decoration: none
+    font-weight: bold
 
 /* -------------------------------------------------------------------------- */
 /* PAGINATION

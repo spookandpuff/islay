@@ -1,5 +1,5 @@
 %li.collection
-  %span.collection-name.icon-folder= group.name
+  %span.collection-name= group.name
   = link_to('Edit', path(:edit, group), :class => 'edit')
   = link_to('Delete', path(:delete, group), :class => 'delete')
   - unless group.children.empty?

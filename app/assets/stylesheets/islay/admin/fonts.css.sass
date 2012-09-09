@@ -1,531 +1,858 @@
 @import compass/css3/font-face
 
 /* -------------------------------------------------------------------------- */
-/* NUMERALS
+/* TEXT
 /* -------------------------------------------------------------------------- */
-+font-face('Dosis Medium', font-files('/assets/dosis-medium.woff', '/assets/dosis-medium.ttf', '/assets/dosis-medium.svg'), '/assets/dosis-medium.eot')
++font-face('Source Sans Pro Regular', font-files('/assets/sourcesanspro-regular.woff', '/assets/sourcesanspro-regular.ttf', '/assets/sourcesanspro-regular.svg'), '/assets/sourcesanspro-regular.eot')
++font-face('Source Sans Pro Regular', font-files('/assets/sourcesanspro-semibold.woff', '/assets/sourcesanspro-semibold.ttf', '/assets/sourcesanspro-semibold.svg'), '/assets/sourcesanspro-semibold.eot', bold)
++font-face('Source Sans Pro Light', font-files('/assets/sourcesanspro-light.woff', '/assets/sourcesanspro-light.ttf', '/assets/sourcesanspro-light.svg'), '/assets/sourcesanspro-light.eot')
++font-face('Source Sans Pro Semibold', font-files('/assets/sourcesanspro-semibold.woff', '/assets/sourcesanspro-semibold.ttf', '/assets/sourcesanspro-semibold.svg'), '/assets/sourcesanspro-semibold.eot')
 
 /* -------------------------------------------------------------------------- */
 /* ICONS
 /* -------------------------------------------------------------------------- */
-+font-face('icons', font-files('/assets/icons.woff', '/assets/icons.ttf', '/assets/icons.svg'), '/assets/icons.eot')
++font-face('icons', font-files('/assets/fontawesome.woff', '/assets/fontawesome.ttf', '/assets/fontawesome.svg'), '/assets/fontawesome.eot')
 
-@mixin icon-plus
+@mixin icon-glass
   &:before
-    content: "+"
-
-@mixin icon-minus
-  &:before
-    content: "-"
-
-@mixin icon-info
-  &:before
-    content: "ℹ"
-
-@mixin icon-left
-  &:before
-    content: "←"
-
-@mixin icon-up
-  &:before
-    content: "↑"
-
-@mixin icon-right
-  &:before
-    content: "→"
-
-@mixin icon-down
-  &:before
-    content: "↓"
-
-@mixin icon-level-down
-  &:before
-    content: "↳"
-
-@mixin icon-home
-  &:before
-    content: "⌂"
-
-@mixin icon-keyboard
-  &:before
-    content: "⌨"
-
-@mixin icon-hourglass
-  &:before
-    content: "⏳"
-
-@mixin icon-up-dir
-  &:before
-    content: "▴"
-
-@mixin icon-right-dir
-  &:before
-    content: "▸"
-
-@mixin icon-down-dir
-  &:before
-    content: "▾"
-
-@mixin icon-left-dir
-  &:before
-    content: "◂"
-
-@mixin icon-cloud
-  &:before
-    content: "☁"
-
-@mixin icon-star
-  &:before
-    content: "★"
-
-@mixin icon-star-empty
-  &:before
-    content: "☆"
-
-@mixin icon-th-list
-  &:before
-    content: "☰"
-
-@mixin icon-moon
-  &:before
-    content: "☽"
-
-@mixin icon-heart-empty
-  &:before
-    content: "♡"
-
-@mixin icon-heart
-  &:before
-    content: "♥"
+    content: "\f000"
 
 @mixin icon-music
   &:before
-    content: "♪"
-
-@mixin icon-th
-  &:before
-    content: "⚏"
-
-@mixin icon-flag
-  &:before
-    content: "⚑"
-
-@mixin icon-cog
-  &:before
-    content: "⚙"
-
-@mixin icon-attention
-  &:before
-    content: "⚠"
-
-@mixin icon-flash
-  &:before
-    content: "⚡"
-
-@mixin icon-mail
-  &:before
-    content: "✉"
-
-@mixin icon-pencil
-  &:before
-    content: "✎"
-
-@mixin icon-feather
-  &:before
-    content: "✒"
-
-@mixin icon-ok
-  &:before
-    content: "✓"
-
-@mixin icon-cancel
-  &:before
-    content: "✕"
-
-@mixin icon-cancel-circle
-  &:before
-    content: "✖"
-
-@mixin icon-help
-  &:before
-    content: "❓"
-
-@mixin icon-quote-right
-  &:before
-    content: "❞"
-
-@mixin icon-plus-circle
-  &:before
-    content: "➕"
-
-@mixin icon-minus-circle
-  &:before
-    content: "➖"
-
-@mixin icon-right-thin
-  &:before
-    content: "➡"
-
-@mixin icon-direction
-  &:before
-    content: "➢"
-
-@mixin icon-forward
-  &:before
-    content: "➦"
-
-@mixin icon-ccw
-  &:before
-    content: "⟲"
-
-@mixin icon-cw
-  &:before
-    content: "⟳"
-
-@mixin icon-left-thin
-  &:before
-    content: "⬅"
-
-@mixin icon-up-thin
-  &:before
-    content: "⬆"
-
-@mixin icon-down-thin
-  &:before
-    content: "⬇"
-
-@mixin icon-list-add
-  &:before
-    content: ""
-
-@mixin icon-left-bold
-  &:before
-    content: ""
-
-@mixin icon-right-bold
-  &:before
-    content: ""
-
-@mixin icon-up-bold
-  &:before
-    content: ""
-
-@mixin icon-down-bold
-  &:before
-    content: ""
-
-@mixin icon-user-add
-  &:before
-    content: ""
-
-@mixin icon-help-circle
-  &:before
-    content: ""
-
-@mixin icon-info-circle
-  &:before
-    content: ""
-
-@mixin icon-back
-  &:before
-    content: ""
-
-@mixin icon-back-alt
-  &:before
-    content: ""
-
-@mixin icon-eye
-  &:before
-    content: ""
-
-@mixin icon-tag
-  &:before
-    content: ""
-
-@mixin icon-upload-cloud
-  &:before
-    content: ""
-
-@mixin icon-reply
-  &:before
-    content: ""
-
-@mixin icon-reply-all
-  &:before
-    content: ""
-
-@mixin icon-code
-  &:before
-    content: ""
-
-@mixin icon-export
-  &:before
-    content: ""
-
-@mixin icon-print
-  &:before
-    content: ""
-
-@mixin icon-retweet
-  &:before
-    content: ""
-
-@mixin icon-comment
-  &:before
-    content: ""
-
-@mixin icon-chat
-  &:before
-    content: ""
-
-@mixin icon-vcard
-  &:before
-    content: ""
-
-@mixin icon-address
-  &:before
-    content: ""
-
-@mixin icon-location
-  &:before
-    content: ""
-
-@mixin icon-map
-  &:before
-    content: ""
-
-@mixin icon-compass
-  &:before
-    content: ""
-
-@mixin icon-trash
-  &:before
-    content: ""
-
-@mixin icon-archive
-  &:before
-    content: ""
-
-@mixin icon-rss
-  &:before
-    content: ""
-
-@mixin icon-share
-  &:before
-    content: ""
-
-@mixin icon-basket
-  &:before
-    content: ""
-
-@mixin icon-volume
-  &:before
-    content: ""
-
-@mixin icon-resize-full
-  &:before
-    content: ""
-
-@mixin icon-resize-small
-  &:before
-    content: ""
-
-@mixin icon-publish
-  &:before
-    content: ""
-
-@mixin icon-window
-  &:before
-    content: ""
-
-@mixin icon-down-circle2
-  &:before
-    content: ""
-
-@mixin icon-left-circle2
-  &:before
-    content: ""
-
-@mixin icon-right-circle2
-  &:before
-    content: ""
-
-@mixin icon-up-circle2
-  &:before
-    content: ""
-
-@mixin icon-down-open
-  &:before
-    content: ""
-
-@mixin icon-left-open
-  &:before
-    content: ""
-
-@mixin icon-right-open
-  &:before
-    content: ""
-
-@mixin icon-up-open
-  &:before
-    content: ""
-
-@mixin icon-signal
-  &:before
-    content: ""
-
-@mixin icon-net
-  &:before
-    content: ""
-
-@mixin icon-inbox
-  &:before
-    content: ""
-
-@mixin icon-install
-  &:before
-    content: ""
-
-@mixin icon-lifebuoy
-  &:before
-    content: ""
-
-@mixin icon-bag
-  &:before
-    content: ""
-
-@mixin icon-globe
-  &:before
-    content: "𝌍"
-
-@mixin icon-picture
-  &:before
-    content: "🌄"
-
-@mixin icon-mic
-  &:before
-    content: "🎤"
-
-@mixin icon-video
-  &:before
-    content: "🎬"
-
-@mixin icon-target
-  &:before
-    content: "🎯"
-
-@mixin icon-music-alt
-  &:before
-    content: "🎵"
-
-@mixin icon-top-list
-  &:before
-    content: "🏆"
-
-@mixin icon-thumbs-up
-  &:before
-    content: "👍"
-
-@mixin icon-user
-  &:before
-    content: "👤"
-
-@mixin icon-users
-  &:before
-    content: "👥"
-
-@mixin icon-lamp
-  &:before
-    content: "💡"
-
-@mixin icon-monitor
-  &:before
-    content: "💻"
-
-@mixin icon-cd
-  &:before
-    content: "💿"
-
-@mixin icon-folder
-  &:before
-    content: "📁"
-
-@mixin icon-doc-text
-  &:before
-    content: "📄"
-
-@mixin icon-calendar
-  &:before
-    content: "📅"
-
-@mixin icon-attach
-  &:before
-    content: "📎"
-
-@mixin icon-book-open
-  &:before
-    content: "📖"
-
-@mixin icon-phone
-  &:before
-    content: "📞"
-
-@mixin icon-upload
-  &:before
-    content: "📤"
-
-@mixin icon-download
-  &:before
-    content: "📥"
-
-@mixin icon-mobile
-  &:before
-    content: "📱"
-
-@mixin icon-camera
-  &:before
-    content: "📷"
-
-@mixin icon-light-down
-  &:before
-    content: "🔅"
-
-@mixin icon-light-up
-  &:before
-    content: "🔆"
+    content: "\f001"
 
 @mixin icon-search
   &:before
-    content: "🔍"
+    content: "\f002"
 
-@mixin icon-search-alt
+@mixin icon-envelope
   &:before
-    content: "🔎"
+    content: "\f003"
+
+@mixin icon-heart
+  &:before
+    content: "\f004"
+
+@mixin icon-star
+  &:before
+    content: "\f005"
+
+@mixin icon-star-empty
+  &:before
+    content: "\f006"
+
+@mixin icon-user
+  &:before
+    content: "\f007"
+
+@mixin icon-film
+  &:before
+    content: "\f008"
+
+@mixin icon-th-large
+  &:before
+    content: "\f009"
+
+@mixin icon-th
+  &:before
+    content: "\f00a"
+
+@mixin icon-th-list
+  &:before
+    content: "\f00b"
+
+@mixin icon-ok
+  &:before
+    content: "\f00c"
+
+@mixin icon-remove
+  &:before
+    content: "\f00d"
+
+@mixin icon-zoom-in
+  &:before
+    content: "\f00e"
+
+@mixin icon-zoom-out
+  &:before
+    content: "\f010"
+
+@mixin icon-off
+  &:before
+    content: "\f011"
+
+@mixin icon-signal
+  &:before
+    content: "\f012"
+
+@mixin icon-cog
+  &:before
+    content: "\f013"
+
+@mixin icon-trash
+  &:before
+    content: "\f014"
+
+@mixin icon-home
+  &:before
+    content: "\f015"
+
+@mixin icon-file
+  &:before
+    content: "\f016"
+
+@mixin icon-time
+  &:before
+    content: "\f017"
+
+@mixin icon-road
+  &:before
+    content: "\f018"
+
+@mixin icon-download-alt
+  &:before
+    content: "\f019"
+
+@mixin icon-download
+  &:before
+    content: "\f01a"
+
+@mixin icon-upload
+  &:before
+    content: "\f01b"
+
+@mixin icon-inbox
+  &:before
+    content: "\f01c"
+
+@mixin icon-play-circle
+  &:before
+    content: "\f01d"
+
+@mixin icon-repeat
+  &:before
+    content: "\f01e"
+
+/* \f020 doesn't work in Safari. all shifted one down
+@mixin icon-refresh
+  &:before
+    content: "\f021"
+
+@mixin icon-list-alt
+  &:before
+    content: "\f022"
 
 @mixin icon-lock
   &:before
-    content: "🔒"
+    content: "\f023"
 
-@mixin icon-lock-open
+@mixin icon-flag
   &:before
-    content: "🔓"
+    content: "\f024"
 
-@mixin icon-bell
+@mixin icon-headphones
   &:before
-    content: "🔔"
+    content: "\f025"
+
+@mixin icon-volume-off
+  &:before
+    content: "\f026"
+
+@mixin icon-volume-down
+  &:before
+    content: "\f027"
+
+@mixin icon-volume-up
+  &:before
+    content: "\f028"
+
+@mixin icon-qrcode
+  &:before
+    content: "\f029"
+
+@mixin icon-barcode
+  &:before
+    content: "\f02a"
+
+@mixin icon-tag
+  &:before
+    content: "\f02b"
+
+@mixin icon-tags
+  &:before
+    content: "\f02c"
+
+@mixin icon-book
+  &:before
+    content: "\f02d"
 
 @mixin icon-bookmark
   &:before
-    content: "🔖"
+    content: "\f02e"
+
+@mixin icon-print
+  &:before
+    content: "\f02f"
+
+@mixin icon-camera
+  &:before
+    content: "\f030"
+
+@mixin icon-font
+  &:before
+    content: "\f031"
+
+@mixin icon-bold
+  &:before
+    content: "\f032"
+
+@mixin icon-italic
+  &:before
+    content: "\f033"
+
+@mixin icon-text-height
+  &:before
+    content: "\f034"
+
+@mixin icon-text-width
+  &:before
+    content: "\f035"
+
+@mixin icon-align-left
+  &:before
+    content: "\f036"
+
+@mixin icon-align-center
+  &:before
+    content: "\f037"
+
+@mixin icon-align-right
+  &:before
+    content: "\f038"
+
+@mixin icon-align-justify
+  &:before
+    content: "\f039"
+
+@mixin icon-list
+  &:before
+    content: "\f03a"
+
+@mixin icon-indent-left
+  &:before
+    content: "\f03b"
+
+@mixin icon-indent-right
+  &:before
+    content: "\f03c"
+
+@mixin icon-facetime-video
+  &:before
+    content: "\f03d"
+
+@mixin icon-picture
+  &:before
+    content: "\f03e"
+
+@mixin icon-pencil
+
+  &:before
+    content: "\f040"
+
+@mixin icon-map-marker
+
+  &:before
+    content: "\f041"
+
+@mixin icon-adjust
+
+  &:before
+    content: "\f042"
+
+@mixin icon-tint
+  &:before
+    content: "\f043"
+
+@mixin icon-edit
+  &:before
+    content: "\f044"
+
+@mixin icon-share
+  &:before
+    content: "\f045"
+
+@mixin icon-check
+  &:before
+    content: "\f046"
+
+@mixin icon-move
+  &:before
+    content: "\f047"
+
+@mixin icon-step-backward
+  &:before
+    content: "\f048"
+
+@mixin icon-fast-backward
+  &:before
+    content: "\f049"
+
+@mixin icon-backward
+  &:before
+    content: "\f04a"
+
+@mixin icon-play
+  &:before
+    content: "\f04b"
+
+@mixin icon-pause
+  &:before
+    content: "\f04c"
+
+@mixin icon-stop
+  &:before
+    content: "\f04d"
+
+@mixin icon-forward
+  &:before
+    content: "\f04e"
+
+@mixin icon-fast-forward
+  &:before
+    content: "\f050"
+
+@mixin icon-step-forward
+  &:before
+    content: "\f051"
+
+@mixin icon-eject
+  &:before
+    content: "\f052"
+
+@mixin icon-chevron-left
+  &:before
+    content: "\f053"
+
+@mixin icon-chevron-right
+  &:before
+    content: "\f054"
+
+@mixin icon-plus-sign
+  &:before
+    content: "\f055"
+
+@mixin icon-minus-sign
+  &:before
+    content: "\f056"
+
+@mixin icon-remove-sign
+  &:before
+    content: "\f057"
+
+@mixin icon-ok-sign
+  &:before
+    content: "\f058"
+
+@mixin icon-question-sign
+  &:before
+    content: "\f059"
+
+@mixin icon-info-sign
+  &:before
+    content: "\f05a"
+
+@mixin icon-screenshot
+  &:before
+    content: "\f05b"
+
+@mixin icon-remove-circle
+  &:before
+    content: "\f05c"
+
+@mixin icon-ok-circle
+  &:before
+    content: "\f05d"
+
+@mixin icon-ban-circle
+  &:before
+    content: "\f05e"
+
+@mixin icon-arrow-left
+  &:before
+    content: "\f060"
+
+@mixin icon-arrow-right
+  &:before
+    content: "\f061"
+
+@mixin icon-arrow-up
+  &:before
+    content: "\f062"
+
+@mixin icon-arrow-down
+  &:before
+    content: "\f063"
+
+@mixin icon-share-alt
+  &:before
+    content: "\f064"
+
+@mixin icon-resize-full
+  &:before
+    content: "\f065"
+
+@mixin icon-resize-small
+  &:before
+    content: "\f066"
+
+@mixin icon-plus
+  &:before
+    content: "\f067"
+
+@mixin icon-minus
+  &:before
+    content: "\f068"
+
+@mixin icon-asterisk
+  &:before
+    content: "\f069"
+
+@mixin icon-exclamation-sign
+  &:before
+    content: "\f06a"
+
+@mixin icon-gift
+  &:before
+    content: "\f06b"
+
+@mixin icon-leaf
+  &:before
+    content: "\f06c"
+
+@mixin icon-fire
+  &:before
+    content: "\f06d"
+
+@mixin icon-eye-open
+  &:before
+    content: "\f06e"
+
+@mixin icon-eye-close
+  &:before
+    content: "\f070"
+
+@mixin icon-warning-sign
+  &:before
+    content: "\f071"
+
+@mixin icon-plane
+  &:before
+    content: "\f072"
+
+@mixin icon-calendar
+  &:before
+    content: "\f073"
+
+@mixin icon-random
+  &:before
+    content: "\f074"
+
+@mixin icon-comment
+  &:before
+    content: "\f075"
+
+@mixin icon-magnet
+  &:before
+    content: "\f076"
+
+@mixin icon-chevron-up
+  &:before
+    content: "\f077"
+
+@mixin icon-chevron-down
+  &:before
+    content: "\f078"
+
+@mixin icon-retweet
+  &:before
+    content: "\f079"
+
+@mixin icon-shopping-cart
+  &:before
+    content: "\f07a"
+
+@mixin icon-folder-close
+  &:before
+    content: "\f07b"
+
+@mixin icon-folder-open
+  &:before
+    content: "\f07c"
+
+@mixin icon-resize-vertical
+  &:before
+    content: "\f07d"
+
+@mixin icon-resize-horizontal
+  &:before
+    content: "\f07e"
+
+@mixin icon-bar-chart
+  &:before
+    content: "\f080"
+
+@mixin icon-twitter-sign
+  &:before
+    content: "\f081"
+
+@mixin icon-facebook-sign
+  &:before
+    content: "\f082"
+
+@mixin icon-camera-retro
+  &:before
+    content: "\f083"
+
+@mixin icon-key
+  &:before
+    content: "\f084"
+
+@mixin icon-cogs
+  &:before
+    content: "\f085"
+
+@mixin icon-comments
+  &:before
+    content: "\f086"
+
+@mixin icon-thumbs-up
+  &:before
+    content: "\f087"
+
+@mixin icon-thumbs-down
+  &:before
+    content: "\f088"
+
+@mixin icon-star-half
+  &:before
+    content: "\f089"
+
+@mixin icon-heart-empty
+  &:before
+    content: "\f08a"
+
+@mixin icon-signout
+  &:before
+    content: "\f08b"
+
+@mixin icon-linkedin-sign
+  &:before
+    content: "\f08c"
+
+@mixin icon-pushpin
+  &:before
+    content: "\f08d"
+
+@mixin icon-external-link
+  &:before
+    content: "\f08e"
+
+@mixin icon-signin
+  &:before
+    content: "\f090"
+
+@mixin icon-trophy
+  &:before
+    content: "\f091"
+
+@mixin icon-github-sign
+  &:before
+    content: "\f092"
+
+@mixin icon-upload-alt
+  &:before
+    content: "\f093"
+
+@mixin icon-lemon
+  &:before
+    content: "\f094"
+
+@mixin icon-phone
+  &:before
+    content: "\f095"
+
+@mixin icon-check-empty
+  &:before
+    content: "\f096"
+
+@mixin icon-bookmark-empty
+  &:before
+    content: "\f097"
+
+@mixin icon-phone-sign
+  &:before
+    content: "\f098"
+
+@mixin icon-twitter
+  &:before
+    content: "\f099"
+
+@mixin icon-facebook
+  &:before
+    content: "\f09a"
+
+@mixin icon-github
+  &:before
+    content: "\f09b"
+
+@mixin icon-unlock
+  &:before
+    content: "\f09c"
+
+@mixin icon-credit-card
+  &:before
+    content: "\f09d"
+
+@mixin icon-rss
+  &:before
+    content: "\f09e"
+
+@mixin icon-hdd
+  &:before
+    content: "\f0a0"
+
+@mixin icon-bullhorn
+  &:before
+    content: "\f0a1"
+
+@mixin icon-bell
+  &:before
+    content: "\f0a2"
+
+@mixin icon-certificate
+  &:before
+    content: "\f0a3"
+
+@mixin icon-hand-right
+  &:before
+    content: "\f0a4"
+
+@mixin icon-hand-left
+  &:before
+    content: "\f0a5"
+
+@mixin icon-hand-up
+  &:before
+    content: "\f0a6"
+
+@mixin icon-hand-down
+  &:before
+    content: "\f0a7"
+
+@mixin icon-circle-arrow-left
+  &:before
+    content: "\f0a8"
+
+@mixin icon-circle-arrow-right
+  &:before
+    content: "\f0a9"
+
+@mixin icon-circle-arrow-up
+  &:before
+    content: "\f0aa"
+
+@mixin icon-circle-arrow-down
+  &:before
+    content: "\f0ab"
+
+@mixin icon-globe
+  &:before
+    content: "\f0ac"
+
+@mixin icon-wrench
+  &:before
+    content: "\f0ad"
+
+@mixin icon-tasks
+  &:before
+    content: "\f0ae"
+
+@mixin icon-filter
+  &:before
+    content: "\f0b0"
+
+@mixin icon-briefcase
+  &:before
+    content: "\f0b1"
+
+@mixin icon-fullscreen
+  &:before
+    content: "\f0b2"
+
+@mixin icon-group
+  &:before
+    content: "\f0c0"
 
 @mixin icon-link
   &:before
-    content: "🔗"
+    content: "\f0c1"
 
-@mixin icon-clock
+@mixin icon-cloud
   &:before
-    content: "🕔"
+    content: "\f0c2"
 
-@mixin icon-block
+@mixin icon-beaker
   &:before
-    content: "🚫"
+    content: "\f0c3"
+
+@mixin icon-cut
+  &:before
+    content: "\f0c4"
+
+@mixin icon-copy
+  &:before
+    content: "\f0c5"
+
+@mixin icon-paper-clip
+  &:before
+    content: "\f0c6"
+
+@mixin icon-save
+  &:before
+    content: "\f0c7"
+
+@mixin icon-sign-blank
+  &:before
+    content: "\f0c8"
+
+@mixin icon-reorder
+  &:before
+    content: "\f0c9"
+
+@mixin icon-list-ul
+  &:before
+    content: "\f0ca"
+
+@mixin icon-list-ol
+  &:before
+    content: "\f0cb"
+
+@mixin icon-strikethrough
+  &:before
+    content: "\f0cc"
+
+@mixin icon-underline
+  &:before
+    content: "\f0cd"
+
+@mixin icon-table
+  &:before
+    content: "\f0ce"
+
+@mixin icon-magic
+  &:before
+    content: "\f0d0"
+
+@mixin icon-truck
+  &:before
+    content: "\f0d1"
+
+@mixin icon-pinterest
+  &:before
+    content: "\f0d2"
+
+@mixin icon-pinterest-sign
+  &:before
+    content: "\f0d3"
+
+@mixin icon-google-plus-sign
+  &:before
+    content: "\f0d4"
+
+@mixin icon-google-plus
+  &:before
+    content: "\f0d5"
+
+@mixin icon-money
+  &:before
+    content: "\f0d6"
+
+@mixin icon-caret-down
+  &:before
+    content: "\f0d7"
+
+@mixin icon-caret-up
+  &:before
+    content: "\f0d8"
+
+@mixin icon-caret-left
+  &:before
+    content: "\f0d9"
+
+@mixin icon-caret-right
+  &:before
+    content: "\f0da"
+
+@mixin icon-columns
+  &:before
+    content: "\f0db"
+
+@mixin icon-sort
+  &:before
+    content: "\f0dc"
+
+@mixin icon-sort-down
+  &:before
+    content: "\f0dd"
+
+@mixin icon-sort-up
+  &:before
+    content: "\f0de"
+
+@mixin icon-envelope-alt
+  &:before
+    content: "\f0e0"
+
+@mixin icon-linkedin
+  &:before
+    content: "\f0e1"
+
+@mixin icon-undo
+  &:before
+    content: "\f0e2"
+
+@mixin icon-legal
+  &:before
+    content: "\f0e3"
+
+@mixin icon-dashboard
+  &:before
+    content: "\f0e4"
+
+@mixin icon-comment-alt
+  &:before
+    content: "\f0e5"
+
+@mixin icon-comments-alt
+  &:before
+    content: "\f0e6"
+
+@mixin icon-bolt
+  &:before
+    content: "\f0e7"
+
+@mixin icon-sitemap
+  &:before
+    content: "\f0e8"
+
+@mixin icon-umbrella
+  &:before
+    content: "\f0e9"
+
+@mixin icon-paste
+  &:before
+    content: "\f0ea"
+
+@mixin icon-user-md
+  &:before
+    content: "\f200"

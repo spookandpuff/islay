@@ -11,8 +11,6 @@
     = stylesheet_link_tag('islay/admin/islay')
     = javascript_include_tag('islay/admin/islay')
 
-
-
   %body(id=body_id class=body_class)
     %div#main-header
       %h1 Islay
@@ -23,6 +21,7 @@
 
       %ul
         = main_nav('Dashboard', :dashboard, :root => true)
+        = main_nav('Reports', :reports)
         = extension_nav_entries
         = main_nav('Page Content', :pages)
         = main_nav('Asset Library', :asset_library)

@@ -1,8 +1,0 @@
-- prefixed_sub_header('Album:', @asset_group.name)
-
-= content(:class => 'inset') do
-  = render :partial => 'islay/admin/assets/grid', :locals => {:assets => @asset_group.assets}
-
-= footer do
-  = edit_button(@asset_group)
-  = delete_button(@asset_group)

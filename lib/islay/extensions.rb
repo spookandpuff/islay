@@ -4,6 +4,7 @@ module Islay
 
     def initialize
       @entries = {}
+      @config_cache = {}
     end
 
     def register
@@ -19,6 +20,14 @@ module Islay
     def engines
       @engines ||= entries.map {|n, e| e.config[:engine]}
     end
+
+    def each(config = nil, &blk)
+      if config
+        (@config_cache[config] ||= @entries.map {|n, e| e.config[config]}.flatten).each(&blk)
+      else
+        @entries.each(&blk)
+      end
+    end
   end
 
   class Entry
@@ -26,16 +35,50 @@ module Islay
 
     def initialize
       @config = {
-        :nav_entries => [],
-        :admin_scripts => false,
-        :admin_styles => false,
-        :public_styles => false,
-        :dashboard => []
+        :nav_entries        => [],
+        :reports_entries    => [],
+        :admin_scripts      => false,
+        :admin_styles       => false,
+        :public_styles      => false,
+        :dashboard          => [],
+        :reports_dashboard  => []
       }
     end
 
+    # Specifies a cell and the position it should be displayed within the
+    # dashboard.
+    #
+    # @param String col
+    # @param String pos
+    # @param String name
+    #
+    # @return Hash
     def dashboard(col, pos, name)
       @config[:dashboard] << {:col => col, :pos => pos, :name => name}
+    end
+
+    # Specifies a cell and the position it should be displayed within the
+    # reports dashboard.
+    #
+    # @param Symbol col
+    # @param Symbol pos
+    # @param Symbol name
+    #
+    # @return Hash
+    def report_dashboard(col, pos, name)
+      @config[:reports_dashboard] << {:col => col, :pos => pos, :name => name}
+    end
+
+    # Adds the specified route to the list of those to be included in the
+    # reporting section.
+    #
+    # @param String title
+    # @param Symbol route
+    # @param Hash opts
+    #
+    # @return Hash
+    def reports(title, route, opts = {})
+      @config[:reports_entries] << {:title => title, :route => route, :opts => opts}
     end
 
     def admin_scripts(flag)

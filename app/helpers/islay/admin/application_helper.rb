@@ -73,6 +73,28 @@ module Islay
         bool ? "Yes" : "No"
       end
 
+      # Takes a number and turns it into money string with two decimal places.
+      #
+      # @param [String, Integer, Float] value
+      #
+      # @return String
+      def format_money(value)
+        "$%.2f" % value
+      end
+
+      # Takes a string or a date and returns a string with three letter month
+      # and year with century.
+      #
+      # @param [Time, String] time
+      #
+      # @param String
+      def format_month(time)
+        case time
+        when String then time.to_time
+        when Time   then time
+        end.strftime('%b %Y')
+      end
+
       # Convenience helper for writing out a div column with the specified width.
       # Can optionally be given an id or extra classes. It's also possible to
       # change the element generated using the :el option.

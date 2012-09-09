@@ -12,6 +12,9 @@ Rails.application.routes.draw do
       get '/'       => 'dashboard#index', :as => 'dashboard'
       get '/search' => 'search#index',    :as => 'search'
 
+      # REPORTS
+      get 'reports' => 'reports#index', :as => 'reports'
+
       # USERS
       resources :users do
         get :delete, :on => :member

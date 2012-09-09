@@ -1,0 +1,13 @@
+- prefixed_sub_header('Album', @asset_group.name)
+
+= content(:class => 'inset') do
+  - if @asset_group.assets.empty?
+    %p#placeholder
+      This album has no assets; add a #{link_to('new asset', path(:new, :asset, :to => @asset_group))}
+  - else
+    = render :partial => 'islay/admin/assets/grid', :locals => {:assets => @asset_group.assets}
+
+= footer do
+  = new_button('Asset', :asset)
+  = edit_button(@asset_group)
+  = delete_button(@asset_group)

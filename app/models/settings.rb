@@ -22,6 +22,13 @@ class Settings
     end
   end
 
+  # Checks to see if a setting is actually defined.
+  #
+  # @return Boolean
+  def self.defined?(prefix, setting)
+    !!@@config[prefix][setting]
+  end
+
   # Checks to see if the variables required for S3 have been defined.
   #
   # @return Boolean

@@ -1,0 +1,10 @@
+- prefixed_sub_header('Collection', @asset_group.name)
+
+= content do
+  = render :partial => 'islay/admin/asset_groups/table'
+
+= footer do
+  = new_button('Album', :asset_album)
+  = new_button('Collection', :asset_collection)
+  = edit_button(@asset_group)
+  = delete_button(@asset_group)
