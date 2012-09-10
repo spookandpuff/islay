@@ -6,7 +6,7 @@ module Islay
       nav 'islay/admin/asset_library/nav'
 
       def index
-        @groups = AssetGroup.summary.where(:asset_group_id => nil).order('name')
+        @groups = AssetGroup.summary.top_level.order('name')
       end
 
       def show
