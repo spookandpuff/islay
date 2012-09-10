@@ -747,8 +747,9 @@ Islay.Widgets.MultipleAssets = Islay.Widgets.Base.extend({
   },
 
   render: function() {
-    this.addEl = $H('li.add', 'Add Asset');
+    this.addEl = $H('li.add', $H('span', 'Add'));
     this.ulEl.append(this.addEl);
+    this.ulEl.sortable({items: ':not(.add)'});
     return this;
   }
 });

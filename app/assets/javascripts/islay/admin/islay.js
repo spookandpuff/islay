@@ -2,6 +2,7 @@
 //= require ../../vendor/underscore
 //= require ../../vendor/backbone
 //= require ../../vendor/jquery.prettydate
+//= require ../../vendor/jquery.sortable
 //= require_tree .
 //= require_extensions
 

@@ -24,6 +24,12 @@ module Islay
         end
       end
 
+      # Shortcut for rendering the asset_picker partial, while giving it access
+      # to an instance of a form builder.
+      #
+      # @param FormBuilder f
+      #
+      # @return String
       def asset_picker(f)
         render :partial => 'islay/admin/shared/asset_picker', :locals => {:f => f}
       end
