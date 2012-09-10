@@ -33,8 +33,8 @@ module ActiveRecord
     # @param Symbol prefix
     def self.positioning(prefix = nil)
       if prefix
-        acts_as_list :scope => prefix
-        before_save :update_position, :if => :"#{prefix}_id_changed?"
+        acts_as_list :scope => "#{prefix} = \#\{#{prefix}.blank? ? 'NULL' : #{prefix}\}"
+        before_save :update_position, :if => :"#{prefix}_changed?"
       else
         acts_as_list
       end

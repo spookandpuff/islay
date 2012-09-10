@@ -37,6 +37,7 @@ Gem::Specification.new do |s|
   s.add_dependency "kaminari",                      "~> 0.13.0"
   s.add_dependency 'friendly_id',                   '~> 4.0.8'
   s.add_dependency "acts_as_list",                  "~> 0.1.8"
+  s.add_dependency "hierarchy",                     "~> 1.0.6"
 
 
   # Strictly speaking, these are dev dependencies, but we need to ensure it is
