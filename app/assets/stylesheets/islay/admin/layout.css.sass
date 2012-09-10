@@ -874,3 +874,55 @@ table
 body.delete #content
   margin: 4em 0 0 15% !important
   width: 60% !important
+
+
+/* -------------------------------------------------------------------------- */
+/* LOGIN SCREEN
+/* -------------------------------------------------------------------------- */
+
+body#login
+  background: $side-bar-color
+  color: #FFF
+
+  .login-container
+    +box-shadow(rgba(0,0,0,0.6) 0 0.5em 2em 0)
+    background: #EEE
+    border-top: 1px solid #FFF
+    border-bottom: 1px solid #000
+    color: #333
+    width: 36em
+    height: 16em
+    position: absolute
+    padding: 2em
+    top: 50%
+    left: 50%
+    margin-left: -20em
+    margin-top: -10em
+
+    form
+      float: left
+      width: 100%
+      padding: 2em 0 1em
+
+    h2
+      font-size: 1.8em
+
+    label
+      width: 10em
+
+    input
+      width: 16em
+
+    .button-bar
+      clear: both
+      float: left
+      width: 100%
+
+      button
+        float: right
+        margin-right: 7.6em
+
+    .help
+      a
+        text-decoration: none
+
