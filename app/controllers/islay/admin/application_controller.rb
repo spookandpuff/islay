@@ -13,6 +13,24 @@ module Islay
 
       private
 
+      # Intended to be run as a before filter, which will then draw out date/time
+      # related params, coerce them and put them into a Hash.
+      #
+      # @return Hash
+      def parse_dates
+        @report_range = if params[:month] and params[:year]
+          {:mode => :month, :year => params[:year].to_i, :month => params[:month].to_i}
+        elsif params[:range]
+          {
+            :mode => :range,
+            :from => Time.new(*params[:from].split('-')),
+            :to   => Time.new(*params[:to].split('-'))
+          }
+        else
+          {:mode => :none}
+        end
+      end
+
       # Will either redirect the user back to the originating URL or another URL
       # specified via the params. A redirection is specified using the
       # _return_to param key.
