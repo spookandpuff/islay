@@ -7,6 +7,7 @@ class CreateReportFunctions < ActiveRecord::Migration
             WHEN $1 = $2 THEN 'none'
             WHEN $1 > $2 THEN 'up'
             WHEN $1 < $2 THEN 'down'
+            ELSE 'na'
           END
       $$ LANGUAGE SQL;
 
@@ -16,6 +17,7 @@ class CreateReportFunctions < ActiveRecord::Migration
             WHEN $1 = $2 THEN 'none'
             WHEN $1 > $2 THEN 'up'
             WHEN $1 < $2 THEN 'down'
+            ELSE 'na'
           END
       $$ LANGUAGE SQL;
 
@@ -75,6 +77,23 @@ class CreateReportFunctions < ActiveRecord::Migration
             AND DATE_TRUNC('day', $3) <= $2 ::timestamp THEN true
             ELSE false
           END
+      $$ LANGUAGE SQL;
+
+      CREATE OR REPLACE FUNCTION within_previous_dates(in text, in text, in timestamp, out boolean) AS $$
+        WITH times AS (
+          SELECT
+            $1::timestamp AS start_time,
+            ($2 || ' 23:59:59')::timestamp AS end_time
+        )
+
+        SELECT
+          $3 >= (start_time - span) AND $3 <= (end_time - span)
+        FROM (
+          SELECT
+            (SELECT start_time FROM times) AS start_time,
+            (SELECT end_time FROM times) AS end_time,
+            (SELECT end_time FROM times) - (SELECT start_time FROM times) AS span
+        ) AS vals
       $$ LANGUAGE SQL
     }
   end
@@ -88,7 +107,8 @@ class CreateReportFunctions < ActiveRecord::Migration
       DROP FUNCTION IF EXISTS within_month(numeric, numeric, timestamp);
       DROP FUNCTION IF EXISTS within_previous_month(numeric, numeric, timestamp);
       DROP FUNCTION IF EXISTS within_last(text, timestamp);
-      DROP FUNCTION IF EXISTS within_dates(text, text, timestamp)
+      DROP FUNCTION IF EXISTS within_dates(text, text, timestamp);
+      DROP FUNCTION IF EXISTS within_previous_dates(text, text, timestamp);
     }
   end
 end

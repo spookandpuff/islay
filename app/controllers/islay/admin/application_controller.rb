@@ -20,12 +20,8 @@ module Islay
       def parse_dates
         @report_range = if params[:month] and params[:year]
           {:mode => :month, :year => params[:year].to_i, :month => params[:month].to_i}
-        elsif params[:range]
-          {
-            :mode => :range,
-            :from => Time.new(*params[:from].split('-')),
-            :to   => Time.new(*params[:to].split('-'))
-          }
+        elsif params[:from] and params[:to]
+          {:mode => :range, :from => params[:from], :to => params[:to]}
         else
           {:mode => :none}
         end
