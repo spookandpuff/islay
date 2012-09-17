@@ -19,11 +19,32 @@ module Islay
       # @return Hash
       def parse_dates
         @report_range = if params[:month] and params[:year]
-          {:mode => :month, :year => params[:year].to_i, :month => params[:month].to_i}
+          now       = Date.today
+          date      = Date.new(params[:year].to_i, params[:month].to_i)
+          last_day  = date.month == now.month ? now.mday : date.end_of_month.mday
+
+          {
+            :mode  => :month,
+            :year  => params[:year].to_i,
+            :month => params[:month].to_i,
+            :days  => (1..last_day).map {|d| "#{d}/#{date.month}"}
+          }
         elsif params[:from] and params[:to]
-          {:mode => :range, :from => params[:from], :to => params[:to]}
+          range = (Date.parse(params[:from])..Date.parse(params[:to]))
+
+          {
+            :mode => :range,
+            :from => params[:from],
+            :to   => params[:to],
+            :days => range.map {|d| "#{d.mday}/#{d.month}"}
+          }
         else
-          {:mode => :none}
+          time = Time.now
+
+          {
+            :mode => :none,
+            :days => (1..time.mday).map {|d| "#{d}/#{time.month}"}
+          }
         end
       end
 
