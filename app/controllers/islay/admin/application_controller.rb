@@ -27,7 +27,7 @@ module Islay
             :mode  => :month,
             :year  => params[:year].to_i,
             :month => params[:month].to_i,
-            :days  => (1..last_day).map {|d| "#{d}/#{date.month}"}
+            :days  => (1..last_day).map {|d| "#{d}/#{date.month}/#{date.year}"}
           }
         elsif params[:from] and params[:to]
           range = (Date.parse(params[:from])..Date.parse(params[:to]))
@@ -36,14 +36,14 @@ module Islay
             :mode => :range,
             :from => params[:from],
             :to   => params[:to],
-            :days => range.map {|d| "#{d.mday}/#{d.month}"}
+            :days => range.map {|d| "#{d.mday}/#{d.month}/#{d.year}"}
           }
         else
           time = Time.now
 
           {
             :mode => :none,
-            :days => (1..time.mday).map {|d| "#{d}/#{time.month}"}
+            :days => (1..time.mday).map {|d| "#{d}/#{time.month}/#{time.year}"}
           }
         end
       end
