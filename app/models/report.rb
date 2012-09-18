@@ -36,4 +36,49 @@ class Report
 
     ActiveRecord::Base.send(:sanitize_sql_array, args)
   end
+
+  # Generates a query by interpolating the appropriate time predicate functions
+  # into the provided string. It then executes the query using #select_all.
+  #
+  # @param String query
+  # @param Hash range
+  # @param String col
+  # @param String prev_col
+  #
+  # @return Array<Hash>
+  def self.select_all_by_range(query, range, opts)
+    col      = opts.delete(:column)
+    prev_col = opts.delete(:previous_column)
+
+    prepared = case range[:mode]
+    when :month, :none
+      if range[:mode] == :none
+        now = Time.now
+        year = now.year
+        month = now.month
+      else
+        year = range[:year]
+        month = range[:month]
+      end
+
+      query.gsub(/(:current|:previous)/) do |match|
+        case match
+        when ':current'   then "within_month(#{year}, #{month}, #{col})"
+        when ':previous'  then "within_previous_month(#{year}, #{month}, #{prev_col || col})"
+        end
+      end
+    when :range
+      from  = "'#{range[:from]}'"
+      to    = "'#{range[:to]}'"
+
+      query.gsub(/(:current|:previous)/) do |match|
+        case match
+        when ':current'   then "within_dates(#{from}, #{to}, #{col})"
+        when ':previous'  then "within_previous_dates(#{from}, #{to}, #{prev_col || col})"
+        end
+      end
+    end
+
+    select_all(prepared, opts)
+  end
 end
