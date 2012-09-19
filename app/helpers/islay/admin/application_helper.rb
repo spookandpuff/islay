@@ -101,6 +101,19 @@ module Islay
         end.strftime('%b %Y')
       end
 
+      # Takes a string or a date and returns a string with the day,
+      # three letter month and year with century.
+      #
+      # @param [Time, String] time
+      #
+      # @param String
+      def format_day(time)
+        case time
+        when String then time.to_time
+        when Time   then time
+        end.strftime('%-d %b %Y')
+      end
+
       # Convenience helper for writing out a div column with the specified width.
       # Can optionally be given an id or extra classes. It's also possible to
       # change the element generated using the :el option.
