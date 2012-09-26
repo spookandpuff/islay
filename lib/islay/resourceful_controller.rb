@@ -31,12 +31,13 @@ module Islay
     end
 
     def update_position
-      targets = resource_class[:class].where(:id => params[:ids])
-
-      case params[:do]
-      when 'move_up'   then targets.each(&:move_higher)
-      when 'move_down' then targets.each(&:move_lower)
+      ids, meth = case params[:do]
+      when 'move_up'   then [params[:ids], :move_higher]
+      when 'move_down' then [params[:ids].reverse, :move_lower]
       end
+
+      klass = resource_class[:class]
+      ids.each {|id| klass.find(id).send(meth)}
 
       flash[:ids] = params[:ids]
 

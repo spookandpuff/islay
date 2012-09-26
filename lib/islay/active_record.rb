@@ -26,27 +26,6 @@ module ActiveRecord
     end
 
     private
-
-    # A declaration which wraps acts_as_list and adds a before_save handler
-    # to handle record reparenting — if necessary.
-    #
-    # @param Symbol prefix
-    def self.positioning(prefix = nil)
-      if prefix
-        acts_as_list :scope => "#{prefix} = '\#\{#{prefix}.blank? ? 'NULL' : #{prefix}\}'"
-        before_save :update_position, :if => :"#{prefix}_changed?"
-      else
-        acts_as_list
-      end
-    end
-
-    # Used as a before_save handler when a model has acts_as_list declared
-    # with a scope. This handler reparents the record. See the ::positioning method.
-    def update_position
-      decrement_positions_on_lower_items
-      insert_at
-    end
-
     # This is a dirty hack which allows us to extend models within an application
     # by adding a corresponding file in ./app/model_extensions.
     def self.check_for_extensions
