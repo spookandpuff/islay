@@ -1,5 +1,8 @@
 module Islay
   class Engine < ::Rails::Engine
+    # Explicitly require the ActivityLog to avoid having it reloaded in dev.
+    require File.expand_path("../../../app/models/activity_log", __FILE__)
+
     config.autoload_paths << File.expand_path("../../app/queries", __FILE__)
     config.autoload_paths << File.expand_path("../../app/asset_management", __FILE__)
 
@@ -12,6 +15,7 @@ module Islay
     initializer "islay.sprockets" do
       Islay::Sprockets.configure(Rails.application)
     end
+
 
     def self.content
       @@pages ||= Pages.new

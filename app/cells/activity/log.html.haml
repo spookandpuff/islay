@@ -1,0 +1,17 @@
+%h3 Activity Log
+
+%table#activity-logs
+  %thead
+    %tr
+      %th What
+      %th Event
+      %th Who/When
+
+  %tbody
+    - @logs.each do |log|
+      %tr(class="#{log.type}-log")
+        %td= link_to("<strong>#{log.type.humanize}:</strong> #{log.name}".html_safe, log.url)
+        %td= log.event.humanize
+        %td.meta
+          %span.time= log.created_at
+          by #{log.user_name}

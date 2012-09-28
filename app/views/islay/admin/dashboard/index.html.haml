@@ -4,8 +4,8 @@
       %div.cell(id="#{n.to_s.parameterize}-cell")
         = render_cell n, :index
 
-    %div#activity-cell.cell
-      %h3 Activity Log
+    %div#activity-cell.report-cell
+      = render_cell :activity, :log
 
   = column(4) do
     - secondary_cells.each do |n|

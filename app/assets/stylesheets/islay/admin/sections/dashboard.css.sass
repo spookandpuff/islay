@@ -29,3 +29,37 @@
     padding: 0.7em 0 0.6em 0
     margin-bottom: 0 !important
     text-indent: 0.9em
+
+#activity-logs
+  a
+    +border-radius(0.2em)
+    background-color: $light-grey + 20
+    border: 0.1em solid $light-grey
+    padding: 0.5em
+    color: inherit !important
+    text-decoration: none
+    float: left
+
+    strong
+      font-weight: bold
+
+      &:before
+        font-family: Icons
+        font-weight: normal
+        font-size: 1.2em
+        margin-right: 0.4em
+
+  .asset-log a strong
+    +icon-picture
+
+  .order-log a strong
+    +icon-shopping-cart
+
+  .stock-log a strong
+    +icon-retweet
+
+  .price_change-log a strong
+    +icon-money
+
+
+
