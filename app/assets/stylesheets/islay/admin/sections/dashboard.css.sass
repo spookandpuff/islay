@@ -34,7 +34,7 @@
   a
     +border-radius(0.2em)
     background-color: $light-grey + 20
-    border: 0.1em solid $light-grey
+    border: 0.1em solid $light-grey - 15
     padding: 0.5em
     color: inherit !important
     text-decoration: none
@@ -49,17 +49,38 @@
         font-size: 1.2em
         margin-right: 0.4em
 
-  .asset-log a strong
-    +icon-picture
+  .asset-log a
+    background-color: #CFFFC8
 
-  .order-log a strong
-    +icon-shopping-cart
+    strong
+      +icon-picture
+
+  .order-log a
+    background-color: #FFE1BA
+
+    strong
+      +icon-shopping-cart
 
   .stock-log a strong
     +icon-retweet
 
   .price_change-log a strong
     +icon-money
+
+  .sku-log a strong,
+  .product-log a strong
+    +icon-barcode
+
+  .product_category-log a strong
+    +icon-folder-close
+
+  .stock-log a,
+  .price_change-log a,
+  .sku-log a,
+  .product-log a,
+  .product_category-log a
+    background-color: #DBF0FF
+
 
 
 
