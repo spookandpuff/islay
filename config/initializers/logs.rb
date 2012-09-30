@@ -3,7 +3,7 @@ ActivityLog.register(:asset, AssetLogDecorator, %{
     'asset' AS type,
     updated_at AS created_at,
     (SELECT name FROM users WHERE id = updater_id) AS user_name,
-    'updated' AS event,
+    update_status(created_at, updated_at) AS event,
     REPLACE(type, 'Asset', ' - ') || name,
     id,
     NULL AS parent_id
@@ -16,7 +16,7 @@ ActivityLog.register(:asset_collection, AssetCollectionLogDecorator, %{
     'asset_collection' AS type,
     updated_at AS created_at,
     (SELECT name FROM users WHERE id = updater_id) AS user_name,
-    'updated' AS event,
+    update_status(created_at, updated_at) AS event,
     name,
     id,
     NULL AS parent_id
@@ -30,7 +30,7 @@ ActivityLog.register(:asset_group, AssetAlbumLogDecorator, %{
     'asset_collection' AS type,
     updated_at AS created_at,
     (SELECT name FROM users WHERE id = updater_id) AS user_name,
-    'updated' AS event,
+    update_status(created_at, updated_at) AS event,
     name,
     id,
     NULL AS parent_id
@@ -44,7 +44,7 @@ ActivityLog.register(:user, UserLogDecorator, %{
     'user' AS type,
     updated_at AS created_at,
     NULL AS user_name,
-    'updated' AS event,
+    update_status(created_at, updated_at) AS event,
     name,
     id,
     NULL AS parent_id
