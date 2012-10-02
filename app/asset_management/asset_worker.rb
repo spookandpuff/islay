@@ -26,8 +26,13 @@ class AssetWorker
       end
 
       processor = @asset.asset_processor.new(original_path)
-      paths     = processor.process!
       data      = processor.extract_metadata!
+
+      paths = if processor.processable?
+        processor.process!
+      else
+        []
+      end
 
       # If this is an update, we need to upload the original file as well.
       if @mode == :new or @mode == :update

@@ -1,4 +1,8 @@
 class ImageAssetProcessor < AssetProcessor
+  def processable?
+    true
+  end
+
   def process_version!(path, &blk)
     copy = source.copy
     blk.call(copy)

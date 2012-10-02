@@ -2,8 +2,11 @@
 # specialised for each type of asset e.g. images, videos…
 class AssetProcessor
   class_attribute :versions, :previews
-  self.versions = {}
   self.previews = {}
+
+  def self.inherited(klass)
+    klass.versions = {}
+  end
 
   def self.config(&blk)
     class_eval(&blk)
@@ -32,6 +35,15 @@ class AssetProcessor
     @filename = File.basename(file)
     @dir      = File.dirname(file)
     @paths    = []
+  end
+
+  # Indicates if we should attempt to process the asset. By default this is
+  # false. Where needed, it's implementation should be over-ridden in the
+  # sub-classes.
+  #
+  # @return Boolean
+  def processable?
+    false
   end
 
   # Processes the versions and previews for an asset.
@@ -65,8 +77,10 @@ class AssetProcessor
   #
   # This should be over-ridden in each sub-class.
   #
+  # @param Hash data
+  #
   # @return Hash
-  def extract_metadata!(data)
+  def extract_metadata!(data = {})
     data.tap do |d|
       file = File.open(@file)
       d[:filesize] = file.size
