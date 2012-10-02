@@ -85,7 +85,10 @@ module Islay
       #
       # @return String
       def format_money(value)
-        "$%.2f" % value
+        case value
+        when nil then '$0.00'
+        else "$%.2f" % value
+        end
       end
 
       # Takes a string or a date and returns a string with three letter month
@@ -96,9 +99,10 @@ module Islay
       # @param String
       def format_month(time)
         case time
-        when String then time.to_time
-        when Time   then time
-        end.strftime('%b %Y')
+        when String   then time.to_time.strftime('%b %Y')
+        when Time     then time.strftime('%b %Y')
+        when nil, ''  then '-- ----'
+        end
       end
 
       # Takes a string or a date and returns a string with the day,
