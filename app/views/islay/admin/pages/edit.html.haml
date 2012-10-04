@@ -3,10 +3,25 @@
 
 = resource_form(@page, :url => path(:page, :id => params[:id]), :method => :put) do |f|
   = content do
-    - @page.each do |slug, type, name, val|
-      %div.field
-        = label(name, slug)
-        = contents_field(slug, type, val)
+    = f.fieldset('Content') do
+      - @page.each do |slug, type, name, val|
+        %div.field
+          = label(name, slug)
+          = contents_field(slug, type, val)
+
+    - if @page.features?
+      - @page.features.build
+      = f.fieldset('Features', :class => 'features association') do
+        %ol
+          = f.fields_for(:features) do |fe|
+            %li.feature.associated
+              - unless fe.object.errors.blank?
+                %p YOU HAVE ERROR
+              = fe.input(:_destroy, :as => :boolean)
+              = fe.input(:position)
+              = fe.input(:title)
+              = fe.input(:description, :as => 'text')
+              = fe.input(:asset_id, :collection => @assets, :blank => true)
 
   = footer do
     = cancel_button(@page, path(:pages))

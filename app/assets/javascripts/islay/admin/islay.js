@@ -1,10 +1,12 @@
 //= require jquery
+//= require ./namespace
 //= require ../../vendor/underscore
 //= require ../../vendor/backbone
 //= require ../../vendor/jquery.prettydate
 //= require ../../vendor/jquery.sortable
 //= require_tree .
 //= require_extensions
+
 
 $SP.where('.[edit, new, create, update]').select('#islay-form').run(function(form) {
   var FormView = new Islay.Form({el: form});

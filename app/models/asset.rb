@@ -134,7 +134,6 @@ class Asset < ActiveRecord::Base
       path = AssetStorage.cache_file!(key, filename, file)
 
       if @existing
-        logger.debug("RUNNING UPDATE")
         AssetWorker.enqueue!(self, :update, :file_path => path, :existing => @existing)
       else
         AssetWorker.enqueue!(self, :new, :file_path => path)

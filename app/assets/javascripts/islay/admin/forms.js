@@ -14,68 +14,28 @@ Islay.FormModel = Backbone.Model.extend({
 });
 
 /* -------------------------------------------------------------------------- */
-/* FORM FACTORY
-/* -------------------------------------------------------------------------- */
-Islay.FormFactory = function(parent, form) {
-  _.bindAll(this, 'add');
-  this.parent = parent;
-  this.$el = form;
-  this.button = $H('button', 'Add').click(this.add);
-  this.addControl = $H('div.add-form', this.button);
-
-  this.$el.parent().append(this.addControl);
-  this.$el.detach();
-
-  match = this.$el.find(':input').attr('name').match(/\[(\d+)\]/);
-  if (match) {
-    this.currentID = parseInt(match[1]);
-  }
-};
-
-Islay.FormFactory.prototype = {
-  add: function(e) {
-    this.currentID += 1;
-    var dup = this.$el.clone();
-    dup.find(':input[name*=template]').remove();
-    _.each(dup.find('label[for], :input'), this.updateID, this);
-
-    this.addControl.before(dup)
-    this.parent.addForm(dup);
-    dup.show();
-    e.preventDefault();
-  },
-
-  updateID: function(e) {
-    var el = $(e);
-    if (el.is('label')) {
-      this.replaceAttr(el, 'for');
-    }
-    else if (el.is('[type=hidden]')) {
-      this.replaceAttr(el, 'name');
-    }
-    else {
-      this.replaceAttr(el, 'id');
-      this.replaceAttr(el, 'name');
-    }
-  },
-
-  replaceAttr: function(el, attr) {
-    var replace = el.attr(attr).replace(/(\d+)/, this.currentID);
-    el.attr(attr, replace);
-  }
-};
-
-/* -------------------------------------------------------------------------- */
 /* ASSOCIATION
 /* -------------------------------------------------------------------------- */
 Islay.Assocation = Backbone.View.extend({
-  initialize: function() {
-    _.bindAll(this, 'move');
-    this.forms = [];
-    _.each(this.$el.find('.associated:not(.template-true)'), this.addForm, this);
+  events: {'click .add-form': 'add'},
+  pattern: /^(.+\[.+\]\[)(\d+)/,
+  replace: function(m, p1, p2) {return p1 + this.index;},
 
-    var template = this.$el.find('.template-true');
-    if (template.length > 0) {this.factory = new Islay.FormFactory(this, template);}
+  initialize: function() {
+    _.bindAll(this, 'add', 'replace', 'addForm', 'move', 'destroy');
+
+    this.listEl     = this.$el.find('ol');
+    this.templateEl = this.$el.find('li:last-child');
+
+    this.forms = [];
+    _.each(this.$el.find('li:not(:last-child)'), this.addForm, this);
+
+    var attr = this.templateEl.find(':input').attr('name'),
+        index = attr.match(this.pattern)[2];
+
+    this.index = parseInt(index);
+
+    this.render();
   },
 
   addForm: function(el) {
@@ -83,6 +43,24 @@ Islay.Assocation = Backbone.View.extend({
     form.on('destroy', this.destroy);
     form.on('move', this.move);
     this.forms.push(form);
+  },
+
+  add: function(e) {
+    var clone = this.templateEl.clone();
+
+    _.each(clone.find(':input'), function(input) {
+      var $input = $(input),
+          attr   = $input.attr('name'),
+          update = attr.replace(this.pattern, this.replace);
+
+        $input.attr('name', update);
+    }, this);
+
+    this.listEl.append(clone.show());
+    this.addForm(clone);
+
+    this.index += 1;
+    e.preventDefault();
   },
 
   move: function(pos, dir) {
@@ -108,6 +86,10 @@ Islay.Assocation = Backbone.View.extend({
     this.resort();
   },
 
+  destroy: function(pos) {
+
+  },
+
   resort: function() {
     this.forms.sort(function(x, y) {
       return x.options.position - y.options.position;
@@ -115,7 +97,10 @@ Islay.Assocation = Backbone.View.extend({
   },
 
   render: function() {
-    return this;
+    this.templateEl.detach();
+
+    this.addEl = $H('a.button.add-form', 'Add Feature');
+    this.$el.append(this.addEl);
   }
 });
 
@@ -285,6 +270,16 @@ Islay.Form = Backbone.View.extend({
 
   submit: function() {
 
+  }
+}, {
+  registry: [],
+
+  register: function(selector, constructor, extractor) {
+    this.registry.push({
+      selector: selector,
+      constructor: constructor,
+      extractor: extractor
+    });
   }
 });
 
@@ -534,8 +529,8 @@ Islay.Widgets.Position = Islay.Widgets.SimpleBase.extend({
     this.$el.find('input').hide();
     this.$el.addClass('position').addClass('widget');
     this.$el.append(
-      $H('div.up', $H('span', '▴')),
-      $H('div.down', $H('span', '▾'))
+      $H('div.up', $H('span', '▲')),
+      $H('div.down', $H('span', '▼'))
     );
 
     return this;

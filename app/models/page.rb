@@ -14,6 +14,9 @@ class Page < ActiveRecord::Base
     end
   end
 
+  has_many :features,           :order => 'position ASC'
+  has_many :published_features, :order => 'position ASC', :conditions => "published = true", :source => :features
+
   has_many :assets,     :through => :page_assets
   has_many :images,     :through => :page_assets, :source => :asset, :class_name => 'ImageAsset'
   has_many :documents,  :through => :page_assets, :source => :asset, :class_name => 'DocumentAsset'
@@ -22,7 +25,11 @@ class Page < ActiveRecord::Base
 
   track_user_edits
 
-  attr_accessible :contents, :slug
+  attr_accessible :contents, :slug, :features_attributes
+
+  accepts_nested_attributes_for :features,
+                                :reject_if     => proc {|f| f.values.map(&:blank?).all?},
+                                :allow_destroy => true
 
   # Returns the name defined in the configuration for this page.
   #
@@ -35,6 +42,14 @@ class Page < ActiveRecord::Base
     contents.each do |slug, val|
       yield(slug, content_type(slug), content_name(slug), val)
     end
+  end
+
+  # Checks to see if this page has been configured to have features attached to
+  # it.
+  #
+  # @return Boolean
+  def features?
+    definition.features?
   end
 
   # The configuration and value merged together.

@@ -32,6 +32,7 @@ module Islay
         @name = name
         @pages = {}
         @contents = {}
+        @features = false
 
         Islay::Pages.definitions[slug] = self
 
@@ -44,6 +45,14 @@ module Islay
 
       def content_summary
         @content_summary ||= @contents.map {|s, c| c[:name]}.join(', ')
+      end
+
+      def features?
+        @features
+      end
+
+      def features(bool)
+        @features = bool
       end
 
       def content(slug, name, type)
