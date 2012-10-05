@@ -19,6 +19,7 @@
                 %p This feature has errors
               = fe.input(:_destroy, :as => :boolean)
               = fe.input(:position)
+              = fe.input(:published)
               = fe.input(:title)
               = fe.input(:description, :as => 'text')
               = fe.input(:primary_asset_id, :collection => @assets, :blank => true)

@@ -8,6 +8,6 @@ class Feature < ActiveRecord::Base
 
   attr_accessible(
     :primary_asset_id, :secondary_asset_id, :title, :description,
-    :styles, :position
+    :styles, :position, :published
   )
 end

@@ -24,4 +24,20 @@ module Islay::Public::ApplicationHelper
       end
     end
   end
+
+  # Returns the published features for the specified page.
+  #
+  # @param Symbol name
+  #
+  # @return Array<Feature, nil>
+  def features(name)
+    page = Islay::Pages.definitions[name]
+    raise "The page '#{name}' has not been defined" if page.nil?
+
+    if record = page.record
+      record.published_features
+    else
+      []
+    end
+  end
 end
