@@ -646,14 +646,12 @@ table
       font-weight: bold
 
     &.true
-      &:before
-        color: $positive-color
       +icon-ok
+        color: $positive-color
 
     &.false
-      &:before
-        color: $negative-color
       +icon-remove
+        color: $negative-color
 
     span
       +hide
