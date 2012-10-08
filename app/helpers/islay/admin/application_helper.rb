@@ -113,9 +113,10 @@ module Islay
       # @param String
       def format_day(time)
         case time
-        when String then time.to_time
-        when Time   then time
-        end.strftime('%-d %b %Y')
+        when String   then time.to_time.strftime('%-d %b %Y')
+        when Time     then time.strftime('%-d %b %Y')
+        when nil, ''  then '-- -- ----'
+        end
       end
 
       # Convenience helper for writing out a div column with the specified width.
