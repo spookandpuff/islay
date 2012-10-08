@@ -4,7 +4,7 @@
   = render :partial => 'islay/admin/asset_groups/table'
 
 = footer do
-  = new_button('Album', :asset_album)
-  = new_button('Collection', :asset_collection)
+  = new_button('Album', :asset_album, :parent => @asset_group.id)
+  = new_button('Collection', :asset_collection, :parent => @asset_group.id)
   = edit_button(@asset_group)
   = delete_button(@asset_group)
