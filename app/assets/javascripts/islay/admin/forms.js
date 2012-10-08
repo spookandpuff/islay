@@ -420,7 +420,7 @@ Islay.Widgets.Select = Islay.Widgets.Base.extend({
           text  = opt.text();
 
       if (value == currentValue) {this.display.text(text);}
-      if (value != '') {this.list.append($H('li', {'data-value': value}, text));}
+      this.list.append($H('li', {'data-value': value}, text));
     }, this);
 
     return this;
