@@ -7,7 +7,7 @@ class CreateFeatures < ActiveRecord::Migration
 
       t.integer :position,        :null => false, :limit => 3,  :default => 1
       t.string  :title,           :null => false, :length => 200
-      t.string  :description,     :null => true, :length => 4000
+      t.string  :description,     :null => true,  :length => 4000
       t.string  :styles,          :null => true,  :length => 4000
 
       t.publishing
