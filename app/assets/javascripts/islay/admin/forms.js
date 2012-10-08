@@ -253,8 +253,26 @@ Islay.Form = Backbone.View.extend({
   },
 
   destroy: function() {
-    var destroy = $H('input', {type: 'hidden', name: this.name + '[_destroy]', value: 1});
-    this.$el.after(destroy).remove();
+    var destroy = $H('input', {type: 'hidden', name: this.name + '[_destroy]', value: 1, 'class': 'destroy-marker'});
+
+    var undo = $H('a', {'class': 'destroy-undo'}, 'Undo'),
+        destroyed = this;
+
+        undo.click(function(){
+          destroyed.$el
+            .removeClass('destroyed')
+            .find('.destroyed-message').remove()
+            .end()
+            .find('.destroy-marker').remove();
+        });
+
+    this.$el.after(destroy)
+      .addClass('destroyed')
+      .append('<div class="destroyed-message">This item has been marked for deletion - save to confirm. </div>');
+
+    this.$el.find('.destroyed-message')
+      .append(undo)
+
     this.trigger('destroy', this.options.position);
   },
 

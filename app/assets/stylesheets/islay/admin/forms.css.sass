@@ -292,18 +292,22 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   top: 1em
 
   div
-    background: #999999
+    background: #BBB
     color: white
-    width: 2em
-    height: 1.8em
+    cursor: pointer
     float: left
+    height: 1.8em
+    width: 2em
+    &:focus,
+    &:hover
+      background: #999
 
   span
+    display: block
     font-family: 'Icons'
     font-size: 1.2em
-    display: block
-    text-align: center
     margin-top: 0.2em
+    text-align: center
 
 /* DELETE */
 .widget.delete
