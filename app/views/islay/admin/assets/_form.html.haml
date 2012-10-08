@@ -6,7 +6,7 @@
 
     = f.fieldset('Organise') do
       = f.input(:tag_summary, :label => 'Tags')
-      = f.input(:asset_group_id, :collection => AssetAlbum.all, :label => 'Album', :include_blank => false)
+      = f.input(:asset_group_id, :collection => AssetAlbum.all, :label => 'Album', :include_blank => false, :selected => params[:to])
 
   = footer do
     = save_button
