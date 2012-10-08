@@ -496,7 +496,7 @@ Islay.Widgets.Destroy = Islay.Widgets.SimpleBase.extend({
 
   render: function() {
     this.$el.children().remove();
-    this.$el.addClass('delete').addClass('widget').append($H('div', $H('span', '✖')));
+    this.$el.addClass('delete').addClass('widget').append($H('div', $H('span', '')));
 
     return this;
   }
@@ -529,8 +529,8 @@ Islay.Widgets.Position = Islay.Widgets.SimpleBase.extend({
     this.$el.find('input').hide();
     this.$el.addClass('position').addClass('widget');
     this.$el.append(
-      $H('div.up', $H('span', '▲')),
-      $H('div.down', $H('span', '▼'))
+      $H('div.up', $H('span', '')),
+      $H('div.down', $H('span', ''))
     );
 
     return this;
