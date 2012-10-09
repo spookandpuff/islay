@@ -1,7 +1,7 @@
 class Feature < ActiveRecord::Base
   belongs_to  :page
-  has_one     :primary_asset,   :class_name => 'Asset'
-  has_one     :secondary_asset, :class_name => 'Asset'
+  belongs_to     :primary_asset,   :class_name => 'Asset'
+  belongs_to     :secondary_asset, :class_name => 'Asset'
 
   validations_from_schema
   track_user_edits

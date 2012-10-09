@@ -5,17 +5,63 @@
 #islay-admin-pages.update
   .features
     ol
-      width: 100%
       float: left
+      margin-bottom: 1em
+      width: 100%
 
-    li.feature
+    .feature
       +border-radius(0.3em)
       background: $light-grey + 25
       border: 0.1em solid $light-grey
-      margin: 0 0 1em 1em
+      margin: 0 0 0 1em
       padding: 1em 0 0 0
       width: 95%
       float: left
+
+      &.collapsed
+        padding-bottom: 1em
+
+        label
+          display: none
+
+        .persistent
+          bottom: 0
+          left: 1em
+          position: absolute
+          top: 0
+          right: 1em
+          .field.boolean,
+          .delete,
+          .position
+            margin: -1.2em
+            position: absolute
+            top: 50%
+
+          .frame
+            margin-left: 1.25em
+
+        .destroyed-message
+          margin-bottom: 0
+          
+      .summary
+        margin: 0 8em
+        position: relative
+        z-index: 1
+
+      .image-frame
+        background: #FFF
+        border: 1px solid #DDD
+        float: left
+        margin-right: 1em
+        max-height: 60px
+        overflow: hidden
+        padding: 0.4em
+
+      h4
+        font-family: 'Source Sans Pro Semibold'
+        line-height: 70px
+        font-size: 1.2em
+        color: $link-color
 
     .add-form
       margin: 0 0 1.2em 1em

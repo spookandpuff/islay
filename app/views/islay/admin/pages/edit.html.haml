@@ -14,16 +14,31 @@
       = f.fieldset('Features', :class => 'features association') do
         %ol
           = f.fields_for(:features) do |fe|
-            %li.feature.associated
+            %li.feature.associated.collapsible.collapsed
               - unless fe.object.errors.blank?
                 %p This feature has errors
-              = fe.input(:_destroy, :as => :boolean)
-              = fe.input(:position)
-              = fe.input(:published)
-              = fe.input(:title)
-              = fe.input(:description, :as => 'text')
-              = fe.input(:primary_asset_id, :collection => @assets, :blank => true)
-              = fe.input(:secondary_asset_id, :collection => @assets, :blank => true)
+              
+              .persistent              
+                = fe.input(:published)
+                = fe.input(:_destroy, :as => :boolean)
+                = fe.input(:position)
+
+              .summary
+                - unless fe.object.primary_asset.blank?
+                  .frame.image-frame
+                    = image_tag(fe.object.primary_asset.previews.url(:thumb_small))
+
+                - unless fe.object.secondary_asset.blank?
+                  .frame.image-frame
+                    = image_tag(fe.object.secondary_asset.previews.url(:thumb_small))
+
+                %h4.name.collapsible-toggle= fe.object[:title]
+
+              .details
+                = fe.input(:title)
+                = fe.input(:description, :as => 'text')
+                = fe.input(:primary_asset_id, :collection => @assets, :blank => true, :label => 'Image')
+                = fe.input(:secondary_asset_id, :collection => @assets, :blank => true, :label => 'Background')
 
   = footer do
     = cancel_button(@page, path(:pages))
