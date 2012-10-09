@@ -138,10 +138,10 @@ AssetProcessor.config do
   end
 
   preview(:thumb_medium) do |img|
-    img.resize_to_fit!(150, 130)
+    img.resize_to_fill!(160, 160)
   end
 
   preview(:thumb_small) do |img|
-    img.resize_to_fit!(70, 55)
+    img.resize_to_fill!(60, 60)
   end
 end
