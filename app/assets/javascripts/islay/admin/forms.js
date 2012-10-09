@@ -56,6 +56,10 @@ Islay.Assocation = Backbone.View.extend({
         $input.attr('name', update);
     }, this);
 
+    if (clone.is('.collapsible')) {
+      clone.removeClass('collapsed');
+    }
+
     this.listEl.append(clone.show());
     this.addForm(clone);
 
@@ -258,20 +262,24 @@ Islay.Form = Backbone.View.extend({
     var undo = $H('a', {'class': 'destroy-undo'}, 'Undo'),
         destroyed = this;
 
-        undo.click(function(){
-          destroyed.$el
-            .removeClass('destroyed')
-            .find('.destroyed-message').remove()
-            .end()
-            .find('.destroy-marker').remove();
-        });
+    undo.click(function(){
 
-    this.$el.after(destroy)
+      console.log(destroyed.$el.find('.destroy-marker'))
+
+      destroyed.$el
+        .removeClass('destroyed')
+        .find('.destroyed-message').remove()
+      
+      destroyed.$el
+        .find('.destroy-marker').remove();
+    });
+
+    this.$el
       .addClass('destroyed')
-      .append('<div class="destroyed-message">This item has been marked for deletion - save to confirm. </div>');
+      .append('<div class="destroyed-message">This item has been marked for deletion - save to confirm. </div>')
+      .append(destroy);
 
-    this.$el.find('.destroyed-message')
-      .append(undo)
+    this.$el.find('.destroyed-message').append(undo);
 
     this.trigger('destroy', this.options.position);
   },

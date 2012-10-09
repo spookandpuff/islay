@@ -16,6 +16,12 @@ $SP.where('.[show, index]').select('table.sortable').run(function(table) {
   var SortableTable = new Islay.SortableTable({el: $(table).closest('form')});
 });
 
+$SP.where('.[show, edit]').select('div.collapsible, li.collapsible').run(function(collection) {
+  _.each(collection, function(collapser){
+    var Collapsible = new Islay.Collapsible({el: $(collapser)});
+  }); 
+});
+
 $(function() {
   var timeValue = function() {
     return $(this).text();
