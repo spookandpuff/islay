@@ -31,6 +31,8 @@ class Page < ActiveRecord::Base
                                 :reject_if     => proc {|f| f.values.map(&:blank?).all?},
                                 :allow_destroy => true
 
+  before_save :update_page_assets
+
   # Returns the name defined in the configuration for this page.
   #
   # @return String
@@ -129,5 +131,11 @@ class Page < ActiveRecord::Base
 
   def definition
     @definition ||= Islay::Pages.definitions[slug.to_sym]
+  end
+
+  def update_page_assets
+    page_assets.each do |pa|
+      pa.save if pa.changed?
+    end
   end
 end
