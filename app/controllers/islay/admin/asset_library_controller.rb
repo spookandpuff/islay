@@ -11,7 +11,7 @@ module Islay
       end
 
       def browser
-        @albums = AssetAlbum.order('name ASC')
+        @albums = AssetAlbum.of(params[:only]).order('name ASC')
         @assets = Asset.summaries.of(params[:only])
         render :layout => false
       end

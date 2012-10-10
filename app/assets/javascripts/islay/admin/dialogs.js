@@ -229,7 +229,7 @@ Islay.Dialogs.AssetBrowser = Islay.Dialogs.Base.extend({
   },
 
   render: function() {
-    this.toolbar    = new Islay.Dialogs.AssetToolBar();
+    this.toolbar    = new Islay.Dialogs.AssetToolBar({only: this.options.only});
     this.grid       = new Islay.Dialogs.AssetGrid();
     this.selection  = new Islay.Dialogs.AssetSelection();
 
@@ -411,7 +411,7 @@ Islay.Dialogs.AssetToolBar = Backbone.View.extend({
   initialize: function() {
     _.bindAll(this, 'filter');
     this.currentAlbum = 'Latest';
-    this.currentFilter = 'All';
+    this.currentFilter = 'all';
   },
 
   load: function(albums) {
@@ -420,7 +420,8 @@ Islay.Dialogs.AssetToolBar = Backbone.View.extend({
 
   filter: function(filter) {
     // TODO: Collect the state from the search widget
-    this.trigger('filter', this.albums.state(), this.filters.state());
+    var filter = this.filters ? this.filters.state() : this.currentFilter;
+    this.trigger('filter', this.albums.state(), filter);
   },
 
   height: function() {
@@ -430,11 +431,13 @@ Islay.Dialogs.AssetToolBar = Backbone.View.extend({
   render: function() {
     this.albums = new Islay.Dialogs.AssetAlbums();
     this.albums.on('filter', this.filter);
+    this.$el.append(this.albums.render().el);
 
-    this.filters = new Islay.Dialogs.AssetFilters();
-    this.filters.on('filter', this.filter);
-
-    this.$el.append(this.albums.render().el, this.filters.render().el);
+    if (_.isEmpty(this.options.only)) {
+      this.filters = new Islay.Dialogs.AssetFilters();
+      this.filters.on('filter', this.filter);
+      this.$el.append(this.filters.render().el);
+    }
 
     return this;
   }
