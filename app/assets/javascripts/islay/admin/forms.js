@@ -236,6 +236,9 @@ Islay.Form = Backbone.View.extend({
         case 'multi-images':
           widget = 'MultipleAssets';
         break;
+        case 'single_asset':
+          widget = 'SingleAssetPicker';
+        break;
         case 'integer':
           if ($el.find(':input[name*=position]').length) {
             widget = 'Position';
@@ -269,7 +272,7 @@ Islay.Form = Backbone.View.extend({
       destroyed.$el
         .removeClass('destroyed')
         .find('.destroyed-message').remove()
-      
+
       destroyed.$el
         .find('.destroy-marker').remove();
     });
@@ -679,6 +682,46 @@ Islay.Widgets.MultiSelect = Islay.Widgets.Base.extend({
 
   render: function() {
 
+    return this;
+  }
+});
+
+/* -------------------------------------------------------------------------- */
+/* SINGLE ASSET PICKER
+/* -------------------------------------------------------------------------- */
+Islay.Widgets.SingleAssetPicker = Islay.Widgets.Base.extend({
+  widgetClass: 'single-asset',
+
+  click: function() {
+    if (this.dialog) {
+      this.dialog.show();
+    }
+    else {
+      _.bindAll(this, 'updateSelection');
+      this.dialog = new Islay.Dialogs.AssetBrowser({add: this.updateSelection});
+    }
+  },
+
+  updateSelection: function(selections) {
+    var selection = selections[0];
+    this.updateImage(selection.get('url'));
+    this.fields[this.fieldName].val(selection.id);
+  },
+
+  updateImage: function(url) {
+    if (!this.image) {
+      this.image = $H('img');
+      this.widget.append(this.image);
+    }
+    this.image.attr('src', url);
+  },
+
+  render: function() {
+    var val = this.currentValue();
+    if (!_.isEmpty(val)) {
+      var opt = this.inputs.find('option[value=' + val + ']');
+      this.updateImage(opt.attr('data-preview'));
+    }
     return this;
   }
 });

@@ -17,8 +17,8 @@
             %li.feature.associated.collapsible.collapsed
               - unless fe.object.errors.blank?
                 %p This feature has errors
-              
-              .persistent              
+
+              .persistent
                 = fe.input(:published)
                 = fe.input(:_destroy, :as => :boolean)
                 = fe.input(:position)
@@ -37,8 +37,8 @@
               .details
                 = fe.input(:title)
                 = fe.input(:description, :as => 'text')
-                = fe.input(:primary_asset_id, :collection => @assets, :blank => true, :label => 'Image')
-                = fe.input(:secondary_asset_id, :collection => @assets, :blank => true, :label => 'Background')
+                = fe.input(:primary_asset_id, :collection => @assets, :blank => true, :label => 'Image', :as => 'single_asset')
+                = fe.input(:secondary_asset_id, :collection => @assets, :blank => true, :label => 'Background', :as => 'single_asset')
 
   = footer do
     = cancel_button(@page, path(:pages))

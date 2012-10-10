@@ -23,7 +23,7 @@ class Islay::Admin::PagesController < Islay::Admin::ApplicationController
   private
 
   def find_assets
-    @assets = ImageAsset.order('name').map {|a| [a.name, a.id]}
+    @assets = ImageAsset.order('name')
   end
 
   def find_page

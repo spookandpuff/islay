@@ -343,15 +343,6 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   ul
     float: left
 
-  li
-    +border-radius(0.3em)
-    border: 0.1em solid $widget-border-color
-    overflow: hidden
-    margin-right: 1em
-    width: 100px
-    height: 70px
-    float: left
-
   .add
     padding-top: 27px
     height: 43px
@@ -368,6 +359,16 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     span
       font-size: 1.2em
 
+/* MULTI-ASSETS & SINGLE ASSET */
+.widget.single-asset,
+.widget.multi-assets li
+  +border-radius(0.3em)
+  border: 0.1em solid $widget-border-color
+  overflow: hidden
+  margin-right: 1em
+  width: 100px
+  height: 70px
+  float: left
 
 /* -------------------------------------------------------------------------- */
 /* TAB SET
