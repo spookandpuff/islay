@@ -4,7 +4,13 @@ module Islay::Admin::PagesHelper
 
     case type
     when :image
-      select_tag(name, options_for_select(@assets, val ? val.id : nil), :include_blank => true)
+      vals = @assets.map do |a|
+        opts = {:value => a.id, 'data-preview' => a.previews.url(:thumb_medium)}
+        opts[:selected] = 'selected' if val and val.id = a.id
+        content_tag('option', a.name, opts)
+      end
+
+      select_tag(name, vals.join.html_safe, :include_blank => true)
     when :text, :markdown
       text_area_tag(name, val)
     when :string
