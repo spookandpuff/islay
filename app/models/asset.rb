@@ -62,7 +62,7 @@ class Asset < ActiveRecord::Base
   #
   # @return Asset
   def self.choose_type(ext)
-    case ext
+    case ext.downcase
     when *IMAGE_EXTENSIONS     then ImageAsset.new
     when *DOCUMENT_EXTENSIONS  then DocumentAsset.new
     when *VIDEO_EXTENSIONS     then VideoAsset.new
