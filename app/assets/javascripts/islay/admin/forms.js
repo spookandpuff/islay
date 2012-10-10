@@ -698,7 +698,7 @@ Islay.Widgets.SingleAssetPicker = Islay.Widgets.Base.extend({
     }
     else {
       _.bindAll(this, 'updateSelection');
-      this.dialog = new Islay.Dialogs.AssetBrowser({add: this.updateSelection});
+      this.dialog = new Islay.Dialogs.AssetBrowser({add: this.updateSelection, only: 'images'});
     }
   },
 

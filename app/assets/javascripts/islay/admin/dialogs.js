@@ -24,9 +24,10 @@ Islay.Dialogs.Base = Backbone.View.extend({
       this.window = $(window).resize(this._resizeFlexible);
     }
 
-    if (this.options.url || this.url) {
+    var urlSource = this.options.url || this.url;
+    if (urlSource) {
+      var url = _.isFunction(urlSource) ? urlSource.call(this) : urlSource;
       // TODO: Show loading widget
-      var url = this.options.url || this.url;
       if (this.format == 'JSON') {
         $.getJSON(url, this._ajaxSuccess);
       }
@@ -169,10 +170,17 @@ Islay.Dialogs.AssetBrowser = Islay.Dialogs.Base.extend({
   events: {'.add click': 'add', '.upload click': 'upload'},
   titleText: 'Choose Assets',
   bindings: ['search', 'filter', 'selected', 'unselected', 'add', 'upload'],
-  url: '/admin/library/browser.json',
-  offset: {x: 70, y: 70},
+  offset: {x: 70, y: 50},
   sizing: 'flexible',
   closeButton: true,
+  url: function() {
+    if (this.options.only) {
+      return '/admin/library/browser/' + this.options.only + '.json';
+    }
+    else {
+      return '/admin/library/browser.json';
+    }
+  },
 
   loaded: function(res) {
     this.grid.load(res);

@@ -40,6 +40,13 @@ class Asset < ActiveRecord::Base
     }).order('name ASC')
   end
 
+  # Limits the records returned to just those of the specified type.
+  #
+  # @return ActiveRecord::Relation
+  def self.of(type)
+    type ? where(:type => "#{type.singularize.capitalize}Asset") : scoped
+  end
+
   # Creates a scope, which filters the records by the specified status.
   #
   # @param String filter

@@ -29,8 +29,8 @@ Rails.application.routes.draw do
 
       # ASSET LIBRARY
       scope :path => 'library' do
-        get '/' => 'asset_library#index', :as => 'asset_library'
-        get '/browser.json' => 'asset_library#browser', :as => 'browser'
+        get '/'                     => 'asset_library#index',   :as => 'asset_library'
+        get '/browser(/:only).json' => 'asset_library#browser', :as => 'browser'
 
         # Collections and Albums
         resources(:asset_collections, :controller => 'asset_groups', :path => 'collections', :defaults => {:type => 'collection'}) { get :delete, :on => :member }
