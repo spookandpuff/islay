@@ -6,11 +6,11 @@ module Islay::Admin::PagesHelper
     when :image
       vals = @assets.map do |a|
         opts = {:value => a.id, 'data-preview' => a.previews.url(:thumb_medium)}
-        opts[:selected] = 'selected' if val and val.id = a.id
+        opts[:selected] = 'selected' if val and val.asset_id == a.id
         content_tag('option', a.name, opts)
       end
 
-      select_tag(name, vals.join.html_safe, :include_blank => true)
+      select_tag(name, vals.join.html_safe, :include_blank => 'No image')
     when :text, :markdown
       text_area_tag(name, val)
     when :string
