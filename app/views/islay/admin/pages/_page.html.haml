@@ -1,6 +1,9 @@
 %tr(class="level-#{level}")
   %td= link_to(page.name, path(:page, :id => page.slug), :class => 'title')
-  %td= page.content_summary
+  %td
+    - if page.features?
+      Features, 
+    = page.content_summary
   %td
     - if record = page.record
       %span.time=record.updated_at

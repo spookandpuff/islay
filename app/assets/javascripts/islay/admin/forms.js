@@ -267,8 +267,6 @@ Islay.Form = Backbone.View.extend({
 
     undo.click(function(){
 
-      console.log(destroyed.$el.find('.destroy-marker'))
-
       destroyed.$el
         .removeClass('destroyed')
         .find('.destroyed-message').remove()
@@ -711,8 +709,9 @@ Islay.Widgets.SingleAssetPicker = Islay.Widgets.Base.extend({
   updateImage: function(url) {
     if (!this.image) {
       this.image = $H('img');
-      this.widget.append(this.image);
+      this.widget.append($H('div.frame', this.image));
     }
+    
     this.image.attr('src', url);
   },
 

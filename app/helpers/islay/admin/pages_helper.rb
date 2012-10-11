@@ -5,7 +5,7 @@ module Islay::Admin::PagesHelper
     case type
     when :image
       vals = @assets.map do |a|
-        opts = {:value => a.id, 'data-preview' => a.previews.url(:thumb_medium)}
+        opts = {:value => a.id, 'data-preview' => a.previews.url(:thumb_medium), 'data-name' => a.name, 'data-type' => a.type}
         opts[:selected] = 'selected' if val and val.asset_id == a.id
         content_tag('option', a.name, opts)
       end
