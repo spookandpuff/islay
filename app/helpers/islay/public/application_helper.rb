@@ -25,6 +25,26 @@ module Islay::Public::ApplicationHelper
     end
   end
 
+  # Look up an asset from a page content reference
+  #
+  # @param Symbol name
+  # @param Symbol content
+  #
+  # @return [Asset, nil]
+  def content_asset(name, content)
+    page = Islay::Pages.definitions[name]
+    raise "The page '#{name}' has not been defined" if page.nil?
+    raise "The content '#{content}' has not been defined" if page.contents[content].nil?
+
+    if record = page.record
+      config = record.content_with_config(content)
+
+      case config[:type]
+      when :image     then config[:value].asset if config[:value]
+      end
+    end
+  end
+
   # Returns the published features for the specified page.
   #
   # @param Symbol name
