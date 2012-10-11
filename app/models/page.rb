@@ -105,11 +105,13 @@ class Page < ActiveRecord::Base
           acc[name] = asset
         end
       else
-        acc[name] = self.entries[name] = val
+        acc[name] = val
+        self[:entries] = entries.merge(name => val)
       end
 
       acc
     end
+
   end
 
   def content_name(name)
