@@ -74,6 +74,12 @@ ul.asset-grid
 
   .frame
     height: 8em
+    position: relative
+
+    .processing-marker
+      position: absolute
+      left: 40%
+      top: 38%
 
   .name
     +ellipsis(true)
@@ -107,6 +113,31 @@ ul.asset-grid
 
   &.document
     +icon-file
+
+/* -------------------------------------------------------------------------- */
+/* PROMPT FOR NEW ASSET/ASSOCIATION
+/* -------------------------------------------------------------------------- */
+
+.new-asset-prompt
+  height: 13.5em
+
+  .frame
+    border: 0 none!important
+    height: 10em
+    line-height: 11em
+
+    span
+      +icon-upload
+        color: #666
+        display: inline-block
+        font-size: 1.5em
+        margin-left: -0.25em
+        margin-right: 0.25em
+        vertical-align: -0.15em
+
+  &:hover
+    border: 1px solid $link-color + 100
+
 
 /* -------------------------------------------------------------------------- */
 /* META-DATA / KEY-VALUE
@@ -161,6 +192,14 @@ ul.key-value
   #tag-cloud
     width: 30em
 
+  .frame
+
+    .processing-marker
+      position: absolute
+      top: 45%
+      left: 45%
+      margin-top: -0.6em
+
 /* -------------------------------------------------------------------------- */
 /* COLLECTION LISTING
 /* -------------------------------------------------------------------------- */
@@ -188,3 +227,17 @@ table
     border-bottom: 0.1em solid $light-grey
     padding-bottom: 1em
     margin-bottom: 2em
+
+/* -------------------------------------------------------------------------- */
+/* PROCESSING STATUS
+/* -------------------------------------------------------------------------- */
+
+#islay-admin-assets.processing
+  
+  .status-waiting
+    +icon-reorder
+      color: $mid-grey
+
+  .status-complete
+    +icon-check
+      color: $positive-color

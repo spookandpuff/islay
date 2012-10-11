@@ -4,7 +4,9 @@
 = content(:class => 'inset') do
   = column(4, :class => 'asset-preview') do
     %div.frame
-      - if @asset.preview? and @asset.processed?
+      - if @asset.status == 'processing' or @asset.status == 'enqueued'
+        %span.processing-marker{:title => 'This asset is being processed, and will be available shortly.'}
+      - elsif @asset.preview? and @asset.processed?
         = image_tag(@asset.previews.url(:thumb))
       - else
         %span(class='no-preview icon-#{@asset.kind}') &nbsp;

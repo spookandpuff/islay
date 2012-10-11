@@ -1,10 +1,19 @@
 %ul.asset-grid
+  - if :upload_prompt
+    
+    %li(class='new-asset-prompt image')
+      %a.frame(href='#{path(:new, :asset, :to => @asset_group)}')
+        %span Upload a new file
+
   - assets.each do |asset|
-    %li(class='#{asset.kind}')
+    %li(class='#{asset.kind} status-#{asset.status}')
       %a.frame(href='#{path(asset)}')
-        - if asset.preview?
-          = image_tag(asset.previews.url(:thumb_medium))
+        - if asset.status == 'processing' or asset.status == 'enqueued'
+          %span.processing-marker{:title => 'This asset is being processed, and will be available shortly.'}
         - else
-          %span(class='no-preview icon-#{asset.kind}') &nbsp;
+          - if asset.preview?
+            = image_tag(asset.previews.url(:thumb_medium))
+          - else
+            %span(class='no-preview icon-#{asset.kind}') &nbsp;
       = link_to(asset.name, path(asset), :class => 'name')
       %span(class='asset #{asset.kind}')= asset.friendly_kind

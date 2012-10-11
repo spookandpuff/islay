@@ -16,7 +16,7 @@
       %thead
         %tr
           %th.select= check_box_tag('all')
-          %th Status
+          %th.boolean Status
           %th Asset
           %th Updated at
 
@@ -24,7 +24,13 @@
         - @assets.each do |asset|
           %tr
             %td.select= check_box_tag("ids[]", asset.id)
-            %td= asset.status.capitalize
+            %td.boolean{:title => asset.status.capitalize}
+              - if asset.status == 'processing'
+                %span.processing-marker
+              - elsif asset.status == 'enqueued'
+                %span.status-waiting
+              - elsif asset.status == 'processed'
+                %span.status-complete
             %td= link_to(asset.name, path(asset), :class => 'title')
             %td= update_time(asset)
 

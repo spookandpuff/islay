@@ -6,7 +6,7 @@ module Islay
 
       def index
         @groups         = AssetGroup.summary.top_level.order('name')
-        @latest_assets  = Asset.limit(12).order("updated_at DESC")
+        @latest_assets  = Asset.limit(11).order("updated_at DESC")
         @asset_tags     = AssetTag.order('name')
       end
 

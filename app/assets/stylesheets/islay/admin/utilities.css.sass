@@ -1,0 +1,50 @@
+@-moz-keyframes spin 
+  0%
+    -moz-transform: rotate(0deg)
+  100%
+    -moz-transform: rotate(360deg)
+
+@-webkit-keyframes spin 
+  0%
+    -webkit-transform: rotate(0deg)
+  100%
+    -webkit-transform: rotate(360deg)
+
+@keyframes spin 
+  0%
+    transform: rotate(0deg)
+  100%
+    transform: rotate(360deg)
+ 
+
+@mixin animate($animation: spin, $duration: 1.5s, $repeat: infinite, $easing: linear)
+
+  -moz-animation-name: $animation
+  -moz-animation-duration: $duration
+  -moz-animation-iteration-count: $repeat
+  -moz-animation-direction: normal
+  -moz-animation-timing-function: $easing
+
+  -webkit-animation-name: $animation
+  -webkit-animation-duration: $duration
+  -webkit-animation-iteration-count: $repeat
+  -webkit-animation-direction: normal
+  -webkit-animation-timing-function: $easing
+
+  -o-animation-name: $animation
+  -o-animation-duration: $duration
+  -o-animation-iteration-count: $repeat
+  -o-animation-direction: normal
+  -o-animation-timing-function: $easing
+
+  -ms-animation-name: $animation
+  -ms-animation-duration: $duration
+  -ms-animation-iteration-count: $repeat
+  -ms-animation-direction: normal
+  -ms-animation-timing-function: $easing
+
+  animation-name: $animation
+  animation-duration: $duration
+  animation-iteration-count: $repeat
+  animation-direction: normal
+  animation-timing-function: $easing

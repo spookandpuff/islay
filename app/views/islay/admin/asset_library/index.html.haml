@@ -1,14 +1,16 @@
 - sub_header('Asset Library')
 
 = content(:class => 'inset') do
-  %h3 Tags
-  %ul#tag-cloud
-    - @asset_tags.each do |tag|
-      %li
-        = link_to(tag.name, path(tag))
 
   %h3 Latest Uploads
-  = render :partial => 'islay/admin/assets/grid', :locals => {:assets => @latest_assets}
+  = render :partial => 'islay/admin/assets/grid', :locals => {:assets => @latest_assets, :upload_prompt => true}
 
   %h3 Collections
   = render :partial => 'islay/admin/asset_groups/table'
+
+  - unless @asset_tags.blank?
+    %h3 Tags
+    %ul#tag-cloud
+      - @asset_tags.each do |tag|
+        %li
+          = link_to(tag.name, path(tag))

@@ -142,7 +142,7 @@ body.has-sub-header
 /* SUB HEADER
 /* -------------------------------------------------------------------------- */
 #sub-header
-  +background-image(linear-gradient(#FFFFFF, #ECECEC))
+  +background-image($dimension-raised-subtle)
   border-bottom: 0.1em solid $header-border-color
 
   h2,
@@ -369,6 +369,7 @@ table.inset
     margin-left: 2%
     margin-right: 2%
     margin-top: 1.5em
+    padding-bottom: 2em
     width: 96%
 
     table
@@ -613,11 +614,13 @@ table
     color: $dark-grey
     font-size: 0.9em
     line-height: 1.2
+    width: 9em
 
   th.currency,
   td.currency
     font-family: $alternate-font-family
     text-align: char
+    width: 6em
 
   td.boolean,
   td.indicator,
@@ -627,6 +630,10 @@ table
 
     .time
       display: block
+
+  td.stock,
+  th.stock
+    width: 4em
 
 
   /* YES/NO FLAGS */
@@ -701,11 +708,13 @@ table
       background-color: #EBCEC8
 
 thead th
-  text-transform: uppercase
+  +background-image($dimension-raised-subtle)
+  background-color: $very-light-grey
   border-bottom: 0.1em solid $light-grey
   color: $dark-grey
   font-size: 0.9em
   padding: 1em 1em 0.6em 1em
+  text-transform: uppercase
 
 td,
 tbody th,
@@ -926,3 +935,19 @@ body#login
       a
         text-decoration: none
 
+/* -------------------------------------------------------------------------- */
+/* UNIVERSAL 'IN PROGRESS'
+/* -------------------------------------------------------------------------- */
+
+.processing-marker
+  +animate(spin)
+  +border-radius(50%)
+  display: block
+  width: 1.3em
+  height: 1.3em
+  border: 0.4em dotted $mid-grey
+
+td, th
+  .processing-marker
+    font-size: 0.6em
+    display: inline-block

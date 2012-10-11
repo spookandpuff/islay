@@ -8,6 +8,6 @@
     = render :partial => 'islay/admin/assets/grid', :locals => {:assets => @asset_group.assets}
 
 = footer do
-  = new_button('Asset', :asset)
+  = new_button('Asset', :asset, :to => @asset_group)
   = edit_button(@asset_group)
   = delete_button(@asset_group)
