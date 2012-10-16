@@ -9,7 +9,15 @@ Gem::Specification.new do |s|
   s.email       = ["lukeandben@spookandpuff.com"]
   s.homepage    = "http://spookandpuff.com"
   s.summary     = "A Rails engine for website back-ends."
-  s.description = "A Rails engine for website back-ends."
+  s.description = %{
+    This is a specialised engine used by Spook and Puff for bootstrapping
+    websites that need an administration back-end. It is intended to take the
+    place of a generic CMS. Instead it provides authentication, asset management,
+    admin styles etc., but no 'content management'.
+
+    Instead, any apps using this engine are expected to implement their own
+    management logic.
+  }
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
 
@@ -40,11 +48,9 @@ Gem::Specification.new do |s|
   s.add_dependency "hierarchy",                     "~> 1.0.6"
 
 
-  # Strictly speaking, these are dev dependencies, but we need to ensure it is
-  # installed when using other Islay engines.
-  s.add_dependency "machinist",     "~> 2.0"
-  s.add_dependency "ffaker",        "~> 1.14.0"
-  s.add_dependency "capybara",      "~> 1.1.2"
-  s.add_dependency "poltergeist",   "~> 0.6.0"
-  s.add_dependency 'rspec-rails',   "~> 2.10.1"
+  s.add_development_dependency "machinist",           "~> 2.0"
+  s.add_development_dependency "_development_dfaker", "~> 1.14.0"
+  s.add_development_dependency "capybara",            "~> 1.1.2"
+  s.add_development_dependency "poltergeist",         "~> 0.6.0"
+  s.add_development_dependency 'rspec-rails',         "~> 2.10.1"
 end
