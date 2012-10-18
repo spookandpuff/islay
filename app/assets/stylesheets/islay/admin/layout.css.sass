@@ -13,6 +13,9 @@ body.has-footer #content
 body.has-sub-header
   margin-top: $header-height + $sub-header-height
 
+  #header
+    border-bottom: none
+
 /* -------------------------------------------------------------------------- */
 /* MAIN CONTENT BLOCKS
 /* -------------------------------------------------------------------------- */
@@ -40,30 +43,32 @@ body.has-sub-header
   right: 0
 
 #header
-  top: 0
+  border-bottom: 0.1em solid $light-grey
   height: $header-height
-  z-index: 2
+  top: 0
+  z-index: 3
 
 #sub-header
-  top: $header-height
   height: $sub-header-height
-  z-index: 1
+  top: $header-height
+  z-index: 2
 
 #footer
   height: $footer-height
   bottom: 0
-  z-index: 1
+  z-index: 2
 
 #content
-  width: 100%
   float: left
+  position: relative
+  width: 100%
+  z-index: 1
 
 /* -------------------------------------------------------------------------- */
 /* HEADER
 /* -------------------------------------------------------------------------- */
 #header
   background: #F3F3F3
-  border-bottom: 0.1em solid #B7B9C6
   font-family: $alternate-font-family
 
   h1
@@ -87,7 +92,7 @@ body.has-sub-header
       font-weight: bold
       color: $dark-grey
       padding: 0.95em 0.8em 0 0.8em
-      height: $header-height - 0.85em
+      height: $header-height - 0.9em
 
       &:before
         font-size: 1.2em
@@ -143,6 +148,9 @@ body.has-sub-header
 /* -------------------------------------------------------------------------- */
 #sub-header
   +background-image($dimension-raised-subtle)
+  +box-shadow(0 0.1em 0.6em rgba(0,0,0,0.1))
+  background-color: #FFF
+  border-top: 0.1em solid $header-border-color
   border-bottom: 0.1em solid $header-border-color
 
   h2,
@@ -151,12 +159,12 @@ body.has-sub-header
     color: $dark-grey
     float: left
     font-weight: bold
-    font-size: 1.1em
+    font-size: 1.5em
     margin-left: 0.6em
-    margin-top: 1em
+    margin-top: 0.55em
 
     strong
-      color: $dark-grey
+      color: $mid-grey
 
   .breadcrumb
     li
@@ -164,12 +172,13 @@ body.has-sub-header
       &:after
         +islay-text-inset
         content: '❯'
+        font-size: 0.75em
         line-height: 1.2
         margin-right: 0.6em
         padding-left: 0.75em
-        vertical-align: -0.15em
+        vertical-align: -0.1em
       &:last-child
-        color: $text-color
+        color: $text-color + 20
         font-family: $alternate-font-family
         &:after
           content: none
@@ -871,10 +880,11 @@ table
 .tag
   +unstyled-link
   +border-radius(0.3em)
-  +background-image(linear-gradient(#FAEC7F, #E7CF63))
   +islay-text-engraved(1px, 0.5)
-  border: 0.1em solid #DBA960
-  padding: 0.6em 1em
+  +background-image($dimension-raised-subtle)
+  background-color: $tag-color
+  border: 0.1em solid $tag-color - 25
+  padding: 0.4em 1em 0.3em
   margin: 0 1em 1em 0
 
 /* -------------------------------------------------------------------------- */
