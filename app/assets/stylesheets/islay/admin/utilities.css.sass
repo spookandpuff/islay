@@ -48,3 +48,17 @@
   animation-iteration-count: $repeat
   animation-direction: normal
   animation-timing-function: $easing
+
+
+//  Invisible clearing - when we need a container to clear floats without being floated itself
+//  I dont really like this - if there's a better way, let's hear it!
+//----------------------------------------
+
+@mixin clear-fix
+  &:after
+    visibility: hidden
+    display: block
+    font-size: 0
+    content: " "
+    clear: both
+    height: 0
