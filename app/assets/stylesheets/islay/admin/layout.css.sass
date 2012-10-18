@@ -188,6 +188,21 @@ body.has-sub-header
       text-decoration: none
 
 
+  .summary,
+  #summary
+    border-bottom: 0
+    float: right
+    margin-right: 1em
+    width: auto
+    li
+      .key
+        display: none
+      .value
+        +border-radius(0.3em)
+        +background-image($dimension-dished)
+        padding: 0.3em 0.55em 0.2em 0.55em
+
+
 /* -------------------------------------------------------------------------- */
 /* FILTERS
 /* Filters listings of records

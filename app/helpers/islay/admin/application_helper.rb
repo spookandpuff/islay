@@ -143,6 +143,13 @@ module Islay
         end
       end
 
+      # Add a supporting entry to the summary pane, which sits alongside the breadcrumbs/headings
+      #
+      # @param blk
+      def sub_header_status(&blk)
+        @sub_header_status_entry = capture(&blk)
+      end
+
       def prefixed_sub_header(prefix, text, link = nil)
         @sub_header_entries ||= []
 
@@ -157,7 +164,7 @@ module Islay
       #
       # @return Boolean
       def sub_header?
-        !!@sub_header_entries
+        !!@sub_header_entries or !!@sub_header_status_entry
       end
 
       def output_sub_header
@@ -166,10 +173,13 @@ module Islay
             content_tag(:li, c)
           end.join
 
-          content_tag(:ol, crumb_items.html_safe, :class => 'breadcrumb')
+          output = content_tag(:ol, crumb_items.html_safe, :class => 'breadcrumb')
         else
-          content_tag(:h2, *@sub_header_entries)
+          output = content_tag(:h2, *@sub_header_entries)
         end
+
+        output << @sub_header_status_entry unless @sub_header_status_entry.blank? 
+        output
       end
 
       # Adds and entry to the main navigation bar. It will additionally highlight
