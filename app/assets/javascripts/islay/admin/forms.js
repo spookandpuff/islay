@@ -755,7 +755,8 @@ Islay.Widgets.MultipleAssets = Islay.Widgets.Base.extend({
   addField: function(name, val, title, url) {
     var node = $H('li.entry', [
       $H('input.islay', {type: 'hidden', value: val, name: name}),
-      $H('div.frame', $H('img', {src: url, alt: title}))
+      $H('div.frame', $H('img', {src: url, alt: title})),
+      $H('div.remove', '', {alt: 'Remove this asset'})
     ]);
 
     this.fields[val] = node;
@@ -776,8 +777,8 @@ Islay.Widgets.MultipleAssets = Islay.Widgets.Base.extend({
   click: function(e) {
     var target = $(e.target);
 
-    if (target.is('img')) {
-      var parent = target.parent();
+    if (target.is('.remove')) {
+      var parent = target.closest('.entry');
       delete this.fields[parent.find('input').val()];
       parent.remove();
     }

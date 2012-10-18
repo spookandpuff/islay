@@ -340,25 +340,49 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 /* MULTI-ASSETS */
 .widget.multi-assets
   width: auto
+  min-width: 30em
 
   ul
     float: left
 
+  li
+    float: left
+    position: relative
+    &:hover
+      .remove
+        display: block
+        
   .add
-    padding-top: 27px
-    height: 43px
-    color: $dark-grey
-    cusor: pointer
+    cursor: pointer
     text-align: center
-    +icon-plus-sign
-
-    &:before
-      font-size: 1.2em
-      font-family: icons
-      margin: 0 0.4em 0 0
 
     span
-      font-size: 1.2em
+      line-height: 9em
+      +icon-plus-sign
+        color: #666
+        display: inline-block
+        font-size: 1.5em
+        margin-left: -0.25em
+        margin-right: 0.25em
+        vertical-align: -0.15em
+
+    &:hover
+      border: 1px solid $link-color + 100
+
+  .remove
+    +border-radius(50%)
+    background-color: $dark-grey
+    display: none
+    position: absolute
+    top: 0.5em
+    right: 0.5em
+    height: 1.5em
+    width: 1.5em
+    text-indent: 0.35em
+    +icon-remove
+      color: #FFF
+      vertical-align: -0.15em
+
 
 /* MULTI-ASSETS & SINGLE ASSET */
 .widget.single-asset,

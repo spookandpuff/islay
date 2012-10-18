@@ -559,7 +559,7 @@ Islay.Dialogs.AssetSelection = Backbone.View.extend({
     }
     else {
       var name = [model.get('name'), $H('span', model.get('friendly_kind'))];
-      node = $H('li', {'data-id': model.id, class: 'asset ' + model.get('kind')}, name);
+      node = $H('li', {'data-id': model.id, class: 'asset-type ' + model.get('kind')}, name);
       this.entries[model.id] = {node: node, model: model};
     }
     this.$el.append(node);
