@@ -41,9 +41,13 @@
 
               .details
                 = fe.input(:title)
+
                 = fe.input(:description, :as => 'text')
                 = fe.input(:primary_asset_id, :collection => @assets, :blank => true, :label => 'Image', :as => 'single_asset')
                 = fe.input(:secondary_asset_id, :collection => @assets, :blank => true, :label => 'Background', :as => 'single_asset')
+
+                = fe.input(:link_url, :as => 'string')
+                = fe.input(:link_title)
 
   = footer do
     = cancel_button(@page, path(:pages))
