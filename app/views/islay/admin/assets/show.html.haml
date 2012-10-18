@@ -36,9 +36,12 @@
                   %li= link_to(name.to_s.humanize, @asset.versions.url(name))
 
     %h3 Tags
-    %ul#tag-cloud
-      - @asset.tags.each do |tag|
-        %li= link_to(tag.name, path(tag))
+    - if @asset.tags.empty?
+      %p.note No tags set
+    - else
+      %ul#tag-cloud
+        - @asset.tags.each do |tag|
+          %li= link_to(tag.name, path(tag))
 
     %ul.key-value.edit-info
       %li
