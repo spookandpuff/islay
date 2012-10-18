@@ -162,8 +162,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     margin-top: 0.25em
     display: block
 
-.widget.select .frame,
-.widget.checkboxes .button
+.widget.select .frame
   +widget-gradient
   +widget-border-radius
   +input-border
@@ -267,20 +266,40 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 
 /* CHECKBOXES */
 .widget.checkboxes
-  width: auto
+
+  .frame
+    border: 0.1em solid $light-grey
+    height: auto
+    max-height: 20em
+    overflow-y: auto
+    padding: 0
+    width: 100%
+
+  .button
+    height: auto
 
   li
-    margin-right: 0.6em
+    padding-right: 0.6em
     padding-left: 0.5em
-    float: left
-
+    &:last-child
+      border-bottom: 0
+      margin-bottom: 0!important
+    &:hover
+      background-color: $widget-hover-background-color
+    
   span
     background: left center no-repeat url(image-path('islay/admin/checkbox.png'))
-    padding: 0.65em 0 0.65em 21px
+    cursor: pointer
+    padding: 0.45em 0 0.45em 21px
     display: block
 
   li.selected span
+    +text-shadow(0 0.1em 0 rgba(0,0,0,0.6))
     background-image: url(image-path('islay/admin/checkbox-selected.png'))
+
+  .button 
+    border-bottom: $border-width solid rgba(0,0,0,0.1)
+
 
 .associated
   position: relative
