@@ -1,9 +1,11 @@
 %div.field.multi-images
-  %label Assets
+  %label Images and documents
   %ul(data-name="#{f.object_name}[asset_ids][]")
     - f.object.assets.each do |asset|
       %li{:id => "asset-#{asset.id}"}
-        %label
-          = asset.name
-          = check_box_tag("#{f.object_name}[asset_ids][]", asset.id, :boolean => true)
-        = image_tag(asset.previews.url(:thumb_medium))
+        .liner
+          %label
+            = asset.name
+            = check_box_tag("#{f.object_name}[asset_ids][]", asset.id, :boolean => true)
+          .frame
+            = image_tag(asset.previews.url(:thumb_medium))

@@ -10,12 +10,11 @@
 /* ASSET PREVIEW
 /* -------------------------------------------------------------------------- */
 .asset-preview,
-ul.asset-grid li
+ul.asset-grid li.asset .liner
   +border-radius(0.2em)
   +single-box-shadow(rgba(0, 0, 0, 0.03), 0, 0, 0, 2px)
   border: 0.1em solid $light-grey
   background: white
-  margin-bottom: 1.5em
   float: left
 
   .frame
@@ -33,22 +32,17 @@ ul.asset-grid li
       color: #CCC + 30
       font-size: 5.5em
 
-ul.asset-grid li
-  .frame
-    margin: 1em 0 0 10%
-    width: 80%
-
 .asset-preview
   position: relative
-  min-height: 240px
+  max-height: 360px
+  max-width: 240px
+  margin-bottom: 1.5em
 
   .frame
-    position: absolute
-    top: 1em
-    right: 1em
-    bottom: 1em
-    left: 1em
-    margin: 0!important
+    border: 1em solid #FFF
+
+    img
+      width: 100%
 
   .no-preview
     margin: 2em 0
@@ -61,13 +55,38 @@ ul.asset-grid
   width: 100%
   float: left
 
-  li
+  .liner
+    +transition-property(left, right, bottom, top)
+    +transition-duration(150ms)
+    height: 14em
+    margin: 0
+    max-width: 15em
+
+  li.asset, 
+  li.new-asset-prompt
+    float: left
     margin-right: 1.5em
+    position: relative
     width: 15em
+
+  li.asset
+    height: 14em
+    &:hover
+      .liner
+        +box-shadow(0 0.2em 1.5em rgba(0,0,0,0.25))
+        height: auto
+        position: absolute
+        left: -2em
+        right: -2em
+        top: -2em
+        z-index: 2
+        max-width: none
+        .frame
+          height: auto
 
   .frame,
   .name,
-  .asset
+  .asset-type
     margin: 0 0 0 10%
     width: 80%
     float: left
@@ -75,6 +94,12 @@ ul.asset-grid
   .frame
     height: 8em
     position: relative
+    margin: 1em 0 0 10%
+    width: 80%
+
+    img
+      display: block
+      width: 100%
 
     .processing-marker
       position: absolute
@@ -85,7 +110,7 @@ ul.asset-grid
     +ellipsis(true)
     padding-top: 1em
 
-  .asset
+  .asset-type
     color: #999
     margin-top: 0.3em
     margin-bottom: 1em
@@ -98,7 +123,7 @@ ul.asset-grid
     color: black !important
 
 /* ICONS FOR ASSET TYPES */
-.asset
+.asset-type
   &:before
     font-family: icons
 
@@ -119,12 +144,17 @@ ul.asset-grid
 /* -------------------------------------------------------------------------- */
 
 .new-asset-prompt
-  height: 13.5em
+  height: 13.8em
 
-  .frame
-    border: 0 none!important
-    height: 10em
-    line-height: 11em
+  a
+    +border-radius(0.2em)
+    +single-box-shadow(rgba(0, 0, 0, 0.03), 0, 0, 0, 2px)
+    border: 0.1em solid $light-grey
+    display: block
+    width: 100%
+    height: 13.8em
+    line-height: 13.8em
+    text-align: center
 
     span
       +icon-upload
@@ -135,8 +165,8 @@ ul.asset-grid
         margin-right: 0.25em
         vertical-align: -0.15em
 
-  &:hover
-    border: 1px solid $link-color + 100
+    &:hover
+      border: 1px solid $link-color + 100
 
 
 /* -------------------------------------------------------------------------- */
@@ -145,12 +175,14 @@ ul.asset-grid
 ul.key-value
   border-top: 0.2em solid $light-grey
   width: 30em
-  margin-bottom: 1.5em
+  margin-bottom: 1.25em
+  padding-top: 0.75em
   float: left
 
   li
-    border-bottom: 0.1em solid $light-grey
-    padding: 0.6em 0
+    margin-bottom: 0.75em!important
+    padding: 0.3em 0
+    width: 100%
 
   li, .key, .value
     float: left
@@ -162,12 +194,30 @@ ul.key-value
   .value
     width: 22em
 
+  ul
+    max-height: 8em
+    border: 0.1em solid $light-grey
+    float: left
+    width: 100%
+    overflow-x: hidden
+    overflow-y: auto
+
   ul li
-    padding: 0 0 0.6em 0
+    padding: 0
     border-width: 0
+    margin: 0!important
+    a
+      display: block
+      padding: 0.3em 0.6em
+      text-decoration: none
+      &:hover,
+      &:focus
+        background-color: $widget-hover-background-color
+
 
     &:last-child
       padding-bottom: 0
+
 
 /* -------------------------------------------------------------------------- */
 /* ASSET OVERVIEW
