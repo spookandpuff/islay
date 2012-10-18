@@ -755,7 +755,7 @@ Islay.Widgets.MultipleAssets = Islay.Widgets.Base.extend({
   addField: function(name, val, title, url) {
     var node = $H('li.entry', [
       $H('input.islay', {type: 'hidden', value: val, name: name}),
-      $H('img', {src: url, alt: title})
+      $H('div.frame', $H('img', {src: url, alt: title}))
     ]);
 
     this.fields[val] = node;

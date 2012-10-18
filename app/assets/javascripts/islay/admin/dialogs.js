@@ -386,8 +386,9 @@ Islay.Dialogs.AssetEntry = Backbone.View.extend({
 
   render: function() {
     var frame = $H('div.frame'),
+        liner = $H('div.liner'),
         name  = $H('span.name', this.model.get('name')),
-        type  = $H('span', {class: 'asset ' + this.model.get('kind')}, this.model.get('friendly_kind')),
+        type  = $H('span', {class: 'asset-type ' + this.model.get('kind')}, this.model.get('friendly_kind')),
         preview;
 
     if (this.model.get('previewable')) {
@@ -397,8 +398,10 @@ Islay.Dialogs.AssetEntry = Backbone.View.extend({
       preview = $H('span', {class: 'no-preview icon-' + this.model.get('kind')});
     }
 
-    this.$el.addClass(this.model.get('kind'));
-    this.$el.append(frame.append(preview), name, type);
+    liner.append(frame.append(preview), name, type);
+
+    this.$el.addClass('asset ' + this.model.get('kind'));
+    this.$el.append(liner);
 
     return this;
   }
