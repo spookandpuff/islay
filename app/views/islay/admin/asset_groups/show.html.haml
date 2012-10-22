@@ -1,13 +1,17 @@
-- prefixed_sub_header('Album', @asset_group.name)
+- prefixed_sub_header('Collection', @asset_group.name)
 
 = content(:class => 'inset') do
+  - unless @asset_group.children.empty?
+    %p Children
+
   - if @asset_group.assets.empty?
     %p#placeholder
-      This album has no assets; add a #{link_to('new asset', path(:new, :asset, :to => @asset_group))}
+      This collection has no assets; add a #{link_to('new asset', path(:new, :asset, :to => @asset_group))}
   - else
     = render :partial => 'islay/admin/assets/grid', :locals => {:assets => @asset_group.assets}
 
 = footer do
   = new_button('Asset', :asset, :to => @asset_group)
+  = new_button('Collection', :asset_collection, :parent => @asset_group.id)
   = edit_button(@asset_group)
   = delete_button(@asset_group)

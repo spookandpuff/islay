@@ -9,7 +9,7 @@ class Asset < ActiveRecord::Base
 
   search_terms :map => {:type => :inherited}, :against => {:name => 'A'}
 
-  belongs_to  :album,     :class_name => 'AssetAlbum', :foreign_key => 'asset_group_id', :counter_cache => true
+  belongs_to  :group,     :class_name => 'AssetGroup', :foreign_key => 'asset_group_id', :counter_cache => true
   has_many    :taggings,  :class_name => 'AssetTagging'
   has_many    :tags,      :through => :taggings, :order => 'name'
 

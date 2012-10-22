@@ -32,9 +32,9 @@ Rails.application.routes.draw do
         get '/'                     => 'asset_library#index',   :as => 'asset_library'
         get '/browser(/:only).json' => 'asset_library#browser', :as => 'browser'
 
-        # Collections and Albums
-        resources(:asset_collections, :controller => 'asset_groups', :path => 'collections', :defaults => {:type => 'collection'}) { get :delete, :on => :member }
-        resources(:asset_albums,      :controller => 'asset_groups', :path => 'collections/albums', :defaults => {:type => 'album'}) { get :delete, :on => :member }
+        resources(:asset_groups, :path => 'collections') do
+          get :delete, :on => :member
+        end
 
         resources :asset_tags, :path => 'tags', :only => %w(index show)
 

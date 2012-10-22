@@ -64,7 +64,7 @@ ul.asset-grid
     margin: 0
     max-width: 15em
 
-  li.asset, 
+  li.asset,
   li.new-asset-prompt
     float: left
     margin-right: 1.5em
@@ -255,21 +255,15 @@ ul.key-value
 /* -------------------------------------------------------------------------- */
 /* COLLECTION LISTING
 /* -------------------------------------------------------------------------- */
-table
-  .asset-album,
-  .asset-collection
-    .title:before
-      font-family: icons
-      font-size: 1.4em
-      margin-right: 0.3em
-      color: $dark-grey !important
-      text-decoration: none !important
+table .asset-group .title
+  &:before
+    font-family: icons
+    font-size: 1.4em
+    margin-right: 0.3em
+    color: $dark-grey !important
+    text-decoration: none !important
 
-  .asset-album .title
-    +icon-book
-
-  .asset-collection .title
-    +icon-folder-open
+  +icon-folder-open
 
 /* -------------------------------------------------------------------------- */
 /* LIBRARY OVERVIEW
@@ -285,7 +279,7 @@ table
 /* -------------------------------------------------------------------------- */
 
 #islay-admin-assets.processing
-  
+
   .status-waiting
     +icon-reorder
       color: $mid-grey

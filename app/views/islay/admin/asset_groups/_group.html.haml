@@ -1,4 +1,4 @@
-%tr(class="level-#{level} #{group.type.tableize.singularize.gsub('_', '-')}")
+%tr(class="level-#{level} asset-group")
   %td
     = link_to(group.name, path(group), :class => 'title')
   %td
@@ -7,6 +7,6 @@
     %span.time= group.updated_at
     by #{group.updater_name}
 
-- if group.collection? and !group.children.empty?
+- unless group.children.empty?
   - group.children.summary.each do |group|
     = render :partial => 'islay/admin/asset_groups/group', :locals => {:group => group, :level => level + 1}
