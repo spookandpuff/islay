@@ -123,10 +123,14 @@ class Asset < ActiveRecord::Base
       @existing = {:dir => dir, :key => key, :filenames => filenames}
     end
 
-    self[:original_filename] = file.original_filename
-    self[:filename] = self[:original_filename].gsub(ILLEGAL_CHARS, '-').downcase
+    self[:original_filename] = case file
+    when ActionDispatch::Http::UploadedFile then file.original_filename
+    when File then File.basename(file.path)
+    end
+
+    self[:filename] = original_filename.gsub(ILLEGAL_CHARS, '-').downcase
     self[:dir] = dir = Time.now.strftime('%Y%m')
-    self[:key] = Digest::SHA1.hexdigest(self[:original_filename] + Time.now.to_s)
+    self[:key] = Digest::SHA1.hexdigest(original_filename + Time.now.to_s)
 
     @file = file
   end
@@ -178,9 +182,27 @@ class Asset < ActiveRecord::Base
     @previews ||= AssetVersions.new(dir, key, 'preview.jpg', asset_processor.preview_names)
   end
 
+  private
+
   def set_name
     if name.blank? and filename_changed?
-      self.name = original_filename.split('.').first
+      potential_name  = original_filename.split('.').first.humanize
+      self.name       = generate_unique_name(potential_name)
+    end
+  end
+
+  # Checks to see if there are any existing assets with this name and if so,
+  # appends a digit to the name to ensure it's unique.
+  #
+  # @param String name
+  #
+  # @return String
+  def generate_unique_name(name)
+    count = group.assets.where("name LIKE ?", name + '%').count
+    if count == 0
+      name
+    else
+      "#{name}-#{count}"
     end
   end
 end

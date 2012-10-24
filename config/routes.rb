@@ -34,6 +34,7 @@ Rails.application.routes.draw do
 
         resources(:asset_groups, :path => 'collections') do
           get :delete, :on => :member
+          resources :asset_bulk_uploads, :path => 'bulk_uploads', :only => %w(new create)
         end
 
         resources :asset_tags, :path => 'tags', :only => %w(index show)

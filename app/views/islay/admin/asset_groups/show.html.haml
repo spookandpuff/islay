@@ -12,6 +12,7 @@
 
 = footer do
   = new_button('Asset', :asset, :to => @asset_group)
-  = new_button('Collection', :asset_collection, :parent => @asset_group.id)
+  = new_button('Collection', :asset_group, :parent => @asset_group.id)
+  = new_button('Bulk Upload', @asset_group, :asset_bulk_upload)
   = edit_button(@asset_group)
   = delete_button(@asset_group)

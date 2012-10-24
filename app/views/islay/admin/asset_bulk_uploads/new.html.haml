@@ -1,0 +1,8 @@
+- sub_header('Bulk Upload Assets')
+
+= resource_form(@asset_bulk_upload, :url => path(@asset_group, :asset_bulk_uploads), :multipart => true) do |f|
+  = content do
+    = f.input(:upload, :label => 'File', :as => 'file')
+
+  = footer do
+    = save_button('Upload')

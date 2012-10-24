@@ -39,7 +39,7 @@ class Settings
   # Pulls in the IC_ prefixed environment variables and constructs the
   # configuration hash.
   #
-  # @return [Hash, nil]
+  # @return self
   def self.configure
     ENV.select {|name, val| name.match(/^IC_/)}.each_pair do |name, val|
       matches = name.match(/^IC_([A-Z]+)_(.+)/)
@@ -54,6 +54,8 @@ class Settings
         @@config[matches[1].downcase.to_sym][matches[2].downcase.to_sym] = parsed_val
       end
     end
+
+    self
   end
 
   # This error is raised when any configuration prefixes or keys are missing.

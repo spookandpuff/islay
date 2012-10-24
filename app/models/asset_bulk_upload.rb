@@ -15,6 +15,10 @@ class AssetBulkUpload
     [0]
   end
 
+  def new_record?
+    true
+  end
+
   def enqueue
     Worker.enqueue!(upload.path, asset_group_id, Thread.current[:current_user])
   end
@@ -22,13 +26,13 @@ class AssetBulkUpload
   private
 
   def is_zip_file
-    if @upload and !@upload.path.match(/\.zip$/)
+    if @upload and !@upload.original_filename.match(/\.zip$/)
       errors.add(:upload, 'You can only bulk upload Zip files')
     end
   end
 
   class Worker
-    attr_accessor :file_path, :asset_group_id, :parent_group, :creator
+    attr_accessor :file_path, :asset_group_id, :parent_group, :creator, :dir
 
     # Adds a new instance of the worker to the GirlFriday asset queue.
     #
@@ -133,17 +137,6 @@ class AssetBulkUpload
       AssetGroup.where(conds).first || AssetGroup.create(:name => name, :parent => parent)
     end
 
-    # Splits a path into it's dirname and basename components. It does this as
-    # you'd expect, unlike the methods on File, which suck.
-    #
-    # @param String path
-    #
-    # @return Arrray<String>
-    def path_and_name(path)
-      match = path.match(/(.+)\/(.+$)/)
-      [match[1], match[2].humanize]
-    end
-
     # Takes an array of path strings and generates an asset for each, generating
     # categories as necessary.
     #
@@ -154,16 +147,16 @@ class AssetBulkUpload
     def create_assets(groups, paths)
       paths.map do |path|
         file  = File.open(dir + path)
-        asset = Asset.choose_type(path)
+        asset = Asset.choose_type(path.split('.').last)
+
         if path.include?('/')
-          path, name = path_and_name(path)
-          group = groups[path]
+          match = path.match(/(.+)\/(.+$)/)
+          group = groups[match[1]]
         else
-          name = path.humanize
           group = parent_group
         end
 
-        asset.update_attributes(:name => name, :file => file, :asset_group_id => group.id)
+        asset.update_attributes(:file => file, :asset_group_id => group.id)
         asset
       end
     end
@@ -172,10 +165,6 @@ class AssetBulkUpload
     #
     # @return nil
     def cleanup
-      if file_path and File.exists?(file_path)
-        FileUtils.rm(file_path)
-      end
-
       if dir and File.exists?(dir)
         FileUtils.rm_rf(dir)
       end
