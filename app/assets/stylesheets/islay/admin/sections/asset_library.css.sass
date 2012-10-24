@@ -141,10 +141,43 @@ ul.asset-grid
   &.document
     +icon-file
 
+
+/* -------------------------------------------------------------------------- */
+/* GROUP LISTING
+/* -------------------------------------------------------------------------- */
+.group-list
+  border-bottom: 0.1em solid $light-grey
+  margin-bottom: 2em
+  width: 100%
+  float: left
+
+  a, li
+    float: left
+
+  a
+    +unstyled-link
+    font-size: 1.5em
+    color: $dark-grey !important
+    margin-right: 1em
+
+    span
+      margin-top: 0.4em
+      float: left
+
+    &:before
+      font-family: Icons
+      font-size: 1.6em
+      margin-right: 0.2em
+      float: left
+
+    +icon-folder-close
+
+    &:hover
+      +icon-folder-open
+
 /* -------------------------------------------------------------------------- */
 /* PROMPT FOR NEW ASSET/ASSOCIATION
 /* -------------------------------------------------------------------------- */
-
 .new-asset-prompt
   height: 13.8em
 

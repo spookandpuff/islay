@@ -2,7 +2,9 @@
 
 = content(:class => 'inset') do
   - unless @asset_group.children.empty?
-    %p Children
+    %ul.group-list
+      - @asset_group.children.each do |group|
+        %li= link_to(content_tag(:span, group.name), path(group))
 
   - if @asset_group.assets.empty?
     %p#placeholder
