@@ -79,6 +79,17 @@ class AssetBulkUpload
 
     private
 
+    # Splits a path into it's dirname and basename components. It does this as
+    # you'd expect, unlike the methods on File, which suck.
+    #
+    # @param String path
+    #
+    # @return Arrray<String>
+    def path_and_name(path)
+      match = path.match(/(.+)\/(.+$)/)
+      [match[1], match[2].humanize]
+    end
+
     # Unpacks the downloaded zip file and returns an array containing two entries;
     # paths for categories and paths for assets.
     #
@@ -150,8 +161,8 @@ class AssetBulkUpload
         asset = Asset.choose_type(path.split('.').last)
 
         if path.include?('/')
-          match = path.match(/(.+)\/(.+$)/)
-          group = groups[match[1]]
+          path, name = path_and_name(path)
+          group = groups[path]
         else
           group = parent_group
         end
