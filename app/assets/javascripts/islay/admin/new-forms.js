@@ -35,6 +35,16 @@ $SP.coerceArray = function(type, val) {
 };
 
 /* -------------------------------------------------------------------------- */
+/* MODEL
+/* -------------------------------------------------------------------------- */
+$SP.UI.FormModel = Backbone.Model.extend({
+  // Temporary, until we have validations and Ajax support
+  addError: function(attr, error) {
+    this.trigger('invalid:' + attr, error);
+  }
+});
+
+/* -------------------------------------------------------------------------- */
 /* FORM
 /* -------------------------------------------------------------------------- */
 $SP.UI.Form = Backbone.View.extend(
@@ -47,7 +57,7 @@ $SP.UI.Form = Backbone.View.extend(
 
       this.bindings = [];
 
-      this.model = new Backbone.Model();
+      this.model = new $SP.UI.FormModel();
       this.model.on('change', this.update);
       this._initWidgets();
       this._initForms();
@@ -68,7 +78,11 @@ $SP.UI.Form = Backbone.View.extend(
               type: 'string',
               required: input.attr('required') ? true : false,
               name: input.attr('name').match(/^.+\[(.+)\]/)[1],
-              model: this.model
+              model: this.model,
+              errored: field.is('.errored'),
+              error: field.find('.error').text(),
+              inline: field.is('.count-inline'),
+              firstInline: field.is('.count-first-inline')
             });
 
             this.model.set(data.name, data.value);
@@ -78,6 +92,9 @@ $SP.UI.Form = Backbone.View.extend(
 
             field.after(widget.render().el);
             field.remove();
+
+            // Temporary error propagation
+            if (data.errored) {this.model.addError(data.name, data.error);}
 
             this.bindings.push(new $SP.UI.FormBindings[config.binder](
               this.$el,
@@ -136,11 +153,12 @@ $SP.UI.Widget = Backbone.View.extend({
   initialize: function() {
     var bind = _.values(this.events);
     bind.unshift(this);
-    bind.push('onModelUpdate');
+    bind.push('onModelUpdate', 'onModelInvalid');
     _.bindAll.apply(_, bind);
 
     if (this.model) {
       this.model.on('change:' + this.options.name, this.onModelUpdate);
+      this.model.on('invalid:' + this.options.name, this.onModelInvalid);
     }
 
     this.dom = {};
@@ -149,6 +167,15 @@ $SP.UI.Widget = Backbone.View.extend({
   onModelUpdate: function() {
     this.currentValue = this.model.get(this.options.name);
     this.updateUI(this.currentValue);
+  },
+
+  onModelInvalid: function(msg) {
+    if (!this.dom.error) {
+      this.dom.error = $H('span.error');
+      this.dom.frame.after(this.dom.error);
+    }
+    this.dom.error.text(msg);
+    this.dom.error.show();
   },
 
   updateVal: function(val) {
@@ -165,6 +192,14 @@ $SP.UI.Widget = Backbone.View.extend({
 
   render: function() {
     this.dom.frame = $H('div.widget.' + this.widgetClass).append(this.template(this));
+
+    if (this.options.firstInline) {
+      this.$el.addClass('count-first-inline');
+    }
+    else if (this.options.inline) {
+      this.$el.addClass('count-inline');
+    }
+
     this._findNodes();
     this._findCollectionNodes();
     this.dom.label = $H('label', this.options.label);
@@ -249,6 +284,40 @@ $SP.UI.Form.register('.field.check_boxes', 'Checkboxes', 'Array', function(el, i
   var name = input.attr('name').match(/^.+\[(.+)\]\[/)[1];
 
   return {choices: choices, value: value, name: name};
+});
+
+/* -------------------------------------------------------------------------- */
+/* INPUT FIELD CONTROL (string, numeric, etc.)
+/* -------------------------------------------------------------------------- */
+$SP.UI.Widgets.Input = $SP.UI.Widget.extend({
+  widgetClass: 'string',
+  nodes: {input: 'input'},
+  events: {'keyup input': 'keyup'},
+  template: $SP.UI.template(
+    '<input class="{{options.classNames}}" size="{{options.size}}" type="{{options.inputType}}" value="{{options.value}}" />'
+  ),
+
+  keyup: function() {
+    this.pauseUiUpdate = true;
+    this.updateVal(this.dom.input.val());
+  },
+
+  updateUI: function(val) {
+    if (this.pauseUiUpdate) {
+      this.pauseUiUpdate = false
+    }
+    else {
+      this.dom.input.val(val);
+    }
+  }
+});
+
+$SP.UI.Form.register('.field.string, .field.float, .field.integer', 'Input', 'Generic', function(el, input) {
+  return {
+    size: input.attr('size'),
+    inputType: input.attr('type'),
+    classNames: input.attr('class')
+  };
 });
 
 /* -------------------------------------------------------------------------- */
