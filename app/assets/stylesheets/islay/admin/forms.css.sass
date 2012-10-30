@@ -194,6 +194,42 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   .select2-drop-below .select2-choice
     +widget-border-radius(top-only)
 
+.select2-results
+  .entry
+    display: block
+
+    span
+      &:before
+        font-family: Icons
+        margin-right: 0.4em
+        color: $mid-grey
+
+      +icon-folder-close
+
+  .depth-1
+    margin-left: 1.4em
+
+  .depth-2
+    margin-left: 2.4em
+
+  .depth-3
+    margin-left: 3.4em
+
+  .depth-4
+    margin-left: 4.4em
+
+  .depth-5
+    margin-left: 5.4em
+
+  .depth-6
+    margin-left: 6.4em
+
+  .depth-7
+    margin-left: 7.4em
+
+.select2-highlighted span:before
+  color: white !important
+
 /* Actual dropbox */
 .select2-drop
   +widget-border-radius

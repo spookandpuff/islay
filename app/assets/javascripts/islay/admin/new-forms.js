@@ -419,7 +419,7 @@ $SP.UI.Widgets.Select = $SP.UI.Widget.extend({
 
   select2Format: function(data) {
     var depth = this.options.choiceMap[data.id].depth;
-    return '<span class="category depth-' + depth + '">' + data.text + '</span>';
+    return '<span class="entry depth-' + depth + '"><span>' + data.text + '</span></span>';
   },
 
   updateUI: function(val) {
@@ -427,12 +427,12 @@ $SP.UI.Widgets.Select = $SP.UI.Widget.extend({
   }
 });
 
-$SP.UI.Form.register('.field.select', 'Select', 'Generic', function(el, input) {
+$SP.UI.Form.register('.field.select, .field.tree_select', 'Select', 'Generic', function(el, input) {
   var choices = [], choiceMap = {};
 
   _.each(el.find('option[value!=""]'), function(opt) {
     var $opt = $(opt),
-        text = $opt.text(),
+        text = $.trim($opt.text()),
         val = $opt.attr('value'),
         depth = $opt.attr('data-depth'),
         choice = {text: text, id: val || text, depth: depth || 0};

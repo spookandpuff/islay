@@ -44,3 +44,24 @@ class MultiAssetInput < SimpleForm::Inputs::CollectionSelectInput
     )
   end
 end
+
+class TreeSelectInput < SimpleForm::Inputs::CollectionSelectInput
+  # Generates a select tag where the options have a data-depth attribute.
+  #
+  # @return String
+  def input
+    selected = object.send(attribute_name)
+    vals = collection.map do |a|
+      opts = {:value => a.id, 'data-depth' => a.depth}
+      opts[:selected] = 'selected' if a.id == selected
+      template.content_tag('option', a.name, opts)
+    end
+
+    @builder.select(
+      attribute_name,
+      vals.join('').html_safe,
+      input_options,
+      input_html_options
+    )
+  end
+end
