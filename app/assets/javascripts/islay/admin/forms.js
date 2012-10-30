@@ -360,7 +360,11 @@ Islay.Widgets.Base = Backbone.View.extend({
 
   // Overridable
   getInitialValue: function() {
-    return this.inputs.val();
+    if (this.inputs.filter(':radio, :checkbox').length) {
+      return this.inputs.filter(':checked').val(); //If the inputs have checkboxes or radios, grab the checked value
+    } else {
+      return this.inputs.val();  //Otherwise, use the first value
+    }
   },
 
   currentValue: function(field) {
@@ -590,6 +594,7 @@ Islay.Widgets.Segmented = Islay.Widgets.Base.extend({
   render: function() {
     var frame = $H('ul.frame');
     var currentValue = this.inputs.filter(':checked').val();
+    console.log(currentValue)
     _.each(this.inputs, function(input) {
       var input = $(input),
           value = input.val();
