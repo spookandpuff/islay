@@ -27,8 +27,12 @@
         = main_nav('Asset Library', :asset_library)
         = main_nav('Users', :users)
 
-      %p#current-user
+      #current-user
         = current_user.name
+
+        = form_for(current_user, :url => :destroy_user_session, :method => :delete) do |f|
+          %label(for='sign-out-control') Sign out
+          %button#sign-out-control(type='submit') Sign out
 
     %div#header
       - if _nav
