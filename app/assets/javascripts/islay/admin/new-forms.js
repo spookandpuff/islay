@@ -405,7 +405,8 @@ $SP.UI.Widgets.Select = $SP.UI.Widget.extend({
   prepareUI: function() {
     _.bindAll(this, 'select2Change', 'select2Format');
     var opts = {
-      allowClear: true,
+      allowClear: this.options.allowClear,
+      placeholder: 'None selected',
       data: this.options.choices,
       formatResult: this.select2Format,
       initSelection: function() {}
@@ -414,6 +415,7 @@ $SP.UI.Widgets.Select = $SP.UI.Widget.extend({
   },
 
   select2Change: function() {
+    console.log('WHAT', this.dom.hook.val())
     this.updateVal(this.dom.hook.val());
   },
 
@@ -441,7 +443,11 @@ $SP.UI.Form.register('.field.select, .field.tree_select', 'Select', 'Generic', f
     choiceMap[choice.id] = choice;
   });
 
-  return {choices: choices, choiceMap: choiceMap};
+  return {
+    choices: choices,
+    choiceMap: choiceMap,
+    allowClear: input.find('option[value!=""]').length > 0
+  };
 });
 
 /* -------------------------------------------------------------------------- */
