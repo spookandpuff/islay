@@ -402,10 +402,13 @@ body.has-sub-header
 /* -------------------------------------------------------------------------- */
 /* INSET CONTENT
 /* -------------------------------------------------------------------------- */
-table.inset
-  border: 0.1em solid $header-border-color
+table.inset,
+div.inset
   margin-left: 2%
   width: 96%
+
+table.inset
+  border: 0.1em solid $header-border-color
 
 #content
   &.inset
@@ -426,6 +429,12 @@ table.inset
     padding-top: 1.5em
     padding-left: 2%
     width: 96%
+
+/* -------------------------------------------------------------------------- */
+/* GENERAL PURPOSE CLEAR/GROUP
+/* -------------------------------------------------------------------------- */
+.panel
+  +clear-fix
 
 /* -------------------------------------------------------------------------- */
 /* FOOTER
