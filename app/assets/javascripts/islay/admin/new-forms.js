@@ -41,6 +41,16 @@ $SP.UI.FormModel = Backbone.Model.extend({
   // Temporary, until we have validations and Ajax support
   addError: function(attr, error) {
     this.trigger('invalid:' + attr, error);
+  },
+
+  incrementPosition: function() {
+    var target = this.get('position') + 1;
+    if (target <= this.get('maxPosition')) {this.set('position', target);}
+  },
+
+  decrementPosition: function() {
+    var target = this.get('position') - 1;
+    if (target > 0) {this.set('position', target);}
   }
 });
 
@@ -50,7 +60,6 @@ $SP.UI.FormModel = Backbone.Model.extend({
 $SP.UI.Form = Backbone.View.extend(
   {
     initialize: function() {
-      _.bindAll(this, 'update');
 
       var first = this.$el.find(':input:not(:hidden)');
       if (first) {this.prefix = first.attr('name').match(/^(.+)\[/)[1];}
@@ -58,15 +67,15 @@ $SP.UI.Form = Backbone.View.extend(
       this.bindings = [];
 
       this.model = new $SP.UI.FormModel();
-      this.model.on('change', this.update);
+
       this._initWidgets();
       this._initForms();
-      this._initAssociations();
     },
 
     _initWidgets: function() {
       _.each(this.constructor.registry, function(config) {
-        var fields = this.$el.find(config.selector);
+        var fields = this.$el.find(this._coerceSelector(config.selector));
+
         if (fields.length > 0) {
           _.each(fields, function(f) {
             var field = $(f),
@@ -88,8 +97,6 @@ $SP.UI.Form = Backbone.View.extend(
             this.model.set(data.name, data.value);
             var widget = new $SP.UI.Widgets[config.widget](data);
 
-            if (widget.broadcast) {this._proxyEvents(widget);}
-
             field.after(widget.render().el);
             field.remove();
 
@@ -108,24 +115,18 @@ $SP.UI.Form = Backbone.View.extend(
       }, this);
     },
 
+    _coerceSelector: function(selector) {
+      return _.map(selector.split(','), function(s) {
+        return $.trim(s) + ':not(.association .field)';
+      }).join(', ');
+    },
+
     _initForms: function() {
-
-    },
-
-    _initAssociations: function() {
-
-    },
-
-    update: function() {
-      // TODO: figure out which fields changed.
-    },
-
-    _proxyEvents: function(widget) {
-      _.each(widget.broadcast, function(ev) {
-        var fn = new Function("this.trigger('" + ev + "')");
-        _.bind(fn, this);
-        widget.on(ev, fn);
-      }, this);
+      // TODO: Subscribe to repositioning
+      var assoc = this.$el.find('.associated');
+      this.forms = _.map(assoc, function(el) {
+        return new $SP.UI.SubForm({el: el, maxPosition: assoc.length});
+      });
     }
   },
 
@@ -142,6 +143,43 @@ $SP.UI.Form = Backbone.View.extend(
     }
   }
 );
+
+/* -------------------------------------------------------------------------- */
+/* SUB-FORM
+/* -------------------------------------------------------------------------- */
+$SP.UI.SubForm = $SP.UI.Form.extend({
+  initialize: function() {
+    $SP.UI.Form.prototype.initialize.apply(this);
+
+    _.bindAll(this, 'reposition', 'destroy');
+
+    this.model.set('maxPosition', this.options.maxPosition);
+
+    this.model.on('change:position', this.reposition);
+    this.model.on('change:_destroy', this.destroy);
+  },
+
+  reposition: function() {
+    if (this.model.previous('position') > this.model.get('position')) {
+      this.trigger('moveUp');
+    }
+    else {
+      this.trigger('moveDown');
+    }
+  },
+
+  destroy: function() {
+    this.$el.hide();
+  },
+
+  _coerceSelector: function(selector) {
+    return selector;
+  },
+
+  _initForms: function() {
+    // Can't have forms nested in forms.
+  }
+});
 
 /* -------------------------------------------------------------------------- */
 /* WIDGET
@@ -191,7 +229,8 @@ $SP.UI.Widget = Backbone.View.extend({
   },
 
   render: function() {
-    this.dom.frame = $H('div.widget.' + this.widgetClass).append(this.template(this));
+    this.$el.addClass(this.widgetClass).addClass('widget');
+    this.dom.frame = $H('div.widget-frame').append(this.template(this));
 
     if (this.options.firstInline) {
       this.$el.addClass('count-first-inline');
@@ -544,6 +583,60 @@ $SP.UI.Form.register('.field.multi_asset', 'MultiAsset', 'Array', function(el, i
   var name = input.attr('name').match(/^.+\[(.+)\]\[/)[1];
 
   return {choicesMap: choicesMap, value: value, name: name};
+});
+
+/* -------------------------------------------------------------------------- */
+/* POSITION CONTROL
+/* -------------------------------------------------------------------------- */
+$SP.UI.Widgets.Position = $SP.UI.Widget.extend({
+  widgetClass: 'position',
+  events: {'click li': 'click'},
+  template: $SP.UI.template(
+    '<ul>',
+      '<li class="up"><span></span></li>',
+      '<li class="down"><span></span></li>',
+    '</ul>'
+  ),
+
+  click: function(e) {
+    var target = $(e.target);
+    if (target.is('span')) {target = target.parent('li');}
+    if (target.is('.up')) {
+      this.model.decrementPosition();
+    }
+    else if (target.is('.down')) {
+      this.model.incrementPosition();
+    }
+  },
+
+  // A noop
+  updateUI: function() {}
+});
+
+$SP.UI.Form.register('.field.position', 'Position', 'Generic', function(el, input) {
+  return {type: 'integer', value: parseInt(input.val())};
+});
+
+/* -------------------------------------------------------------------------- */
+/* DESTROY CONTROL
+/* -------------------------------------------------------------------------- */
+$SP.UI.Widgets.Destroy = $SP.UI.Widget.extend({
+  widgetClass: 'delete',
+  events: {'click': 'click'},
+  template: $SP.UI.template(
+    '<div><span></span></div>'
+  ),
+
+  click: function() {
+    this.model.set(this.options.name, true);
+  },
+
+  // A noop
+  updateUI: function() {}
+});
+
+$SP.UI.Form.register('.field.destroy', 'Destroy', 'Boolean', function(el, input) {
+  return {type: 'boolean', value: false};
 });
 
 /* -------------------------------------------------------------------------- */

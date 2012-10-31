@@ -138,12 +138,9 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     +border-bottom-radius($widget-border-radius)
 
 .widget
-  cursor: default
-  width: $widget-width
-  float: left
-  position: relative
-
-  .frame
+  .widget-frame
+    cursor: default
+    position: relative
     height: $widget-height
     float: left
 
@@ -343,7 +340,10 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   position: absolute
   top: 1em
 
-  div
+  label
+    +hide
+
+  li, .widget-frame div
     background: #BBB
     color: white
     cursor: pointer
@@ -375,16 +375,21 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 .widget.position
   right: 1em
 
-  div.up
+  .widget-frame
+    width: 100%
+
+  li.up
     +widget-border-radius(left)
     line-height: 1.3
+
     span
       +icon-chevron-up
 
-  div.down
+  li.down
     +widget-border-radius(right)
     line-height: 1.3
     margin-left: 0.1em
+
     span
       +icon-chevron-down
 
