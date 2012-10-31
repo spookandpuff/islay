@@ -594,7 +594,6 @@ Islay.Widgets.Segmented = Islay.Widgets.Base.extend({
   render: function() {
     var frame = $H('ul.frame');
     var currentValue = this.inputs.filter(':checked').val();
-    console.log(currentValue)
     _.each(this.inputs, function(input) {
       var input = $(input),
           value = input.val();
