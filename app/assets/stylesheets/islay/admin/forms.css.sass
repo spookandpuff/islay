@@ -141,7 +141,6 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   .widget-frame
     cursor: default
     position: relative
-    height: $widget-height
     float: left
 
   .button
@@ -401,13 +400,6 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   ul
     float: left
 
-  li
-    float: left
-    position: relative
-    &:hover
-      .remove
-        display: block
-
   .add
     cursor: pointer
     text-align: center
@@ -425,6 +417,26 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     &:hover
       border: 1px solid $link-color + 100
 
+
+/* MULTI-ASSETS & SINGLE ASSET */
+.widget.single_asset,
+.widget.multi_asset
+  .choice, .add
+    +border-radius(0.2em)
+    +single-box-shadow(rgba(0, 0, 0, 0.03), 0, 0, 0, 2px)
+    +input-border
+    background: white
+    cursor: pointer
+    margin: 0 1em 1em 0
+    overflow: hidden
+    height: 9em
+    width: 10em
+    position: relative
+    float: left
+
+    &:hover .remove
+      display: block
+
   .remove
     +border-radius(50%)
     background-color: $dark-grey
@@ -439,29 +451,12 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
       color: #FFF
       vertical-align: -0.15em
 
-
-/* MULTI-ASSETS & SINGLE ASSET */
-.widget.single-asset,
-.widget.multi_asset li
-  +border-radius(0.2em)
-  +single-box-shadow(rgba(0, 0, 0, 0.03), 0, 0, 0, 2px)
-  +input-border
-  background: white
-
-  cursor: pointer
-  margin: 0 1em 1em 0
-  overflow: hidden
-  height: 9em
+.widget.single_asset .placeholder
+  text-align: center
+  display: block
+  padding-top: 4em
+  height: 5em
   width: 10em
-
-  .frame
-    text-align: center
-    border: 0.1em solid $light-grey
-    background: white
-    margin: 1em 0 1em 1em
-    overflow: hidden
-    height: 8em
-
 
 /* -------------------------------------------------------------------------- */
 /* TAB SET

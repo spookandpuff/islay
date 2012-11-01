@@ -597,6 +597,66 @@ $SP.UI.Form.register('.field.select, .field.tree_select', 'Select', 'Generic', f
 });
 
 /* -------------------------------------------------------------------------- */
+/* SINGLE-ASSET CONTROL
+/* -------------------------------------------------------------------------- */
+$SP.UI.Widgets.SingleAsset = $SP.UI.Widget.extend({
+  widgetClass: 'single_asset',
+  events: {'click img, .placeholder': 'modify', 'click .remove': 'remove'},
+  nodes: {choice: '.choice'},
+  template: $SP.UI.template(
+    '<div class="choice"><span class="placeholder">Choose an Image</span></div>'
+  ),
+  entryTemplate: $SP.UI.template(
+    '<img src="{{url}}" alt="{{text}}" /><span class="remove"></span>'
+  ),
+  placeholderTemplate: $SP.UI.template(
+    '<span class="placeholder">Choose an Image</span>'
+  ),
+
+  remove: function() {
+    this.dom.choice.html(this.placeholderTemplate());
+    this.updateVal(null);
+  },
+
+  modify: function(e) {
+    if (this.dialog) {
+      this.dialog.show();
+    }
+    else {
+      _.bindAll(this, 'update');
+      this.dialog = new Islay.Dialogs.AssetBrowser({add: this.update, only: 'images'});
+    }
+  },
+
+  update: function(selections) {
+    if (selections.length > 0) {this.updateVal(selections[0].id);}
+  },
+
+  updateUI: function(val) {
+    if (val) {
+      var vals = this.options.choicesMap[val];
+      this.dom.choice.html(this.entryTemplate(vals));
+    }
+  }
+});
+
+$SP.UI.Form.register('.field.single_asset', 'SingleAsset', 'Generic', function(el, input) {
+  var choicesMap = {}, value;
+
+  _.each(input.find('option'), function(opt) {
+    var $opt = $(opt),
+        val = $opt.attr('value'),
+        text = $opt.text(),
+        choice = {text: text, id: val || text, url: $opt.attr('data-preview')};
+
+    if ($opt.is(':selected')) {value = choice.id;}
+    choicesMap[choice.id] = choice;
+  });
+
+  return {choicesMap: choicesMap, value: value};
+});
+
+/* -------------------------------------------------------------------------- */
 /* MULTI-ASSET CONTROL
 /* -------------------------------------------------------------------------- */
 $SP.UI.Widgets.MultiAsset = $SP.UI.Widget.extend({
@@ -612,7 +672,7 @@ $SP.UI.Widgets.MultiAsset = $SP.UI.Widget.extend({
   entryTemplate: $SP.UI.template(
     '<li class="choice" data-value="{{id}}">',
       '<img src="{{url}}" alt="{{text}}" />',
-      '<span class="remove">&nbsp;</span>',
+      '<span class="remove"></span>',
     '</li>'
   ),
 
@@ -681,7 +741,8 @@ $SP.UI.Form.register('.field.multi_asset', 'MultiAsset', 'Array', function(el, i
   _.each(input.find('option'), function(opt) {
     var $opt = $(opt),
         val = $opt.attr('value'),
-        choice = {text: $opt.text(), id: val || text, url: $opt.attr('data-preview')};
+        text = $opt.text(),
+        choice = {text: text, id: val || text, url: $opt.attr('data-preview')};
 
     if ($opt.is(':selected')) {value.push(choice.id);}
     choicesMap[choice.id] = choice;
