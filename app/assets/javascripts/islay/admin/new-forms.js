@@ -54,6 +54,100 @@ $SP.UI.FormModel = Backbone.Model.extend({
   }
 });
 
+/*--------------------------------------------------------------------------- */
+/* ASSOCIATION
+/* -------------------------------------------------------------------------- */
+$SP.UI.Assocation = Backbone.View.extend({
+  events: {'click .add-form': 'add'},
+  pattern: /^(.+\[.+\]\[)(\d+)/,
+  replace: function(m, p1, p2) {return p1 + this.index;},
+
+  initialize: function() {
+    _.bindAll(this, 'add', 'replace', 'addForm', 'move', 'destroy');
+
+    this.listEl     = this.$el.find('ol');
+    this.templateEl = this.$el.find('li:last-child');
+
+    this.forms = [];
+    _.each(this.$el.find('li:not(:last-child)'), this.addForm, this);
+
+    var attr = this.templateEl.find(':input').attr('name'),
+        index = attr.match(this.pattern)[2];
+
+    this.index = parseInt(index);
+
+    this.render();
+  },
+
+  addForm: function(el) {
+    var form = new $SP.UI.SubForm({el: el});
+    form.on('move', this.move);
+    this.forms.push(form);
+  },
+
+  add: function(e) {
+    var clone = this.templateEl.clone();
+
+    _.each(clone.find(':input'), function(input) {
+      var $input = $(input),
+          attr   = $input.attr('name'),
+          update = attr.replace(this.pattern, this.replace);
+
+        $input.attr('name', update);
+    }, this);
+
+    if (clone.is('.collapsible')) {
+      clone.removeClass('collapsed');
+    }
+
+    this.listEl.append(clone.show());
+    this.addForm(clone);
+
+    this.index += 1;
+    e.preventDefault();
+  },
+
+  move: function(pos, dir) {
+    var otherPos  = null,
+        other     = null,
+        target    = this.forms[pos];
+
+    if (dir === 'up' && pos > 0) {
+      otherPos = pos - 1,
+      other    = this.forms[otherPos];
+
+      other.$el.before(target.$el.detach());
+    }
+    else if (dir === 'down' && pos < this.forms.length) {
+      otherPos = pos + 1,
+      other    = this.forms[otherPos];
+
+      other.$el.after(target.$el.detach());
+    }
+
+    other.updatePosition(pos);
+    target.updatePosition(otherPos);
+    this.resort();
+  },
+
+  destroy: function(pos) {
+    // Remove form from list
+  },
+
+  resort: function() {
+    this.forms.sort(function(x, y) {
+      return x.options.position - y.options.position;
+    });
+  },
+
+  render: function() {
+    this.templateEl.detach();
+
+    this.addEl = $H('a.button.add-form', 'Add Feature');
+    this.$el.append(this.addEl);
+  }
+});
+
 /* -------------------------------------------------------------------------- */
 /* FORM
 /* -------------------------------------------------------------------------- */
@@ -122,11 +216,10 @@ $SP.UI.Form = Backbone.View.extend(
     },
 
     _initForms: function() {
-      // TODO: Subscribe to repositioning
-      var assoc = this.$el.find('.associated');
-      this.forms = _.map(assoc, function(el) {
-        return new $SP.UI.SubForm({el: el, maxPosition: assoc.length});
-      });
+      var assocs = this.$el.find('.association');
+      this.associations = _.map(assocs, function(a) {
+        return new $SP.UI.Assocation({el: a});
+      }, this);
     }
   },
 
@@ -160,12 +253,27 @@ $SP.UI.SubForm = $SP.UI.Form.extend({
   },
 
   reposition: function() {
-    if (this.model.previous('position') > this.model.get('position')) {
-      this.trigger('moveUp');
+    if (this.pause) {
+      this.pause = false;
     }
     else {
-      this.trigger('moveDown');
+      var position = this.model.get('position');
+      if (this.model.previous('position') > position) {
+        this.trigger('move', 'up');
+      }
+      else {
+        this.trigger('move', 'down');
+      }
     }
+  },
+
+  position: function() {
+    return this.model.get('position');
+  },
+
+  setPosition: function(pos) {
+    this.pause = true;
+    this.model.set('position', pos);
   },
 
   destroy: function() {
@@ -177,7 +285,7 @@ $SP.UI.SubForm = $SP.UI.Form.extend({
   },
 
   _initForms: function() {
-    // Can't have forms nested in forms.
+    // Can't have forms nested in forms nested in forms.
   }
 });
 
@@ -454,7 +562,6 @@ $SP.UI.Widgets.Select = $SP.UI.Widget.extend({
   },
 
   select2Change: function() {
-    console.log('WHAT', this.dom.hook.val())
     this.updateVal(this.dom.hook.val());
   },
 
