@@ -1,22 +1,63 @@
-// View instantiates
-// Stubs model
-// Iterates over inputs
-// Grabs values
-// Generates widgets
-// Binds change events from widgets to view
-// View updates model on change
-// Before view submits.
-var Islay = window.Islay || {};
+/* -------------------------------------------------------------------------- */
+/* UTILITIES
+/* -------------------------------------------------------------------------- */
+$SP.UI = {
+  Widgets: {},
+  FormBindings: {},
 
-// Understands required
-Islay.FormModel = Backbone.Model.extend({
+  template: function() {
+    var template = _.toArray(arguments).join('');
+    return function(context) {return Mustache.render(template, context);};
+  }
+};
 
+$SP.coerce = function(type, val) {
+  switch(type) {
+    case 'string': return val.toString();
+    case 'integer': return parseInt(val);
+    case 'float': return parseFloat(val);
+    case 'boolean':
+      switch(val) {
+        case '0':
+        case 'false':
+          return false;
+        case '1':
+        case 'true':
+          return true;
+      }
+  }
+
+  return val;
+}
+
+$SP.coerceArray = function(type, val) {
+  return _.map(val, function(v) {return $SP.UI.coerce(v);});
+};
+
+/* -------------------------------------------------------------------------- */
+/* MODEL
+/* -------------------------------------------------------------------------- */
+$SP.UI.FormModel = Backbone.Model.extend({
+  // Temporary, until we have validations and Ajax support
+  addError: function(attr, error) {
+    this.trigger('invalid:' + attr, error);
+  },
+
+  incrementPosition: function() {
+    var target = this.get('position') + 1;
+    if (target <= this.get('maxPosition')) {this.set('position', target);}
+  },
+
+  decrementPosition: function() {
+    var target = this.get('position') - 1;
+    if (target > 0) {this.set('position', target);}
+  }
 });
 
-/* -------------------------------------------------------------------------- */
+/*--------------------------------------------------------------------------- */
 /* ASSOCIATION
 /* -------------------------------------------------------------------------- */
-Islay.Assocation = Backbone.View.extend({
+$SP.UI.Assocation = Backbone.View.extend({
   events: {'click .add-form': 'add'},
   pattern: /^(.+\[.+\]\[)(\d+)/,
   replace: function(m, p1, p2) {return p1 + this.index;},
@@ -39,8 +80,7 @@ Islay.Assocation = Backbone.View.extend({
   },
 
   addForm: function(el) {
-    var form = new Islay.Form({el: el, position: this.forms.length});
-    form.on('destroy', this.destroy);
+    var form = new $SP.UI.SubForm({el: el});
     form.on('move', this.move);
     this.forms.push(form);
   },
@@ -91,7 +131,7 @@ Islay.Assocation = Backbone.View.extend({
   },
 
   destroy: function(pos) {
-
+    // Remove form from list
   },
 
   resort: function() {
@@ -109,715 +149,728 @@ Islay.Assocation = Backbone.View.extend({
 });
 
 /* -------------------------------------------------------------------------- */
-/* FORM TABS
+/* FORM
 /* -------------------------------------------------------------------------- */
-Islay.FormTabs = Backbone.View.extend({
-  initialize: function() {
-    _.bindAll(this, 'click');
+$SP.UI.Form = Backbone.View.extend(
+  {
+    initialize: function() {
 
-    this.tabs = {};
+      var first = this.$el.find(':input:not(:hidden)');
+      if (first) {this.prefix = first.attr('name').match(/^(.+)\[/)[1];}
 
-    var list = $H('ul.tabset'),
-        hash = window.location.hash.split('#').pop();
+      this.bindings = [];
 
-    _.each(this.options.tabs, function(t, i) {
-      var tab = $(t), name = 'tab-' + i;
-      var node = $H('li', {'data-index': name}, tab.find('> legend').remove().text());
-      this.tabs[name] = tab;
+      this.model = new $SP.UI.FormModel();
 
-      if (hash !== '') {
-        if (hash === name) {
-          this.currentTab = node;
-          node.addClass('selected');
+      this._initWidgets();
+      this._initForms();
+    },
+
+    _initWidgets: function() {
+      _.each(this.constructor.registry, function(config) {
+        var fields = this.$el.find(this._coerceSelector(config.selector));
+
+        if (fields.length > 0) {
+          _.each(fields, function(f) {
+            var field = $(f),
+                input = field.find(':input');
+
+            var data = _.defaults(config.initializer(field, input), {
+              label: field.find('label:first').text(),
+              value: input.val(),
+              type: 'string',
+              required: input.attr('required') ? true : false,
+              name: input.attr('name').match(/^.+\[(.+)\]/)[1],
+              model: this.model,
+              errored: field.is('.errored'),
+              error: field.find('.error').text(),
+              inline: field.is('.count-inline'),
+              firstInline: field.is('.count-first-inline')
+            });
+
+            this.model.set(data.name, data.value);
+            var widget = new $SP.UI.Widgets[config.widget](data);
+
+            field.after(widget.render().el);
+            field.remove();
+
+            // Temporary error propagation
+            if (data.errored) {this.model.addError(data.name, data.error);}
+
+            this.bindings.push(new $SP.UI.FormBindings[config.binder](
+              this.$el,
+              this.model,
+              this.prefix,
+              data.name,
+              data.type
+            ));
+          }, this);
         }
-        else {
-          tab.hide();
-        }
-      }
-      else {
-        if (!this.currentTab) {
-          this.currentTab = node;
-          node.addClass('selected');
-        }
-        else {
-          tab.hide();
-        }
-      }
+      }, this);
+    },
 
-      list.append(node);
-    }, this);
+    _coerceSelector: function(selector) {
+      return _.map(selector.split(','), function(s) {
+        return $.trim(s) + ':not(.association .field)';
+      }).join(', ');
+    },
 
-    list.click(this.click);
-    this.options.tabs.first().before(list);
+    _initForms: function() {
+      var assocs = this.$el.find('.association');
+      this.associations = _.map(assocs, function(a) {
+        return new $SP.UI.Assocation({el: a});
+      }, this);
+    }
   },
 
-  click: function(e) {
-    var target = $(e.target);
-    if (target.is('li')) {
-      if (this.currentTab) {
-        this.tabs[this.currentTab.attr('data-index')].hide();
-        this.currentTab.removeClass('selected');
-      }
-      this.currentTab = target;
-      this.currentTab.addClass('selected');
-      var name = this.currentTab.attr('data-index');
-      this.tabs[name].show();
-      window.location.hash = name;
+  {
+    registry: [],
+
+    register: function(selector, widget, binder, initializer) {
+      this.registry.push({
+        selector: selector,
+        widget: widget,
+        binder: binder,
+        initializer: initializer
+      });
     }
   }
-});
+);
 
 /* -------------------------------------------------------------------------- */
-/* FORMS
+/* SUB-FORM
 /* -------------------------------------------------------------------------- */
-Islay.Form = Backbone.View.extend({
-  events: {submit: 'submit'},
-
+$SP.UI.SubForm = $SP.UI.Form.extend({
   initialize: function() {
-    _.bindAll(this, 'submit', 'destroy', 'move');
-    this.factories = [];
-    this.forms = [];
+    $SP.UI.Form.prototype.initialize.apply(this);
 
-    this.model = new Islay.FormModel();
+    _.bindAll(this, 'reposition', 'destroy');
 
-    // Figure out the name based on the prefix of the first input
-    var name = this.$el.find(":input[name*='[']").attr('name')
-    if (name) {
-      this.name = name.match(/^(.+)\[.+\]$/)[1];
-    }
+    this.model.set('maxPosition', this.options.maxPosition);
 
-    if (this.$el.is('.associated')) {
-      var inputs = this.$el.find('.field');
+    this.model.on('change:position', this.reposition);
+    this.model.on('change:_destroy', this.destroy);
+  },
+
+  reposition: function() {
+    if (this.pause) {
+      this.pause = false;
     }
     else {
-      var inputs = this.$el.find('.field:not(.associated .field)');
-      var tabs = this.$el.find('.tab');
-      if (tabs.length > 0) {this.tabSet = new Islay.FormTabs({tabs: tabs});}
-      this.initializeAssocations();
-    }
-
-    this.widgets = _.reduce(inputs, this.initializeWidgets, {}, this);
-  },
-
-  initializeAssocations: function() {
-    var assocs = this.$el.find('.association');
-    this.associations = _.map(assocs, function(a) {
-      return new Islay.Assocation({el: a});
-    }, this);
-  },
-
-  initializeWidgets: function(obj, el) {
-    var $el = $(el),
-        widget = null,
-        subscribe = null;
-
-    var match = $el.attr('class').match(/^field ([\w\d\-_]+)/);
-
-    if (match) {
-      switch(match[1]) {
-        case 'select':
-          widget = 'Select';
-        break;
-        case 'boolean':
-          if ($el.find(':input[name*=_destroy]').length) {
-            widget = 'Destroy';
-            subscribe = 'destroy';
-          }
-          else {
-            widget = 'Boolean';
-          }
-        break;
-        case 'radio_buttons':
-          widget = 'Segmented';
-        break;
-        case 'check_boxes':
-          widget = 'Checkboxes';
-        break;
-        case 'multi-images':
-          widget = 'MultipleAssets';
-        break;
-        case 'single_asset':
-          widget = 'SingleAssetPicker';
-        break;
-        case 'integer':
-          if ($el.find(':input[name*=position]').length) {
-            widget = 'Position';
-            subscribe = 'move';
-          }
-        break;
+      var position = this.model.get('position');
+      if (this.model.previous('position') > position) {
+        this.trigger('move', 'up');
       }
-
-      if (widget) {
-        var instance = new Islay.Widgets[widget]({el: el});
-        if (subscribe) {instance.on(subscribe, this[subscribe]);}
-        instance.render();
-
-        // TODO: Bind widgets to model
+      else {
+        this.trigger('move', 'down');
       }
     }
+  },
 
-    return obj;
+  position: function() {
+    return this.model.get('position');
+  },
+
+  setPosition: function(pos) {
+    this.pause = true;
+    this.model.set('position', pos);
   },
 
   destroy: function() {
-    var destroy = $H('input', {type: 'hidden', name: this.name + '[_destroy]', value: 1, 'class': 'destroy-marker'});
-
-    var undo = $H('a', {'class': 'destroy-undo'}, 'Undo'),
-        destroyed = this;
-
-    undo.click(function(){
-
-      destroyed.$el
-        .removeClass('destroyed')
-        .find('.destroyed-message').remove()
-
-      destroyed.$el
-        .find('.destroy-marker').remove();
-    });
-
-    this.$el
-      .addClass('destroyed')
-      .append('<div class="destroyed-message">This item has been marked for deletion - save to confirm. </div>')
-      .append(destroy);
-
-    this.$el.find('.destroyed-message').append(undo);
-
-    this.trigger('destroy', this.options.position);
+    this.$el.hide();
   },
 
-  move: function(dir) {
-    this.trigger('move', this.options.position, dir);
+  _coerceSelector: function(selector) {
+    return selector;
   },
 
-  updatePosition: function(pos) {
-    if (!this.positionEl) {this.positionEl = this.$el.find(':input[name*=position]');}
-    this.positionEl.attr('value', pos);
-    this.options.position = pos;
-  },
-
-  submit: function() {
-
-  }
-}, {
-  registry: [],
-
-  register: function(selector, constructor, extractor) {
-    this.registry.push({
-      selector: selector,
-      constructor: constructor,
-      extractor: extractor
-    });
+  _initForms: function() {
+    // Can't have forms nested in forms nested in forms.
   }
 });
 
 /* -------------------------------------------------------------------------- */
-/* WIDGET BASE
+/* WIDGET
 /* -------------------------------------------------------------------------- */
-Islay.Widgets = Islay.Widgets || {};
-
-Islay.Widgets.Base = Backbone.View.extend({
-  events: {'click': '_click', keyup: 'keyup'},
-  widgetClass: 'default',
-  inputsSelector: ':input[type!=hidden]',
-  removeSelector: ':input[class!=islay]',
+$SP.UI.Widget = Backbone.View.extend({
+  className: 'field',
+  tagName: 'div',
 
   initialize: function() {
-    this.fields = {};
-    this.widget = $H('div.widget.' + this.widgetClass);
-    this.inputs = this.$el.find(this.inputsSelector);
-    this.$el.append(this.widget);
-    this.initialValue = this.getInitialValue();
-    this.initFields();
-    this.$el.find(this.removeSelector + ':not(.widget *)').remove();
+    var bind = _.values(this.events);
+    bind.unshift(this);
+    bind.push('onModelUpdate', 'onModelInvalid');
+    _.bindAll.apply(_, bind);
+
+    if (this.model) {
+      this.model.on('change:' + this.options.name, this.onModelUpdate);
+      this.model.on('invalid:' + this.options.name, this.onModelInvalid);
+    }
+
+    this.dom = {};
   },
 
-  update: function(value, field) {
-    if (field) {
-      this.trigger('update', field, value);
-      this.fields[field].val(value);
-    }
-    else {
-      this.trigger('update', this.fieldName, value);
-      this.fields[this.fieldName].val(value);
-    }
+  onModelUpdate: function() {
+    this.currentValue = this.model.get(this.options.name);
+    this.updateUI(this.currentValue);
   },
 
-  addField: function(field, value) {
-    var node = $H('input.islay', {type: 'hidden', value: value, name: field});
-    this.fields[field] = node;
-    this.$el.append(node);
-    return node;
+  onModelInvalid: function(msg) {
+    if (!this.dom.error) {
+      this.dom.error = $H('span.error');
+      this.dom.frame.after(this.dom.error);
+    }
+    this.dom.error.text(msg);
+    this.dom.error.show();
   },
 
-  // Overridable
-  initFields: function() {
-    var field = this.$el.find(':input[type!=hidden]'),
-        name = field.attr('name');
-
-    this.addField(name, this.initialValue);
-    this.fieldName = name;
+  updateVal: function(val) {
+    if (this.model) {this.model.set(this.options.name, val);}
   },
 
-  // Overridable
-  getInitialValue: function() {
-    if (this.inputs.filter(':radio, :checkbox').length) {
-      return this.inputs.filter(':checked').val(); //If the inputs have checkboxes or radios, grab the checked value
-    } else {
-      return this.inputs.val();  //Otherwise, use the first value
-    }
+  updateUI: function() {
+    throw 'Not implemented';
   },
 
-  currentValue: function(field) {
-    if (field) {
-      return this.fields[field].val();
-    }
-    else {
-      return this.fields[this.fieldName].val();
-    }
+  coerce: function(val) {
+    return $SP.coerce(this.options.type, val);
   },
 
   render: function() {
-    throw "Unimplemented";
+    this.$el.addClass(this.widgetClass).addClass('widget');
+    this.dom.frame = $H('div.widget-frame').append(this.template(this));
+
+    if (this.options.firstInline) {
+      this.$el.addClass('count-first-inline');
+    }
+    else if (this.options.inline) {
+      this.$el.addClass('count-inline');
+    }
+
+    this._findNodes();
+    this._findCollectionNodes();
+    this.dom.label = $H('label', this.options.label);
+    this.$el.append(this.dom.label, this.dom.frame);
+
+    if (this.prepareUI) {this.prepareUI();}
+
+    this.updateUI(this.model.get(this.options.name));
+
+    return this;
   },
 
-  click: function() {
-    throw "Unimplemented";
+  _findNodes: function() {
+    if (this.nodes) {
+      _.each(this.nodes, function(selector, name) {
+        this.dom[name] = this.dom.frame.find(selector);
+      }, this);
+    }
   },
+
+  _findCollectionNodes: function() {
+    if (this.nodeCollections) {
+      _.each(this.nodeCollections, function(selector, name) {
+        var nodes = this.dom.frame.find(selector);
+        this.dom[name] = _.reduce(nodes, function(acc, node) {
+          var $node = $(node),
+              nodeVal = this.coerce($node.attr('data-value')),
+              nodeName = $node.attr('data-name');
+
+          acc[nodeName || nodeVal] = $node;
+          return acc;
+        }, {}, this);
+      }, this);
+    }
+  }
+});
+
+/* -------------------------------------------------------------------------- */
+/* CHECKBOXES CONTROL
+/* -------------------------------------------------------------------------- */
+$SP.UI.Widgets.Checkboxes = $SP.UI.Widget.extend({
+  widgetClass: 'checkboxes',
+  nodeCollections: {choices: 'li'},
+  events: {'click li': 'click'},
+  template: $SP.UI.template(
+    '<ul>',
+      '{{#options.choices}}',
+        '<li class="button" data-value="{{value}}"><span>{{label}}</span></li>',
+      '{{/options.choices}}',
+    '</ul>'
+  ),
+
+  click: function(e) {
+    var target = $(e.target);
+    if (target.is('span')) {target = target.parent('li');}
+    var val = target.attr('data-value'), vals;
+    if (this.vals.indexOf(val) > -1) {
+      vals = _.without(this.vals, val);
+    }
+    else {
+      vals = this.vals.concat(val);
+    }
+
+    this.updateVal(vals);
+  },
+
+  updateUI: function(vals) {
+    this.vals = vals;
+    _.each(this.dom.choices, function(n) {n.removeClass('selected');});
+    _.each(vals, function(val) {this.dom.choices[val].addClass('selected');}, this);
+  }
+});
+
+$SP.UI.Form.register('.field.check_boxes', 'Checkboxes', 'Array', function(el, input) {
+  var choices = [], value = [];
+  _.each(el.find('input[type=checkbox]'), function(opt) {
+    var $opt = $(opt), label = $opt.parent('label'), val = $opt.attr('value');
+    choices.push({label: label.text(), value: val});
+    if ($opt.is(':checked')) {value.push(val);}
+  });
+
+  var name = input.attr('name').match(/^.+\[(.+)\]\[/)[1];
+
+  return {choices: choices, value: value, name: name};
+});
+
+/* -------------------------------------------------------------------------- */
+/* INPUT FIELD CONTROL (string, numeric, etc.)
+/* -------------------------------------------------------------------------- */
+$SP.UI.Widgets.Input = $SP.UI.Widget.extend({
+  widgetClass: 'string',
+  nodes: {input: 'input'},
+  events: {'keyup input': 'keyup'},
+  template: $SP.UI.template(
+    '<input class="{{options.classNames}}" size="{{options.size}}" type="{{options.inputType}}" value="{{options.value}}" />'
+  ),
 
   keyup: function() {
-    throw "Unimplemented";
+    this.pauseUiUpdate = true;
+    this.updateVal(this.dom.input.val());
   },
 
-  eachLabelAndInput: function(fn) {
-    _.each(this.inputs, function(input) {
-      var i = $(input);
-      fn.apply(this, [i, i.attr('name'), i.attr('value'), i.parent('label').text()]);
-    }, this);
-  },
-
-  _click: function(e) {
-    var target = $(e.target);
-    this.click(e, target);
+  updateUI: function(val) {
+    if (this.pauseUiUpdate) {
+      this.pauseUiUpdate = false
+    }
+    else {
+      this.dom.input.val(val);
+    }
   }
 });
 
-/* -------------------------------------------------------------------------- */
-/* SIMPLE SELECT
-/* -------------------------------------------------------------------------- */
-Islay.Widgets.Select = Islay.Widgets.Base.extend({
-  widgetClass: 'select',
-  removeSelector: 'select',
-
-  open: function() {
-    this.isOpen = true;
-    this.widget.addClass('open');
-    this.list.show();
-  },
-
-  close: function() {
-    this.isOpen = false;
-    this.widget.removeClass('open');
-    this.list.hide();
-  },
-
-  click: function(e, target) {
-    if (target.is('.frame, .button, .display, span')) {
-      if (this.isOpen) {
-        this.close();
-      }
-      else {
-        this.open();
-      }
-    }
-    else if (target.is('li')) {
-      this.display.text(target.text());
-      this.update(target.attr('data-value'));
-      this.close();
-    }
-  },
-
-  render: function() {
-    this.display = $H('div.display');
-    this.button = $H('div.button', $H('span', '▾'));
-    var frame = $H('div.frame', [this.display, this.button]);
-    this.list = $H('ul.list');
-
-    this.widget.append(frame, this.list);
-
-    var currentValue = this.currentValue();
-    _.each(this.inputs.find('option'), function(opt) {
-      opt = $(opt);
-      var value = opt.attr('value'),
-          text  = opt.text();
-
-      if (value == currentValue) {this.display.text(text);}
-      this.list.append($H('li', {'data-value': value}, text));
-    }, this);
-
-    return this;
-  }
+$SP.UI.Form.register('.field.string, .field.float, .field.integer', 'Input', 'Generic', function(el, input) {
+  return {
+    size: input.attr('size'),
+    inputType: input.attr('type'),
+    classNames: input.attr('class')
+  };
 });
 
 /* -------------------------------------------------------------------------- */
-/* BOOLEAN SWITCH
+/* BOOLEAN TOGGLE CONTROL
 /* -------------------------------------------------------------------------- */
-Islay.Widgets.Boolean = Islay.Widgets.Base.extend({
+$SP.UI.Widgets.Boolean = $SP.UI.Widget.extend({
   widgetClass: 'boolean',
+  nodes: {on: 'li.on', off: 'li.off'},
+  events: {'click li.on': 'clickOn', 'click li.off': 'clickOff'},
+  template: $SP.UI.template(
+    '<ul>',
+      '<li class="off button"><span>Off</span></li>',
+      '<li class="on button"><span>On</span></li>',
+    '</ul>'
+  ),
 
-  click: function(e, target) {
-    if (target.is('li, span')) {
-      if (this.currentValue() == 1) {
-        this.update(0);
-        this.optionOn.removeClass('selected');
-        this.optionOff.addClass('selected');
-      }
-      else {
-        this.update(1);
-        this.optionOff.removeClass('selected');
-        this.optionOn.addClass('selected');
-      }
-    }
+  clickOff: function() {
+    this.updateVal(false);
   },
 
-  getInitialValue: function() {
-    return this.$el.find(':input[type!=hidden]').is(':checked') ? 1 : 0;
+  clickOn: function() {
+    this.updateVal(true);
   },
 
-  render: function() {
-    this.optionOff = $H('li.button.optionOff', $H('span', '✕'));
-    this.optionOn = $H('li.button.optionOn', $H('span', '✓'));
-    var frame = $H('ul.frame', [this.optionOff, this.optionOn]);
-    this.widget.append(frame);
-
-    if (this.initialValue == 1) {
-      this.optionOn.addClass('selected');
-    }
-    else {
-      this.optionOff.addClass('selected');
-    }
-
-    return this;
+  updateUI: function(val) {
+    if (this.current) {this.current.removeClass('selected');}
+    var node = val === true? 'on' : 'off';
+    this.current = this.dom[node].addClass('selected');
   }
 });
 
-/* -------------------------------------------------------------------------- */
-/* SIMPLE WIDGET BASE
-/* -------------------------------------------------------------------------- */
-Islay.Widgets.SimpleBase = Backbone.View.extend({
-  events: {click: '_click'},
-
-  initialize: function() {
-    _.bindAll(this, 'click');
-  },
-
-  _click: function(e) {
-    var target = $(e.target);
-    this.click(e, target);
-    e.preventDefault();
-  },
-})
-
-/* -------------------------------------------------------------------------- */
-/* DESTROY/REMOVE
-/* -------------------------------------------------------------------------- */
-Islay.Widgets.Destroy = Islay.Widgets.SimpleBase.extend({
-  click: function() {
-    this.trigger('destroy');
-  },
-
-  render: function() {
-    this.$el.children().remove();
-    this.$el.addClass('delete').addClass('widget').append($H('div', $H('span', '')));
-
-    return this;
-  }
-});
-
-/* -------------------------------------------------------------------------- */
-/* POSITION
-/* -------------------------------------------------------------------------- */
-Islay.Widgets.Position = Islay.Widgets.SimpleBase.extend({
-  click: function(e, target) {
-    if (target.is('span')) {
-      this.fireEvent(target.parent('div'));
-    }
-    else {
-      this.fireEvent(target);
-    }
-  },
-
-  fireEvent: function(target) {
-    if (target.is('.up')) {
-      this.trigger('move', 'up');
-    }
-    else if (target.is('.down')) {
-      this.trigger('move', 'down');
-    }
-  },
-
-  render: function() {
-    this.$el.find('label').remove();
-    this.$el.find('input').hide();
-    this.$el.addClass('position').addClass('widget');
-    this.$el.append(
-      $H('div.up', $H('span', '')),
-      $H('div.down', $H('span', ''))
-    );
-
-    return this;
-  }
+$SP.UI.Form.register('.field.boolean', 'Boolean', 'Boolean', function(el, input) {
+  return {type: 'boolean', value: $SP.coerce('boolean', input.is(':checked'))};
 });
 
 /* -------------------------------------------------------------------------- */
 /* SEGMENTED CONTROL
 /* -------------------------------------------------------------------------- */
-Islay.Widgets.Segmented = Islay.Widgets.Base.extend({
+$SP.UI.Widgets.Segmented = $SP.UI.Widget.extend({
   widgetClass: 'segmented',
-  removeSelector: 'label.radio',
+  nodeCollections: {choices: 'li'},
+  events: {'click li': 'clickChoice'},
+  template: $SP.UI.template(
+    '<ul>',
+      '{{#options.choices}}',
+        '<li class="button" data-value="{{value}}"><span>{{label}}</span></li>',
+      '{{/options.choices}}',
+    '</ul>'
+  ),
 
-  click: function(e, target) {
-    if (target.is('li')) {
-      this.highlight(target);
-    }
-    else if (target.is('span')) {
-      this.highlight(target.parent('li'));
-    }
+  clickChoice: function(e) {
+    var target = $(e.target);
+    if (target.is('span')) {target = target.parent('li');}
+    this.updateVal(this.coerce(target.attr('data-value')));
   },
 
-  highlight: function(el) {
-    this.update(el.attr('data-value'));
-    if (this.currentNode) {this.currentNode.removeClass('selected');}
-    this.currentNode = el;
-    this.currentNode.addClass('selected');
-  },
-
-  render: function() {
-    var frame = $H('ul.frame');
-    var currentValue = this.inputs.filter(':checked').val();
-    _.each(this.inputs, function(input) {
-      var input = $(input),
-          value = input.val();
-
-      var node = $H('li.button', {'data-value': value}, $H('span', input.parent().text()));
-      if (value == currentValue) {
-        node.addClass('selected');
-        this.currentNode = node;
-      }
-      frame.append(node);
-    }, this);
-
-    this.widget.append(frame);
-
-    return this;
+  updateUI: function(val) {
+    if (this.current) {this.current.removeClass('selected');}
+    this.current = this.dom.choices[val].addClass('selected');
   }
 });
 
-/* -------------------------------------------------------------------------- */
-/* CHECKBOXES
-/* -------------------------------------------------------------------------- */
-Islay.Widgets.Checkboxes = Islay.Widgets.Base.extend({
-  widgetClass: 'checkboxes',
-  removeSelector: 'label.checkbox',
+$SP.UI.Form.register('.field.radio_buttons', 'Segmented', 'Generic', function(el) {
+  var choices = [], value = null;
+  _.each(el.find('input[type=radio]'), function(opt) {
+    var $opt = $(opt),
+        label = $opt.parent('label'),
+        choice = {label: label.text(), value: $opt.val()};
 
-  click: function(e, target) {
-    if (target.is('li')) {
-      this.highlight(target);
-    }
-    else if (target.is('span')) {
-      this.highlight(target.parent('li'));
-    }
+    choices.push(choice);
+    if ($opt.is(':checked')) {value = choice.value;}
+  });
+
+  return {choices: choices, value: value};
+});
+
+/* -------------------------------------------------------------------------- */
+/* SELECT CONTROL
+/* -------------------------------------------------------------------------- */
+$SP.UI.Widgets.Select = $SP.UI.Widget.extend({
+  widgetClass: 'select',
+  nodes: {hook: 'input'},
+  template: $SP.UI.template('<input type="hidden" name="noop"/>'),
+
+  prepareUI: function() {
+    _.bindAll(this, 'select2Change', 'select2Format');
+    var opts = {
+      allowClear: this.options.allowClear,
+      placeholder: 'None selected',
+      data: this.options.choices,
+      formatResult: this.select2Format,
+      initSelection: function() {}
+    };
+    this.dom.hook.select2(opts).on('change', this.select2Change);
   },
 
-  initFields: function() {
-    _.each(this.inputs, function(i) {
-      var input = $(i);
-      this.addField(input.attr('name'), input.val());
-    }, this);
+  select2Change: function() {
+    this.updateVal(this.dom.hook.val());
   },
 
-  highlight: function(el) {
-    var input = this.$el.find('[value=' + el.attr('data-value') + ']');
+  select2Format: function(data) {
+    var depth = this.options.choiceMap[data.id].depth;
+    return '<span class="entry depth-' + depth + '"><span>' + data.text + '</span></span>';
+  },
 
-    if (el.hasClass('selected')) {
-      input.attr('disabled', 'disabled');
-      el.removeClass('selected');
+  updateUI: function(val) {
+    this.dom.hook.select2("data", this.options.choiceMap[val]);
+  }
+});
+
+$SP.UI.Form.register('.field.select, .field.tree_select', 'Select', 'Generic', function(el, input) {
+  var choices = [], choiceMap = {};
+
+  _.each(el.find('option[value!=""]'), function(opt) {
+    var $opt = $(opt),
+        text = $.trim($opt.text()),
+        val = $opt.attr('value'),
+        depth = $opt.attr('data-depth'),
+        choice = {text: text, id: val || text, depth: depth || 0};
+
+    choices.push(choice);
+    choiceMap[choice.id] = choice;
+  });
+
+  return {
+    choices: choices,
+    choiceMap: choiceMap,
+    allowClear: input.find('option[value!=""]').length > 0
+  };
+});
+
+/* -------------------------------------------------------------------------- */
+/* SINGLE-ASSET CONTROL
+/* -------------------------------------------------------------------------- */
+$SP.UI.Widgets.SingleAsset = $SP.UI.Widget.extend({
+  widgetClass: 'single_asset',
+  events: {'click img, .placeholder': 'modify', 'click .remove': 'remove'},
+  nodes: {choice: '.choice'},
+  template: $SP.UI.template(
+    '<div class="choice"><span class="placeholder">Choose an Image</span></div>'
+  ),
+  entryTemplate: $SP.UI.template(
+    '<img src="{{url}}" alt="{{text}}" /><span class="remove"></span>'
+  ),
+  placeholderTemplate: $SP.UI.template(
+    '<span class="placeholder">Choose an Image</span>'
+  ),
+
+  remove: function() {
+    this.dom.choice.html(this.placeholderTemplate());
+    this.updateVal(null);
+  },
+
+  modify: function(e) {
+    if (this.dialog) {
+      this.dialog.show();
     }
     else {
-      input.attr('disabled', null);
-      el.addClass('selected');
+      _.bindAll(this, 'update');
+      this.dialog = new Islay.Dialogs.AssetBrowser({add: this.update, only: 'images'});
     }
   },
 
-  render: function() {
-    var frame = $H('ul.frame');
-
-    this.eachLabelAndInput(function(input, name, value, text) {
-      var node = $H('li.button', {'data-value': value, name: name}, $H('span', text));
-
-      if (input.attr('checked')) {
-        node.addClass('selected');
-      }
-      else {
-        // A dirty, dirty hack. This will have to be fixed at some point.
-        var hiddenName = '[type=hidden][value=' + input.attr('value') + ']';
-        this.$el.find(hiddenName).attr('disabled', 'disabled');
-      }
-
-      frame.append(node);
-    });
-
-    this.widget.append(frame);
-
-    return this;
-  }
-});
-
-/* -------------------------------------------------------------------------- */
-/* MULTI-SELECT
-/* -------------------------------------------------------------------------- */
-Islay.Widgets.MultiSelect = Islay.Widgets.Base.extend({
-  widgetClass: 'multi-select',
-
-  click: function() {
-
+  update: function(selections) {
+    if (selections.length > 0) {this.updateVal(selections[0].id);}
   },
 
-  render: function() {
-
-    return this;
+  updateUI: function(val) {
+    if (val) {
+      var vals = this.options.choicesMap[val];
+      this.dom.choice.html(this.entryTemplate(vals));
+    }
   }
 });
 
-/* -------------------------------------------------------------------------- */
-/* SINGLE ASSET PICKER
-/* -------------------------------------------------------------------------- */
-Islay.Widgets.SingleAssetPicker = Islay.Widgets.Base.extend({
-  widgetClass: 'single-asset',
+$SP.UI.Form.register('.field.single_asset', 'SingleAsset', 'Generic', function(el, input) {
+  var choicesMap = {}, value;
 
-  click: function() {
+  _.each(input.find('option'), function(opt) {
+    var $opt = $(opt),
+        val = $opt.attr('value'),
+        text = $opt.text(),
+        choice = {text: text, id: val || text, url: $opt.attr('data-preview')};
+
+    if ($opt.is(':selected')) {value = choice.id;}
+    choicesMap[choice.id] = choice;
+  });
+
+  return {choicesMap: choicesMap, value: value};
+});
+
+/* -------------------------------------------------------------------------- */
+/* MULTI-ASSET CONTROL
+/* -------------------------------------------------------------------------- */
+$SP.UI.Widgets.MultiAsset = $SP.UI.Widget.extend({
+  widgetClass: 'multi_asset',
+  events: {'click .choice .remove': 'removeAsset', 'click .add': 'clickAdd'},
+  nodes: {add: '.add'},
+  nodeCollections: {choices: 'li.choice'},
+  template: $SP.UI.template(
+    '<ul>',
+      '<li class="add"><span>Add Asset</span></li>',
+    '</ul>'
+  ),
+  entryTemplate: $SP.UI.template(
+    '<li class="choice" data-value="{{id}}">',
+      '<img src="{{url}}" alt="{{text}}" />',
+      '<span class="remove"></span>',
+    '</li>'
+  ),
+
+  removeAsset: function(e) {
+    var target = $(e.target),
+        id = (target.is('span') ? target.parent('li.choice') : target).attr('data-value');
+        val = _.without(this.value, id);
+
+    this.updateVal(val);
+  },
+
+  clickAdd: function() {
     if (this.dialog) {
       this.dialog.show();
     }
     else {
       _.bindAll(this, 'updateSelection');
-      this.dialog = new Islay.Dialogs.AssetBrowser({add: this.updateSelection, only: 'images'});
+      this.dialog = new Islay.Dialogs.AssetBrowser({
+        add: this.updateSelection,
+        only: 'images'
+      });
     }
   },
 
   updateSelection: function(selections) {
-    var selection = selections[0];
-    this.updateImage(selection.get('url'));
-    this.fields[this.fieldName].val(selection.id);
+    var val = this.value.concat(_.chain(selections).pluck('id').invoke('toString').value());
+    this.updateVal(_.uniq(val));
   },
 
-  updateImage: function(url) {
-    if (!this.image) {
-      this.image = $H('img');
-      this.widget.append($H('div.frame', this.image));
+  updateUI: function(val) {
+    if (this.value) {
+      this.removeNodes(_.difference(this.value, val));
+      this.addNodes(_.difference(val, this.value));
     }
-    
-    this.image.attr('src', url);
+    else {
+      this.addNodes(val);
+    }
+    this.value = val;
   },
 
-  render: function() {
-    var val = this.currentValue();
-    if (!_.isEmpty(val)) {
-      var opt = this.inputs.find('option[value=' + val + ']');
-      this.updateImage(opt.attr('data-preview'));
-    }
-    return this;
+  addNodes: function(ids) {
+    _.each(ids, function(id) {
+      var choice = this.options.choicesMap[id],
+          li = $(this.entryTemplate(choice)).css('opacity', 0);
+
+      this.dom.add.before(li);
+      li.animate({opacity: 1}, 350);
+      this.dom.choices[id] = li;
+    }, this);
+  },
+
+  removeNodes: function(ids) {
+    _.each(ids, function(id) {
+      var opts = {opacity: 0, width: '0', marginRight: 0};
+      this.dom.choices[id].animate(opts, 300, 'linear', function() {
+        $(this).remove();
+      });
+      delete this.dom.choices[id];
+    }, this);
   }
 });
 
+$SP.UI.Form.register('.field.multi_asset', 'MultiAsset', 'Array', function(el, input) {
+  var choicesMap = {}, value = [];
+
+  _.each(input.find('option'), function(opt) {
+    var $opt = $(opt),
+        val = $opt.attr('value'),
+        text = $opt.text(),
+        choice = {text: text, id: val || text, url: $opt.attr('data-preview')};
+
+    if ($opt.is(':selected')) {value.push(choice.id);}
+    choicesMap[choice.id] = choice;
+  });
+
+  var name = input.attr('name').match(/^.+\[(.+)\]\[/)[1];
+
+  return {choicesMap: choicesMap, value: value, name: name};
+});
+
 /* -------------------------------------------------------------------------- */
-/* MULTI-ASSET SELECTOR
-/* Actually delegates selection to the asset browser dialog.
+/* POSITION CONTROL
 /* -------------------------------------------------------------------------- */
-Islay.Widgets.MultipleAssets = Islay.Widgets.Base.extend({
-  tagName: 'ul',
-  widgetClass: 'multi-assets',
-  removeSelector: 'ul',
-
-  initFields: function() {
-    this.fieldName = this.$el.find('ul').attr('data-name');
-    this.ulEl = $H('ul');
-    this.widget.append(this.ulEl);
-
-    _.each(this.$el.find('li:not(.add)'), function(li) {
-      var $li = $(li);
-
-      var field   = $li.find(':input[type!=hidden]'),
-          name    = field.attr('name')
-          title   = $li.find('label').text()
-          url     = $li.find('img').attr('src');
-
-      this.addField(name, field.val(), title, url);
-    }, this);
-
-  },
-
-  addField: function(name, val, title, url) {
-    var node = $H('li.entry', [
-      $H('input.islay', {type: 'hidden', value: val, name: name}),
-      $H('div.frame', $H('img', {src: url, alt: title})),
-      $H('div.remove', '', {alt: 'Remove this asset'})
-    ]);
-
-    this.fields[val] = node;
-    if (this.addEl) {
-      this.addEl.before(node);
-    }
-    else {
-      this.ulEl.append(node);
-    }
-
-    return node;
-  },
-
-  getInitialValue: function() {
-    return _.map(this.$el.find('input'), function(i) {return $(i).val();});
-  },
+$SP.UI.Widgets.Position = $SP.UI.Widget.extend({
+  widgetClass: 'position',
+  events: {'click li': 'click'},
+  template: $SP.UI.template(
+    '<ul>',
+      '<li class="up"><span></span></li>',
+      '<li class="down"><span></span></li>',
+    '</ul>'
+  ),
 
   click: function(e) {
     var target = $(e.target);
-
-    if (target.is('.remove')) {
-      var parent = target.closest('.entry');
-      delete this.fields[parent.find('input').val()];
-      parent.remove();
+    if (target.is('span')) {target = target.parent('li');}
+    if (target.is('.up')) {
+      this.model.decrementPosition();
     }
-    else if (target.is('.add')) {
-      this.openDialog();
-    }
-
-    e.preventDefault();
-  },
-
-  openDialog: function() {
-    if (this.dialog) {
-      this.dialog.show();
-    }
-    else {
-      _.bindAll(this, 'updateSelection');
-      this.dialog = new Islay.Dialogs.AssetBrowser({add: this.updateSelection});
+    else if (target.is('.down')) {
+      this.model.incrementPosition();
     }
   },
 
-  updateSelection: function(selections) {
-    _.each(selections, function(selection) {
-      this.addField(
-        this.fieldName,
-        selection.id,
-        selection.get('name'),
-        selection.get('url')
-      );
+  // A noop
+  updateUI: function() {}
+});
+
+$SP.UI.Form.register('.field.position', 'Position', 'Generic', function(el, input) {
+  return {type: 'integer', value: parseInt(input.val())};
+});
+
+/* -------------------------------------------------------------------------- */
+/* DESTROY CONTROL
+/* -------------------------------------------------------------------------- */
+$SP.UI.Widgets.Destroy = $SP.UI.Widget.extend({
+  widgetClass: 'delete',
+  events: {'click': 'click'},
+  template: $SP.UI.template(
+    '<div><span></span></div>'
+  ),
+
+  click: function() {
+    this.model.set(this.options.name, true);
+  },
+
+  // A noop
+  updateUI: function() {}
+});
+
+$SP.UI.Form.register('.field.destroy', 'Destroy', 'Boolean', function(el, input) {
+  return {type: 'boolean', value: false};
+});
+
+/* -------------------------------------------------------------------------- */
+/* FORM BINDING - GENERIC
+/* -------------------------------------------------------------------------- */
+$SP.UI.FormBindings.Generic = function(form, model, prefix, name, type) {
+  _.bindAll(this, 'update');
+  this.form = form;
+  this.model = model;
+  this.name = name;
+  this.type = type;
+  this.prefix = prefix;
+
+  this.model.on('change:' + this.name, this.update);
+
+  this.build(this.inputName());
+  this.update();
+};
+
+$SP.UI.FormBindings.Generic.prototype = {
+  update: function() {
+    var val = this.model.get(this.name);
+    this.updateInput(val);
+  },
+
+  build: function(name) {
+    this.input = $H('input[type=hidden]', {name: name});
+    this.form.append(this.input);
+  },
+
+  inputName: function() {
+    return this.prefix + '[' + this.name + ']';
+  },
+
+  updateInput: function(val) {
+    this.input.val(val);
+  }
+};
+
+// Piggy-back on backbone's extend for easy inheritance.
+$SP.UI.FormBindings.Generic.extend = Backbone.Model.extend;
+
+/* -------------------------------------------------------------------------- */
+/* FORM BINDING - SPECIFIC IMPLEMENTATIONS
+/* -------------------------------------------------------------------------- */
+$SP.UI.FormBindings.Boolean = $SP.UI.FormBindings.Generic.extend({
+  updateInput: function(val) {
+    this.input.val(val ? 1 : 0);
+  }
+});
+
+$SP.UI.FormBindings.Array = $SP.UI.FormBindings.Generic.extend({
+  build: function() {
+    this.inputs = [];
+  },
+
+  inputName: function() {
+    return this.prefix + '[' + this.name + '][]';
+  },
+
+  updateInput: function(vals) {
+    _.invoke(this.inputs, 'remove');
+    this.inputs = _.map(vals, function(val) {
+      var input = $H('input', {type: 'hidden', value: val, name: this.inputName()});
+      this.form.append(input);
+      return input;
     }, this);
-  },
-
-  render: function() {
-    this.addEl = $H('li.add', $H('span', 'Add'));
-    this.ulEl.append(this.addEl);
-    this.ulEl.sortable({items: ':not(.add)'});
-    return this;
   }
 });

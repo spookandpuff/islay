@@ -4,22 +4,24 @@
 //= require ../../vendor/backbone
 //= require ../../vendor/jquery.prettydate
 //= require ../../vendor/jquery.sortable
+//= require ../../vendor/select2
+//= require ../../vendor/mustache
 //= require_tree .
 //= require_extensions
 
 
 $SP.where('.[edit, new, create, update]').select('#islay-form').run(function(form) {
-  var FormView = new Islay.Form({el: form});
+  var FormView = new $SP.UI.Form({el: form});
 });
 
 $SP.where('.[show, index]').select('table.sortable').run(function(table) {
   var SortableTable = new Islay.SortableTable({el: $(table).closest('form')});
 });
 
-$SP.where('.[show, edit]').select('div.collapsible, li.collapsible').run(function(collection) {
+$SP.where('.[show, edit, create, update]').select('div.collapsible, li.collapsible').run(function(collection) {
   _.each(collection, function(collapser){
     var Collapsible = new Islay.Collapsible({el: $(collapser)});
-  }); 
+  });
 });
 
 $(function() {

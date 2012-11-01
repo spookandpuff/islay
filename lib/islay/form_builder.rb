@@ -1,4 +1,6 @@
 require 'islay/form_builder/asset_select'
+require 'islay/form_builder/destroy'
+require 'islay/form_builder/position'
 
 module Islay
   # An extension of the simple_form builder.

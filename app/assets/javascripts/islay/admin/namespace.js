@@ -1,1 +1,1 @@
-var Islay = {UI: {}};
+var Islay = {UI: {}}, $SP = {};

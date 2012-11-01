@@ -130,15 +130,17 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     +border-bottom-radius($widget-border-radius)
   @else if $portions == top
     +border-top-radius($widget-border-radius)
+  @else if $portions == top-only
+    +border-bottom-radius(0)
+    +border-top-radius($widget-border-radius)
+  @else if $portions == bottom-only
+    +border-top-radius(0)
+    +border-bottom-radius($widget-border-radius)
 
 .widget
-  cursor: default
-  width: $widget-width
-  float: left
-  position: relative
-
-  .frame
-    height: $widget-height
+  .widget-frame
+    cursor: default
+    position: relative
     float: left
 
   .button
@@ -153,74 +155,80 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     span
       color: white !important
 
-.widget.select,
-.widget.boolean
-  .button span
-    color: #72828E
-    font-family: 'Icons'
-    font-size: 1.2em
-    margin-top: 0.25em
-    display: block
+  li
+    margin-bottom: 0 !important
 
-.widget.select .frame
-  +widget-gradient
-  +widget-border-radius
-  +input-border
-
-.widget.select .frame
-  width: 100%
+.count-inline,
+.count-first-inline
+  .widget
+    width: auto
 
 /* SIMPLE SELECT */
 .widget.select
-  .button,
-  .display
+  .select2-container
+    min-width: 25em
 
-  .display
-    padding: $input-v-padding + 0.2em
-    padding-left: $input-h-padding
-    float: left
-
-  .button
-    +background-image(linear-gradient(#F4F4F5, #CFD2D6))
-    +border-right-radius(0.33em)
-    border-left: $border-width solid rgba(0,0,0,0.1)
-    float: right
-    &:hover,
-    &:focus
-      +background-image(linear-gradient(#FFF, #F4F4F5))
-      cursor: pointer
-
-  .list
+  /* Current selection */
+  .select2-choice
+    +widget-border-radius
     +input-border
-    +widget-border-radius(bottom)
-    background: white
-    padding: 0
-    width: 100%
-    position: absolute
-    left: 0
-    top: $widget-height + 0.1em
-    display: none
-    z-index: 2
+    +widget-gradient
+    height: $widget-height
 
-    li
-      cursor: pointer
-      display: block
-      padding: 0.6em $input-h-padding
-      margin-bottom: 0!important
-      &:hover,
-      &:focus
-        background: $widget-hover-background-color
-        color: $widget-hover-foreground-color
+    span
+      padding-top: 0.2em
 
-      &:first-child
-        padding-top: 0.8em
-      &:last-child
-        padding-bottom: 0.8em
+  .select2-dropdown-open .select2-choice
+    background: white !important
+    +widget-border-radius(top-only)
+    border-bottom-width: 0
 
+  .select2-drop-above .select2-choice
+    +widget-border-radius(bottom-only)
 
-.widget.select.open
-  .button
-    background: transparent
+.select2-results
+  .entry
+    padding-top: 0.3em
+    display: block
+
+    span
+      &:before
+        font-family: Icons
+        margin-right: 0.4em
+        color: $mid-grey
+
+      +icon-folder-close
+
+  .depth-1
+    margin-left: 1.4em
+
+  .depth-2
+    margin-left: 2.4em
+
+  .depth-3
+    margin-left: 3.4em
+
+  .depth-4
+    margin-left: 4.4em
+
+  .depth-5
+    margin-left: 5.4em
+
+  .depth-6
+    margin-left: 6.4em
+
+  .depth-7
+    margin-left: 7.4em
+
+.select2-highlighted span:before
+  color: white !important
+
+/* Actual dropbox */
+.select2-drop
+  +widget-border-radius(bottom-only)
+  +input-border
+
+  border-top-width: 0
 
 /* BOOLEAN & SEGMENTED */
 .widget.boolean,
@@ -234,17 +242,37 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 
 /* BOOLEAN */
 .widget.boolean
-  .optionOff
+  .off
     +widget-border-radius(left)
     border-right-width: 0
 
-  .optionOn
+  .on
     +widget-border-radius(right)
 
-  .selected.optionOff
+  .selected.off
     +single-box-shadow(rgba(0, 0, 0, 0.20), 2px, 2px, 3px, 0, true)
     background: #9A9A9A !important
     border-color: #959595 !important
+
+  .button
+    &:before
+      color: #72828E
+      font-family: 'Icons'
+      font-size: 1.2em
+      margin-top: 0.25em
+      display: block
+
+    span
+      +hide
+
+  .selected.button:before
+    color: white !important
+
+  .off
+    +icon-remove
+
+  .on
+    +icon-ok
 
 /* SEGMENTED */
 .widget.segmented
@@ -266,7 +294,6 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 
 /* CHECKBOXES */
 .widget.checkboxes
-
   .frame
     border: 0.1em solid $light-grey
     height: auto
@@ -281,12 +308,13 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   li
     padding-right: 0.6em
     padding-left: 0.5em
-    margin-bottom: 0!important
+
     &:last-child
       border-bottom: 0
+
     &:hover
       background-color: $widget-hover-background-color
-    
+
   span
     background: left center no-repeat url(image-path('islay/admin/checkbox.png'))
     cursor: pointer
@@ -297,7 +325,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     +text-shadow(0 0.1em 0 rgba(0,0,0,0.6))
     background-image: url(image-path('islay/admin/checkbox-selected.png'))
 
-  .button 
+  .button
     border-bottom: $border-width solid rgba(0,0,0,0.1)
 
 
@@ -311,7 +339,10 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   position: absolute
   top: 1em
 
-  div
+  label
+    +hide
+
+  li, .widget-frame div
     background: #BBB
     color: white
     cursor: pointer
@@ -343,34 +374,32 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 .widget.position
   right: 1em
 
-  div.up
+  .widget-frame
+    width: 100%
+
+  li.up
     +widget-border-radius(left)
     line-height: 1.3
+
     span
       +icon-chevron-up
 
-  div.down
+  li.down
     +widget-border-radius(right)
     line-height: 1.3
     margin-left: 0.1em
+
     span
       +icon-chevron-down
 
 /* MULTI-ASSETS */
-.widget.multi-assets
+.widget.multi_asset
   width: auto
   min-width: 30em
 
   ul
     float: left
 
-  li
-    float: left
-    position: relative
-    &:hover
-      .remove
-        display: block
-        
   .add
     cursor: pointer
     text-align: center
@@ -388,6 +417,26 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     &:hover
       border: 1px solid $link-color + 100
 
+
+/* MULTI-ASSETS & SINGLE ASSET */
+.widget.single_asset,
+.widget.multi_asset
+  .choice, .add
+    +border-radius(0.2em)
+    +single-box-shadow(rgba(0, 0, 0, 0.03), 0, 0, 0, 2px)
+    +input-border
+    background: white
+    cursor: pointer
+    margin: 0 1em 1em 0
+    overflow: hidden
+    height: 9em
+    width: 10em
+    position: relative
+    float: left
+
+    &:hover .remove
+      display: block
+
   .remove
     +border-radius(50%)
     background-color: $dark-grey
@@ -402,29 +451,12 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
       color: #FFF
       vertical-align: -0.15em
 
-
-/* MULTI-ASSETS & SINGLE ASSET */
-.widget.single-asset,
-.widget.multi-assets li
-  +border-radius(0.2em)
-  +single-box-shadow(rgba(0, 0, 0, 0.03), 0, 0, 0, 2px)
-  border: 0.1em solid $light-grey
-  background: white
-
-  cursor: pointer  
-  margin: 0 1em 1em 0
-  overflow: hidden
-  min-height: 10em
-  width: 14.5em
-
-  .frame
-    text-align: center
-    border: 0.1em solid $light-grey
-    background: white
-    margin: 1em 0 1em 1em
-    overflow: hidden
-    height: 8em
-
+.widget.single_asset .placeholder
+  text-align: center
+  display: block
+  padding-top: 4em
+  height: 5em
+  width: 10em
 
 /* -------------------------------------------------------------------------- */
 /* TAB SET
