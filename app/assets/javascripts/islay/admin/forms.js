@@ -547,7 +547,14 @@ $SP.UI.Form.register('.field.radio_buttons', 'Segmented', 'Generic', function(el
 $SP.UI.Widgets.Select = $SP.UI.Widget.extend({
   widgetClass: 'select',
   nodes: {hook: 'input'},
-  template: $SP.UI.template('<input type="hidden" name="noop"/>'),
+  template: $SP.UI.template(
+    '<input type="hidden" name="noop"/>'
+  ),
+  choiceTemplate: $SP.UI.template(
+    '<span class="entry depth-{{depth}} disabled-{{disabled}}">',
+      '<span>{{text}}</span>',
+    '</span>'
+  ),
 
   prepareUI: function() {
     _.bindAll(this, 'select2Change', 'select2Format');
@@ -566,8 +573,7 @@ $SP.UI.Widgets.Select = $SP.UI.Widget.extend({
   },
 
   select2Format: function(data) {
-    var depth = this.options.choiceMap[data.id].depth;
-    return '<span class="entry depth-' + depth + '"><span>' + data.text + '</span></span>';
+    return this.choiceTemplate(this.options.choiceMap[data.id]);
   },
 
   updateUI: function(val) {
@@ -583,7 +589,7 @@ $SP.UI.Form.register('.field.select, .field.tree_select', 'Select', 'Generic', f
         text = $.trim($opt.text()),
         val = $opt.attr('value'),
         depth = $opt.attr('data-depth'),
-        choice = {text: text, id: val || text, depth: depth || 0};
+        choice = {text: text, id: val || text, depth: depth || 0, disabled: $opt.is(':disabled')};
 
     choices.push(choice);
     choiceMap[choice.id] = choice;

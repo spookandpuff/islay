@@ -54,6 +54,7 @@ class TreeSelectInput < SimpleForm::Inputs::CollectionSelectInput
     vals = collection.map do |a|
       opts = {:value => a.id, 'data-depth' => a.depth}
       opts[:selected] = 'selected' if a.id == selected
+      opts[:disabled] = 'disabled' if a[:disabled] == 't'
       template.content_tag('option', a.name, opts)
     end
 
