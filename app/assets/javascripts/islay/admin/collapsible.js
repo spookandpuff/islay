@@ -20,5 +20,6 @@ Islay.Collapsible = Backbone.View.extend({
     } else {
       this.collapse();
     }
+    return false
   }
 });
