@@ -31,7 +31,7 @@ class Page < ActiveRecord::Base
                                 :reject_if     => proc {|f| f.values.map(&:blank?).all?},
                                 :allow_destroy => true
 
-  before_save :update_page_assets
+  after_save :update_page_assets
 
   # Returns the name defined in the configuration for this page.
   #
@@ -135,9 +135,10 @@ class Page < ActiveRecord::Base
     @definition ||= Islay::Pages.definitions[slug.to_sym]
   end
 
+  # Iterates over the page assets and saves them if they've been changed.
+  #
+  # @return Array<Asset>
   def update_page_assets
-    page_assets.each do |pa|
-      pa.save if pa.changed?
-    end
+    page_assets.each {|pa| pa.save if pa.changed?}
   end
 end
