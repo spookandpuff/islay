@@ -62,7 +62,7 @@ ul.asset-grid
     +transition-duration(150ms)
     height: 14em
     margin: 0
-    max-width: 15em
+    width: 15em
 
   li.asset,
   li.new-asset-prompt
@@ -73,18 +73,6 @@ ul.asset-grid
 
   li.asset
     height: 14em
-    &:hover
-      .liner
-        +box-shadow(0 0.2em 1.5em rgba(0,0,0,0.25))
-        height: auto
-        position: absolute
-        left: -2em
-        right: -2em
-        top: -2em
-        z-index: 2
-        max-width: none
-        .frame
-          height: auto
 
   .frame,
   .name,
