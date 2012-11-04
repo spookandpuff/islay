@@ -45,13 +45,18 @@ module Islay
     end
 
     def delete
-      @record = set_ivar(find_record)
+      @resource = if resource_parent
+        [:admin, find_parent, find_record]
+      else
+        find_record
+      end
+
       @cancel_url = redirect_for(@record)
       render :template => 'islay/admin/shared/delete', :layout => !request.xhr?
     end
 
     def destroy
-      record = resource_class[:class].find(params[:id])
+      record = find_record
       record.destroy
       redirect_to destroy_redirect_for(record)
     end
