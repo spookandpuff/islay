@@ -88,7 +88,7 @@ module Islay
             :param  => :"#{parent}_id"
           }
           attr_reader parent
-          before_filter :find_parent
+          before_filter :find_parent, :except => [:delete]
         end
 
         include Islay::ResourcefulController
