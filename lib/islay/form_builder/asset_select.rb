@@ -66,3 +66,21 @@ class TreeSelectInput < SimpleForm::Inputs::CollectionSelectInput
     )
   end
 end
+
+class MultiSelectInput < SimpleForm::Inputs::CollectionSelectInput
+  # Generates a select tag with the multiple option and the class multi_select.
+  #
+  # @return String
+  def input
+    label_method, value_method = detect_collection_methods
+
+    @builder.collection_select(
+      attribute_name,
+      collection,
+      value_method,
+      label_method,
+      input_options.merge(:include_blank => false),
+      input_html_options.merge(:multiple => 'multiple')
+    )
+  end
+end

@@ -542,43 +542,53 @@ $SP.UI.Form.register('.field.radio_buttons', 'Segmented', 'Generic', function(el
 });
 
 /* -------------------------------------------------------------------------- */
-/* SELECT CONTROL
+/* SELECT-BASE CONTROL
 /* -------------------------------------------------------------------------- */
-$SP.UI.Widgets.Select = $SP.UI.Widget.extend({
+$SP.UI.Widgets.SelectBase = $SP.UI.Widget.extend({
   widgetClass: 'select',
   nodes: {hook: 'input'},
-  template: $SP.UI.template(
-    '<input type="hidden" name="noop"/>'
-  ),
+  template: $SP.UI.template('<input type="hidden" name="noop"/>'),
+  select2opts: {},
+
+  prepareUI: function() {
+    _.bindAll(this, 'select2Change', 'select2Format');
+    var opts = _.extend({
+      allowClear: this.options.allowClear,
+      placeholder: 'None selected',
+      data: this.options.choices,
+      formatResult: this.select2Format,
+      initSelection: function() {}
+    }, this.select2opts);
+
+    this.dom.hook.select2(opts).on('change', this.select2Change);
+  },
+
+  select2Change: function() {
+    this.updateVal(this.dom.hook.select2('val'));
+  },
+
+  select2Format: function(data) {
+    return data.text;
+  },
+
+  updateUI: function(val) {
+    this.dom.hook.select2("data", this.options.choiceMap[val]);
+  }
+});
+
+/* -------------------------------------------------------------------------- */
+/* SELECT CONTROL
+/* -------------------------------------------------------------------------- */
+$SP.UI.Widgets.Select = $SP.UI.Widgets.SelectBase.extend({
   choiceTemplate: $SP.UI.template(
     '<span class="entry depth-{{depth}} disabled-{{disabled}}">',
       '<span>{{text}}</span>',
     '</span>'
   ),
 
-  prepareUI: function() {
-    _.bindAll(this, 'select2Change', 'select2Format');
-    var opts = {
-      allowClear: this.options.allowClear,
-      placeholder: 'None selected',
-      data: this.options.choices,
-      formatResult: this.select2Format,
-      initSelection: function() {}
-    };
-    this.dom.hook.select2(opts).on('change', this.select2Change);
-  },
-
-  select2Change: function() {
-    this.updateVal(this.dom.hook.val());
-  },
-
   select2Format: function(data) {
     return this.choiceTemplate(this.options.choiceMap[data.id]);
   },
-
-  updateUI: function(val) {
-    this.dom.hook.select2("data", this.options.choiceMap[val]);
-  }
 });
 
 $SP.UI.Form.register('.field.select, .field.tree_select', 'Select', 'Generic', function(el, input) {
@@ -599,6 +609,39 @@ $SP.UI.Form.register('.field.select, .field.tree_select', 'Select', 'Generic', f
     choices: choices,
     choiceMap: choiceMap,
     allowClear: input.find('option[value!=""]').length > 0
+  };
+});
+
+/* -------------------------------------------------------------------------- */
+/* MULTI-SELECT CONTROL
+/* -------------------------------------------------------------------------- */
+$SP.UI.Widgets.MultiSelect = $SP.UI.Widgets.SelectBase.extend({
+  widgetClass: 'multi-select',
+  select2opts: {multiple: true},
+
+  updateUI: function(val) {
+    var choices = _.map(val, function(v) {return this.options.choiceMap[v];}, this);
+    this.dom.hook.select2("data", choices);
+  }
+});
+
+$SP.UI.Form.register('.field.multi_select', 'MultiSelect', 'Array', function(el, input) {
+  var choiceMap = {}, choices = [], value = [];
+
+  _.each(input.find('option'), function(opt) {
+    var $opt = $(opt), choice = {text: $opt.text(), id: $opt.attr('value')};
+    choiceMap[choice.id] = choice;
+    choices.push(choice);
+    if ($opt.is(':selected')) {value.push(choice.id);}
+  });
+
+  var name = input.attr('name').match(/^.+\[(.+)\]\[/)[1];
+
+  return {
+    choiceMap: choiceMap,
+    choices: choices,
+    name: name,
+    value: value
   };
 });
 

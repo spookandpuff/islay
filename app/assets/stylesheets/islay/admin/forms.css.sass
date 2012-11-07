@@ -458,6 +458,19 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   height: 5em
   width: 10em
 
+/* MULTI-SELECT */
+.widget.multi-select
+  .select2-choices
+    border: 0.1em solid $widget-border-color
+    +border-radius($widget-border-radius)
+    width: 30em
+
+  .select2-search-choice
+    padding: 0 0.6em 0 1.4em !important
+
+    a
+      top: 2px
+
 /* -------------------------------------------------------------------------- */
 /* TAB SET
 /* -------------------------------------------------------------------------- */
