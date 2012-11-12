@@ -740,8 +740,7 @@ $SP.UI.Widgets.MultiAsset = $SP.UI.Widget.extend({
     else {
       _.bindAll(this, 'updateSelection');
       this.dialog = new Islay.Dialogs.AssetBrowser({
-        add: this.updateSelection,
-        only: 'images'
+        add: this.updateSelection
       });
     }
   },
