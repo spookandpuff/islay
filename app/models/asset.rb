@@ -182,6 +182,13 @@ class Asset < ActiveRecord::Base
     @previews ||= AssetVersions.new(dir, key, 'preview.jpg', asset_processor.preview_names)
   end
 
+  # Return the extension of the original file
+  #
+  # @return String
+  def extension
+    original_filename.split('.').last
+  end
+
   private
 
   def set_name
