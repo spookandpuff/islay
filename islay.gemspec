@@ -46,6 +46,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'friendly_id',                   '~> 4.0.8'
   s.add_dependency "acts_as_list",                  "~> 0.1.8"
   s.add_dependency "hierarchy",                     "~> 1.0.6"
+  s.add_dependency "premailer",                     "~> 1.7.3"
+  s.add_dependency 'draper',                        '~> 0.17.0'
 
 
   s.add_development_dependency "machinist",           "~> 2.0"

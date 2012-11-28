@@ -18,6 +18,8 @@ require 'kaminari'
 require 'RMagick'
 require 'acts_as_list'
 require 'hierarchy'
+require 'draper'
+require 'premailer'
 
 require "islay/engine"
 require "islay/coercion"
@@ -25,6 +27,7 @@ require "islay/form_builder"
 require "islay/active_record"
 require "islay/positioning"
 require "islay/publishable"
+require "islay/metadata"
 require "islay/taggable"
 require "islay/searchable"
 require "islay/query"
