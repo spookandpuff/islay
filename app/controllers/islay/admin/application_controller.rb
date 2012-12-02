@@ -1,6 +1,8 @@
 module Islay
   module Admin
-    class ApplicationController < ActionController::Base
+    class ApplicationController < Islay::ApplicationController
+      use_https
+
       layout 'layouts/islay/application'
       before_filter :authenticate_user!, :store_user_in_thread
 
@@ -46,13 +48,6 @@ module Islay
             :days => (1..time.mday).map {|d| "#{d}/#{time.month}/#{time.year}"}
           }
         end
-      end
-
-      # Will either redirect the user back to the originating URL or another URL
-      # specified via the params. A redirection is specified using the
-      # _return_to param key.
-      def bounce_back
-        redirect_to params[:_return_to] ? params[:_return_to] : request.referrer
       end
 
       def self.header(name)

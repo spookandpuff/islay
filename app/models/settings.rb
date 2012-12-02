@@ -36,6 +36,14 @@ class Settings
     !!(@@config[:islay][:aws_id] and @@config[:islay][:aws_secret])
   end
 
+  # Checks to see if the IC_ISLAY_USE_HTTPS setting is present and if it's 
+  # value is true.
+  #
+  # @return Boolean
+  def self.use_https?
+    self.defined?(:islay, :use_https) and self.for(:islay, :use_https) == true
+  end
+
   # Pulls in the IC_ prefixed environment variables and constructs the
   # configuration hash.
   #
