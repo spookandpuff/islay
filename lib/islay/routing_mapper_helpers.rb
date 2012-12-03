@@ -23,7 +23,8 @@ class ActionDispatch::Routing::Mapper
   end
 
   # Defines a set of routes within the 'Public' submodule of the specified
-  # module — e.g. Islay::Public
+  # module — e.g. Islay::Public. It will also ensure that the protocol is
+  # always HTTP, not HTTPS.
   #
   # @param String mod
   # @param [Block, Proc]
@@ -31,7 +32,7 @@ class ActionDispatch::Routing::Mapper
   # @return nil
   def islay_public(mod, &blk)
     scope :module => mod do
-      namespace(:public, {:path => ''}, &blk)
+      namespace(:public, {:path => '', :protocol => 'http://'}, &blk)
     end
   end
 
