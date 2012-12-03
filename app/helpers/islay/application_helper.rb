@@ -37,7 +37,7 @@ module Islay::ApplicationHelper
   #
   # @return String
   def version_image_tag(asset, version, opts = {})
-    placeholder = opts[:placeholder].delete
+    placeholder = opts.delete(:placeholder)
     if asset.nil?
       if placeholder
         content_tag(:div, 'No Image', :class => 'image-missing')
