@@ -6,73 +6,68 @@ Rails.application.routes.draw do
     :controllers  => { :sessions => "islay/admin/sessions", :passwords => "islay/admin/passwords" }
   )
 
-  scope :module => 'islay' do
-    namespace :admin do
-      # DASHBOARD & SEARCH
-      get '/'       => 'dashboard#index', :as => 'dashboard'
-      get '/search' => 'search#index',    :as => 'search'
+  islay_admin 'islay' do
+    # DASHBOARD & SEARCH
+    get '/'       => 'dashboard#index', :as => 'dashboard'
+    get '/search' => 'search#index',    :as => 'search'
 
-      # REPORTS
-      get 'reports' => 'reports#index', :as => 'reports'
+    # REPORTS
+    get 'reports' => 'reports#index', :as => 'reports'
 
-      # USERS
-      resources :users do
-        get :delete, :on => :member
-      end
-
-      # PAGE CONTENT
-      scope :path => 'pages', :controller => 'pages' do
-        get '',      :action => 'index',  :as => 'pages'
-        get ':id',  :action => 'edit',    :as => 'page'
-        put ':id',  :action => 'update'
-      end
-
-      # ASSET LIBRARY
-      scope :path => 'library' do
-        get '/'                     => 'asset_library#index',   :as => 'asset_library'
-        get '/browser(/:only).json' => 'asset_library#browser', :as => 'browser'
-
-        resources(:asset_groups, :path => 'collections') do
-          get :delete, :on => :member
-          resources :asset_bulk_uploads, :path => 'bulk_uploads', :only => %w(new create)
-        end
-
-        resources :asset_tags, :path => 'tags', :only => %w(index show)
-
-        # Processing
-        resources :asset_processes, :path => 'processing', :controller => 'assets', :only => :index do
-          collection do
-            get '',                               :action => :processing, :as => 'index'
-            get '(/filter-:filter)(/sort-:sort)', :action => :processing, :as => 'filter_and_sort'
-            put '',                               :action => :bulk_reprocess
-          end
-        end
-
-        # Assets
-        asset_resource = lambda do
-          collection do
-            get '(/filter-:filter)(/sort-:sort)', :action => :index, :as => 'filter_and_sort'
-            get :bulk
-            post :bulk, :action => 'bulk_create'
-          end
-
-          member do
-            get :delete
-            put :reprocess
-          end
-        end
-
-        asset_resources = %w(image document video audio)
-        asset_resources.each do |s|
-          as = "#{s}_assets".to_sym
-          resources as, :path => "assets/#{s.pluralize}", :controller => 'assets', :defaults => {:type => s}, &asset_resource
-        end
-
-        resources :assets, :defaults => {:type => :assets}, &asset_resource
-      end
+    # USERS
+    resources :users do
+      get :delete, :on => :member
     end
 
-    # Funky shortcuts for adding assets directly to an album
-    get 'admin/library/assets/new/for-album/:asset_album_id' => 'admin/assets#new', :as => 'new_admin_asset_asset_album'
+    # PAGE CONTENT
+    scope :path => 'pages', :controller => 'pages' do
+      get '',      :action => 'index',  :as => 'pages'
+      get ':id',  :action => 'edit',    :as => 'page'
+      put ':id',  :action => 'update'
+    end
+
+    # ASSET LIBRARY
+    scope :path => 'library' do
+      get '/'                     => 'asset_library#index',   :as => 'asset_library'
+      get '/browser(/:only).json' => 'asset_library#browser', :as => 'browser'
+
+      resources(:asset_groups, :path => 'collections') do
+        get :delete, :on => :member
+        resources :asset_bulk_uploads, :path => 'bulk_uploads', :only => %w(new create)
+      end
+
+      resources :asset_tags, :path => 'tags', :only => %w(index show)
+
+      # Processing
+      resources :asset_processes, :path => 'processing', :controller => 'assets', :only => :index do
+        collection do
+          get '',                               :action => :processing, :as => 'index'
+          get '(/filter-:filter)(/sort-:sort)', :action => :processing, :as => 'filter_and_sort'
+          put '',                               :action => :bulk_reprocess
+        end
+      end
+
+      # Assets
+      asset_resource = lambda do
+        collection do
+          get '(/filter-:filter)(/sort-:sort)', :action => :index, :as => 'filter_and_sort'
+          get :bulk
+          post :bulk, :action => 'bulk_create'
+        end
+
+        member do
+          get :delete
+          put :reprocess
+        end
+      end
+
+      asset_resources = %w(image document video audio)
+      asset_resources.each do |s|
+        as = "#{s}_assets".to_sym
+        resources as, :path => "assets/#{s.pluralize}", :controller => 'assets', :defaults => {:type => s}, &asset_resource
+      end
+
+      resources :assets, :defaults => {:type => :assets}, &asset_resource
+    end
   end
 end
