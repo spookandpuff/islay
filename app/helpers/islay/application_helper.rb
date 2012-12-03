@@ -43,7 +43,8 @@ module Islay::ApplicationHelper
         content_tag(:div, 'No Image', :class => 'image-missing')
       end
     else
-      image_tag(asset.versions.url(version, request.protocol), opts)
+      protocol = request.nil? ? 'http://' : request.protocol
+      image_tag(asset.versions.url(version, protocol), opts)
     end
   end
 end
