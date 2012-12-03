@@ -14,7 +14,7 @@ class AssetVersions
     !@urls or @urls.empty?
   end
 
-  def url(name, protocol = 'http')
-    "#{protocol}://#{@urls[name]}"
+  def url(name, protocol = 'http://')
+    "#{protocol}#{@urls[name]}"
   end
 end
