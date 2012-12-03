@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
-  devise_for(
-    :users,
-    :path         => "admin",
-    :path_names   => {:sign_in => 'login', :sign_out => 'logout'},
-    :controllers  => { :sessions => "islay/admin/sessions", :passwords => "islay/admin/passwords" }
-  )
+  constraints :protocol => secure_protocol do
+    devise_for(
+      :users,
+      :path         => "admin",
+      :path_names   => {:sign_in => 'login', :sign_out => 'logout'},
+      :controllers  => { :sessions => "islay/admin/sessions", :passwords => "islay/admin/passwords" }
+    )
+  end
 
   islay_admin 'islay' do
     # DASHBOARD & SEARCH
