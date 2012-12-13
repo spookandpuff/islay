@@ -439,7 +439,7 @@ $SP.UI.Form.register('.field.check_boxes', 'Checkboxes', 'Array', function(el, i
 $SP.UI.Widgets.Input = $SP.UI.Widget.extend({
   widgetClass: 'string',
   nodes: {input: 'input'},
-  events: {'keyup input': 'keyup'},
+  events: {'keyup input': 'keyup', 'change input': 'keyup'},
   template: $SP.UI.template(
     '<input class="{{options.classNames}}" size="{{options.size}}" type="{{options.inputType}}" value="{{options.value}}" />'
   ),
