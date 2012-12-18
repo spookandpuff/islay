@@ -920,5 +920,13 @@ $SP.UI.FormBindings.Array = $SP.UI.FormBindings.Generic.extend({
       this.form.append(input);
       return input;
     }, this);
+
+    // If the array has been cleared, we need to indicate that by adding a dud
+    // input, otherwise the server gets nothing.
+    if (this.inputs.length === 0) {
+      var input = $H('input', {type: 'hidden', name: this.inputName()});
+      this.form.append(input);
+      this.inputs.push(input);
+    }
   }
 });
