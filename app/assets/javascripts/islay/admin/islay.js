@@ -37,5 +37,7 @@ $(function() {
     e.preventDefault();
   });
 
+  $('button.print').click(function(){window.print()})
+
   $SP.init();
 });
