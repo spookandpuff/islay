@@ -1,0 +1,223 @@
+
+/* -------------------------------------------------------------------------- */
+/* TABLE
+/* -------------------------------------------------------------------------- */
+table
+  border-bottom: 0.1em solid $light-grey
+  background: white
+  width: 100%
+  float: left
+
+  th.select span
+    +hide
+
+  .select
+    padding-left: 0
+    padding-right: 0
+    width: 2.5em
+    text-align: center
+
+    input
+      margin: 0
+
+  /* UPDATE/EDIT META-DATA */
+  th.meta,
+  td.meta
+    width: 15em
+
+  td.meta
+    color: $dark-grey
+    font-size: 0.9em
+    line-height: 1.2
+    width: 9em
+
+  th.currency,
+  td.currency
+    font-family: $alternate-font-family
+    text-align: char
+    width: 6em
+
+  td.boolean,
+  td.indicator,
+  td.select,
+  td.meta
+    vertical-align: middle
+
+    .time
+      display: block
+
+  td.stock,
+  th.stock
+    width: 4em
+
+
+  /* YES/NO FLAGS */
+  th.boolean,
+  td.boolean
+    text-align: center
+    width: 4em
+
+  span.boolean
+    font-family: icons
+
+    text-align: center
+    width: 3.5em
+    float: left
+
+    &:before
+      font-size: 1.6em
+      font-weight: bold
+
+    &.true
+      +icon-ok
+        color: $positive-color
+
+    &.false
+      +icon-remove
+        color: $negative-color
+
+    span
+      +hide
+
+  span.time
+    display: block
+
+  /* THE MAIN COLUMN */
+  .title
+    font-family: $alternate-font-family
+    font-size: 1.2em
+    text-decoration: none
+    float: left
+
+  /* INDICATOR FOR COUNTS, STATUSES */
+  th.indicator,
+  td.indicator
+    width: 8em
+
+  td.indicator
+    padding-top: 0.5em
+    padding-bottom: 0.5em
+
+  /* DIRECTION */
+  .dir
+    margin: 0.35em 0 0 0.5em
+    float: right
+
+    &:before
+      color: $mid-grey
+      font: Icons
+      font-size: 1.4em
+
+    &.up
+      +icon-arrow-up
+
+    &.down
+      +icon-arrow-down
+
+    span
+      +hide
+
+  /* ALERT */
+  tr.alert.true
+    td
+      background-color: #EBCEC8
+
+thead th
+  +background-image($dimension-raised-subtle)
+  background-color: $very-light-grey
+  border-bottom: 0.1em solid $light-grey
+  color: $dark-grey
+  font-size: 0.9em
+  padding: 1em 1em 0.6em 1em
+  text-transform: uppercase
+
+td,
+tbody th,
+tfoot th
+  padding: 0.8em 1em
+
+tbody
+  td
+    +transition(background, 0.1s)
+
+tr:nth-child(even)
+  td, th
+    background-color: #F7F8F9
+
+th.control
+  text-indent: -1000em
+  letter-spacing: -1000em
+  width: 4em
+
+tbody th
+  border-top: 0.1em solid $light-grey
+  border-bottom: 0.1em solid $light-grey
+  background-color: white
+  font-weight: bold
+  color: $dark-grey
+
+th,
+td
+  border-left: 0.1em solid $light-grey
+  vertical-align: top
+
+tr th:first-child,
+tr td:first-child
+  border-left-width: 0
+
+/* Selected rows*/
+tr.selected
+  td
+    background: $selected-background-color
+    border-color: $selected-background-color + 50
+    color: $selected-foreground-color
+
+    a
+      +islay-text-shadow
+      color: $selected-foreground-color
+
+    .summary
+      color: $selected-background-color + 75
+
+    &.meta
+      color: $selected-background-color + 90
+
+  &:nth-child(odd)
+    td
+      background: $selected-background-color + 10
+
+  .boolean:before
+    color: rgba(255, 255, 255, 0.6)!important
+
+  span.indicator
+    background-color: rgba(0,0,0,0.3)
+
+tfoot
+  th
+    vertical-align: middle
+
+  .total
+    td
+      font-size: 1.2em
+
+
+/* TABLE LEVELS/INDENTATION */
+table
+  .level-1 .title,
+  .level-2 .title,
+  .level-3 .title,
+  .level-4 .title
+    border-left: 0.1em solid $mid-grey
+    padding-left: 1em
+
+  .level-1 .title
+    margin-left: 1em
+
+  .level-2 .title
+    margin-left: 2em
+
+  .level-3 .title
+    margin-left: 3em
+
+  .level-4 .title
+    margin-left: 4em
