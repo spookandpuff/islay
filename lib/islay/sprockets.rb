@@ -43,7 +43,7 @@ module Islay
       app.assets.register_preprocessor "application/javascript", ::Sprockets::DirectiveProcessor
 
       # Add Islay JS and CSS to the precompile
-      app.config.assets.precompile += ['islay/admin/islay.js', 'islay/admin/islay.css']
+      app.config.assets.precompile += ['islay/admin/islay.js', 'islay/admin/islay.css', 'islay/admin/islay_print.css']
     end
   end
 end
