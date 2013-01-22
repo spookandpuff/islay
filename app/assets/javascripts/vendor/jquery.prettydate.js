@@ -166,7 +166,7 @@ $.fn.prettyDate = function(options) {
 	format(true);
 
 	if (options.interval)
-		setInterval(format(false), options.interval);
+		setInterval(function(){format(false)}, options.interval);
 	return this;
 };
 
