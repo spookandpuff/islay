@@ -37,20 +37,30 @@ module Islay
     # Writes out inputs based on the contents of the hash contained in the
     # metadata column of a model. It inspects the options attached to an
     # attribute and renders the appropriate input.
-    def metadata_input(attribute_name, metaopts, options = {}, &block)
-      case metaopts[:type]
-      when :enum
-        options[:as] = metaopts[:kind] == :short ? 'radio_buttons' : 'select'
-        options[:collection] = extract_values(metaopts[:values])
-      when :foreign_key
-        options[:collection] = extract_values(metaopts[:values])
-      when :integer, :float
-        options[:class] = 'small'
-      when :text, :boolean, :date
-        options[:as] = metaopts[:type]
+    #
+    # @return String
+    #
+    # @todo Support other types like URL, Email, etc.
+    def metadata_input(attribute_name, options = {}, &block)
+      metaopts = object.metadata_attributes[attribute_name]
+
+      unless options.has_key?(:as)
+        options[:as] = case metaopts[:type]
+        when :enum
+          metaopts[:kind] == :short ? 'radio_buttons' : 'select'
+        when :foreign_key 
+          'select'
+        when :integer, :float
+          'numeric'
+        when :text, :boolean, :date
+          metaopts[:type]
+        end
       end
 
-      # TODO: Support other types like URL, Email, etc.
+      if metaopts.has_key?(:values)
+        options[:collection] = extract_values(metaopts[:values])
+        options[:include_blank] = false if metaopts[:required] == true
+      end
 
       input(attribute_name, options, &block)
     end
