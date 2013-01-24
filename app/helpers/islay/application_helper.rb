@@ -24,12 +24,12 @@ module Islay::ApplicationHelper
     if level > 1
       add = '#' * (level - 1)
       rewrite = content.gsub(/(?<sym>[#]+)(\s*)(?<title>\w+)/, "\\k<sym>#{add} \\k<title>")
-      rendered_content = RDiscount.new(rewrite).to_html.html_safe
+      rendered_content = RDiscount.new(rewrite).to_html
     else
-      rendered_content = RDiscount.new(content).to_html.html_safe
+      rendered_content = RDiscount.new(content).to_html
     end
 
-    rendered_content.gsub(/&apos;/, '&#39;')
+    rendered_content.gsub(/&apos;/, '&#39;').html_safe
   end
 
   # Creates an image tag for the specified image asset and version. Optionally
