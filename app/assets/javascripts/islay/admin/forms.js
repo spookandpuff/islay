@@ -149,6 +149,21 @@ $SP.UI.Assocation = Backbone.View.extend({
 });
 
 /* -------------------------------------------------------------------------- */
+/* SIMPLE ASSOCIATION
+/* -------------------------------------------------------------------------- */
+$SP.UI.SimpleAssocation = Backbone.View.extend({
+  initialize: function() {
+    this.forms = [];
+    _.each(this.$el.find('fieldset'), this.addForm, this);
+  },
+
+  addForm: function(el) {
+    var form = new $SP.UI.SubForm({el: el});
+    this.forms.push(form);
+  }
+});
+
+/* -------------------------------------------------------------------------- */
 /* FORM
 /* -------------------------------------------------------------------------- */
 $SP.UI.Form = Backbone.View.extend(
@@ -173,7 +188,8 @@ $SP.UI.Form = Backbone.View.extend(
         if (fields.length > 0) {
           _.each(fields, function(f) {
             var field = $(f),
-                input = field.find(':input');
+                input = field.find(':input'),
+                classes = _.reject(field.attr('class').split(' '), function(c){return c == 'field';});
 
             var data = _.defaults(config.initializer(field, input), {
               label: field.find('label:first').text(),
@@ -185,7 +201,8 @@ $SP.UI.Form = Backbone.View.extend(
               errored: field.is('.errored'),
               error: field.find('.error').text(),
               inline: field.is('.count-inline'),
-              firstInline: field.is('.count-first-inline')
+              firstInline: field.is('.count-first-inline'),
+              classes: classes
             });
 
             this.model.set(data.name, data.value);
@@ -218,7 +235,12 @@ $SP.UI.Form = Backbone.View.extend(
     _initForms: function() {
       var assocs = this.$el.find('.association');
       this.associations = _.map(assocs, function(a) {
-        return new $SP.UI.Assocation({el: a});
+        if ($(a).is('.simple')) {
+          return new $SP.UI.SimpleAssocation({el: a});
+        }
+        else {
+          return new $SP.UI.Assocation({el: a});
+        }
       }, this);
     }
   },
@@ -307,6 +329,9 @@ $SP.UI.Widget = Backbone.View.extend({
       this.model.on('invalid:' + this.options.name, this.onModelInvalid);
     }
 
+    this.options.classes.push(this.widgetClass);
+    this.options.classes.push('widget');
+
     this.dom = {};
   },
 
@@ -337,7 +362,7 @@ $SP.UI.Widget = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.addClass(this.widgetClass).addClass('widget');
+    _.each(this.options.classes, function(c) {this.$el.addClass(c);}, this);
     this.dom.frame = $H('div.widget-frame').append(this.template(this));
 
     if (this.options.firstInline) {
@@ -557,7 +582,12 @@ $SP.UI.Widgets.SelectBase = $SP.UI.Widget.extend({
       placeholder: 'None selected',
       data: this.options.choices,
       formatResult: this.select2Format,
-      initSelection: function() {}
+      initSelection: function() {},
+      id: function(data) {
+        if (!_.isEmpty(data.id) && data.disabled !== true) {
+          return data.id;
+        }
+      }
     }, this.select2opts);
 
     this.dom.hook.select2(opts).on('change', this.select2Change);

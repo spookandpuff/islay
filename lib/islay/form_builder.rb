@@ -69,19 +69,56 @@ module Islay
     # to be added directly to the input without using the :input_html option.
     # An additional :col option can be used to attach a class to the wrapper
     # div.
+    #
+    # @param Symbol attribute_name
+    # @param Hash options
+    #
+    # @return String
     def input(attribute_name, options = {}, &block)
       if input_class = options.delete(:class)
-        (options[:input_html] ||= {}).merge!(:class => input_class)
+        append_class!(options, :input_html, input_class)
       end
 
-      if wrapper_class = options.delete(:col)
-        (options[:wrapper_html] ||= {}).merge!(:class => "count-#{wrapper_class}")
+      if col = options.delete(:col)
+        append_class!(options, :wrapper_html, "count-#{col}")
+      end
+
+      if wrapper_class = options.delete(:wrapper_class)
+        append_class!(options, :wrapper_html, wrapper_class)
+      end
+
+      if options.delete(:first_inline)
+        append_class!(options, :wrapper_html, 'first-inline')
+      end
+
+      if options.delete(:inline)
+        append_class!(options, :wrapper_html, 'inline')
       end
 
       super
     end
 
     private
+
+    # Appends a class within the specified scope i.e. the input wrapper div, or
+    # the input itself.
+    #
+    # @param Hash options
+    # @param Symbol scope
+    # @param String value
+    #
+    # @return nil
+    def append_class!(options, scope, value)
+      html = (options[scope] ||= {})
+
+      if html[:class]
+        html[:class] << " #{value}"
+      else
+        html[:class] = value
+      end
+    
+      nil
+    end
 
     def extract_values(values)
       if values
