@@ -16,6 +16,7 @@ $SP.coerce = function(type, val) {
     case 'string': return val.toString();
     case 'integer': return parseInt(val);
     case 'float': return parseFloat(val);
+    case 'date': return moment(val);
     case 'boolean':
       switch(val) {
         case '0':
@@ -493,6 +494,62 @@ $SP.UI.Form.register('.field.string, .field.float, .field.integer', 'Input', 'Ge
 });
 
 /* -------------------------------------------------------------------------- */
+/* DATE PICKER
+/* -------------------------------------------------------------------------- */
+$SP.UI.Widgets.DatePicker = $SP.UI.Widget.extend({
+  widgetClass: 'date-picker',
+  nodes: {display: 'span.date-display'},
+  events: {'click .date-display': 'click'},
+  template: $SP.UI.template('<span class="date-display">{{options.value}}</span>'),
+  isOpen: false,
+
+  click: function(e) {
+    this.isOpen === false ? this._open() : this._close();
+    e.stopPropagation();
+  },
+
+  _updateFromPicker: function() {
+    var date = this.picker.getSelectedRaw()[0];
+    this.updateVal(date);
+    this._close();
+  },
+
+  _open: function() {
+    if (_.isUndefined(this.picker)) {
+      _.bindAll(this, '_updateFromPicker', '_close');
+      this.picker = new Kalendae(this.dom.frame[0], {selected: this.model.get(this.options.name)});
+      this.picker.subscribe('change', this._updateFromPicker);
+      this.$pickerContainer = $(this.picker.container).on('click', this._squashEvent);
+    }
+    else {
+      this.$pickerContainer.show();
+    }
+    $('html').on('click', this._close);
+    this.dom.frame.addClass('open');
+    this.isOpen = true;
+  },
+
+  _close: function() {
+    this.$pickerContainer.hide();
+    this.isOpen = false;
+    this.dom.frame.removeClass('open');
+    $('html').off('click', this._close);
+  },
+
+  _squashEvent: function(e) {
+    e.stopPropagation();
+  },
+
+  updateUI: function(val) {
+    this.dom.display.text(val.format('DD/MM/YYYY'));
+  }
+});
+
+$SP.UI.Form.register('.field.date_picker', 'DatePicker', 'Date', function(el, input) {
+  return {value: $SP.coerce('date', input.val())};
+});
+
+/* -------------------------------------------------------------------------- */
 /* BOOLEAN TOGGLE CONTROL
 /* -------------------------------------------------------------------------- */
 $SP.UI.Widgets.Boolean = $SP.UI.Widget.extend({
@@ -928,6 +985,12 @@ $SP.UI.FormBindings.Generic.extend = Backbone.Model.extend;
 /* -------------------------------------------------------------------------- */
 /* FORM BINDING - SPECIFIC IMPLEMENTATIONS
 /* -------------------------------------------------------------------------- */
+$SP.UI.FormBindings.Date = $SP.UI.FormBindings.Generic.extend({
+  updateInput: function(val) {
+    this.input.val(val.format('YYYY-MM-DD'));
+  }
+});
+
 $SP.UI.FormBindings.Boolean = $SP.UI.FormBindings.Generic.extend({
   updateInput: function(val) {
     this.input.val(val ? 1 : 0);

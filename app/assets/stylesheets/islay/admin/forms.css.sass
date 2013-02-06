@@ -84,6 +84,7 @@ $form-inset-color: $light-grey + 20
     margin-left: 0
 
   .field.first-inline
+    clear: left
     width: auto
 
   .field.inline
@@ -129,8 +130,11 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 @mixin input-border
   border: $border-width solid $widget-border-color
 
-@mixin widget-gradient
-  +background-image(linear_gradient(white, $light-grey))
+@mixin widget-gradient($mode: regular)
+  @if $mode == regular
+    +background-image(linear_gradient(white, $light-grey))
+  @else
+    +background-image(linear_gradient($light-grey, white))
 
 @mixin widget-border-radius($portions: all)
   @if $portions == all
@@ -175,6 +179,30 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 .count-first-inline
   .widget
     width: auto
+
+/* DATE-PICKER */
+.widget.date-picker 
+  .kalendae
+    +input-border
+    +widget-border-radius(bottom-only)
+    margin: 0
+    position: absolute
+    left: -$border-width
+    top: 2em
+    z-index: 1
+
+  .widget-frame
+    +widget-border-radius
+    +widget-gradient
+    +input-border
+    height: $widget-height
+
+  .open
+    +widget-gradient(invert)
+
+  .date-display
+    padding: 0.65em 0.8em 0.4em 0.8em
+    float: left
 
 /* MULTI-SELECT */
 .widget.multi-select
