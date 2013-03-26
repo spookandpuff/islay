@@ -1,3 +1,4 @@
 class Person < ActiveRecord::Base
-  # attr_accessible :title, :body
+  devise :database_authenticatable, :recoverable, :validatable
+  attr_accessible :name, :email, :password
 end
