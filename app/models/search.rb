@@ -20,7 +20,7 @@ class Search < ActiveRecord::Base
 
     @@queries[klass] = "(#{sql})"
   end
-
+  
   # Searches through the ActiveRecord subclasses that have been registered as 
   # searchable, using the queries provided for each.
   #
@@ -28,8 +28,9 @@ class Search < ActiveRecord::Base
   # @param Array only
   #
   # @return Array<Search>
-  def self.search(term, only = @@queries.keys)
-    queries = @@queries.select {|k, v| only.include?(k)}.map {|k, v| v}
+  def self.search(term, only = nil)
+    only    ||= @@queries.keys
+    queries = @@queries.select {|k, v| only.include?(k)}.values
     query   = sanitize_sql_array([queries.join(" UNION ALL "), {:term => term.split(' ').join('&')}])
 
     sql = select('*')
@@ -39,5 +40,17 @@ class Search < ActiveRecord::Base
             .limit(25).to_sql
 
     find_by_sql(sql)
+  end
+
+  # If we're in dev mode, wrap the search method so we can greedily load the
+  # models, thus allowing us to test the bloody thing.
+  if Rails.env.development?
+    define_singleton_method(:wrapped_search, method(:search))
+
+    def self.search(term, only = nil)
+      Rails.application.eager_load!
+      Rails::Engine.subclasses.each(&:eager_load!)
+      wrapped_search(term, only)
+    end
   end
 end
