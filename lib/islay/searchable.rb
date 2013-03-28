@@ -38,7 +38,8 @@ module Islay
           "'#{self.to_s}' AS searchable_type"
         end
 
-        Search.register(select(projections.join(', ')))
+        klass = self.to_s.underscore.to_sym
+        Search.register(klass, select(projections.join(', ')))
 
         update = terms.map do |c, r|
           term = if c == :id
