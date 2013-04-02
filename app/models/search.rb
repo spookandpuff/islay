@@ -57,4 +57,25 @@ class Search < ActiveRecord::Base
 
     find_by_sql(sql)
   end
+
+  # Updates the search terms for the specified model.
+  #
+  # @params ActiveRecord::Base model
+  # @params Symbol name
+  #
+  # @return Boolean
+  def self.update_entry(model, name = nil)
+    name ||= model.class.to_s.underscore.to_sym
+    blk = Islay::Engine.searches.updates[name]
+
+    if blk
+      terms = blk.call(model).reject{|k, v| k.empty?}.map do |term, weight|
+        "setweight(to_tsvector('pg_catalog.english', '#{term}'), '#{weight}')"
+      end
+      update = "UPDATE #{model.class.table_name} SET terms = (#{terms.join(' || ')}) WHERE id = #{model.id}"
+      ActiveRecord::Base.connection.execute(update)
+    else
+      false
+    end
+  end
 end
