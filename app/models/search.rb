@@ -6,17 +6,33 @@ class Search < ActiveRecord::Base
   def self.columns() @columns ||= []; end
   def readonly?; true; end
 
-  # Registers a query fragment against the name of a searchable class.
+  # Registers a class as being searchable and generates/caches the required
+  # query fragment
   #
-  # @param Symbol klass
-  # @param String query
+  # @param Symbol name
+  # @param Hash opts
   #
-  # @param String
-  def self.register(klass, query)
-    sql = query
-            .select("ts_rank(terms, to_tsquery(:term)) AS rank")
-            .order('rank DESC')
-            .limit(20).to_sql
+  # @return String
+  def self.register(name, opts = {})
+    klass = name.to_s.classify
+
+    projections = ["id, id AS searchable_id"]
+
+    projections << if opts[:name]
+      "#{opts[:name]} AS name"
+    else
+      "name"
+    end
+
+    projections << if opts[:inherited]
+      "type AS searchable_type"
+    else
+      "'#{klass}' AS searchable_type"
+    end
+
+    projections << "ts_rank(terms, to_tsquery(:term)) AS rank"
+
+    sql = klass.constantize.select(projections.join(', ')).order('rank DESC').limit(20).to_sql
 
     @@queries[klass] = "(#{sql})"
   end
@@ -40,17 +56,5 @@ class Search < ActiveRecord::Base
             .limit(25).to_sql
 
     find_by_sql(sql)
-  end
-
-  # If we're in dev mode, wrap the search method so we can greedily load the
-  # models, thus allowing us to test the bloody thing.
-  if Rails.env.development?
-    define_singleton_method(:wrapped_search, method(:search))
-
-    def self.search(term, only = nil)
-      Rails.application.eager_load!
-      Rails::Engine.subclasses.each(&:eager_load!)
-      wrapped_search(term, only)
-    end
   end
 end
