@@ -16,6 +16,7 @@ $SP.coerce = function(type, val) {
     case 'string': return val.toString();
     case 'integer': return parseInt(val);
     case 'float': return parseFloat(val);
+    case 'date': return moment(val);
     case 'boolean':
       switch(val) {
         case '0':
@@ -149,6 +150,21 @@ $SP.UI.Assocation = Backbone.View.extend({
 });
 
 /* -------------------------------------------------------------------------- */
+/* SIMPLE ASSOCIATION
+/* -------------------------------------------------------------------------- */
+$SP.UI.SimpleAssocation = Backbone.View.extend({
+  initialize: function() {
+    this.forms = [];
+    _.each(this.$el.find('fieldset'), this.addForm, this);
+  },
+
+  addForm: function(el) {
+    var form = new $SP.UI.SubForm({el: el});
+    this.forms.push(form);
+  }
+});
+
+/* -------------------------------------------------------------------------- */
 /* FORM
 /* -------------------------------------------------------------------------- */
 $SP.UI.Form = Backbone.View.extend(
@@ -173,7 +189,8 @@ $SP.UI.Form = Backbone.View.extend(
         if (fields.length > 0) {
           _.each(fields, function(f) {
             var field = $(f),
-                input = field.find(':input');
+                input = field.find(':input'),
+                classes = _.reject(field.attr('class').split(' '), function(c){return c == 'field';});
 
             var data = _.defaults(config.initializer(field, input), {
               label: field.find('label:first').text(),
@@ -185,7 +202,8 @@ $SP.UI.Form = Backbone.View.extend(
               errored: field.is('.errored'),
               error: field.find('.error').text(),
               inline: field.is('.count-inline'),
-              firstInline: field.is('.count-first-inline')
+              firstInline: field.is('.count-first-inline'),
+              classes: classes
             });
 
             this.model.set(data.name, data.value);
@@ -218,7 +236,12 @@ $SP.UI.Form = Backbone.View.extend(
     _initForms: function() {
       var assocs = this.$el.find('.association');
       this.associations = _.map(assocs, function(a) {
-        return new $SP.UI.Assocation({el: a});
+        if ($(a).is('.simple')) {
+          return new $SP.UI.SimpleAssocation({el: a});
+        }
+        else {
+          return new $SP.UI.Assocation({el: a});
+        }
       }, this);
     }
   },
@@ -307,6 +330,9 @@ $SP.UI.Widget = Backbone.View.extend({
       this.model.on('invalid:' + this.options.name, this.onModelInvalid);
     }
 
+    this.options.classes.push(this.widgetClass);
+    this.options.classes.push('widget');
+
     this.dom = {};
   },
 
@@ -337,7 +363,7 @@ $SP.UI.Widget = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.addClass(this.widgetClass).addClass('widget');
+    _.each(this.options.classes, function(c) {this.$el.addClass(c);}, this);
     this.dom.frame = $H('div.widget-frame').append(this.template(this));
 
     if (this.options.firstInline) {
@@ -468,6 +494,62 @@ $SP.UI.Form.register('.field.string, .field.float, .field.integer', 'Input', 'Ge
 });
 
 /* -------------------------------------------------------------------------- */
+/* DATE PICKER
+/* -------------------------------------------------------------------------- */
+$SP.UI.Widgets.DatePicker = $SP.UI.Widget.extend({
+  widgetClass: 'date-picker',
+  nodes: {display: 'span.date-display'},
+  events: {'click .date-display': 'click'},
+  template: $SP.UI.template('<span class="date-display">{{options.value}}</span>'),
+  isOpen: false,
+
+  click: function(e) {
+    this.isOpen === false ? this._open() : this._close();
+    e.stopPropagation();
+  },
+
+  _updateFromPicker: function() {
+    var date = this.picker.getSelectedRaw()[0];
+    this.updateVal(date);
+    this._close();
+  },
+
+  _open: function() {
+    if (_.isUndefined(this.picker)) {
+      _.bindAll(this, '_updateFromPicker', '_close');
+      this.picker = new Kalendae(this.dom.frame[0], {selected: this.model.get(this.options.name)});
+      this.picker.subscribe('change', this._updateFromPicker);
+      this.$pickerContainer = $(this.picker.container).on('click', this._squashEvent);
+    }
+    else {
+      this.$pickerContainer.show();
+    }
+    $('html').on('click', this._close);
+    this.dom.frame.addClass('open');
+    this.isOpen = true;
+  },
+
+  _close: function() {
+    this.$pickerContainer.hide();
+    this.isOpen = false;
+    this.dom.frame.removeClass('open');
+    $('html').off('click', this._close);
+  },
+
+  _squashEvent: function(e) {
+    e.stopPropagation();
+  },
+
+  updateUI: function(val) {
+    this.dom.display.text(val.format('DD/MM/YYYY'));
+  }
+});
+
+$SP.UI.Form.register('.field.date_picker', 'DatePicker', 'Date', function(el, input) {
+  return {value: $SP.coerce('date', input.val())};
+});
+
+/* -------------------------------------------------------------------------- */
 /* BOOLEAN TOGGLE CONTROL
 /* -------------------------------------------------------------------------- */
 $SP.UI.Widgets.Boolean = $SP.UI.Widget.extend({
@@ -557,7 +639,12 @@ $SP.UI.Widgets.SelectBase = $SP.UI.Widget.extend({
       placeholder: 'None selected',
       data: this.options.choices,
       formatResult: this.select2Format,
-      initSelection: function() {}
+      initSelection: function() {},
+      id: function(data) {
+        if (!_.isEmpty(data.id) && data.disabled !== true) {
+          return data.id;
+        }
+      }
     }, this.select2opts);
 
     this.dom.hook.select2(opts).on('change', this.select2Change);
@@ -898,6 +985,12 @@ $SP.UI.FormBindings.Generic.extend = Backbone.Model.extend;
 /* -------------------------------------------------------------------------- */
 /* FORM BINDING - SPECIFIC IMPLEMENTATIONS
 /* -------------------------------------------------------------------------- */
+$SP.UI.FormBindings.Date = $SP.UI.FormBindings.Generic.extend({
+  updateInput: function(val) {
+    this.input.val(val.format('YYYY-MM-DD'));
+  }
+});
+
 $SP.UI.FormBindings.Boolean = $SP.UI.FormBindings.Generic.extend({
   updateInput: function(val) {
     this.input.val(val ? 1 : 0);
