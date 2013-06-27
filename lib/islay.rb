@@ -22,6 +22,7 @@ require 'draper'
 require 'premailer'
 
 require "islay/engine"
+require "islay/core_ext"
 require "islay/coercion"
 require "islay/form_builder"
 require "islay/active_record"
