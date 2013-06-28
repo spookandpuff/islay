@@ -2,13 +2,13 @@ module Islay
   class Engine < ::Rails::Engine
     # Explicitly require the ActivityLog to avoid having it reloaded in dev.
     require File.expand_path("../../../app/models/activity_log", __FILE__)
-    # Do the same for the Search model, so our config doesn't dissapear.
-    require File.expand_path("../../../app/models/search", __FILE__)
 
     config.autoload_paths << File.expand_path("../../app/queries", __FILE__)
     config.autoload_paths << File.expand_path("../../app/asset_management", __FILE__)
 
-    config.active_record.observers = :searchable_observer
+    unless File.basename($0) == 'rake'
+      config.active_record.observers = :searchable_observer
+    end
 
     config.generators do |g|
       g.orm             :active_record

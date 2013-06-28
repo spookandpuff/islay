@@ -1,14 +1,15 @@
 module Islay
   class Searches
-    attr_accessor :models, :updates, :assocs
+    attr_accessor :models, :updates, :assocs, :registrations
 
-    # Stubs out the contentns of the models, updates and assocs accessors
+    # Stubs out the contents of the models, updates and assocs accessors
     #
     # @return Searches
     def initialize
-      @models   = Set.new
-      @updates  = {}
-      @assocs   = Hash.new {|h, k| h[k] = []}
+      @models         = Set.new
+      @updates        = {}
+      @assocs         = Hash.new {|h, k| h[k] = []}
+      @registrations  = []
     end
 
     # Registers a model as being searchable. The block is required, as it it
@@ -24,7 +25,7 @@ module Islay
       @models << model
       @updates[model] = blk
 
-      Search.register(model, opts)
+      @registrations << [model, opts]
 
       nil
     end

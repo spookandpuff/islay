@@ -6,37 +6,6 @@ class Search < ActiveRecord::Base
   def self.columns() @columns ||= []; end
   def readonly?; true; end
 
-  # Registers a class as being searchable and generates/caches the required
-  # query fragment
-  #
-  # @param Symbol name
-  # @param Hash opts
-  #
-  # @return String
-  def self.register(name, opts = {})
-    klass = name.to_s.classify
-
-    projections = ["id, id AS searchable_id"]
-
-    projections << if opts[:name]
-      "#{opts[:name]} AS name"
-    else
-      "name"
-    end
-
-    projections << if opts[:inherited]
-      "type AS searchable_type"
-    else
-      "'#{klass}' AS searchable_type"
-    end
-
-    projections << "ts_rank(terms, to_tsquery(:term)) AS rank"
-
-    sql = klass.constantize.select(projections.join(', ')).order('rank DESC').limit(20).to_sql
-
-    @@queries[klass] = "(#{sql})"
-  end
-  
   # Searches through the ActiveRecord subclasses that have been registered as 
   # searchable, using the queries provided for each.
   #
@@ -78,4 +47,52 @@ class Search < ActiveRecord::Base
       false
     end
   end
+
+  # Bootstraps the registration of classes that are searchable.
+  #
+  # @return nil
+  def self.setup
+    Islay::Engine.searches.registrations.each do |r|
+      register(*r)
+    end
+
+    nil
+  end
+
+  private
+
+  # Registers a class as being searchable and generates/caches the required
+  # query fragment
+  #
+  # @param Symbol name
+  # @param Hash opts
+  #
+  # @return String
+  def self.register(name, opts = {})
+    klass = name.to_s.classify
+
+    projections = ["id, id AS searchable_id"]
+
+    projections << if opts[:name]
+      "#{opts[:name]} AS name"
+    else
+      "name"
+    end
+
+    projections << if opts[:inherited]
+      "type AS searchable_type"
+    else
+      "'#{klass}' AS searchable_type"
+    end
+
+    projections << "ts_rank(terms, to_tsquery(:term)) AS rank"
+
+    sql = klass.constantize.select(projections.join(', ')).order('rank DESC').limit(20).to_sql
+
+    @@queries[klass] = "(#{sql})"
+  end
 end
+
+# When this file is lazily required, setup the registration of searchable 
+# classes.
+Search.setup
