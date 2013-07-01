@@ -66,7 +66,7 @@ module ActiveRecord
     # to essentially repeat the constraints in the model again.
     def self.validations_from_schema(opts = {})
       # Generate a list of columns to exclude
-      except = ['created_by_id', 'updated_by_id', 'created_at', 'updated_at']
+      except = ['creator_id', 'updater_id', 'created_at', 'updated_at']
       except += opts[:except].map(&:to_s) if opts[:except]
 
       # Grab the definitions for foreign keys and map them to the single column
