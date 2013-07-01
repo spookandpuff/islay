@@ -29,5 +29,9 @@ module Islay
     def coerce_float(v)
       v.to_f
     end
+
+    def coerce_array(v, separator = ',')
+      v.split(separator) unless v.nil?
+    end
   end
 end

@@ -72,6 +72,11 @@ module Islay
         define_attribute(name, :boolean, :boolean, opts)
       end
 
+      # A non-normalized set of tags, returned as an array
+      def tags(name, opts = {})
+        define_attribute(name, :tags, :array, opts)
+      end
+
       def date(name, opts = {})
         # Using composed of here is a dirty hack to get around a bug in
         # ActiveRecord i.e. MultiAttributeAssignmentError. A long lived and
@@ -139,15 +144,35 @@ module Islay
       def define_attribute(name, type, primitive, opts)
         raise ExistingAttributeError.new(name, @model) if column_names.include?(name)
 
+        reader = case primitive
+        when :array
+          %{
+            if format == :string
+              _metadata.coerce_#{primitive}(data_column['#{name}']).join(', ')
+            else
+              _metadata.coerce_#{primitive}(data_column['#{name}'])
+            end
+          }
+        else
+          %{ _metadata.coerce_#{primitive}(data_column['#{name}']) }
+        end
+
+        writer = case primitive
+        when :array
+          %{self[_metadata.col] = data_column.merge('#{name}' => v)}
+        else
+          %{self[_metadata.col] = data_column.merge('#{name}' => _metadata.coerce_#{primitive}(v))}
+        end
+
         @model.class_eval %{
           attr_accessible :#{name}
 
-          def #{name}
-            _metadata.coerce_#{primitive}(data_column['#{name}'])
+          def #{name}(format = :string)
+            #{reader}
           end
 
           def #{name}=(v)
-            self[_metadata.col] = data_column.merge('#{name}' => _metadata.coerce_#{primitive}(v))
+            #{writer}
           end
         }
 
