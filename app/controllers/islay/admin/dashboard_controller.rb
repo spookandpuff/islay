@@ -1,11 +1,7 @@
-module Islay
-  module Admin
-    class DashboardController < ApplicationController
-      header 'Dashboard'
+class Islay::Admin::DashboardController < Islay::Admin::ApplicationController
+  header 'Dashboard'
 
-      def index
+  def index
 
-      end
-    end
   end
 end

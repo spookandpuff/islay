@@ -28,8 +28,8 @@ Gem::Specification.new do |s|
   s.add_dependency "haml",                          "~> 3.1.5"
   s.add_dependency "sass-rails",                    "~> 3.2.5"
   s.add_dependency "compass-rails",                 "~> 1.0.1"
-  s.add_dependency "pg",                            "~> 0.13.2"
-  s.add_dependency "schema_plus",                   "~> 0.4.0"
+  s.add_dependency "pg",                            "~> 0.14.1"
+  s.add_dependency "schema_plus",                   "~> 1.0.1"
   s.add_dependency "activerecord-postgres-hstore",  "~> 0.3.0"
   s.add_dependency "inherited_resources",           "~> 1.3.1"
   s.add_dependency "rmagick",                       "~> 2.13.1"
@@ -48,11 +48,4 @@ Gem::Specification.new do |s|
   s.add_dependency "hierarchy",                     "~> 1.0.6"
   s.add_dependency "premailer",                     "~> 1.7.3"
   s.add_dependency 'draper',                        '~> 0.17.0'
-
-
-  s.add_development_dependency "machinist",           "~> 2.0"
-  s.add_development_dependency "_development_dfaker", "~> 1.14.0"
-  s.add_development_dependency "capybara",            "~> 1.1.2"
-  s.add_development_dependency "poltergeist",         "~> 0.6.0"
-  s.add_development_dependency 'rspec-rails',         "~> 2.10.1"
 end
