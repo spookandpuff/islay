@@ -22,6 +22,7 @@ require 'draper'
 require 'premailer'
 
 require "islay/engine"
+require "islay/core_ext"
 require "islay/coercion"
 require "islay/form_builder"
 require "islay/active_record"
@@ -35,7 +36,6 @@ require "islay/extensions"
 require "islay/pages"
 require "islay/resourceful_controller"
 require "islay/sprockets"
-require "islay/core_ext"
 require "islay/routing_mapper_helpers"
 
 module Islay
