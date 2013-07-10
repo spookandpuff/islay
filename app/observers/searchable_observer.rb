@@ -8,7 +8,9 @@ class SearchableObserver < ActiveRecord::Observer
     dependents = Islay::Engine.searches.assocs[name]
 
     if dependents
-      models = dependents.map {|d| model.send(d)}.flatten
+      models = dependents.map do |d| 
+        model.send(d)
+      end.flatten
       models.each {|m| Search.update_entry(m)}
     end
   end
