@@ -42,7 +42,8 @@ module Islay
       # @return string
       def update_time(model)
         tag = content_tag(:span, model.updated_at, :class => 'time', :title => model.updated_at)
-        tag + " by #{model[:updater_name] || model.updater.name}"
+        tag += " by #{model[:updater_name] || model.updater.name}" if model[:updater_name]
+        tag
       end
 
       # Creates markup for displaying an creation time and the name of the user
@@ -53,7 +54,8 @@ module Islay
       # @return string
       def creation_time(model)
         tag = content_tag(:span, model.created_at, :class => 'time', :title => model.created_at)
-        (tag + " by #{model[:creator_name] || model.creator.name}").html_safe
+        (tag + " by #{model[:creator_name] || model.creator.name}") if model[:creator_name]
+        tag.html_safe
       end
 
       # Creates a span element classed to display a tick or cross depending on
