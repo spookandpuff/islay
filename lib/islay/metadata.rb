@@ -143,7 +143,6 @@ module Islay
 
       def define_attribute(name, type, primitive, opts)
         raise ExistingAttributeError.new(name, @model) if column_names.include?(name)
-
         reader = case primitive
         when :array
           %{
@@ -167,7 +166,7 @@ module Islay
         @model.class_eval %{
           attr_accessible :#{name}
 
-          def #{name}(format = :string)
+          def #{name}(format = :native)
             #{reader}
           end
 
