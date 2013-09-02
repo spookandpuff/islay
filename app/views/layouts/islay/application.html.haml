@@ -42,10 +42,12 @@
           - sub_nav_entries.each do |entry|
             %li= entry
 
-    - if show_sub_bar?
       %div#sub-header
         - if sub_header?
+          %h1 #{_header} /
           = output_sub_header
+        - else
+          %h1= _header
 
         - if sort_nav?
           %ul.sort

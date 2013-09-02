@@ -532,7 +532,6 @@ module Islay
       def body_class
         output = params['action'].dasherize
         output << ' has-footer' if @has_footer
-        output << ' has-sub-header' if sub_header?
 
         output
       end
@@ -543,7 +542,7 @@ module Islay
       # TODO: Memoize this in production.
       def extension_nav_entries
         Islay::Engine.extensions.entries.map do |ns, ext|
-          ext.config[:nav_entries].map {|e| main_nav(e[:title], e[:icon], e[:route], e[:opts].dup)}
+          ext.config[:navigation].map {|e| main_nav(e[:title], e[:icon], e[:route], e[:opts].dup)}
         end.flatten.join.html_safe
       end
     end # AdminHelpers
