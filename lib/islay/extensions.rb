@@ -111,8 +111,22 @@ module Islay
       @config[:engine] = @config[:module].const_get('Engine')
     end
 
-    def nav_entry(title, route, opts = {})
-      @config[:nav_entries] << {:title => title, :route => route, :opts => opts}
+    # Defines an entry for the main navigation. 
+    #
+    # @param String title
+    # @param Symbol route
+    # @param String icon
+    # @param Hash opts
+    # @return nil
+    def nav_entry(title, route, icon = nil, opts = {})
+      @config[:nav_entries] << {
+        :title  => title, 
+        :icon   => icon || 'rocket', 
+        :route  => route, 
+        :opts   => opts
+      }
+
+      nil
     end
   end
 end

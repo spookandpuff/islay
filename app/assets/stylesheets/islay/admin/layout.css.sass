@@ -10,9 +10,6 @@ body
 body.has-footer #content
   margin-bottom: $footer-height + 1em !important
 
-body.has-sub-header
-  margin-top: $header-height + $sub-header-height
-
   #header
     border-bottom: none
 
@@ -35,6 +32,14 @@ body.has-sub-header
   form
     height: $sub-header-height
 
+.islay-nav
+  width: $body-margin-left
+  position: fixed
+  left: 0
+  top: 0
+  bottom: 0
+  z-index: 2
+
 #header,
 #sub-header,
 #footer
@@ -50,7 +55,7 @@ body.has-sub-header
 
 #sub-header
   height: $sub-header-height
-  top: $header-height
+  top: 0
   z-index: 2
 
 #footer
@@ -63,85 +68,6 @@ body.has-sub-header
   position: relative
   width: 100%
   z-index: 1
-
-/* -------------------------------------------------------------------------- */
-/* HEADER
-/* -------------------------------------------------------------------------- */
-#header
-  background: #F3F3F3
-  font-family: $alternate-font-family
-
-  h1
-    +islay-text-engraved
-    font-size: 1.2em
-    margin: 0.65em 0 0 0.6em
-    float: left
-
-    &.hide
-      +hide
-
-  a
-    +unstyled-link
-
-  ul, li, a
-    float: left
-
-  ul.nav
-    a
-      +text-shadow(white 1px 1px 1px)
-      font-weight: bold
-      color: $dark-grey
-      padding: 0.95em 0.8em 0 0.8em
-      height: $header-height - 0.9em
-
-      &:before
-        font-size: 1.2em
-        font-family: icons
-        margin-right: 0.4em
-        font-weight: normal
-
-      &.current
-        +background-image(linear-gradient(#4D7BAE, $highlight-color + 15))
-        +text-shadow(rgba(0, 0, 0, 0.3) -1px -1px 1px)
-        color: white
-
-      &.overview
-        +icon-eye-open
-
-      &.folder
-        +icon-folder-open
-
-      &.overview
-        +icon-eye-open
-
-      &.basket
-        +icon-shopping-cart
-
-      &.assets
-        +icon-picture
-
-      &.inbox
-        +icon-download-alt
-
-      &.tags
-        +icon-tag
-
-      &.processing
-        +icon-retweet
-
-    li:first-child a
-      border-left-width: 0
-
-  ul.controls
-    margin: 0.4em 1.6em 0 0
-    float: right
-
-    a
-      background: transparent
-      border-width: 0
-      margin-left: 0.8em
-      padding-left: 0
-      padding-right: 0
 
 /* -------------------------------------------------------------------------- */
 /* SUB HEADER
@@ -293,111 +219,139 @@ body.has-sub-header
       content: "Show"
 
 /* -------------------------------------------------------------------------- */
-/* SIDE BAR
+/* NAVIGATION
 /* -------------------------------------------------------------------------- */
-#side-bar
-  background: $side-bar-color
+$nav-color: #333333
+$nav-width: 16em
+$collapsed-nav-width: 4em
 
-  form
-    border-bottom: 0.1em solid $side-bar-color - 10
-    height: $header-height
+.islay-nav
+  background-color: $nav-color
+  color: white
+  width: $nav-width
+
+  a,
+  a:visited,
+  a:hover
+    color: white
+    text-decoration: none
+
+  // Shared styles
+  .entry
+    border: 0.1em solid transparent
+    border-radius: 0.1em
+    margin: 0.2em 0.4em
+    height: 2.6em
+    display: block
+    overflow: hidden
+
+    strong
+      margin-top: 0.6em
+      font-size: 1.2em
+      display: inline-block
+
+.islay-main-nav
+  background: #232323
+  width: $collapsed-nav-width
+  height: 100%
+  position: absolute
+  left: 0
+  top: 0
+  z-index: 2
+
+  li
     width: 100%
+
+  [class^="icon-"]
+    text-align: center
+    margin-top: 0.25em
+    font-size: 1.8em
+    width: 1.6em
+    line-height: 1
     float: left
+
+  .global-search 
+    margin-bottom: 0.2em
+    height: 2.9em
 
     input
-      +border-radius(2em)
-      +single-box-shadow($side-bar-color - 7, 0, 0, 0.3em, 0, true)
-      background: $side-bar-color + 30
-      border: 0.1em solid $side-bar-color - 6
-      color: white
-      margin-left: 1em
-      margin-top: 0.4em
+      border-width: 0
+      padding: 0.2em 0.6em
+      background: white
+      font-size: 0.8em
+      border-radius: 0.2em
+      width: $nav-width
+      padding: 0.6em 0.8em
+      margin: 0.6em 0 0 1.2em
       outline: none
-      padding: 0.6em 1em
-      width: $body-margin-left - 1.8em
+      float: left
 
-      &:focus
-        +single-box-shadow($highlight-color, 0, 0, 0.35em, 0.25em, true)
-        border-color: $highlight-color
-        background: $side-bar-color + 20
+    i
+      margin: 0.4em 0 0 0.2em
 
-  ul
-    font-family: $alternate-font-family
-    border-top: 0.1em solid $side-bar-color + 6
-    border-bottom: 0.1em solid $side-bar-color - 10
-    width: 1005
-    padding-top: 0.8em
-    padding-bottom: 0.8em
-    float: left
-
-  li, a
+  .current-user
+    position: absolute
+    bottom: 0
     width: 100%
-    float: left
 
-  a
-    +text-shadow(rgba(0, 0, 0, 0.4) -1px -1px 1px)
-    color: white !important
-    text-decoration: none !important
-    border-top: 0.1em solid transparent
-    border-bottom: 0.1em solid transparent
-    padding: 0.5em 0
-    text-indent: 1.2em
+    strong
+      float: left
 
-    &:before
-      font-family: icons
-      font-size: 1.2em
-      margin-right: 0.5em
+    // TODO: This might have to be removed in the future i.e. when selectors 
+    // are less promiscuous.
+    button 
+      border-width: 0
+      font-weight: normal
+      background: white
+      float: right
+      color: $link-color !important
+      text-shadow: none
+      margin: 0.5em 0.5em 0 0
+      padding: 0.2em 0.4em
 
-#side-bar a.current,
-#islay-admin-search #side-bar form
-  +background-image(linear-gradient(#4D7BAE, $highlight-color))
-  border-top-color: #6997CA
-  border-bottom-color: $side-bar-color - 10
-
-#islay-admin-search #side-bar form input
-  color: black
-  background: white
-  border-color: $highlight-color - 20
-
-#dashboard-nav
-  +icon-home
-
-#reports-nav
-  +icon-bar-chart
-
-#asset-library-nav
-  +icon-picture
-
-#users-nav
-  +icon-group
-
-#page-content-nav
-  +icon-edit
-
-#current-user
+// Sub Navigation
+.islay-sub-nav
   position: absolute
-  left: 1em
-  bottom: 1em
-  color: white
+  left: $collapsed-nav-width
+  top: 0
+  width: $nav-width - $collapsed-nav-width
+  height: 100%
+  z-index: 1
 
-  form
-    display: inline
-    border: 0 none
-    height: auto
-    width: auto
-    float: none
+  .entry strong
+    margin-left: 0.4em
 
-  button
+// Main Navigation states
+.islay-main-nav
+  // Default state
+  .entry strong,
+  .global-search input,
+  .current-user button
     display: none
 
-  label
-    cursor: pointer
-    color: $side-bar-link-color
-    &:hover
-      color: $side-bar-link-hover-color
-      text-decoration: underline
-    &:active
-      color: $side-bar-link-active-color
+  // Open state
+  &.open,
+  &:hover
+    width: $nav-width
+
+    .entry strong,
+    .global-search input,
+    .current-user button
+      display: block
+
+    .global-search 
+      background: $nav-color
+
+      .icon-search
+        display: none
+
+    .current-user .icon-user
+      display: none
+
+.islay-nav
+  .current
+    background: #1D86BF
+    border: 0.1em solid #23A1E6
 
 /* -------------------------------------------------------------------------- */
 /* INSET CONTENT

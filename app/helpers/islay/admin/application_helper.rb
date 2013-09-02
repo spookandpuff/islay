@@ -186,21 +186,29 @@ module Islay
 
       # Adds and entry to the main navigation bar. It will additionally highlight
       # the current entry.
-      def main_nav(name, path_name, opts = {})
+      #
+      # @param Symbol name
+      # @param String icon
+      # @param Symbol path_name
+      # @param Hash opts
+      # @return String
+      def main_nav(name, icon, path_name, opts = {})
         id ||= name.parameterize('-')
         url = path(path_name)
-        opts[:id] ||= "#{id}-nav"
         root = opts.delete(:root)
 
-        if (root and request.original_url == url) or (!root and request.original_url.match(%r{^#{url}}))
-          if opts[:class]
-            opts[:class] = "#{opts[:class]} current"
-          else
-            opts[:class] = 'current'
-          end
+        opts[:class] = if (root and request.original_url == url) or (!root and request.original_url.match(%r{^#{url}}))
+          "entry current"
+        else
+          "entry"
         end
 
-        content_tag(:li, link_to(name, url, opts))
+        content = [
+          content_tag(:i, '', :class => "icon-#{icon}"),
+          content_tag(:strong, name)
+        ].join('').html_safe
+
+        content_tag(:li, link_to(content, url, opts))
       end
 
       # Indicates if the sub-bar — containing titles and filters — should be
@@ -371,7 +379,7 @@ module Islay
       #
       # @return Array<String>
       def sub_nav(name, url, opts = {})
-        add_nav_entry(@sub_nav_entries ||= [], name, url, opts)
+        add_nav_entry(@sub_nav_entries ||= [], content_tag(:strong, name), url, opts.merge(:class => 'entry'))
       end
 
       # Indicates if any sub-nav entries have been defined.
@@ -535,7 +543,7 @@ module Islay
       # TODO: Memoize this in production.
       def extension_nav_entries
         Islay::Engine.extensions.entries.map do |ns, ext|
-          ext.config[:nav_entries].map {|e| main_nav(e[:title], e[:route], e[:opts].dup)}
+          ext.config[:nav_entries].map {|e| main_nav(e[:title], e[:icon], e[:route], e[:opts].dup)}
         end.flatten.join.html_safe
       end
     end # AdminHelpers

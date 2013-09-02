@@ -10,48 +10,36 @@
 
     = stylesheet_link_tag('islay/admin/islay')
     = stylesheet_link_tag('islay/admin/islay_print', :media => 'print')
+    = stylesheet_link_tag("//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css")
     = javascript_include_tag('islay/admin/islay')
 
   %body(id=body_id class=body_class)
     %div#main-header
       %h1 Islay
 
-    %div#side-bar
-      = form_tag(path(:search), :method => :get) do
-        = text_field_tag('term', nil, :placeholder => 'Search')
+    %div.islay-nav
+      %ul.islay-main-nav{:class => _nav ? 'closed' : 'open'}
+        %li
+          %form.global-search
+            %i.icon-search
+            %input(type='text' placeholder='Search')
 
-      %ul
-        = main_nav('Dashboard', :dashboard, :root => true)
-        = main_nav('Reports', :reports)
-        = extension_nav_entries
-        = main_nav('Page Content', :pages)
-        = main_nav('Asset Library', :asset_library)
-        = main_nav('Users', :users)
+        = main_nav("Dashboard", 'home', :dashboard, :root => true)
+        = main_nav("Reports", 'bar-chart', :reports)
+        = extension_nav_entries 
+        = main_nav("Assets", 'picture', :assets)
+        = main_nav("Configuration", 'cog', :users)
 
-      #current-user
-        = current_user.name
+        %li.current-user
+          = form_for(current_user, :url => :destroy_user_session, :method => :delete, :html => {:class => 'entry'}) do |f|
+            %i.icon-user
+            %strong= current_user.name
+            %button(type='submit') Sign out
 
-        = form_for(current_user, :url => :destroy_user_session, :method => :delete) do |f|
-          %label(for='sign-out-control') Sign out
-          %button#sign-out-control(type='submit') Sign out
-
-    %div#header
       - if _nav
         - render :partial => _nav
-
-      - if sub_nav?
-        %h1.hide= _header
-
-        %ul.nav
+        %ul.islay-sub-nav
           - sub_nav_entries.each do |entry|
-            %li= entry
-
-      - else
-        %h1= _header
-
-      - if controls?
-        %ul.controls
-          - control_entries.each do |entry|
             %li= entry
 
     - if show_sub_bar?
