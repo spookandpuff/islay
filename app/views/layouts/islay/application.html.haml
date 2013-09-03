@@ -20,9 +20,9 @@
     %div.islay-nav
       %ul.islay-main-nav{:class => _nav ? 'closed' : 'open'}
         %li
-          %form.global-search
+          = form_tag(path(:search), :method => :get, :class => 'global-search') do
             %i.icon-search
-            %input(type='text' placeholder='Search')
+            = text_field_tag('term', nil, :placeholder => 'Search')
 
         = main_nav("Dashboard", 'home', :dashboard, :root => true)
         = main_nav("Reports", 'bar-chart', :reports)
