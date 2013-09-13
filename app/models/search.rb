@@ -38,8 +38,9 @@ class Search < ActiveRecord::Base
     blk = Islay::Engine.searches.updates[name]
 
     if blk
-      terms = blk.call(model).reject{|k, v| k.empty?}.map do |term, weight|
-        "setweight(to_tsvector('pg_catalog.english', '#{term}'), '#{weight}')"
+      terms = blk.call(model).reject{|k, v| k.blank?}.map do |term, weight|
+        # term here has single quotes escaped using a gsub.
+        "setweight(to_tsvector('pg_catalog.english', '#{term.gsub("'", "''")}'), '#{weight}')"
       end
       update = "UPDATE #{model.class.table_name} SET terms = (#{terms.join(' || ')}) WHERE id = #{model.id}"
       ActiveRecord::Base.connection.execute(update)
