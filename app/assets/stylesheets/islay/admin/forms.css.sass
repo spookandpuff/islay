@@ -570,6 +570,36 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
       display: block
       font-size: 1.6em
 
+/* DATE PICKER */
+.islay-form-date-picker
+  +widget-gradient
+  +widget-border-radius
+  +input-border
+  padding: 0 $input-h-padding + 0.3em
+  height: $widget-height
+  width: 8em
+  display: inline-block
+  cursor: pointer
+  position: relative
+
+  .display
+    margin-top: 0.7em
+    float: left
+
+  .button
+    float: right
+    margin-top: 0.6em
+
+  .kalendae
+    +widget-border-radius
+    +input-border
+    background: white
+    margin: 0
+    position: absolute
+    top: 0.5em
+    left: 8.2em
+    z-index: 2
+
 /* SELECTIZE */
 .select2-container
   width: 24em
