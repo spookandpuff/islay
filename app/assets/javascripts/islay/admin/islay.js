@@ -9,9 +9,14 @@
 //= require_tree .
 //= require_extensions
 
-
 $SP.where('.[edit, new, create, update]').select('#islay-form').run(function(form) {
-  var FormView = new $SP.UI.Form({el: form});
+  form.find(':checkbox').islayCheckbox();
+  form.find('.radio_buttons').islayRadioButtons();
+  form.find('.select select').islaySelect();
+  form.find('.multi_select select').islaySelect();
+  form.find('.tree_select select').islaySelect('tree');
+  form.find('.multi_asset select').islayAssetPicker('multi');
+  form.find('input[name*="tag_summary"]').islaySelect('tags');
 });
 
 $SP.where('.[show, index]').select('table.sortable').run(function(table) {

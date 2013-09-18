@@ -541,7 +541,7 @@ $SP.UI.Widgets.DatePicker = $SP.UI.Widget.extend({
   },
 
   updateUI: function(val) {
-    this.dom.display.text(val.format('DD/MM/YYYY'));
+    if (val) {this.dom.display.text(val.format('DD/MM/YYYY'))};
   }
 });
 
@@ -987,7 +987,8 @@ $SP.UI.FormBindings.Generic.extend = Backbone.Model.extend;
 /* -------------------------------------------------------------------------- */
 $SP.UI.FormBindings.Date = $SP.UI.FormBindings.Generic.extend({
   updateInput: function(val) {
-    this.input.val(val.format('YYYY-MM-DD'));
+    var _val = moment(val);
+    if (_val) {this.input.val(val.format('YYYY-MM-DD'));}
   }
 });
 

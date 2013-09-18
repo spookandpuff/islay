@@ -9,14 +9,6 @@ $field-height: $border-width * 2 + $input-v-padding * 2 + 1em
 $form-inset-color: $light-grey + 20
 
 #islay-form
-  #content
-    +border-radius(0.3em)
-    +single-box-shadow(rgba(0, 0, 0, 0.05), 0, 0, 0, 2px)
-    background: white
-    border: 0.1em solid #CCC
-    margin: 1em 0 0 1.5%
-    width: 97%
-
   fieldset,
   .tabset
     border-top: 0.15em solid $light-grey
@@ -249,55 +241,6 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   .select2-drop-above .select2-choice
     +widget-border-radius(bottom-only)
 
-.select2-results
-  .entry
-    padding-top: 0.3em
-    display: block
-
-    span
-      &:before
-        font-family: Icons
-        margin-right: 0.4em
-        color: $mid-grey
-
-      +icon-folder-close
-
-  .depth-1
-    margin-left: 1.4em
-
-  .depth-2
-    margin-left: 2.4em
-
-  .depth-3
-    margin-left: 3.4em
-
-  .depth-4
-    margin-left: 4.4em
-
-  .depth-5
-    margin-left: 5.4em
-
-  .depth-6
-    margin-left: 6.4em
-
-  .depth-7
-    margin-left: 7.4em
-
-.select2-result-unselectable
-  color: $dark-grey
-
-  .entry span:before
-    color: $light-grey
-
-.select2-highlighted span:before
-  color: white !important
-
-/* Actual dropbox */
-.select2-drop
-  +widget-border-radius(bottom-only)
-  +input-border
-
-  border-top-width: 0
 
 /* BOOLEAN & SEGMENTED */
 .widget.boolean,
@@ -526,6 +469,182 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   padding-top: 4em
   height: 5em
   width: 10em
+
+/* NEW CHECKBOX */
+.islay-form-checkbox
+  float: left
+
+  span
+    +widget-gradient
+    +input-border
+    padding: 0 $input-h-padding + 0.3em
+    height: $widget-height
+    display: inline-block
+    cursor: pointer
+
+  i
+    font-size: 1.4em
+    margin-top: 0.3em
+    display: block
+
+  .off
+    +widget-border-radius(left)
+    border-right-width: 0
+
+  .on
+    +widget-border-radius(right)
+    border-left-width: 0
+
+  .selected i
+    color: white
+
+  .on.selected
+    background: #3E69A4
+    border-color: #3E69A4
+    border-left-width: auto
+
+  .off.selected
+    background: #9A9A9A
+    border-color: #878787
+    border-right-width: auto
+
+/* NEW RADIO BUTTONS */
+.islay-form-radio-buttons
+  float: left
+
+  span
+    +widget-gradient
+    +input-border
+    border-left-width: 0
+    padding: 0 $input-h-padding + 0.3em
+    height: $widget-height
+    display: inline-block
+    cursor: pointer
+
+    &:first-child
+      border-left-width: $border-width
+      +widget-border-radius(left)
+
+    &:last-child
+      +widget-border-radius(right)
+
+  i
+    display: block
+    margin-top: 0.7em
+
+  .selected
+    background: #3E69A4
+    border-color: #3E69A4
+    color: white
+
+/* ISLAY ASSET PICKER */
+.islay-form-asset-picker
+  float: left
+
+  li
+    +input-border
+    +widget-border-radius
+    height: 3em
+    width: 4em
+    overflow: hidden
+    margin-right: 0.5em
+    float: left
+    position: relative
+
+  img
+    width: 4em
+
+  .remove
+    padding: 0.2em
+    position: absolute
+    left: 0.3em
+    cursor: pointer
+
+  .add
+    cursor: pointer
+
+    i
+      text-align: center
+      margin-top: 0.4em
+      width: 100%
+      display: block
+      font-size: 1.6em
+
+/* SELECTIZE */
+.select2-container
+  width: 24em
+  float: left
+
+  .select2-choice
+    +input-border
+    +widget-gradient
+    color: black
+    padding: 0
+    height: $widget-height
+
+  .select2-chosen
+    padding-top: 0.2em
+    padding-left: 1em
+
+  .select2-dropdown-open .select2-choice
+    background: white !important
+    +widget-border-radius(top-only)
+    border-bottom-width: 0
+
+  .select2-drop-above .select2-choice
+    +widget-border-radius(bottom-only)
+
+  &.select2-dropdown-open .select2-choice
+    background: white
+
+.select2-results
+  .entry
+    padding-top: 0.3em
+    display: block
+
+    span
+      &:before
+        font-family: Icons
+        margin-right: 0.4em
+        color: $mid-grey
+
+      +icon-folder-close
+
+  .depth-1
+    margin-left: 1.4em
+
+  .depth-2
+    margin-left: 2.4em
+
+  .depth-3
+    margin-left: 3.4em
+
+  .depth-4
+    margin-left: 4.4em
+
+  .depth-5
+    margin-left: 5.4em
+
+  .depth-6
+    margin-left: 6.4em
+
+  .depth-7
+    margin-left: 7.4em
+
+.select2-result-unselectable
+  color: $dark-grey
+
+  .entry span:before
+    color: $light-grey
+
+.select2-highlighted span:before
+  color: white !important
+
+/* Actual dropbox */
+.select2-drop
+  +widget-border-radius(bottom-only)
+  +input-border
+  border-top-width: 0
 
 /* -------------------------------------------------------------------------- */
 /* TAB SET
