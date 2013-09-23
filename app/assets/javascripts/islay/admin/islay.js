@@ -18,6 +18,7 @@ $SP.where('.[edit, new, create, update]').select('#islay-form').run(function(for
   form.find('.multi_asset select').islayAssetPicker('multi');
   form.find('input[name*="tag_summary"]').islaySelect('tags');
   form.find('.date_picker input').islayDatePicker();
+  form.find('.islay-toggle').islayToggle();
 });
 
 $SP.where('.[show, index]').select('table.sortable').run(function(table) {
