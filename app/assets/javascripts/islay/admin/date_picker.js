@@ -12,7 +12,15 @@
 
     this.$wrapper.click($.proxy(this, 'toggle'));
     this.open = false;
-    this.update(this.$input.val());
+
+    // Check to see if there is a date/time string. Otherwise, default to today.
+    var val = this.$input.val().trim();
+    if (_.isEmpty(val)) {
+      this.update(new Date());
+    }
+    else {
+      this.update(val);
+    }
 
     this.$input.after(this.$wrapper).hide();
   };
