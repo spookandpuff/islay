@@ -14,28 +14,44 @@
 
     this.$off.click($.proxy(this, 'clickOff'));
     this.$on.click($.proxy(this, 'clickOn'));
+    this.$input.change($.proxy(this, 'change'));
 
     this.$input.parent('label').after(this.$wrapper);
     this.$input.hide();
 
-    if (this.$input.is(":checked")) {
-      this.clickOn();
-    }
-    else {
-      this.clickOff();
-    }
+    this.change();
   };
 
   Checkbox.prototype = {
+    change: function() {
+      if (this.$input.is(':checked')) {
+        this.$on.addClass('selected');
+        this.$off.removeClass('selected');
+      } 
+      else {
+        this.$off.addClass('selected');
+        this.$on.removeClass('selected');
+      }
+
+      if (this.$input.is(':disabled')) {
+        this.$wrapper.addClass('disabled');
+      }
+      else {
+        this.$wrapper.removeClass('disabled');
+      }
+    },
+
     clickOn: function() {
-      this.$on.addClass('selected');
-      this.$off.removeClass('selected');
-      this.$input.prop('checked', true);
+      if (!this.$wrapper.is('.disabled')) {
+        this.$input.prop('checked', true);
+        this.$input.trigger('change');
+      }
     },
     clickOff: function() {
-      this.$off.addClass('selected');
-      this.$on.removeClass('selected');
-      this.$input.prop('checked', false);
+      if (!this.$wrapper.is('.disabled')) {
+        this.$input.prop('checked', false);
+        this.$input.trigger('change');
+      }
     }
   };
 
