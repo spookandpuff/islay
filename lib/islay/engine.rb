@@ -10,6 +10,9 @@ module Islay
       config.active_record.observers = :searchable_observer
     end
 
+    # Remove the stupid div.field_with_errors wrapper Rails pollutes forms with.
+    ActionView::Base.field_error_proc = lambda {|tag, obj| tag}
+
     config.generators do |g|
       g.orm             :active_record
       g.template_engine :erb
