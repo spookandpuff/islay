@@ -360,33 +360,19 @@ $collapsed-nav-width: 4em
 /* -------------------------------------------------------------------------- */
 /* INSET CONTENT
 /* -------------------------------------------------------------------------- */
-table.inset,
-div.inset
+#content.inset
   margin-left: 2%
   width: 96%
 
-table.inset
-  border: 0.1em solid $header-border-color
+  table
+    border: 0.1em solid $header-border-color
+    margin-left: 0
+    width: 100%
 
-#content
-  &.inset
-    margin-left: 2%
-    margin-right: 2%
-    margin-top: 1.5em
-    padding-bottom: 2em
-    width: 96%
-
-    table
-      border: 0.1em solid $header-border-color
-      margin-left: 0
-      width: 100%
-
-  h3.inset
+  h3
     border-top: 0.1em solid $header-border-color
     margin-top: 1.5em
     padding-top: 1.5em
-    padding-left: 2%
-    width: 98%
 
 /* -------------------------------------------------------------------------- */
 /* GENERAL PURPOSE CLEAR/GROUP

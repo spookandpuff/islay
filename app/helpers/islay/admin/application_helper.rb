@@ -151,11 +151,14 @@ module Islay
       #
       # @param String name
       # @param String icon 
+      # @param Hash opts
+      # @option opts String :when_blank
       # @return String
-      def record_name(name, icon)
+      def record_name(name, icon, opts = {})
+        _name = name.blank? ? opts[:when_blank] : name
         render(
           :partial => 'islay/admin/shared/record_name',
-          :locals => {:name => name, :icon => icon}
+          :locals => {:name => _name, :icon => icon}
         )
       end
 
