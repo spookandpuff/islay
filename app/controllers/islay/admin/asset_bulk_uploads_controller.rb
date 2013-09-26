@@ -1,5 +1,6 @@
 class Islay::Admin::AssetBulkUploadsController < Islay::Admin::ApplicationController
   before_filter :initialize_upload_and_find_group
+  nav 'islay/admin/asset_library/nav'
 
   def new
 

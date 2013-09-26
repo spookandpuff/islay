@@ -1,6 +1,7 @@
 = resource_form(@user) do |f|
+  = record_name(@user.name, 'user', :when_blank => 'New User')
   = content do
-    = f.fieldset do
+    = f.fieldset(:class => 'primary') do
       = f.input(:name, :col => 6)
       = f.input(:email, :col => 6)
 
@@ -8,4 +9,4 @@
       = f.input(:password)
 
   = footer do
-    = f.submit 'Save'
+    = save_button

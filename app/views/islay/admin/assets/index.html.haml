@@ -1,4 +1,4 @@
-- sub_header('Assets')
+- breadcrumb('Assets')
 
 - filter_nav(:assets, 'All')
 - filter_nav(:assets, 'Images', 'images')
@@ -10,7 +10,7 @@
 - sort_nav(:assets, 'Created', 'created_at')
 - sort_nav(:assets, 'Updated', 'updated_at')
 
-= content(:class => 'inset') do
+= content(:class => 'inset inset-vertical') do
   = render :partial => 'grid', :locals => {:assets => @assets}
 
 = footer do

@@ -1,4 +1,4 @@
-- control('User', path(:new, :user), :new)
+- breadcrumb('Users')
 
 = content do
   %table(cellpadding=0 cellspacing=0)
@@ -14,3 +14,6 @@
           %td.time= user.updated_at
           %td= link_to('Edit', path(:edit, user))
           %td= link_to('Delete', path(:delete, user))
+
+= footer do
+  = new_button('User', :user)

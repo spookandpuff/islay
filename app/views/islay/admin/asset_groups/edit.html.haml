@@ -1,3 +1,6 @@
-- sub_header('Edit Collection', @asset_group.name)
+- breadcrumb('Assets', :assets)
+- breadcrumb('Collections', :asset_groups)
+- breadcrumb(@asset_group.name, @asset_group)
+- breadcrumb('Edit')
 
 = render :partial => 'form'

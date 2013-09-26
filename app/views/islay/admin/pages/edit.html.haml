@@ -1,7 +1,10 @@
-- sub_header('Content', path(:pages))
-- prefixed_sub_header('Edit Page', @page.name)
+- breadcrumb('Pages', :pages)
+- breadcrumb(@page.name, @page)
+- breadcrumb('Edit')
 
 = resource_form(@page, :url => path(:page, :id => params[:id]), :method => :put) do |f|
+  = record_name(@page.name, 'file-text')
+
   = content do
     = f.fieldset('Content') do
       - @page.each do |slug, type, name, val|

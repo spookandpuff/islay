@@ -1,8 +1,14 @@
-- sub_header('Bulk Upload Assets')
+- breadcrumb('Assets', :assets)
+- breadcrumb('Collections', :asset_groups)
+- ancestor_breadcrumbs(@asset_group)
+- breadcrumb('Bulk Upload')
 
 = resource_form(@asset_bulk_upload, :url => path(@asset_group, :asset_bulk_uploads), :multipart => true) do |f|
+  = record_name('Bulk Upload', 'arrow-up')
+
   = content do
-    = f.input(:upload, :label => 'File', :as => 'file')
+    = f.fieldset(:class => 'primary') do
+      = f.input(:upload, :label => 'File', :as => 'file')
 
   = footer do
     = save_button('Upload')

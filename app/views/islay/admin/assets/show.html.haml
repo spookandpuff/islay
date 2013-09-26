@@ -1,5 +1,8 @@
-- sub_header(@asset.group.name, path(@asset.group))
-- prefixed_sub_header(@asset.kind.capitalize, @asset.name)
+- breadcrumb('Assets', :assets)
+- ancestor_breadcrumbs(@asset.group)
+- breadcrumb("#{@asset.kind.capitalize}: #{@asset.name}")
+
+= record_name(@asset.name, 'picture')
 
 = content(:class => 'inset') do
   = column(4, :class => 'asset-preview') do

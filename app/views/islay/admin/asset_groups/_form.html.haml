@@ -1,9 +1,11 @@
 = resource_form(@asset_group) do |f|
+  = record_name(@asset_group.name, 'folder-close', :when_blank => 'New Collection')
+
   = content do
     = f.fieldset(:class => 'primary') do
       = f.input(:name)
       - unless @asset_groups.empty?
-        = f.input(:asset_group_id, :collection => @asset_groups, :selected =>params[:parent], :label => 'Collection', :include_blank => true)
+        = f.input(:asset_group_id, :collection => @asset_groups, :selected =>params[:parent], :label => 'Parent', :include_blank => true)
 
   = footer do
     = save_button

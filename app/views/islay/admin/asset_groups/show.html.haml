@@ -1,6 +1,8 @@
-- prefixed_sub_header('Collection', @asset_group.name)
+- breadcrumb('Assets', :assets)
+- breadcrumb('Collections', :asset_groups)
+- breadcrumb(@asset_group.name)
 
-= content(:class => 'inset') do
+= content(:class => 'inset inset-vertical') do
   - unless @asset_group.children.empty?
     %ul.group-list
       - @asset_group.children.each do |group|
