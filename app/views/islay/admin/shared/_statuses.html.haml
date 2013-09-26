@@ -1,0 +1,6 @@
+%ul.statuses
+  - statuses.each do |s|
+    %li
+      %span.key= s[:title]
+      %span{:class => "value indicator #{s[:mode]}"}= s[:value]
+

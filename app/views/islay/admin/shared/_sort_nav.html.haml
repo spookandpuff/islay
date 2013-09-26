@@ -1,0 +1,9 @@
+%ul{:class => "sort fold-true"}
+  - entries.each do |name, url, current|
+    %li
+      - if current
+        = link_to(name, url, :class => 'current')
+      - else
+        = link_to(name, url)
+
+

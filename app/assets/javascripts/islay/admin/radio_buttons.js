@@ -8,7 +8,9 @@
   var RadioButtons = function(el) {
     this.$wrapper = $('<span class="islay-form-radio-buttons"></span>');
     this.inputs = {};
+    this.segments = {};
     var self = this; // Ugh! fuckin jQuery's scoping bullshit
+    var changeProxy = $.proxy(this, 'change');
 
     el.find(':radio').each(function() {
       var $this = $(this),
@@ -18,10 +20,11 @@
           $segment = $('<span></span>').attr('data-for', name).append($text);
 
       self.inputs[name] = $this;
+      self.segments[name] = $segment;
       self.$wrapper.append($segment);
       $label.hide();
-
-      if ($this.is(':checked')) {self.select($segment);}
+      self.update($this, $segment);
+      $this.on('change', changeProxy);
     });
 
     this.$wrapper.click($.proxy(this, 'click'));
@@ -30,20 +33,35 @@
   };
 
   RadioButtons.prototype = {
-    select: function(el) {
-      if (this.$current) {this.$current.removeClass('selected');}
-      el.addClass('selected');
-      this.inputs[el.attr('data-for')].prop('checked', true);
-      this.$current = el;
+    change: function(e) {
+      var $target = $(e.target),
+          $segment = this.segments[$target.attr('value')];
+
+      this.update($target, $segment);
+    },
+
+    update: function($target, $segment) {
+      if ($target.is(':checked')) {
+        if (this.$current) {this.$current.removeClass('selected');}
+        $segment.addClass('selected');
+        this.$current = $segment;
+      }
+
+      if ($target.is(':disabled')) {
+        $segment.addClass('disabled');
+      }
+      else {
+        $segment.removeClass('disabled');
+      }
     },
 
     click: function(e) {
       var $target = $(e.target);
-      if ($target.is('span')) {
-        this.select($target);
-      }
-      else {
-        this.select($target.parent('span'));
+      if (!$target.is('span')) {$target = $target.parent('span');}
+      if (!$target.is('.disabled')) {
+        this.inputs[$target.attr('data-for')]
+            .prop('checked', true)
+            .trigger('change');
       }
     }
   };

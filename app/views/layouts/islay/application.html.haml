@@ -14,10 +14,10 @@
     = javascript_include_tag('islay/admin/islay')
 
   %body(id=body_id class=body_class)
-    %div#main-header
-      %h1 Islay
+    %h1.islay-layout-app-name 
+      Islay
 
-    %div.islay-nav
+    %div.islay-layout-nav
       %ul.islay-main-nav{:class => _nav ? 'closed' : 'open'}
         %li
           = form_tag(path(:search), :method => :get, :class => 'global-search') do
@@ -43,19 +43,11 @@
           - sub_nav_entries.each do |entry|
             %li= entry
 
-      %div#sub-header
-        - if sub_header?
-          %h1 #{_header} /
-          = output_sub_header
-        - else
-          %h1= _header
-
-        - if sort_nav?
-          %ul.sort
-            = sort_nav_entries
-
-        - if filter_nav?
-          %ul(class="filters fold-#{fold_filter_nav?}")
-            = filter_nav_entries
+    %div.islay-layout-header
+      %h2= _header
+      = render_breadcrumbs
+      = render_statuses
+      = render_filter_nav
+      = render_sort_nav
 
     = yield

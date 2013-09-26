@@ -2,6 +2,7 @@ module Islay
   module Admin
     module ApplicationHelper
       include ::Islay::ApplicationHelper
+      include ::Islay::Admin::HeaderHelper
 
       # Accessors used to store various bits of configuration, which are then
       # used in the main layout of the admin,
@@ -145,6 +146,19 @@ module Islay
         end
       end
 
+      # Renders a partial which creates a nicely styled header. Intended to be 
+      # used on record overviews and forms.
+      #
+      # @param String name
+      # @param String icon 
+      # @return String
+      def record_name(name, icon)
+        render(
+          :partial => 'islay/admin/shared/record_name',
+          :locals => {:name => name, :icon => icon}
+        )
+      end
+
       # Add a supporting entry to the summary pane, which sits alongside the breadcrumbs/headings
       #
       # @param blk
@@ -281,95 +295,6 @@ module Islay
         else
           true
         end
-      end
-
-      # Adds an entry into the filter navigation, which appears below the
-      # sub-navigation. Typically used to filter lists of records.
-      #
-      # @param Symbol route the route set to use to generate link
-      # @param String name to display
-      # @param String by the field to filter by
-      #
-      # @return Hash<Array>
-      def filter_nav(route, name, by = nil)
-        @filter_nav ||= {:entries => []}
-
-        if by
-          url = path(:filter_and_sort, route, :filter => by, :sort => params[:sort], :page => params[:page])
-          if request.original_url.match(%r{^#{url}})
-            @filter_nav[:current] = url
-            @filter_nav[:entries] << [name, url, true]
-          else
-            @filter_nav[:entries] << [name, url]
-          end
-        else
-          url = path(:filter_and_sort, route, :filter => nil, :sort => params[:sort], :page => params[:page])
-          entry = [name, url]
-          @filter_nav[:default] = entry
-          @filter_nav[:entries] << entry
-        end
-      end
-
-      # Indicates if any filter nav entries have been specified.
-      #
-      # @return Boolean
-      def filter_nav?
-        !!@filter_nav
-      end
-
-      # Generates a HTML safe string of the filter nav entries
-      #
-      # @return String
-      def filter_nav_entries
-        output_nav_entries(@filter_nav)
-      end
-
-      # Adds an entry into the sort navigation. This is a control which allows
-      # uses to change the order in which lists of records are displayed.
-      #
-      # @param Symbol route the route set to use to generate link
-      # @param String name to display
-      # @param String by the field to sort by
-      #
-      # @return Hash<Array>
-      def sort_nav(route, name, by = nil)
-        @sort_nav ||= {:entries => []}
-
-        if by
-          url = path(:filter_and_sort, route, :sort => by, :filter => params[:filter], :page => params[:page])
-          if request.original_url.match(%r{^#{url}})
-            @sort_nav[:current] = url
-            @sort_nav[:entries] << [name, url, true]
-          else
-            @sort_nav[:entries] << [name, url]
-          end
-        else
-          url = path(:filter_and_sort, route, :sort => nil, :filter => params[:filter], :page => params[:page])
-          entry = [name, url]
-          @sort_nav[:default] = entry
-          @sort_nav[:entries] << entry
-        end
-      end
-
-      # Indicates if any sort nav entries have been specified.
-      #
-      # @return Boolean
-      def sort_nav?
-        !!@sort_nav
-      end
-
-      # Generates a HTML safe string of the sort nav entries
-      #
-      # @return String
-      def sort_nav_entries
-        output_nav_entries(@sort_nav)
-      end
-
-      # Indicates if the filter or sorting nav should be displayed.
-      #
-      # @return Boolean
-      def filter_or_sort_nav?
-        sort_nav? or filter_nav?
       end
 
       # Adds an entry into the sub navigation, which will appear in the bar

@@ -1,0 +1,8 @@
+%ol.breadcrumb
+  - breadcrumbs.each do |e|
+    %li
+      - if e[:opts].empty?
+        %span= e[:title]
+      - else
+        = link_to(e[:title], path(*e[:opts]))
+

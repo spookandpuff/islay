@@ -5,7 +5,7 @@
 body
   background: $body-color
   color: $text-color
-  margin: $header-height 0 0 $body-margin-left
+  margin: $sub-header-height 0 0 $body-margin-left
 
 body.has-footer #content
   margin-bottom: $footer-height + 1em !important
@@ -13,12 +13,11 @@ body.has-footer #content
 /* -------------------------------------------------------------------------- */
 /* MAIN CONTENT BLOCKS
 /* -------------------------------------------------------------------------- */
-#main-header
+.islay-layout-app-name
   position: absolute
   left: -1000em
 
-#side-bar
-  border-right: 0.1em solid #CCC - 10
+.islay-layout-nav
   width: $body-margin-left
   position: fixed
   left: 0
@@ -26,31 +25,13 @@ body.has-footer #content
   bottom: 0
   z-index: 2
 
-  form
-    height: $sub-header-height
-
-.islay-nav
-  width: $body-margin-left
-  position: fixed
-  left: 0
-  top: 0
-  bottom: 0
-  z-index: 2
-
-#header,
-#sub-header,
+.islay-layout-header,
 #footer
   position: fixed
   left: $body-margin-left
   right: 0
 
-#header
-  border-bottom: 0.1em solid $light-grey
-  height: $header-height
-  top: 0
-  z-index: 3
-
-#sub-header
+.islay-layout-header,
   height: $sub-header-height
   top: 0
   z-index: 2
@@ -67,25 +48,28 @@ body.has-footer #content
   z-index: 1
 
 /* -------------------------------------------------------------------------- */
-/* SUB HEADER
+/* HEADER
 /* -------------------------------------------------------------------------- */
-#sub-header
+.islay-layout-header
   +background-image($dimension-raised-subtle)
   +box-shadow(0 0.1em 0.6em rgba(0,0,0,0.1))
   background-color: #FFF
   border-top: 0.1em solid $header-border-color
   border-bottom: 0.1em solid $header-border-color
 
-  h1,
+  h2
+    position: absolute
+    left: -1000em
+
   h2,
   .breadcrumb
     +islay-text-engraved
     color: $dark-grey
     float: left
     font-weight: bold
-    font-size: 1.5em
+    font-size: 1.2em
     margin-left: 0.6em
-    margin-top: 0.55em
+    margin-top: 0.8em
 
     strong
       color: $mid-grey
@@ -111,27 +95,31 @@ body.has-footer #content
       display: inline-block
       text-decoration: none
 
-
-  .summary,
-  #summary
+  .statuses
     border-bottom: 0
     float: right
+    margin-top: 0.7em
     margin-right: 1em
     width: auto
+
     li
-      .key
-        display: none
-      .value
-        +border-radius(0.3em)
-        +background-image($dimension-dished)
-        padding: 0.3em 0.55em 0.2em 0.55em
+      float: left
+
+    .key
+      display: none
+
+    .value
+      +border-radius(0.2em)
+      +background-image($dimension-dished)
+      padding: 0.3em 0.55em 0.2em 0.55em
+      margin-left: 0.5em
 
 
 /* -------------------------------------------------------------------------- */
 /* FILTERS
 /* Filters listings of records
 /* -------------------------------------------------------------------------- */
-#sub-header,
+.islay-layout-header,
 .dialog
   ul.filters,
   ul.sort
@@ -223,7 +211,7 @@ $nav-color: #333333
 $nav-width: 16em
 $collapsed-nav-width: 4em
 
-.islay-nav
+.islay-layout-nav
   background-color: $nav-color
   color: white
   width: $nav-width
@@ -350,6 +338,24 @@ $collapsed-nav-width: 4em
   .current
     background: #1D86BF
     border: 0.1em solid #23A1E6
+
+/* -------------------------------------------------------------------------- */
+/* RECORD NAME
+/* To be displayed in at the top of record overviews and forms.
+/* -------------------------------------------------------------------------- */
+.islay-record-name
+  margin-left: 2%
+  width: 96%
+  padding: 1.6em 0 1.4em 0
+  border-bottom: 0.1em solid $header-border-color
+
+  i
+    font-size: 2em
+    padding-right: 0.3em
+
+  span
+    font-weight: bold
+    font-size: 2em
 
 /* -------------------------------------------------------------------------- */
 /* INSET CONTENT
