@@ -352,6 +352,39 @@ $collapsed-nav-width: 4em
     border: 0.1em solid #23A1E6
 
 /* -------------------------------------------------------------------------- */
+/* ADD ITEM DIALOG
+/* A little dialog that pops up with options for the user to add items.
+/* -------------------------------------------------------------------------- */
+.islay-add-item-menu
+  width: 100%
+  float: left
+
+  li
+    border-bottom: 0.1em solid $light-grey
+    width: 100%
+    float: left
+
+  a
+    +unstyled-link
+    color: $link-color !important
+    text-decoration: none !important
+    padding: 0.8em 1.2em
+    display: block
+
+    &:hover
+      color: white !important
+      background: $link-color
+
+  i
+    text-align-center
+    width: 1.1em
+    font-size: 1.6em
+    display: inline-block !important
+
+  strong
+    font-size: 1.4em
+
+/* -------------------------------------------------------------------------- */
 /* RECORD NAME
 /* To be displayed in at the top of record overviews and forms.
 /* -------------------------------------------------------------------------- */

@@ -36,6 +36,7 @@ module Islay
     def initialize
       @config = {
         :nav_entries        => [],
+        :add_item_entries   => [],
         :reports_entries    => [],
         :admin_scripts      => false,
         :admin_styles       => false,
@@ -43,6 +44,18 @@ module Islay
         :dashboard          => [],
         :reports_dashboard  => []
       }
+    end
+
+    # Defines an entry in the add items collection. These are links that are 
+    # rendered in the Add Item dialog.
+    #
+    # @param String title
+    # @param Symbol route
+    # @param String icon
+    # @return nil
+    def add_item_entry(title, route, icon)
+      @config[:add_item_entries] << {:title => title, :route => route, :icon => icon}
+      nil
     end
 
     # Specifies a cell and the position it should be displayed within the

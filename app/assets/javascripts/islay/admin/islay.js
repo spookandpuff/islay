@@ -44,6 +44,19 @@ $(function() {
     e.preventDefault();
   });
 
+  $('#islay-add-item').on('click', function(e) {
+    var $target = $(this);
+    if ($target.data('addDialog')) {
+      $target.data('addDialog').show();
+    }
+    else {
+      var dialog = new Islay.Dialogs.Add({url: $target.attr('href'), title: $target.attr('title')});
+      $target.data('addDialog', dialog);
+    }
+
+    e.preventDefault();
+  });
+
   $('button.print').click(function(){window.print()})
 
   $SP.init();

@@ -164,6 +164,29 @@ Islay.Dialogs.Confirmation = Islay.Dialogs.Base.extend({
 });
 
 /* -------------------------------------------------------------------------- */
+/* ADD DIALOG
+/* -------------------------------------------------------------------------- */
+Islay.Dialogs.Add = Islay.Dialogs.Base.extend({
+  size: {width: "26em", height: "34em"},
+  sizing: 'fixed',
+  format: 'HTML',
+
+  titleText: function() {
+    return this.options.title;
+  },
+
+  loaded: function(res) {
+    this.contentEl.append(res);
+    this.formEl = this.$el.find('form');
+  },
+
+  render: function() {
+    this.cancelEl = $H('button.cancel', 'Cancel').click(this.close);
+    this.controlsEl.append(this.cancelEl);
+  }
+});
+
+/* -------------------------------------------------------------------------- */
 /* ASSET BROWSER
 /* -------------------------------------------------------------------------- */
 Islay.Dialogs.AssetBrowser = Islay.Dialogs.Base.extend({

@@ -30,6 +30,7 @@
         = main_nav("Page Contents", 'file-text', :pages)
         = main_nav("Assets", 'picture', :assets)
         = main_nav("Configuration", 'cog', :users)
+        = main_nav("Add Item", 'plus-sign', :add_item, :id => 'islay-add-item', :title => 'Add a New Item')
 
         %li.islay-current-user
           = form_for(current_user, :url => :destroy_user_session, :method => :delete, :html => {:class => 'entry'}) do |f|

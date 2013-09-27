@@ -10,8 +10,9 @@ Rails.application.routes.draw do
 
   islay_admin 'islay' do
     # DASHBOARD & SEARCH
-    get '/'       => 'dashboard#index', :as => 'dashboard'
-    get '/search' => 'search#index',    :as => 'search'
+    get '/'         => 'dashboard#index',     :as => 'dashboard'
+    get '/add-item' => 'dashboard#add_item',  :as => 'add_item'
+    get '/search'   => 'search#index',        :as => 'search'
 
     # REPORTS
     get 'reports' => 'reports#index', :as => 'reports'
