@@ -123,12 +123,8 @@ body.has-footer #content
 .dialog
   ul.filters,
   ul.sort
-    margin: 0.8em 1em 0 0.5em
-    padding-left: 1em
+    margin: 0.7em 1em 0 0.5em
     float: right
-
-    &:last-child
-      padding-left: 0
 
     &:before
       color: $dark-grey
@@ -140,7 +136,7 @@ body.has-footer #content
       float: left
 
     a
-      +border-radius(0.8em)
+      +border-radius(0.3em)
       +unstyled-link
       border: 1px solid transparent
       color: $dark-grey
@@ -179,11 +175,8 @@ body.has-footer #content
       a
         display: block
 
-  ul.sort
-    border-left: 0.1em solid $light-grey
-
-    &:before
-      content: "Sort"
+  ul.sort:before
+    content: "Sort"
 
   ul.filters
     li
