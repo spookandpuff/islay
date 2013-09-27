@@ -20,7 +20,7 @@
     %div.islay-layout-nav
       %ul.islay-main-nav{:class => _nav ? 'closed' : 'open'}
         %li
-          = form_tag(path(:search), :method => :get, :class => 'global-search') do
+          = form_tag(path(:search), :method => :get, :class => 'islay-global-search') do
             %i.icon-search
             = text_field_tag('term', nil, :placeholder => 'Search')
 
@@ -31,11 +31,13 @@
         = main_nav("Assets", 'picture', :assets)
         = main_nav("Configuration", 'cog', :users)
 
-        %li.current-user
+        %li.islay-current-user
           = form_for(current_user, :url => :destroy_user_session, :method => :delete, :html => {:class => 'entry'}) do |f|
             %i.icon-user
             %strong= current_user.name
-            %button(type='submit') Sign out
+            %button(type='submit') 
+              %i.icon-signout
+              %span Sign out
 
       - if _nav
         - render :partial => _nav
