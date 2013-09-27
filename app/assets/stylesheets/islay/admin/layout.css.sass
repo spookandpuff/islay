@@ -226,13 +226,13 @@ $collapsed-nav-width: 4em
   .entry
     border: 0.1em solid transparent
     border-radius: 0.1em
-    margin: 0.2em 0.4em
-    height: 2.6em
+    margin: 0.4em 0.4em
+    height: 2.2em
     display: block
     overflow: hidden
 
     strong
-      margin-top: 0.6em
+      margin-top: 0.4em
       font-size: 1.2em
       display: inline-block
 
@@ -250,7 +250,7 @@ $collapsed-nav-width: 4em
 
   [class^="icon-"]
     text-align: center
-    margin-top: 0.25em
+    margin-top: 0.15em
     font-size: 1.8em
     width: 1.6em
     line-height: 1
@@ -262,18 +262,16 @@ $collapsed-nav-width: 4em
 
     input
       border-width: 0
-      padding: 0.2em 0.6em
-      background: white
-      font-size: 0.8em
-      border-radius: 0.2em
-      width: $nav-width
-      padding: 0.6em 0.8em
-      margin: 0.6em 0 0 1.2em
+      font-family: inherit
+      background: $nav-color
+      color: white
+      font-size: 1.2em
+      width: 10em
+      padding: 0.6em 0 0 0
       outline: none
-      float: left
 
     i
-      margin: 0.4em 0 0 0.2em
+      margin: 0.3em 0 0 0.2em
 
   .current-user
     position: absolute
@@ -327,9 +325,6 @@ $collapsed-nav-width: 4em
 
     .global-search 
       background: $nav-color
-
-      .icon-search
-        display: none
 
     .current-user .icon-user
       display: none
