@@ -57,6 +57,8 @@ $(function() {
     e.preventDefault();
   });
 
+  $('.islay-global-search [type="text"]').islaySearch();
+
   $('button.print').click(function(){window.print()})
 
   $SP.init();

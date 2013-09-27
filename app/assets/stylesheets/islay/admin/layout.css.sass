@@ -276,6 +276,11 @@ $collapsed-nav-width: 4em
     i
       margin: 0.2em 0 0 0.2em
 
+    .close
+      left: auto
+      right: 0 !important
+      opacity: 0
+
   .islay-current-user
     position: absolute
     bottom: 0
@@ -337,6 +342,7 @@ $collapsed-nav-width: 4em
 
     .entry strong,
     .islay-global-search input,
+    .islay-global-search .close,
     .islay-current-user button
       opacity: 1
 
@@ -345,6 +351,9 @@ $collapsed-nav-width: 4em
 
     .islay-current-user .icon-user
       display: none
+
+  &.searching .entry
+    display: none
 
 .islay-layout-nav
   .current
