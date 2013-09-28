@@ -77,6 +77,7 @@ body.has-footer #content
   .breadcrumb
     li
       display: inline-block
+
       &:after
         +islay-text-inset
         content: '❯'
@@ -85,9 +86,11 @@ body.has-footer #content
         margin-right: 0.6em
         padding-left: 0.75em
         vertical-align: -0.1em
+
       &:last-child
-        color: $text-color + 20
-        font-family: $alternate-font-family
+        span, a
+          color: $text-color + 20 !important
+
         &:after
           content: none
     a
@@ -98,7 +101,7 @@ body.has-footer #content
   .statuses
     border-bottom: 0
     float: right
-    margin-top: 0.65em
+    margin-top: 0.75em
     margin-right: 1em
     width: auto
 
@@ -246,7 +249,7 @@ $collapsed-nav-width: 3.5em
   [class^="icon-"]
     text-align: center
     font-size: 1.6em
-    width: 1.6em
+    width: 1.65em
     line-height: 1
     position: absolute
     left: 0
@@ -378,7 +381,7 @@ $collapsed-nav-width: 3.5em
 .islay-layout-nav
   .current,
   li:hover .entry,
-  li:hover .search-entry
+  li.result:hover .search-entry
     background: #1D86BF
     border-color: #23A1E6
 
@@ -462,7 +465,6 @@ $collapsed-nav-width: 3.5em
 /* -------------------------------------------------------------------------- */
 /* FOOTER
 /* -------------------------------------------------------------------------- */
-
 #footer,
 .table-footer
   +background-image(linear-gradient(#FFFFFF, #ECECEC))
@@ -480,7 +482,7 @@ $collapsed-nav-width: 3.5em
     display: none
 
   .button, button
-    margin: 0.5em 0 0 1em
+    margin: 0.6em 0 0 1em
 
   .new
     color: $dark-grey
@@ -489,7 +491,7 @@ $collapsed-nav-width: 3.5em
   .delete,
   .save
     float: right
-    margin: 0.5em 1em 0 0
+    margin: 0.6em 1em 0 0
 
   .move-up,
   .move-down
@@ -576,16 +578,13 @@ $i: 0
 
 /* -------------------------------------------------------------------------- */
 /* BUTTONS
-
 /* Button face colors:
 /* $button-text-color: #FFF
 /* $button-primary-color: #2C5A8D
 /* $button-secondary-color: #E1E1E1
 /* $button-positive-color: #39A22B
 /* $button-negative-color: #C42217
-
 /* -------------------------------------------------------------------------- */
-
 a.button,
 button
   +border-radius(0.3em)
@@ -604,6 +603,7 @@ button
   &:hover,
   &:focus
     +background-image($dimension-raised-active)
+    text-decoration: none
 
   &:active
     +text-shadow(none)
@@ -670,7 +670,7 @@ span.indicator
   color: white
   text-align: center
   font-family: $alternate-font-family
-  padding: 0.3em 0.6em
+  padding: 0.3em 0.4em
   float: left
 
   &.neutral
