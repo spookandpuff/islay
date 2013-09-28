@@ -1,4 +1,6 @@
-- sub_header('Asset Tag', @asset_tag.name)
+- breadcrumb('Asset Library', :asset_library)
+- breadcrumb('Tags', :asset_tags)
+- breadcrumb(params[:id])
 
-= content(:class => 'inset') do
+= content(:class => 'inset inset-vertical') do
   = render :partial => 'islay/admin/assets/grid', :locals => {:assets => @assets}

@@ -1,4 +1,7 @@
-- sub_header('Asset Processing')
+- breadcrumb('Asset Library', :asset_library)
+- breadcrumb('Processing', :asset_processes)
+- if params[:filter]
+  - breadcrumb(params[:filter].capitalize)
 
 - filter_nav(:asset_processes, 'All')
 - filter_nav(:asset_processes, 'Enqueued', 'enqueued')

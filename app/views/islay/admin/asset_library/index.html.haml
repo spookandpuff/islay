@@ -1,7 +1,6 @@
-- sub_header('Asset Library')
+- breadcrumb('Asset Library')
 
 = content(:class => 'inset') do
-
   %h3 Latest Uploads
   = render :partial => 'islay/admin/assets/grid', :locals => {:assets => @latest_assets, :upload_prompt => true}
 

@@ -1,4 +1,7 @@
-- breadcrumb('Assets')
+- breadcrumb('Asset Library', :asset_library)
+- breadcrumb('Assets', :assets)
+- if params[:filter]
+  - breadcrumb(params[:filter].capitalize)
 
 - filter_nav(:assets, 'All')
 - filter_nav(:assets, 'Images', 'images')
