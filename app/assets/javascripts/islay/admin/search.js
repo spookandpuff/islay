@@ -31,7 +31,7 @@
       this.entries = [];
       this.selectedIndex = null;
       _.each(response, function(r) {
-        var $anchor = $('<a><strong>' + r.name + '</strong><span>' + r.type + '</span></a>');
+        var $anchor = $('<a class="search-entry"><strong>' + r.name + '</strong><span>' + r.type + '</span></a>');
         var $result = $('<li class="result"></li>');
         $anchor.attr('href', r.url)
         $result.append($anchor);
@@ -85,8 +85,8 @@
     handleUp: function() {
       if (this.entries.length > 0 && this.selectedIndex !== null && this.selectedIndex !== 0) {
         var index = this.selectedIndex - 1;
-        this.entries[this.selectedIndex].removeClass('current');
-        this.entries[index].addClass('current');
+        this.entries[this.selectedIndex].find('a').removeClass('current');
+        this.entries[index].find('a').addClass('current');
         this.selectedIndex = index;
       }
     },
@@ -96,14 +96,14 @@
         if (this.selectedIndex !== null) {
           var index = this.selectedIndex + 1;
           if (index !== this.entries.length) {
-            this.entries[this.selectedIndex].removeClass('current');
-            this.entries[index].addClass('current');
+            this.entries[this.selectedIndex].find('a').removeClass('current');
+            this.entries[index].find('a').addClass('current');
             this.selectedIndex = index;
           }
         }
         else {
           this.selectedIndex = 0;
-          this.entries[0].addClass('current');
+          this.entries[0].find('a').addClass('current');
         }
       }
     },

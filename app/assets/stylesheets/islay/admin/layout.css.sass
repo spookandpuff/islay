@@ -220,7 +220,8 @@ $collapsed-nav-width: 4em
     text-decoration: none
 
   // Shared styles
-  .entry
+  .entry,
+  .search-entry
     border: 0.1em solid transparent
     border-radius: 0.1em
     margin: 0.4em 0.4em
@@ -257,6 +258,16 @@ $collapsed-nav-width: 4em
     strong
       text-indent: 2.4em
       white-space: nowrap
+
+  .search-entry
+    height: auto
+
+    strong
+      margin-left: 1em
+
+    span
+      margin: 0.2em 0 0.6em 1.2em
+      display: block
 
   .islay-global-search 
     height: 3.15em
@@ -355,10 +366,19 @@ $collapsed-nav-width: 4em
   &.searching .entry
     display: none
 
+// Hover and Current
+.islay-main-nav,
+.islay-sub-nav
+  &:hover .current
+    background: #555
+    border-color: #666
+
 .islay-layout-nav
-  .current
+  .current,
+  .entry:hover,
+  .search-entry:hover
     background: #1D86BF
-    border: 0.1em solid #23A1E6
+    border-color: #23A1E6
 
 /* -------------------------------------------------------------------------- */
 /* ADD ITEM DIALOG
