@@ -660,6 +660,42 @@ a.button
   text-decoration: none
 
 /* -------------------------------------------------------------------------- */
+/* INDICATOR
+/* For statuses and counts.
+/* -------------------------------------------------------------------------- */
+span.indicator
+  +border-radius(0.2em)
+  text-transform: uppercase
+  background-color: $mid-grey
+  color: white
+  text-align: center
+  font-family: $alternate-font-family
+  padding: 0.3em 0.6em
+  float: left
+
+  &.neutral
+    background-color: $neutral-color
+
+  &.ok
+    background-color: $positive-color
+
+  &.warning
+    background-color: $negative-color
+
+  &.for_sale
+    background-color: $positive-color
+
+  &.discontinued
+    background-color: $neutral-color
+
+  &.not_for_sale
+    background-color: $negative-color
+
+.indicator.status
+  font-size: 0.9em
+  white-space: nowrap
+
+/* -------------------------------------------------------------------------- */
 /* PLACEHOLDER
 /* Displays a message and links on pages where the user has yet to add records.
 /* -------------------------------------------------------------------------- */
