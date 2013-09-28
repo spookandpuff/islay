@@ -69,7 +69,7 @@ body.has-footer #content
     font-weight: bold
     font-size: 1.2em
     margin-left: 0.6em
-    margin-top: 0.8em
+    margin-top: 0.7em
 
     strong
       color: $mid-grey
@@ -98,7 +98,7 @@ body.has-footer #content
   .statuses
     border-bottom: 0
     float: right
-    margin-top: 0.7em
+    margin-top: 0.65em
     margin-right: 1em
     width: auto
 
@@ -123,7 +123,7 @@ body.has-footer #content
 .dialog
   ul.filters,
   ul.sort
-    margin: 0.7em 1em 0 0.5em
+    margin: 0.6em 1em 0 0.5em
     float: right
 
     &:before
@@ -202,7 +202,7 @@ body.has-footer #content
 /* -------------------------------------------------------------------------- */
 $nav-color: #333333
 $nav-width: 16em
-$collapsed-nav-width: 4em
+$collapsed-nav-width: 3.5em
 
 .islay-layout-nav
   background-color: $nav-color
@@ -224,7 +224,7 @@ $collapsed-nav-width: 4em
   .search-entry
     border: 0.1em solid transparent
     border-radius: 0.1em
-    margin: 0.4em 0.4em
+    margin: 0.3em 0.3em
     height: 2.2em
     display: block
     overflow: hidden
@@ -245,12 +245,12 @@ $collapsed-nav-width: 4em
 
   [class^="icon-"]
     text-align: center
-    font-size: 1.8em
+    font-size: 1.6em
     width: 1.6em
     line-height: 1
     position: absolute
     left: 0
-    top: 0.15em
+    top: 0.2em
 
   .entry
     position: relative
@@ -270,8 +270,9 @@ $collapsed-nav-width: 4em
       display: block
 
   .islay-global-search 
-    height: 3.15em
+    height: 2.7em
     overflow: hidden
+    border-bottom: 0.1em solid transparent
 
     input
       border-width: 0
@@ -279,7 +280,7 @@ $collapsed-nav-width: 4em
       background: transparent
       color: white
       font-size: 1.2em
-      margin-left: 2.9em
+      margin-left: 2.6em
       width: 10em
       padding: 0.7em 0 0 0
       outline: none
@@ -298,7 +299,7 @@ $collapsed-nav-width: 4em
     width: 100%
 
     strong
-      text-indent: 0.2em
+      text-indent: 0.4em
       float: left
 
     // TODO: This might have to be removed in the future i.e. when selectors 
@@ -308,7 +309,7 @@ $collapsed-nav-width: 4em
       font-weight: normal
       background: transparent
       text-shadow: none
-      margin: 0.3em 0 0 0
+      margin: 0.4em 0 0 0
       padding: 0
       float: right
 
@@ -359,6 +360,7 @@ $collapsed-nav-width: 4em
 
     .islay-global-search 
       background: $nav-color
+      border-color: #444
 
     .islay-current-user .icon-user
       display: none
@@ -375,8 +377,8 @@ $collapsed-nav-width: 4em
 
 .islay-layout-nav
   .current,
-  .entry:hover,
-  .search-entry:hover
+  li:hover .entry,
+  li:hover .search-entry
     background: #1D86BF
     border-color: #23A1E6
 
