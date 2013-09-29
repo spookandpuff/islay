@@ -285,14 +285,15 @@ $collapsed-nav-width: 3.5em
       font-size: 1.2em
       margin-left: 2.6em
       width: 10em
-      padding: 0.7em 0 0 0
+      padding: 0.6em 0 0 0
       outline: none
 
     i
-      margin: 0.2em 0 0 0.2em
+      margin: 0.15em 0 0 0.2em
 
     .close
       left: auto
+      margin-top: 0.25em
       right: 0 !important
       opacity: 0
 
@@ -371,19 +372,19 @@ $collapsed-nav-width: 3.5em
   &.searching .entry
     display: none
 
-// Hover and Current
-.islay-main-nav,
-.islay-sub-nav
-  &:hover .current
-    background: #555
-    border-color: #666
-
-.islay-layout-nav
+// Current Highlight
+.islay-layout-nav 
   .current,
-  li:hover .entry,
-  li.result:hover .search-entry
     background: #1D86BF
     border-color: #23A1E6
+
+  li:hover .entry,
+  .islay-global-search-results li:hover .search-entry
+    color: #23A1E6 + 30
+
+  li:hover .current,
+  .islay-global-search-results li:hover .current
+    color: white
 
 /* -------------------------------------------------------------------------- */
 /* ADD ITEM DIALOG
