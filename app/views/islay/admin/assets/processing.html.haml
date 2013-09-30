@@ -15,7 +15,7 @@
 
 = form_tag(path(:asset_processes), :method => :put) do
   = content do
-    %table
+    %table.fixed-header
       %thead
         %tr
           %th.select= check_box_tag('all')
