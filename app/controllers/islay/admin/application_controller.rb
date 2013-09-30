@@ -4,8 +4,8 @@ class Islay::Admin::ApplicationController < Islay::ApplicationController
   layout 'layouts/islay/application'
   before_filter :authenticate_user!, :store_user_in_thread
 
-  class_attribute :_header, :_route_scopes, :_nav
-  helper_method :_header, :_nav
+  class_attribute :_header, :_route_scopes, :_nav, :_nav_scope
+  helper_method :_header, :_nav, :nav_scope
 
   self._route_scopes = {}
 
@@ -61,6 +61,24 @@ class Islay::Admin::ApplicationController < Islay::ApplicationController
   # @return String
   def self.nav(path)
     self._nav = path
+  end
+
+  # A declaration for defining the navigation scope. This name corresponds to
+  # the name used when defining navigation entries within the engine 
+  # initializers.
+  #
+  # @param Symbol name
+  # @return Symbol
+  def self.nav_scope(name)
+    self._nav_scope = name
+  end
+
+  # Returns the nav scope for the current controller. This is the symbol 
+  # declared by the ::nav_scope class method.
+  #
+  # @return Symbol
+  def nav_scope
+    self.class._nav_scope
   end
 
   def self.resourceful(model, opts = {})

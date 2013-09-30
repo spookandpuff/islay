@@ -17,20 +17,12 @@
       Islay
 
     %div.islay-layout-nav
-      %ul.islay-main-nav{:class => _nav ? 'closed' : 'open'}
+      %ul.islay-main-nav{:class => sub_nav? ? 'closed' : 'open'}
         %li
           = form_tag(path(:search), :method => :get, :class => 'islay-global-search') do
             %i.icon-search
             = text_field_tag('term', nil, :placeholder => 'Search')
-
-        = main_nav("Dashboard", 'home', :dashboard, :root => true)
-        = main_nav("Reports", 'bar-chart', :reports)
         = extension_nav_entries 
-        = main_nav("Page Contents", 'file-text', :pages)
-        = main_nav("Assets", 'picture', :asset_library)
-        = main_nav("Configuration", 'cog', :users)
-        = main_nav("Add Item", 'plus-sign', :add_item, :id => 'islay-add-item', :title => 'Add a New Item')
-
         %li.islay-current-user
           = form_for(current_user, :url => :destroy_user_session, :method => :delete, :html => {:class => 'entry'}) do |f|
             %i.icon-user
@@ -39,11 +31,7 @@
               %i.icon-signout
               %span Sign out
 
-      - if _nav
-        - render :partial => _nav
-        %ul.islay-sub-nav
-          - sub_nav_entries.each do |entry|
-            %li= entry
+      = render_sub_nav
 
     %div.islay-layout-header
       %h2= _header

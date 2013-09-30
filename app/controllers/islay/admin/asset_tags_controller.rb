@@ -1,6 +1,6 @@
 class Islay::Admin::AssetTagsController < Islay::Admin::ApplicationController
-  header 'Blog - Tags'
-  nav 'islay/admin/asset_library/nav'
+  header 'Asset Library - Tags'
+  nav_scope :asset_library
 
   def index
     @asset_tags = AssetTag.summary.order('name')

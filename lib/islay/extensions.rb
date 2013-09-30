@@ -35,7 +35,6 @@ module Islay
 
     def initialize
       @config = {
-        :nav_entries        => [],
         :add_item_entries   => [],
         :reports_entries    => [],
         :admin_scripts      => false,
@@ -124,72 +123,15 @@ module Islay
       @config[:engine] = @config[:module].const_get('Engine')
     end
 
-    # A class which wraps the configuration of Islay's navigation. It is used
-    # privately and should never be directly instanced.
-    class NavigationConfig
-      attr_reader :sections
-
-      def initialize
-        @sections = []
-      end
-
-      def section(title, route, icon = nil, opts = {}, &blk)
-        @sections << {
-          :title        => title,
-          :route        => route,
-          :icon         => icon || 'rocket',
-          :opts         => opts,
-          :sub_sections => []
-        }
-
-        if block_given?
-          @current = @sections.last
-          blk.call(self)
-        end
-      end
-
-      def sub_section(name, path)
-        @current[:sub_sections] << {:name => name, :path => path}
-      end
-    end
-
-    # A convenience method for defining the main navigation and it's 
-    # sub-sections.
+    # Defines or extends a navigation section.
     #
+    # @param Symbol name
+    # @param Integer priority
     # @param Proc blk
     # @return nil
-    def navigation(&blk) 
-      blk.call(navigation_config)
-      @config[:navigation] = navigation_config.sections
-
+    def nav_section(name, priority = 2, &blk) 
+      Islay::Navigation.section(name, priority, &blk)
       nil
-    end
-
-    # Defines an entry for the main navigation. This remains here for backwards
-    # compatibility only. It will be removed in the future.
-    #
-    # @param String title
-    # @param Symbol route
-    # @param String icon
-    # @param Hash opts
-    # @return nil
-    # @todo Remove this method
-    def nav_entry(title, route, icon = nil, opts = {})
-      ActiveSupport::Deprecation.warn("#nav_entry is deprecated and may be removed from future releases. Use #navigation.", caller)
-      navigation_config.section(title, route, icon, opts)
-      @config[:navigation] = navigation_config.sections
-
-      nil
-    end
-
-    private
-
-    # Lazily constructs an instance of the navigation config and caches it in
-    # the #config Hash.
-    #
-    # @return NavigationConfig
-    def navigation_config
-      @navigation_config ||= NavigationConfig.new
     end
   end
 end

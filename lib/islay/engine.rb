@@ -23,6 +23,17 @@ module Islay
       Islay::Sprockets.configure(Rails.application)
     end
 
+    # Returns the nav entries defined across all the extensions. This pulls the
+    # entries from the navigation module and orders them by priority. 
+    #
+    # @return Hash
+    def self.nav_entries
+      @@nav_entries ||= begin
+        sorted = Islay::Navigation.sections.sort {|x, y| x.last[:priority] <=> y.last[:priority]}
+        Hash[*sorted.flatten(1)]
+      end
+    end
+
     def self.content
       @@pages ||= Pages.new
       yield(@@pages) if block_given?

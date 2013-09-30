@@ -2,7 +2,7 @@ module Islay
   module Admin
     class AssetLibraryController < ApplicationController
       header 'Asset Library'
-      nav 'nav'
+      nav_scope :asset_library
 
       def index
         @groups         = AssetGroup.summary.top_level.order('name')

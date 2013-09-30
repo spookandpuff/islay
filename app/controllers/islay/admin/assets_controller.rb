@@ -2,8 +2,8 @@ module Islay
   module Admin
     class AssetsController < ApplicationController
       resourceful :asset
-      header 'Asset Library'
-      nav 'islay/admin/asset_library/nav'
+      header 'Asset Library - Assets'
+      nav_scope :asset_library
 
       before_filter :set_params, :only => :update
 

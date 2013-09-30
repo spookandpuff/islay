@@ -130,22 +130,6 @@ module Islay
         content_tag(opts.delete(:el) || :div, capture(&blk), opts)
       end
 
-      # Adds an entry into the sub header navigation, which is used to create breadcrumbs or headings
-      #
-      # @param content string
-      #
-      # @return Array
-      def sub_header(text, link = nil)
-        @sub_header_entries ||= []
-
-
-        @sub_header_entries <<  if link
-          link_to(text, link)
-        else
-          text
-        end
-      end
-
       # Renders a partial which creates a nicely styled header. Intended to be 
       # used on record overviews and forms.
       #
@@ -160,45 +144,6 @@ module Islay
           :partial => 'islay/admin/shared/record_name',
           :locals => {:name => _name, :icon => icon}
         )
-      end
-
-      # Add a supporting entry to the summary pane, which sits alongside the breadcrumbs/headings
-      #
-      # @param blk
-      def sub_header_status(&blk)
-        @sub_header_status_entry = capture(&blk)
-      end
-
-      def prefixed_sub_header(prefix, text, link = nil)
-        @sub_header_entries ||= []
-
-        @sub_header_entries << if link
-          link_to("#{content_tag(:strong, prefix)} #{text}", link)
-        else
-          "#{content_tag(:strong, prefix)} #{text}".html_safe
-        end
-      end
-
-      # Indicates if there is a sub-header defined.
-      #
-      # @return Boolean
-      def sub_header?
-        !!@sub_header_entries or !!@sub_header_status_entry
-      end
-
-      def output_sub_header
-        if @sub_header_entries.count > 1
-          crumb_items = @sub_header_entries.map do |c|
-            content_tag(:li, c)
-          end.join
-
-          output = content_tag(:ol, crumb_items.html_safe, :class => 'breadcrumb')
-        else
-          output = content_tag(:h2, *@sub_header_entries)
-        end
-
-        output << @sub_header_status_entry unless @sub_header_status_entry.blank? 
-        output
       end
 
       # Adds and entry to the main navigation bar. It will additionally highlight
@@ -226,14 +171,6 @@ module Islay
         ].join('').html_safe
 
         content_tag(:li, link_to(content, url, opts))
-      end
-
-      # Indicates if the sub-bar — containing titles and filters — should be
-      # displayed.
-      #
-      # @return Boolean
-      def show_sub_bar?
-        sub_header? or filter_nav? or sort_nav?
       end
 
       # A utility method shared between the nav methods, which handles flagging
@@ -276,7 +213,6 @@ module Islay
         end.join.html_safe
       end
 
-
       # Provides control over the 'folding' behaviour of the filter nav. By
       # default it only displays the current selection, but in some cases we
       # need all of them shown.
@@ -300,21 +236,12 @@ module Islay
         end
       end
 
-      # Adds an entry into the sub navigation, which will appear in the bar
-      # below the main header. Works in conjunction with the #control helper
-      # but not the #sub_header helper; the nav and sub header sit in the same
-      # place on screen.
-      #
-      # @return Array<String>
-      def sub_nav(name, url, opts = {})
-        add_nav_entry(@sub_nav_entries ||= [], content_tag(:strong, name), url, opts.merge(:class => 'entry'))
-      end
-
       # Indicates if any sub-nav entries have been defined.
       #
       # @return Boolean
       def sub_nav?
-        @sub_nav_entries and !@sub_nav_entries.empty?
+        section = Islay::Engine.nav_entries[nav_scope]
+        section and !section[:sub_nav].empty?
       end
 
       # Writes a link out into the bar below the main header. Usually used in
@@ -330,6 +257,40 @@ module Islay
       # @return Boolean
       def controls?
         @control_entries and !@control_entries.empty?
+      end
+
+      # Conditionally renders the sub navigation for the specified nav scope. 
+      # The nav scope is defined on each controller using the ::nav_scope 
+      # declaration.
+      #
+      # @return [String, nil]
+      def render_sub_nav
+        if sub_nav?
+          entries = Islay::Engine.nav_entries[nav_scope][:sub_nav].map do |s|
+            url = path(s[:route])
+            if current_entry?(url, s[:opts][:root])
+              s.merge(:url => url, :current => true)
+            else
+              s.merge(:url => url)
+            end
+          end
+
+          render(
+            :partial => 'islay/admin/shared/sub_nav',
+            :locals => {:entries => entries}
+          )
+        end
+      end
+
+      # Checks to see if the specified URL matches the original requested URL.
+      # This is a utility method for generating navigation entries and the 
+      # like.
+      #
+      # @param String url
+      # @param [nil, true, false] root
+      # @return [true, false]
+      def current_entry?(url, root)
+        (root and request.original_url == url) or (!root and request.original_url.match(%r{^#{url}}))
       end
 
       # This method is used to capture the main content for a page and wrap it
@@ -469,8 +430,8 @@ module Islay
       #
       # TODO: Memoize this in production.
       def extension_nav_entries
-        Islay::Engine.extensions.entries.map do |ns, ext|
-          ext.config[:navigation].map {|e| main_nav(e[:title], e[:icon], e[:route], e[:opts].dup)}
+        Islay::Engine.nav_entries.map do |name, e|
+          main_nav(e[:title], e[:icon], e[:route], e[:opts].dup)
         end.flatten.join.html_safe
       end
     end # AdminHelpers

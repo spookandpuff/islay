@@ -1,0 +1,9 @@
+%ul.islay-sub-nav
+  - entries.each do |e|
+    %li
+      - if e[:current]
+        %a{:class => 'entry current', :href => e[:url]}
+          %strong= e[:title]
+      - else
+        %a{:class => 'entry', :href => e[:url]}
+          %strong= e[:title]
