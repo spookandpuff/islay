@@ -2,6 +2,9 @@
 Islay::Engine.extensions.register do |e|
   e.namespace :islay
 
+  e.add_item_entry('Asset', :asset, 'picture')
+  e.add_item_entry('User', :user, 'user')
+
   e.nav_section(:dashboard, 1) do |s|
     s.root('Dashboard', :dashboard, 'home', :root => true)
   end
