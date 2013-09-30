@@ -6,6 +6,7 @@
 //= require ../../vendor/jquery.sortable
 //= require ../../vendor/select2
 //= require ../../vendor/mustache
+//= require ../../vendor/jquery.stickytableheaders.min
 //= require_tree .
 //= require_extensions
 
@@ -60,6 +61,9 @@ $(function() {
   $('.islay-global-search [type="text"]').islaySearch();
 
   $('button.print').click(function(){window.print()})
+
+  // Where specified, make table headers stick to the top of the screen
+  $('#content table.fixed-header').stickyTableHeaders({fixedOffset: $('.islay-layout-header')});
 
   $SP.init();
 });
