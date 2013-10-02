@@ -4,33 +4,39 @@
 /* $(':checkbox').islayCheckbox()
 /* -------------------------------------------------------------------------- */
 (function($) {
-  var Checkbox = function(input) {
+  var Checkbox = function(input, opts) {
     this.$input = input;
-    this.$off = $('<span class="off"><i class="icon-remove"></i></span>');
-    this.$on = $('<span class="on"><i class="icon-ok"></i></span>');
-
     this.$wrapper = $('<span class="islay-form-checkbox"></span>');
-    this.$wrapper.append(this.$off, this.$on);
-
-    this.$off.click($.proxy(this, 'clickOff'));
-    this.$on.click($.proxy(this, 'clickOn'));
+    this.$wrapper.click($.proxy(this, 'toggle'));
     this.$input.change($.proxy(this, 'change'));
 
-    this.$input.parent('label').after(this.$wrapper);
-    this.$input.hide();
+    var label = this.$input.parent('label');
 
+    if (opts && opts.mode == 'depressed') {
+      this.$text = $('<span class="depressed-text"><i>' + label.text() + '</i></span>');
+      this.$wrapper.append(this.$text);
+      label.hide();
+    }
+    else {
+      this.$off = $('<span class="off-button"><i class="icon-remove"></i></span>');
+      this.$on = $('<span class="on-button"><i class="icon-ok"></i></span>');
+      this.$wrapper.append(this.$off, this.$on);
+    }
+
+    label.after(this.$wrapper);
+    this.$input.hide();
     this.change();
   };
 
   Checkbox.prototype = {
     change: function() {
       if (this.$input.is(':checked')) {
-        this.$on.addClass('selected');
-        this.$off.removeClass('selected');
+        this.$wrapper.addClass('on');
+        this.$wrapper.removeClass('off');
       } 
       else {
-        this.$off.addClass('selected');
-        this.$on.removeClass('selected');
+        this.$wrapper.addClass('off');
+        this.$wrapper.removeClass('on');
       }
 
       if (this.$input.is(':disabled')) {
@@ -41,25 +47,19 @@
       }
     },
 
-    clickOn: function() {
+    toggle: function() {
       if (!this.$wrapper.is('.disabled')) {
-        this.$input.prop('checked', true);
-        this.$input.trigger('change');
-      }
-    },
-    clickOff: function() {
-      if (!this.$wrapper.is('.disabled')) {
-        this.$input.prop('checked', false);
+        this.$input.attr('checked', !this.$input.is(':checked'));
         this.$input.trigger('change');
       }
     }
   };
 
-  $.fn.islayCheckbox = function() {
+  $.fn.islayCheckbox = function(opts) {
     this.each(function() {
       var $this = $(this);
       if (!$this.data('islayCheckbox')) {
-        $this.data('islayCheckbox', new Checkbox($this));
+        $this.data('islayCheckbox', new Checkbox($this, opts));
       }
     });
     return this;

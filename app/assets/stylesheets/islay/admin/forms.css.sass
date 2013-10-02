@@ -486,28 +486,42 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     display: inline-block
     cursor: pointer
 
-  i
+  .depressed-text
+    +widget-border-radius
+
+    i
+      margin-top: 0.7em
+      display: block
+
+  .off-button i,
+  .on-button i
     font-size: 1.4em
     margin-top: 0.3em
     display: block
 
-  .off
+  .off-button
     +widget-border-radius(left)
     border-right-width: 0
 
-  .on
+  .on-button
     +widget-border-radius(right)
     border-left-width: 0
 
-  .selected i
+  &.on .on-button,
+  &.on .depressed-text,
+  &.off .off-button
     color: white
 
-  .on.selected
-    background: #3E69A4
-    border-color: #3E69A4
-    border-left-width: auto
+  &.on 
+    .on-button
+      border-left-width: auto
 
-  .off.selected
+    .on-button,
+    .depressed-text
+      background: #3E69A4
+      border-color: #3E69A4
+
+  &.off .off-button
     background: #9A9A9A
     border-color: #878787
     border-right-width: auto

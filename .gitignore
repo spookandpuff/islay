@@ -4,3 +4,4 @@ log/*.log
 pkg/
 tmp/
 spec/dummy/
+db/schema.rb

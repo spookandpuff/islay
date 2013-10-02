@@ -11,7 +11,7 @@
 //= require_extensions
 
 $SP.where('.[edit, new, create, update]').select('#islay-form').run(function(form) {
-  form.find(':checkbox').islayCheckbox();
+  form.find('.boolean :checkbox').islayCheckbox();
   form.find('.radio_buttons').islayRadioButtons();
   form.find('.select select').islaySelect();
   form.find('.multi_select select').islaySelect();
