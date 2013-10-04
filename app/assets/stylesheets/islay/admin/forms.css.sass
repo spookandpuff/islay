@@ -14,8 +14,7 @@ $error-color: #954F3A
     width: 96%
     margin-left: 2%
 
-  fieldset,
-  .tabset
+  fieldset
     border-top: 0.15em solid $light-grey
     padding-top: $field-margin
     width: 100%
@@ -98,7 +97,7 @@ form
   input[type=tel],
   input[type=number],
   textarea
-    +border-radius(0.2em)
+    +border-radius(0.1em)
     +background-image(linear-gradient(#E8E8E8 0, #FAFAFA 3px))
     border: 0.1em solid #B6B9BC
     float: left
@@ -117,7 +116,7 @@ form
 /* FANCY WIDGETS
 /* -------------------------------------------------------------------------- */
 $widget-border-color: #B3BBC3
-$widget-border-radius: 0.33em
+$widget-border-radius: 0.2em
 $widget-width: 32em + ($input-h-padding * 2)
 $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 
@@ -697,24 +696,30 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   border-top-width: 0
 
 /* -------------------------------------------------------------------------- */
-/* TAB SET
+/* FORM TABS
 /* -------------------------------------------------------------------------- */
-.tabset li
-  font-weight: bold
-  border: $border-width solid transparent
-  padding: 0.8em 1.5em
-  margin-bottom: -$border-width
-  cursor: default
+.islay-form-tabs
+  padding: 0.7em 0
+  width: 100%
   float: left
 
-  &.selected
-    +widget-border-radius(top)
-    background: white
-    border-color: $widget-border-color
-    border-bottom-color: white !important
+  li
+    line-height: 1
+    margin: 0 !important
+    float: left
 
-  &:first-child
-    margin-left: 1.5em
+  a
+    +border-radius(0.3em)
+    text-decoration: none
+    color: inherit
+    border: 0.2em solid transparent
+    font-weight: bold
+    padding: 0.35em 1.2em 0.05em 1.2em
+    display: block
+
+  a.current
+    border-color: $bright-blue
+    color: $bright-blue - 20
 
 /* -------------------------------------------------------------------------- */
 /* ERROR FLAGS
