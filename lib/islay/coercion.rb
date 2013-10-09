@@ -4,6 +4,14 @@ module Islay
       v.to_s
     end
 
+    # Coerces the input into a SpookAndPuff::Money instance
+    # 
+    # @param [String, BigDecimal, Numeric] v
+    # @return SpookAndPuff::Money
+    def coerce_money(v)
+      SpookAndPuff::Money.new(v.to_s)
+    end
+
     def coerce_date(v)
       if v.blank?
         Date.today

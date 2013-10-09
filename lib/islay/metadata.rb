@@ -102,6 +102,15 @@ module Islay
         define_attribute(name, :float, :float, opts)
       end
 
+      # Defines an attribute which stores an instance of SpookAndPuff::Money
+      #
+      # @param Symbol name
+      # @param Hash opts
+      # @return nil
+      def money(name, opts = {})
+        define_attribute(name, :money, :money, opts)
+      end
+
       private
 
       def define_validations(name, type, primitive, opts)
@@ -130,6 +139,10 @@ module Islay
 
           if opts[:less_than]
             config[:less_than] = opts[:less_than]
+          end
+
+          unless opts[:required]
+            config[:allow_nil] = true
           end
 
           @model.validates_numericality_of(name, config)
@@ -177,6 +190,8 @@ module Islay
 
         define_validations(name, type, primitive, opts)
         @attributes[name] = opts.merge!(:type => type)
+
+        nil
       end
 
       def column_names
