@@ -21,6 +21,9 @@
 
     this.selectedIndex = null;
 
+    // Check to see if the nav should stay open when searching is complete.
+    this.shouldClose = !this.$list.is('.open');
+
     // Bind update to preserve scope when using it as an AJAX callback.
     this.update = $.proxy(this, 'update');
   };
@@ -117,7 +120,8 @@
     close: function() {
       this.$input.val('');
       this.$close.hide();
-      this.$list.removeClass('open').removeClass('searching');
+      this.$list.removeClass('searching');
+      if (this.shouldClose) {this.$list.removeClass('open');}
       this.$resultsContainer.hide();
       this.$results.empty();
       this.selectedIndex = null;
