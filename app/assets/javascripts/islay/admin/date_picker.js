@@ -22,12 +22,14 @@
       this.update(val);
     }
 
+    $(document).click($.proxy(this, 'clickOutside'));
+
     this.$input.after(this.$wrapper).hide();
   };
 
   DatePicker.prototype = {
-    toggle: function() {
-      if (this.open) {
+    toggle: function(e) {
+      if (this.open && this.$picker.has(e.target).length === 0) {
         this.$picker.hide();
         this.open = false;
       }
@@ -42,6 +44,13 @@
       }
     },
 
+    clickOutside: function(e) {
+      if (this.open && !this.$wrapper.is(e.target) && this.$wrapper.has(e.target).length === 0) {
+        this.$picker.hide();
+        this.open = false;
+      }
+    },
+
     update: function(date) {
       var val = moment(date);
       this.current = val;
@@ -52,7 +61,8 @@
     updateFromPicker: function() {
       var date = this.picker.getSelectedRaw()[0];
       this.update(date);
-      this.toggle();
+      this.$picker.hide();
+      this.open = false;
     }
   };
 
