@@ -14,4 +14,5 @@
         %td= log.event.humanize
         %td.meta
           %span.time= log.created_at
-          by #{log.user_name}
+          - unless log.user_name.blank?
+            by #{log.user_name}
