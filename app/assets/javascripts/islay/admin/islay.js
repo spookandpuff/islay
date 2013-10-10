@@ -2,13 +2,28 @@
 //= require ./namespace
 //= require ../../vendor/underscore
 //= require ../../vendor/backbone
-//= require ../../vendor/jquery.prettydate
 //= require ../../vendor/jquery.sortable
 //= require ../../vendor/select2
 //= require ../../vendor/mustache
 //= require ../../vendor/jquery.stickytableheaders.min
 //= require_tree .
 //= require_extensions
+
+// Customise moment so it puts days first. This is a bit cheaper than putting
+// in support for languages.
+moment.lang('en', {
+  longDateFormat : {
+    LT: "h:mm A",
+    L: "DD/MM/YYYY - h:m A",
+    l: "D/M/YYYY",
+    LL: "MMMM Do YYYY",
+    ll: "MMM D YYYY",
+    LLL: "MMMM Do YYYY LT",
+    lll: "MMM D YYYY LT",
+    LLLL: "dddd, MMMM Do YYYY LT",
+    llll: "ddd, MMM D YYYY LT"
+  }
+});
 
 $SP.where('.[edit, new, create, update]').select('#islay-form').run(function(form) {
   form.find('.boolean :checkbox').islayCheckbox();
@@ -38,7 +53,7 @@ $(function() {
     return $(this).text();
   };
 
-  $('#content .time').prettyDate({value: timeValue});
+  $('#content .time').islayLocaliseTime();
 
   // DELETE DIALOG
   $('#content .delete, #content .delete, #footer .delete').click(function(e){
