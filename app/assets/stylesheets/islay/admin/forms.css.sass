@@ -562,8 +562,9 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   &.disabled
     opacity: 0.6
 
-/* NEW RADIO BUTTONS */
-.islay-form-radio-buttons
+/* ISLAY RADIO BUTTONS / SPIN CONTROL */
+.islay-form-radio-buttons,
+.islay-form-spin-control
   float: left
 
   span
@@ -582,6 +583,10 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     &:last-child
       +widget-border-radius(right)
 
+  .disabled
+    opacity: 0.5
+
+.islay-form-radio-buttons
   i
     display: block
     margin-top: 0.7em
@@ -591,8 +596,11 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     border-color: #3E69A4
     color: white
 
-  .disabled
-    opacity: 0.5
+.islay-form-spin-control
+  i
+    font-size: 1.4em
+    margin-top: 0.3em
+    display: block
 
 /* ISLAY ASSET PICKER */
 .islay-form-asset-picker
