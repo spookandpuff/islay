@@ -35,7 +35,7 @@
       if (!this.writingOrder) {
         var $el = e.data.feature;
         $el.prev('.feature').before($el.detach());
-        this.writeOrder();
+        this.postMove($el);
       }
     },
 
@@ -43,7 +43,7 @@
       if (!this.writingOrder) {
         var $el = e.data.feature;
         $el.next('.feature').after($el.detach());
-        this.writeOrder();
+        this.postMove($el);
       }
     },
 
@@ -53,6 +53,13 @@
         $(input).attr('value', i).trigger('change');
       });
       this.writingOrder = false;
+    },
+
+    postMove: function(el) {
+      el.transition({backgroundColor: 'yellow'}, 500, 'in', function() {
+        this.transition({backgroundColor: 'transparent'}, 300);
+      });
+      this.writeOrder();
     }
   };
 
