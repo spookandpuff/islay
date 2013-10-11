@@ -25,6 +25,17 @@ module Islay
         end
       end
 
+      # Conditionally renders an error notice if the supplied object is 
+      # invalid. Leans on a partial for the notice itself.
+      #
+      # @param ActiveRecord::Base object
+      # @return [nil, String]
+      def form_errors(object)
+        unless object.errors.empty?
+          render :partial => 'islay/admin/shared/form_errors'
+        end
+      end
+
       # Shortcut for rendering the asset_picker partial, while giving it access
       # to an instance of a form builder.
       #

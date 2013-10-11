@@ -113,6 +113,34 @@ form
     width: 3em !important
 
 /* -------------------------------------------------------------------------- */
+/* ERROR NOTICE
+/* -------------------------------------------------------------------------- */
+.islay-form-errors
+  +border-radius(0.3em)
+  padding: 1em 0
+  background-color: $error-color + 100
+  margin: 1em 0 0.3em 2%
+  width: 96%
+  float: left
+  position: relative
+
+  .icon
+    color: $error-color
+    font-size: 3em
+    position: absolute
+    left: 0.4em
+    top: 0.25em
+
+  h3
+    font-weight: bold
+    font-size: 1.2em
+    margin-left: 4.15em
+
+  p
+    margin-left: 5em
+    margin-top: 0.2em
+
+/* -------------------------------------------------------------------------- */
 /* FANCY WIDGETS
 /* -------------------------------------------------------------------------- */
 $widget-border-color: #B3BBC3
@@ -726,6 +754,15 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   a.current
     border-color: $bright-blue
     color: $bright-blue - 20
+
+  a.has-errors
+    color: $error-color - 20
+
+    &:after
+      content: '*'
+
+  a.has-errors.current
+    border-color: $error-color
 
 /* -------------------------------------------------------------------------- */
 /* ERROR FLAGS

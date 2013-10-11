@@ -33,6 +33,12 @@
         $legend.hide();
         this.$list.append($li);
 
+        // Check to see if tab has fields with errors and flag it.
+        if ($fieldset.has('.errored').length > 0) {
+          $a.addClass('has-errors');
+        }
+
+        // See if we have to leave this tab open, or close it.
         if (hash && hash === name) {
           this.select(name);
         }
