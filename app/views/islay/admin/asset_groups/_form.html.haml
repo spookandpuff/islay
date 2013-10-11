@@ -1,6 +1,8 @@
 = resource_form(@asset_group) do |f|
   = record_name(@asset_group.name, 'folder-close', :when_blank => 'New Collection')
 
+  = form_errors(@asset_group)
+
   = content do
     = f.fieldset(:class => 'primary') do
       = f.input(:name)

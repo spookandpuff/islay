@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 
   before_destroy :check_immutable_flag
   before_save    :check_immutable_flag
+  validations_from_schema
 
   # Returns the system user. This is an always-present, immutable user used for
   # logging actions made by Islay e.g. migrations, background tasks etc.

@@ -2,10 +2,9 @@ class AssetGroup < ActiveRecord::Base
   include Hierarchy
 
   has_many :assets,     :foreign_key => 'asset_group_id', :order => 'name'
-
   attr_accessible :name, :asset_group_id, :parent
   class_attribute :kind
-
+  validations_from_schema
   track_user_edits
 
   # Returns the ID of the parent if there is one.

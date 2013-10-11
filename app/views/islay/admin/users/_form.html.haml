@@ -1,5 +1,6 @@
 = resource_form(@user) do |f|
   = record_name(@user.name, 'user', :when_blank => 'New User')
+  = form_errors(@user)
   = content do
     = f.fieldset(:class => 'primary') do
       = f.input(:name, :col => 6)

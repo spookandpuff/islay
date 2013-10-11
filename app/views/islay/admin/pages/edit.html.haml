@@ -5,6 +5,8 @@
 = resource_form(@page, :url => path(:page, :id => params[:id]), :method => :put) do |f|
   = record_name(@page.name, 'file-text')
 
+  = form_errors(@page)
+
   = content do
     = f.fieldset('Content') do
       - @page.each do |slug, type, name, val|

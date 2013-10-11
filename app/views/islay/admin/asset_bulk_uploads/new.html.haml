@@ -6,6 +6,8 @@
 = resource_form(@asset_bulk_upload, :url => path(@asset_group, :asset_bulk_uploads), :multipart => true) do |f|
   = record_name('Bulk Upload', 'arrow-up')
 
+  = form_errors(@asset_bulk_upload)
+
   = content do
     = f.fieldset(:class => 'primary') do
       = f.input(:upload, :label => 'File', :as => 'file')

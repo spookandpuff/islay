@@ -1,6 +1,8 @@
 = resource_form(@asset, :html =>  {:multipart => true}) do |f|
   = record_name(@asset.name, 'picture', :when_blank => 'New Asset')
 
+  = form_errors(@asset)
+
   = content do
     = f.fieldset(:class => 'primary') do
       = f.input(:file, :label => 'File', :as => 'file')
