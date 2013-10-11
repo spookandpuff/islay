@@ -6,6 +6,7 @@
 //= require ../../vendor/select2
 //= require ../../vendor/mustache
 //= require ../../vendor/jquery.stickytableheaders.min
+//= require ../../vendor/jquery.cookie
 //= require_tree .
 //= require_extensions
 

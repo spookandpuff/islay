@@ -5,8 +5,10 @@
 /* decent anchors in the location and respects them when initializing.
 /* -------------------------------------------------------------------------- */
 (function($) {
-  var FormTabs = function(form) {
+  var FormTabs = function(form, cookieID) {
     this.$form = form;
+    this.cookieID = cookieID + '[form-tabs]';
+
     var fieldsets = this.$form.find('fieldset.form-tab');
 
     if (fieldsets.length > 0) {
@@ -31,7 +33,7 @@
         $legend.hide();
         this.$list.append($li);
 
-        if ((hash && hash === name) || (!hash && i === 0)) {
+        if (hash && hash === name) {
           this.select(name);
         }
         else {
@@ -40,8 +42,17 @@
       }, this);
 
       // If we have a dud hash, no tab will be selected, so go back and default
-      // to the first one.
-      if (!this.current) {this.select(this.$list.find('a').attr('href'));}
+      // to either the tab in the cookie, or where that is missing, the first 
+      // one.
+      if (!this.current) {
+        var cookie = $.cookie(this.cookieID);
+        if (cookie && this.anchors[cookie]) {
+          this.select(cookie);
+        }
+        else {
+          this.select(this.$list.find('a').attr('href'));
+        }
+      }
 
       // Append list and set up events
       this.$form.find('#content').prepend(this.$list);
@@ -66,6 +77,7 @@
       this.anchors[name].addClass('current');
       this.current = name;
       window.location.hash = name;
+      $.cookie(this.cookieID, name);
     }
   };
 
@@ -73,7 +85,7 @@
     this.each(function() {
       var $this = $(this);
       if (!$this.data('islayFormTabs')) {
-        $this.data('islayFormTabs', new FormTabs($this));
+        $this.data('islayFormTabs', new FormTabs($this, $(document.body).attr('id')));
       }
     });
     return this;
