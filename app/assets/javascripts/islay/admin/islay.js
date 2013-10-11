@@ -28,11 +28,13 @@ moment.lang('en', {
 
 $SP.where('.[edit, new, create, update]').select('#islay-form').run(function(form) {
   form.find('.boolean :checkbox').islayCheckbox();
+  form.find('.boolean_depressed :checkbox, .destroy :checkbox').islayCheckbox({mode: 'depressed'});
   form.find('.radio_buttons').islayRadioButtons();
   form.find('.select select').islaySelect();
   form.find('.multi_select select').islaySelect();
   form.find('.tree_select select').islaySelect('tree');
   form.find('.multi_asset select').islayAssetPicker('multi');
+  form.find('.single_asset select').islayAssetPicker('single');
   form.find('input[name*="tag_summary"]').islaySelect('tags');
   form.find('.date_picker input').islayDatePicker();
   form.find('.islay-toggle').islayToggle();
@@ -49,11 +51,9 @@ $SP.where('.[show, edit, create, update]').select('div.collapsible, li.collapsib
   });
 });
 
-$(function() {
-  var timeValue = function() {
-    return $(this).text();
-  };
+$SP.where('islay-admin-pages.[edit, update]').select('.islay-page-features', 'islayPageFeatures');
 
+$(function() {
   $('#content .time').islayLocaliseTime();
 
   // DELETE DIALOG

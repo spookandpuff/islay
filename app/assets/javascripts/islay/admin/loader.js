@@ -77,18 +77,28 @@ var $SP = $SP || {};
 
     _fire: function() {
       var arg;
-      if (this.selector) arg = $(this.selector);
-
-      if (this.obj) {
-        this.instance = new this.obj(arg)
+      if (this.selector) {
+        arg = $(this.selector);
       }
-      else if (this.run) {
-        this.fn.apply(this.scope, [arg]);
+
+      // .select('.class', 'derp')
+      // Results in a call to $('.class').derp()
+      if (arg && this.exec) {
+        arg[this.exec]();
+      } 
+      else {
+        if (this.obj) {
+          this.instance = new this.obj(arg)
+        }
+        else if (this.run) {
+          this.fn.apply(this.scope, [arg]);
+        }
       }
     },
 
-    select: function(selector) {
+    select: function(selector, exec) {
       this.selector = selector;
+      this.exec = exec;
       return this;
     },
 

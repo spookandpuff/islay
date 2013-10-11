@@ -1,78 +1,35 @@
 /* -------------------------------------------------------------------------- */
 /* PAGE FEATURES
 /* -------------------------------------------------------------------------- */
-#islay-admin-pages.edit,
-#islay-admin-pages.update
-  .features
-    ol
-      float: left
-      margin-bottom: 1em
-      width: 100%
+.islay-page-features
+  .feature
+    position: relative
 
-    .feature
-      +border-radius(0.3em)
-      background: $light-grey + 25
-      border: 0.1em solid $light-grey
-      margin: 0 0 0 1em
-      padding: 1em 0 0 0
-      width: 95%
-      float: left
+  legend
+    text-transform: none !important
+    font-size: 1.6em
+    margin-left: 4.4em
+    margin-top: 0.2em
+    cursor: pointer
 
-      &.collapsed
-        padding-bottom: 1em
+  // Position the toggles
+  .published-flag,
+  .position,
+  .destroy
+    width: auto !important
+    position: absolute
 
-        label
-          display: none
+  .published-flag
+    left: 0
 
-        .persistent
-          bottom: 0
-          left: 1em
-          position: absolute
-          top: 0
-          right: 1em
-          .field.boolean,
-          .delete,
-          .position
-            margin: -1.2em
-            position: absolute
-            top: 50%
+  .position
+    right: 5em
 
-          .frame
-            margin-left: 1.25em
+  .destroy
+    right: 0
 
-        .destroyed-message
-          margin-bottom: 0
-          
-      .summary
-        margin: 0 8em
-        position: relative
-        z-index: 1
-
-      .image-frame
-        +border-radius(0.5em)
-        background: #FFF
-        border: 1px solid #DDD
-        float: left
-        margin-right: 1em
-        max-height: 60px
-        overflow: hidden
-
-      h4
-        font-family: 'Source Sans Pro Semibold'
-        line-height: 70px
-        font-size: 1.2em
-        color: $link-color
-
-    .add-form
-      margin: 0 0 1.2em 1em
-
-  .destroyed
-    > *
+  // Hide some labels
+  .position,
+  .published-flag
+    label
       display: none
-    .destroyed-message
-      color: #666
-      display: block
-      margin: 0 0.8em 0.8em
-
-    .destroy-undo
-      cursor: pointer

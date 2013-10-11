@@ -8,7 +8,7 @@
   = form_errors(@page)
 
   = content do
-    = f.fieldset('Content') do
+    = f.fieldset('Content', :class => 'form-tab', :id => 'page-content') do
       - @page.each do |slug, type, name, val|
         - if type == :image
           %div.field.single_asset
@@ -21,38 +21,26 @@
 
     - if @page.features?
       - @page.features.build
-      = f.fieldset('Features', :class => 'features association') do
-        %ol
-          = f.fields_for(:features) do |fe|
-            %li.feature.associated.collapsible.collapsed
-              - unless fe.object.errors.blank?
-                %p This feature has errors
+      = f.fieldset('Features', :class => 'islay-page-features form-tab', :id => 'page-features') do
+        = f.fields_for(:features, :include_id => false) do |fe|
+          = fe.fieldset(fe.object.title, :class => 'feature') do
+            - unless fe.object.errors.blank?
+              %p This feature has errors
 
-              .persistent
-                = fe.input(:published)
-                = fe.input(:_destroy, :as => :destroy)
-                = fe.input(:position, :as => :position)
+            = fe.input(:published, :wrapper_html => {:class => 'published-flag'})
+            = fe.input(:position, :as => :position)
+            = fe.input(:_destroy, :as => :destroy, :label => 'Delete')
+            = fe.hidden_field(:id)
 
-              .summary
-                - unless fe.object.primary_asset.blank?
-                  .frame.image-frame
-                    = image_tag(fe.object.primary_asset.previews.url(:thumb_small))
+            .details
+              = fe.input(:title)
 
-                - unless fe.object.secondary_asset.blank?
-                  .frame.image-frame
-                    = image_tag(fe.object.secondary_asset.previews.url(:thumb_small))
+              = fe.input(:description, :as => 'text')
+              = fe.input(:primary_asset_id, :collection => @assets, :blank => true, :label => 'Image', :as => 'single_asset')
+              = fe.input(:secondary_asset_id, :collection => @assets, :blank => true, :label => 'Background', :as => 'single_asset')
 
-                %h4.name.collapsible-toggle= fe.object[:title]
-
-              .details
-                = fe.input(:title)
-
-                = fe.input(:description, :as => 'text')
-                = fe.input(:primary_asset_id, :collection => @assets, :blank => true, :label => 'Image', :as => 'single_asset')
-                = fe.input(:secondary_asset_id, :collection => @assets, :blank => true, :label => 'Background', :as => 'single_asset')
-
-                = fe.input(:link_url, :as => 'string')
-                = fe.input(:link_title)
+              = fe.input(:link_url, :as => 'string')
+              = fe.input(:link_title)
 
   = footer do
     = cancel_button(@page, path(:pages))

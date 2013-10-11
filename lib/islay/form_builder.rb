@@ -2,6 +2,7 @@ require 'islay/form_builder/asset_select'
 require 'islay/form_builder/destroy'
 require 'islay/form_builder/position'
 require 'islay/form_builder/date_picker'
+require 'islay/form_builder/boolean_depressed'
 
 module Islay
   # An extension of the simple_form builder.
