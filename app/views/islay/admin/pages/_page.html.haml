@@ -1,5 +1,5 @@
 %tr(class="level-#{level}")
-  %td= link_to(page.name, path(:page, :id => page.slug), :class => 'title')
+  %td= link_to(page.name, path(:edit, :page, :id => page.slug), :class => 'title')
   %td
     - if page.features?
       Features, 

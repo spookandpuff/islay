@@ -10,19 +10,7 @@
   var SpinControl = function(el, opts) {
     this.$input = el;
 
-    // Construct defaults
-    var defaults = {
-      showInput: false,
-      lowerBound: 0,
-      reversed: false
-    };
-
-    this.opts = opts ? _.extend(defaults, opts) : defaults;
-
-    // Set initial state based on config
-    if (this.opts.showInput === false) {
-      this.$input.hide();
-    }
+    this.config(opts);
 
     // Set up UI
     if (opts.reversed) {
@@ -52,6 +40,22 @@
   };
 
   SpinControl.prototype = {
+    config: function(opts) {
+      // Construct defaults
+      var defaults = {
+        showInput: false,
+        lowerBound: 0,
+        reversed: false
+      };
+
+      this.opts = opts ? _.extend(defaults, opts) : defaults;
+
+      // Set initial state based on config
+      if (this.opts.showInput === false) {
+        this.$input.hide();
+      }
+    },
+
     clickUp: function() {
       if (!this.$up.is('.disabled')) {
         this.$input.val(parseInt(this.$input.val()) + 1);
@@ -103,11 +107,14 @@
     }
   };
 
-  $.fn.islaySpinControl = function(opts) {
+  $.fn.islaySpinControl = function(run, opts) {
     this.each(function() {
       var $this = $(this);
       if (!$this.data('islaySpinControl')) {
-        $this.data('islaySpinControl', new SpinControl($this, opts));
+        $this.data('islaySpinControl', new SpinControl($this, run));
+      } 
+      else if (run && opts) {
+        $this.data('islaySpinControl')[run](opts);
       }
     });
     return this;

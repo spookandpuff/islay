@@ -20,27 +20,30 @@
             = contents_field(slug, type, val)
 
     - if @page.features?
-      - @page.features.build
       = f.fieldset('Features', :class => 'islay-page-features form-tab', :id => 'page-features') do
-        = f.fields_for(:features, :include_id => false) do |fe|
-          = fe.fieldset(fe.object.title, :class => 'feature') do
-            - unless fe.object.errors.blank?
-              %p This feature has errors
+        %div.islay-form-sub-controls
+          = link_to('New Feature', path(:new, :page, :feature, :page_id => @page.slug), :class => 'button')
 
-            = fe.input(:published, :wrapper_html => {:class => 'published-flag'})
-            = fe.input(:position, :as => :position)
-            = fe.input(:_destroy, :as => :destroy, :label => 'Delete')
-            = fe.hidden_field(:id)
+        %table
+          %thead
+            %tr
+              %th Publish
+              %th Title
+              %th Order
+              %th Delete
 
-            .details
-              = fe.input(:title)
-
-              = fe.input(:description, :as => 'text')
-              = fe.input(:primary_asset_id, :collection => @assets, :blank => true, :label => 'Image', :as => 'single_asset')
-              = fe.input(:secondary_asset_id, :collection => @assets, :blank => true, :label => 'Background', :as => 'single_asset')
-
-              = fe.input(:link_url, :as => 'string')
-              = fe.input(:link_title)
+          %tbody
+            = f.fields_for(:features, :include_id => false) do |fe|
+              %tr{:class => fe.object.published? ? 'published' : 'un-published'}
+                %td
+                  = fe.input(:published, :wrapper_html => {:class => 'published-flag'})
+                %td
+                  = link_to(fe.object.title, path(:edit, @page, fe.object), :class => 'title')
+                  = fe.hidden_field(:id)
+                %td
+                  = fe.input(:position, :as => :position)
+                %td
+                  = fe.input(:_destroy, :as => :destroy, :label => 'Delete')
 
   = footer do
     = cancel_button(@page, path(:pages))

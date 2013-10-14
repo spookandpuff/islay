@@ -25,13 +25,37 @@ class Page < ActiveRecord::Base
 
   track_user_edits
 
-  attr_accessible :contents, :slug, :features_attributes
+  attr_accessible :contents, :slug, :features_attributes, :new_feature
 
   accepts_nested_attributes_for :features,
                                 :reject_if     => proc {|f| f.values.map(&:blank?).all?},
                                 :allow_destroy => true
 
   after_save :update_page_assets
+
+  # Returns a stubbed out feature which serves as a 'template' for generating
+  # new features.
+  #
+  # @return Feature
+  def new_feature
+    Feature.new(:published => true)
+  end
+
+  # This is a no-op. It just allows us to use the #new_feature in forms.
+  #
+  # @return nil
+  def new_feature=(vals)
+
+    nil
+  end
+
+  # A simple alias which helps us write out links to pages and features without
+  # having to explicitly write out ids.
+  #
+  # @return String
+  def id
+    self[:slug]
+  end
 
   # Returns the name defined in the configuration for this page.
   #

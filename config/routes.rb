@@ -23,10 +23,8 @@ Rails.application.routes.draw do
     end
 
     # PAGE CONTENT
-    scope :path => 'pages', :controller => 'pages' do
-      get '',      :action => 'index',  :as => 'pages'
-      get ':id',  :action => 'edit',    :as => 'page'
-      put ':id',  :action => 'update'
+    resources :pages, :only => %w(index edit update) do
+      resources :features, :only => %w(new create edit update)
     end
 
     # ASSET LIBRARY

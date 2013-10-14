@@ -5,25 +5,23 @@
 (function($) {
   var PageFeatures = function(el) {
     this.$el = el;
+    this.$table = this.$el.find('table');
 
     var features = this.$el.find('.feature'),
         bound = features.length - 1;
 
-    _.each(features, function(el, i) {
+    _.each(this.$table.find('tr'), function(el, i) {
+      // Update legend when title field changes
       var $el = $(el),
-          details = $el.find('.details'),
-          toggle = $el.find('legend');
-
-      // Set up the toggle
-      details.islayToggle({toggle: toggle});
-
-      // Set up spin control for position
-      var position = $el.find('.field.position :input');
-      position.islaySpinControl({upperBound: bound, reversed: true});
+          title = $el.find('input[name*=title]'),
+          legend = $el.find('legend');
 
       // Set up the features for reordering
+      var position = $el.find('.field.position :input');
       position.on('islay.increment', {feature: $el}, $.proxy(this, 'moveDown'));
       position.on('islay.decrement', {feature: $el}, $.proxy(this, 'moveUp'));
+
+      position.islaySpinControl('config', {upperBound: bound});
     }, this);
 
     // Rewrite order to initialise positions (this fixes bused orderings)
@@ -34,7 +32,7 @@
     moveUp: function(e) {
       if (!this.writingOrder) {
         var $el = e.data.feature;
-        $el.prev('.feature').before($el.detach());
+        $el.prev('tr').before($el.detach());
         this.postMove($el);
       }
     },
@@ -42,21 +40,21 @@
     moveDown: function(e) {
       if (!this.writingOrder) {
         var $el = e.data.feature;
-        $el.next('.feature').after($el.detach());
+        $el.next('tr').after($el.detach());
         this.postMove($el);
       }
     },
 
     writeOrder: function() {
       this.writingOrder = true;
-      this.$el.find('.field.position :input').each(function(i, input) {
+      this.$table.find('.field.position :input').each(function(i, input) {
         $(input).attr('value', i).trigger('change');
       });
       this.writingOrder = false;
     },
 
     postMove: function(el) {
-      el.transition({backgroundColor: 'yellow'}, 500, 'in', function() {
+      el.find('td').transition({backgroundColor: 'yellow'}, 500, 'in', function() {
         this.transition({backgroundColor: 'transparent'}, 300);
       });
       this.writeOrder();

@@ -14,7 +14,7 @@ class Islay::Admin::PagesController < Islay::Admin::ApplicationController
 
   def update
     if @page.update_attributes(params[:page])
-      redirect_to path(:page, {:id => @page[:slug]})
+      redirect_to path(:edit, @page)
     else
       render :edit
     end

@@ -17,9 +17,15 @@
       this.$el.before(this.$toggle);
     }
 
+    if (opts && opts.open === true) {
+      this.open = true;
+    }
+    else {
+      this.open = false;
+      this.$el.hide();
+    }
+
     this.$toggle.click($.proxy(this, 'toggle'));
-    this.open = false;
-    this.$el.hide();
   };
 
   Toggle.prototype = {

@@ -1,0 +1,21 @@
+= resource_form([:admin, @page, @feature]) do |f|
+  = record_name(@feature.title, 'star', :when_blank => 'New Feature')
+
+  = form_errors(@feature)
+
+  = content do
+    = f.fieldset('Details', :class => 'form-tab', :id => 'feature-details') do
+      = f.input(:title)
+      = f.input(:published)
+      = f.input(:description, :as => :text)
+      = f.input(:link_url, :as => 'string')
+      = f.input(:link_title)
+
+    = f.fieldset('Images & Docs', :class => 'form-tab', :id => 'feature-assets') do
+      = f.input(:primary_asset_id, :collection => @assets, :blank => true, :label => 'Image', :as => 'single_asset')
+      = f.input(:secondary_asset_id, :collection => @assets, :blank => true, :label => 'Background', :as => 'single_asset')
+
+    = f.hidden_field(:page_id, :value => @page[:id])
+
+  = footer do
+    = save_button

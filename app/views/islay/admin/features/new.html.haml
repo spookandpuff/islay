@@ -1,0 +1,5 @@
+- breadcrumb('Pages', :pages)
+- breadcrumb(@page.name, :edit, :page, :id => @page.slug)
+- breadcrumb('New Feature')
+
+= render :partial => 'form'
