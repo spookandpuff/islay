@@ -35,7 +35,7 @@ Gem::Specification.new do |s|
   s.add_dependency "inherited_resources",           "~> 1.3.1"
   s.add_dependency "rmagick",                       "~> 2.13.1"
   s.add_dependency "mime-types",                    "~> 1.19"
-  s.add_dependency "fog",                           "~> 1.5.0"
+  s.add_dependency "fog",                           "~> 1.8.0"
   s.add_dependency "girl_friday",                   "~> 0.9.7"
   s.add_dependency "mime-types",                    "~> 1.18"
   s.add_dependency "streamio-ffmpeg",               "~> 0.8.5"
