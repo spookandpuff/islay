@@ -41,14 +41,18 @@
 
   SpinControl.prototype = {
     config: function(opts) {
-      // Construct defaults
-      var defaults = {
-        showInput: false,
-        lowerBound: 0,
-        reversed: false
-      };
+      if (this.opts) {
+        this.opts = _.extend(this.opts, opts);
+      } else {
+        var defaults = {
+          showInput: false,
+          lowerBound: 0,
+          reversed: false
+        };
 
-      this.opts = opts ? _.extend(defaults, opts) : defaults;
+        this.opts = opts ? _.extend(defaults, opts) : defaults;
+      }
+
 
       // Set initial state based on config
       if (this.opts.showInput === false) {

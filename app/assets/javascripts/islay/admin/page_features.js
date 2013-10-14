@@ -6,11 +6,9 @@
   var PageFeatures = function(el) {
     this.$el = el;
     this.$table = this.$el.find('table');
+    var features = this.$table.find('tbody tr');
 
-    var features = this.$el.find('.feature'),
-        bound = features.length - 1;
-
-    _.each(this.$table.find('tr'), function(el, i) {
+    _.each(features, function(el, i) {
       // Update legend when title field changes
       var $el = $(el),
           title = $el.find('input[name*=title]'),
@@ -21,7 +19,7 @@
       position.on('islay.increment', {feature: $el}, $.proxy(this, 'moveDown'));
       position.on('islay.decrement', {feature: $el}, $.proxy(this, 'moveUp'));
 
-      position.islaySpinControl('config', {upperBound: bound});
+      position.islaySpinControl('config', {lowerBound: 1, upperBound: features.length});
     }, this);
 
     // Rewrite order to initialise positions (this fixes bused orderings)
@@ -48,7 +46,7 @@
     writeOrder: function() {
       this.writingOrder = true;
       this.$table.find('.field.position :input').each(function(i, input) {
-        $(input).attr('value', i).trigger('change');
+        $(input).attr('value', i + 1).trigger('change');
       });
       this.writingOrder = false;
     },
