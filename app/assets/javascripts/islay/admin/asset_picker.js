@@ -21,7 +21,9 @@
     var opts = this.$input.find(':selected');
     for (var i = 0; i < opts.length; i++) {
       var $opt = $(opts[i]);
-      this.addEntry($opt.attr('value'), $opt.attr('data-preview'), $opt);
+      if (!_.isEmpty($opt.text())) {
+        this.addEntry($opt.attr('value'), $opt.attr('data-preview'), $opt);
+      }
     };
 
     // Hide the existing select
