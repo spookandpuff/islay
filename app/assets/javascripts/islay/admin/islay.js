@@ -16,7 +16,7 @@
 moment.lang('en', {
   longDateFormat : {
     LT: "h:mm A",
-    L: "DD/MM/YYYY - h:m A",
+    L: "DD/MM/YYYY - h:mm A",
     l: "D/M/YYYY",
     LL: "MMMM Do YYYY",
     ll: "MMM D YYYY",
