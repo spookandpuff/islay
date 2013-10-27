@@ -21,7 +21,7 @@
         %li
           = form_tag(path(:search), :method => :get, :class => 'islay-global-search') do
             %i.icon-search
-            = text_field_tag('term', nil, :placeholder => 'Search')
+            = text_field_tag('term', nil, :placeholder => 'Search', :autocomplete => 'off')
         = extension_nav_entries 
         %li.islay-current-user
           = form_for(current_user, :url => :destroy_user_session, :method => :delete, :html => {:class => 'entry'}) do |f|
