@@ -28,8 +28,8 @@ class Page < ActiveRecord::Base
   attr_accessible :contents, :slug, :features_attributes, :new_feature
 
   accepts_nested_attributes_for :features,
-                                :reject_if     => proc {|f| f.values.map(&:blank?).all?},
-                                :allow_destroy => true
+    :reject_if     => proc {|f| f.values.map(&:blank?).all?},
+    :allow_destroy => true
 
   after_save :update_page_assets
 
@@ -45,7 +45,6 @@ class Page < ActiveRecord::Base
   #
   # @return nil
   def new_feature=(vals)
-
     nil
   end
 
@@ -53,7 +52,7 @@ class Page < ActiveRecord::Base
   # having to explicitly write out ids.
   #
   # @return String
-  def id
+  def to_param
     self[:slug]
   end
 
@@ -135,6 +134,7 @@ class Page < ActiveRecord::Base
 
       acc
     end
+    @contents
 
   end
 
