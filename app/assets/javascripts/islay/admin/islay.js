@@ -4,6 +4,7 @@
 //= require ../../vendor/backbone
 //= require ../../vendor/jquery.sortable
 //= require ../../vendor/select2
+//= require ../../vendor/kalendae
 //= require ../../vendor/mustache
 //= require ../../vendor/jquery.stickytableheaders.min
 //= require ../../vendor/jquery.cookie
