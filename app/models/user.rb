@@ -24,6 +24,13 @@ class User < ActiveRecord::Base
     nil
   end
 
+  # Check if this record is destroyable
+  #
+  # @returns Boolean
+  def destroyable?
+    !(new_record? or immutable)
+  end
+
   private
 
   class ImmutableRecordError < StandardError

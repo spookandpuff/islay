@@ -4,6 +4,10 @@ module Islay
       resourceful :user
       header 'Users'
 
+      def index
+        @users = User.order(:name)
+      end
+
       private
 
       def redirect_for(model)

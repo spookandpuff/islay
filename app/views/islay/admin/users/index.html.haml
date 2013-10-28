@@ -3,17 +3,18 @@
 = content do
   %table.fixed-header(cellpadding=0 cellspacing=0)
     %thead
-      %th Name
+      %th{:colspan => 2} Name
       %th Updated At
-      %th.control Edit
-      %th.control Delete
     %tbody
       - @users.each do |user|
         %tr
-          %td= user.name
+          %td.status
+            - if user.immutable
+              %i.icon-lock{:title => 'This user can\'t be deleted.'} &nbsp;
+          %td
+            = link_to(user.name, path(:edit, user))
           %td.time= user.updated_at
-          %td= link_to('Edit', path(:edit, user))
-          %td= link_to('Delete', path(:delete, user))
+          
 
 = footer do
   = new_button('User', :user)
