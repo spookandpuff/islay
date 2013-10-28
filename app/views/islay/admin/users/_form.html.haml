@@ -6,8 +6,15 @@
       = f.input(:name, :col => 6)
       = f.input(:email, :col => 6)
 
-    = f.fieldset('Password!') do
+    = f.fieldset('Password') do
       = f.input(:password)
+
+    - if @user.destroyable?
+      .panel.delete-controls
+        - if @user == current_user
+          %p You can't delete your own account.
+        - else
+          = link_to('Delete User', path(:delete, @user), :class => 'button delete')
 
   = footer do
     = save_button

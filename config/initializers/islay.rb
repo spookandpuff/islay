@@ -27,11 +27,11 @@ Islay::Engine.extensions.register do |e|
     s.sub_nav('Processing', :asset_processes)
   end
 
-  e.nav_section(:config, 4) do |s|
+  e.nav_section(:config, 9) do |s|
     s.root('Configuration', :users, 'cog')
   end
 
-  e.nav_section(:add_item, 4) do |s|
+  e.nav_section(:add_item, 10) do |s|
     s.root("Add Item", :add_item, 'plus-sign', :id => 'islay-add-item', :title => 'Add a New Item')
   end
 end

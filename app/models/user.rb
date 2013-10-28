@@ -84,7 +84,7 @@ class User < ActiveRecord::Base
   #
   # @return [true, false]
   def destroyable?
-    !immutable? and !modified_records?
+    !new_record? and !immutable? and !modified_records?
   end
 
   private
