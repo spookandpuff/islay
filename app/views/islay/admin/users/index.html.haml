@@ -1,5 +1,12 @@
 - breadcrumb('Users')
 
+- filter_nav(:users, 'Enabled')
+- filter_nav(:users, 'Disabled', 'disabled')
+- filter_nav(:users, 'All', 'all')
+
+- sort_nav(:users, 'Name')
+- sort_nav(:users, 'Updated', 'updated_at')
+
 = content do
   %table.fixed-header(cellpadding=0 cellspacing=0)
     %thead
@@ -11,12 +18,18 @@
           %td.status
             - if user.immutable?
               %i.icon-lock{:title => 'This user can\'t be modified.'} &nbsp;
+            - elsif user.disabled?
+              %i.icon-remove{:title => "This user's account is disabled"} &nbsp;
+            - else
+              %i.icon-ok{:title => "This user's account is enabled"} &nbsp;
           %td
             - if user.immutable?
               %span.title= user.name
             - else
               = link_to(user.name, path(:edit, user), :class => 'title')
-          %td.time= user.updated_at
+          %td
+            %span.time= user.updated_at
 
 = footer do
   = new_button('User', :user)
+  = paginate(@users, :theme => 'admin')

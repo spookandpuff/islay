@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
     # USERS
     resources :users do
+      get '(/filter-:filter)(/sort-:sort)', :action => :index, :as => 'filter_and_sort', :on => :collection
       get :delete, :on => :member
     end
 

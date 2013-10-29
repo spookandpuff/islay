@@ -5,7 +5,7 @@ module Islay
       header 'Users'
 
       def index
-        @users = User.order(:name)
+        @users = User.page(params[:page]).filtered(params[:filter]).sorted(params[:sort])
       end
 
       private

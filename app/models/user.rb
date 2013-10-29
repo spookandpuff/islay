@@ -14,6 +14,22 @@ class User < ActiveRecord::Base
     where(:email => 'system@spookandpuff.com').first
   end
 
+  def self.filtered(filter)
+    case filter
+    when 'all' then scoped
+    when 'disabled' then where(:disabled => true)
+    else where(:disabled => false)
+    end
+  end
+
+  # Returns a scope that sorts the results by the provided field. This behaves
+  # close to ::order except that it defaults to sorting by :name.
+  #
+  # @param [String, nil] sort
+  def self.sorted(sort)
+    order(sort || :name)
+  end
+
   # Class attributes for storing the assocations generated when registering
   # classes to be 'tracked'. See ::track_class
   class_attribute :creator_association_names, :updater_association_names
