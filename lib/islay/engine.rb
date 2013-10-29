@@ -3,8 +3,10 @@ module Islay
     # Explicitly require the ActivityLog to avoid having it reloaded in dev.
     require File.expand_path("../../../app/models/activity_log", __FILE__)
 
-    config.autoload_paths << File.expand_path("../../app/queries", __FILE__)
-    config.autoload_paths << File.expand_path("../../app/asset_management", __FILE__)
+    # Explicitly load the asset processor classes, for the same reason as above.
+    Dir.glob(File.expand_path("../../app/asset_management/*_processor.rb", __FILE__)).each do |p|
+      require p
+    end
 
     unless File.basename($0) == 'rake'
       config.active_record.observers = :searchable_observer
