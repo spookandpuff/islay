@@ -9,7 +9,13 @@
     = f.fieldset('Password') do
       = f.input(:password)
 
-    - unless @user == current_user
+    - if @user == current_user
+      = form_notice(:general) do
+        %p
+          You cannot delete or disable your own account. If you need this 
+          account deleted or disabled another user must do it for you.
+
+    - else
       - if @user.destroyable?
         = form_notice(:delete) do
           %p 
