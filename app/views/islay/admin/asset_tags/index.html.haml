@@ -7,7 +7,6 @@
       %tr
         %th Tag
         %th Entries
-        %th Last Addition
 
     %tbody
       - @asset_tags.each do |tag|
@@ -16,5 +15,3 @@
             = link_to(tag.name, path(tag), :class => 'title')
           %td.indicator
             %span.indicator= tag.assets_count
-          %td.meta
-            %span.time jhh
