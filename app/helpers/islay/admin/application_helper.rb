@@ -36,6 +36,18 @@ module Islay
         end
       end
 
+      # A helper for rendering a notification within a form. This is intended 
+      # to be displayed at the bottom of forms and contain information about 
+      # the deletion or disabling of a record.
+      #
+      # @param Symbol kind
+      # @param Proc blk
+      # @return String
+      def form_notice(kind, &blk)
+        content = content_tag(:i, nil, :class => 'icon icon-exclamation') + capture(&blk)
+        content_tag(:div, content.html_safe, :class => "islay-form-notice #{kind}")
+      end
+
       # Shortcut for rendering the asset_picker partial, while giving it access
       # to an instance of a form builder.
       #

@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   devise :database_authenticatable, :recoverable, :validatable
-  attr_accessible :name, :email, :password
+  attr_accessible :name, :email, :password, :disabled
 
   before_destroy :check_immutable_flag
   before_save    :check_immutable_flag
@@ -105,5 +105,24 @@ class User < ActiveRecord::Base
     if immutable
       raise ImmutableRecordError.new
     end
+  end
+
+  # This is a tweaked version of Devise's implementation of this method. We
+  # inject an extra condition to restrict the results to records that are not
+  # disabled.
+  #
+  # @return [User, nil]
+  def self.find_for_database_authentication(conditions)
+    find_for_authentication(conditions.merge("disabled" => false))
+  end
+
+  protected
+
+  # This overwrites the default implementation provided by 
+  # Devise::Models::Validatable. It ignores blanks strings.
+  #
+  # @return [true, false]
+  def password_required?
+    !persisted? || !password.blank? || !password_confirmation.blank?
   end
 end
