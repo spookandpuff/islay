@@ -6,6 +6,7 @@ require 'compass-rails' # This is temporary. By rights this needs to go into the
 require 'devise'
 require 'simple_form'
 require 'pg'
+require 'pg_search'
 require 'schema_plus'
 require 'activerecord-postgres-hstore'
 require 'friendly_id'
@@ -31,7 +32,6 @@ require "islay/positioning"
 require "islay/publishable"
 require "islay/metadata"
 require "islay/taggable"
-require "islay/searches"
 require "islay/query"
 require "islay/extensions"
 require "islay/navigation"

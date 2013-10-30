@@ -2,14 +2,9 @@ namespace :islay do
   namespace :db do
     desc "Rebuilds the search term index for each record in the DB."
     task :rebuild_search_index => :environment do
-      puts "REBUILDING INDEX"
-
-      Islay::Engine.searches.updates.each do |name, update|
-        puts name.to_s.humanize.pluralize
-
-        klass = name.to_s.classify.constantize
-        klass.all.each {|r| Search.update_entry(r, name)}
-      end
+      PgSearch::Multisearch.rebuild(User)
+      PgSearch::Multisearch.rebuild(Asset)
+      PgSearch::Multisearch.rebuild(Feature)
     end
 
     desc "Loads in seed data for bootstrapping a fresh Islay app."

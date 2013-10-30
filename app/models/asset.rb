@@ -6,6 +6,9 @@ class Asset < ActiveRecord::Base
   VIDEO_EXTENSIONS = %w(mpg mp4 mov avi).freeze
   AUDIO_EXTENSIONS = %w(mp3 aiff acc flac wav).freeze
 
+  include PgSearch
+  multisearchable :against => [:name]
+
   belongs_to  :group,     :class_name => 'AssetGroup', :foreign_key => 'asset_group_id', :counter_cache => true
   has_many    :taggings,  :class_name => 'AssetTagging'
   has_many    :tags,      :through => :taggings, :order => 'name'

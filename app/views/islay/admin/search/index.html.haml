@@ -11,7 +11,7 @@
       - @results.each do |result|
         %li
           %h3(class="#{result.searchable_type.underscore.dasherize}")
-            = link_to(result.name, path(result.searchable))
+            = link_to(searchable_name(result.searchable), searchable_path(result.searchable))
           %p.type
             = result.searchable_type.underscore.humanize
 

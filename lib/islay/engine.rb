@@ -8,10 +8,6 @@ module Islay
       require p
     end
 
-    unless File.basename($0) == 'rake'
-      config.active_record.observers = :searchable_observer
-    end
-
     # Remove the stupid div.field_with_errors wrapper Rails pollutes forms with.
     ActionView::Base.field_error_proc = lambda {|tag, obj| tag}
 
@@ -46,12 +42,6 @@ module Islay
       @@extensions ||= Extensions.new
       yield(@@extensions) if block_given?
       @@extensions
-    end
-
-    def self.searches
-      @@searches ||= Searches.new
-      yield(@@searches) if block_given?
-      @@searches
     end
   end
 end

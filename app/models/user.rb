@@ -6,6 +6,9 @@ class User < ActiveRecord::Base
   before_save    :check_immutable_flag
   validations_from_schema
 
+  include PgSearch
+  multisearchable :against => [:name, :email]
+
   # Returns the system user. This is an always-present, immutable user used for
   # logging actions made by Islay e.g. migrations, background tasks etc.
   #
