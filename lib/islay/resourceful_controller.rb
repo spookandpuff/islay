@@ -51,7 +51,7 @@ module Islay
         find_record
       end
 
-      @cancel_url = redirect_for(@record)
+      @cancel_url = redirect_for(@resource)
       render :template => 'islay/admin/shared/delete', :layout => !request.xhr?
     end
 
@@ -74,11 +74,11 @@ module Islay
     end
 
     def redirect_for(record)
-      url_for([:admin, record])
+      path(record)
     end
 
     def destroy_redirect_for(record)
-      url_for([:admin, record])
+      path(resource_class[:plural].to_sym)
     end
 
     # This is intended to be over-ridden by any controllers using this mixin.
