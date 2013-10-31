@@ -1,6 +1,9 @@
 class Asset < ActiveRecord::Base
   include Islay::Taggable
 
+  include Islay::Logging::ActiveRecord
+  auto_log :name => :name
+
   IMAGE_EXTENSIONS = %w(jpg jpeg png gif).freeze
   DOCUMENT_EXTENSIONS = %w(doc xls pdf zip pages numbers psd indd txt rtf).freeze
   VIDEO_EXTENSIONS = %w(mpg mp4 mov avi).freeze

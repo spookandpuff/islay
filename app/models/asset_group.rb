@@ -1,6 +1,9 @@
 class AssetGroup < ActiveRecord::Base
   include Hierarchy
 
+  include Islay::Logging::ActiveRecord
+  auto_log :name => :name
+
   has_many :assets,     :foreign_key => 'asset_group_id', :order => 'name'
   attr_accessible :name, :asset_group_id, :parent
   class_attribute :kind

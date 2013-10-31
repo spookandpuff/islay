@@ -1,4 +1,6 @@
 class Islay::Admin::ApplicationController < Islay::ApplicationController
+  include Islay::Logging
+
   use_https
 
   layout 'layouts/islay/application'

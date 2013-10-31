@@ -1,8 +1,5 @@
 module Islay
   class Engine < ::Rails::Engine
-    # Explicitly require the ActivityLog to avoid having it reloaded in dev.
-    require File.expand_path("../../../app/models/activity_log", __FILE__)
-
     # Explicitly load the asset processor classes, for the same reason as above.
     Dir.glob(File.expand_path("../../app/asset_management/*_processor.rb", __FILE__)).each do |p|
       require p

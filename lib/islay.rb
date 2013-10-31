@@ -39,6 +39,7 @@ require "islay/pages"
 require "islay/resourceful_controller"
 require "islay/sprockets"
 require "islay/routing_mapper_helpers"
+require "islay/logging"
 
 module Islay
 end

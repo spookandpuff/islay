@@ -4,15 +4,15 @@
   %thead
     %tr
       %th What
-      %th Event
+      %th Description
       %th Who/When
 
   %tbody
     - @logs.each do |log|
-      %tr(class="#{log.type}-log")
-        %td= link_to("<strong>#{log.type.humanize}:</strong> #{log.name}".html_safe, log.url)
-        %td= log.event.humanize
+      %tr{:class => "#{log.key}-log"}
+        %td= log.key
+        %td= log.description
         %td.meta
           %span.time= log.created_at
-          - unless log.user_name.blank?
-            by #{log.user_name}
+          - if log.user
+            by #{log.user.name}

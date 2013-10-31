@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+  include Islay::Logging::ActiveRecord
+  auto_log :name => :name
+
   devise :database_authenticatable, :recoverable, :validatable
   attr_accessible :name, :email, :password, :disabled
 

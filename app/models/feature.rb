@@ -1,4 +1,7 @@
 class Feature < ActiveRecord::Base
+  include Islay::Logging::ActiveRecord
+  auto_log :name => :name
+
   include PgSearch
   multisearchable :against => [:title]
 

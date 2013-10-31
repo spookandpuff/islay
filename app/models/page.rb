@@ -1,4 +1,7 @@
 class Page < ActiveRecord::Base
+  include Islay::Logging::ActiveRecord
+  auto_log :name => :name
+
   has_many :page_assets do
     # Extracts an asset from the association by it's name.
     #
