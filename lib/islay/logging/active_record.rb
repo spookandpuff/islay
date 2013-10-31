@@ -23,6 +23,7 @@ module Islay
         klass.send(:include, InstanceMethods)
         klass.class_attribute :auto_log_opts
         klass.auto_log_opts = {}
+        klass.after_save :run_enqueued_logs
         nil
       end
  
@@ -54,6 +55,27 @@ module Islay
  
       module InstanceMethods
         private
+
+        # Rather than generating logs immediately, this method enqueues a log
+        # to be created after save.
+        #
+        # Refer to Islay::Logging::log for the exact method signature.
+        #
+        # @return Array
+        def enqueue_log(*args)
+          (@enqueue_logs ||= []) << args
+        end
+
+        # Generates any logs that have been enqueued.
+        #
+        # @return nil
+        def run_enqueued_logs
+          if @enqueue_logs and !@enqueue_logs.empty?
+            @enqueue_logs.each {|l| log(*l)}
+            @enqueue_logs = nil
+          end
+          nil
+        end
  
         # Side-steps AR's Dirty module's default behaviour; once a record is 
         # saved and record of changes is gone. We hold onto them so we can use
