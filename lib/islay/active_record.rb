@@ -72,9 +72,8 @@ module ActiveRecord
     # @todo Remove the logic which stops this running on assets:precompile.
     #       There has to be a better way.
     def self.validations_from_schema(opts = {})
-      # Don't try to run this when the precompile task is going. This 
-      # unfortunately conflicts with the devise gem.
-      unless File.basename($0) == 'rake' and ARGV[0] == 'assets:precompile'
+      # Only try running this task if the associated table actually exists.
+      if ActiveRecord::Base.connection.table_exists?(table_name)
         # Generate a list of columns to exclude
         except = ['creator_id', 'updater_id', 'created_at', 'updated_at']
         except += opts[:except].map(&:to_s) if opts[:except]
