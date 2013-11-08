@@ -92,6 +92,36 @@ class AssetStorage
     FileUtils.rm_rf(path) if File.exists?(path)
   end
 
+
+  # Generates a URL, policy and signature suitable for uploading a file directly 
+  # to s3. The results are to be embedded in the form that points to S3.
+  #
+  # Be sure to make sure the corresponding policy is set on the target bucket.
+  #
+  # @param String return_url
+  # @return Hash
+  def self.s3_policy_and_signature(return_url)
+    opts = {
+      "expiration" => -2.hours.ago.xmlschema,
+      "conditions" => [
+        {"bucket" => Settings.for(:islay, :assets_bucket)},
+        ["starts-with", "$key", "uploads"],
+        {"acl" => "private"},
+        {"success_action_status" => "200"},
+        {"success_action_redirect" => url}
+      ]
+    }
+    policy = Base64.encode64(opts.to_json).gsub(/\n/, '')
+    digest = OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('sha1'), config[:secret], policy)
+    signature = Base64.encode64(digest).gsub(/\n/, '')
+
+    {
+      :policy     => policy,
+      :signature  => signature,
+      :url        => "https://#{Settings.for(:islay, :assets_bucket)}.s3.amazonaws.com"
+    }
+  end
+
   private
 
   def self.temp_dir_at(key)

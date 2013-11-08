@@ -66,6 +66,31 @@ class Asset < ActiveRecord::Base
     sort ? order(sort) : order('updated_at DESC')
   end
 
+  # Takes a URI to an asset on S3 and generates a new asset record, assigns it 
+  # to the provided group and spins up a background task to process the file.
+  #
+  # @param URI uri
+  # @param AssetGroup group
+  # @return Asset
+  def self.create_from_s3_upload(uri, group)
+    name = File.basename(uri.path)
+    ext = File.extname(name)
+
+    asset = choose_type(ext).tap do |a|
+      asset.name      = File.basename(name, ".#{ext}").gsub(%r{[\-_]}, ' ').humanize
+      asset.filename  = original_filename.gsub(ILLEGAL_CHARS, '-').downcase
+      asset.dir       = Time.now.strftime('%Y%m')
+      asset.key       = Digest::SHA1.hexdigest(original_filename + Time.now.to_s)
+      asset.group     = group
+
+      asset.save!
+    end
+
+    AssetWorker.enqueue!(asset, :create, :path => name)
+
+    asset
+  end
+
   # Chooses the appropriate asset type based on the extension.
   #
   # @return Asset
@@ -77,6 +102,23 @@ class Asset < ActiveRecord::Base
     when *AUDIO_EXTENSIONS     then AudioAsset.new
     else DocumentAsset.new
     end
+  end
+
+  # The path to the original file on the remote storage. It is relative to any
+  # configured buckets and/or sub-directories i.e. it's more like a URI than 
+  # URL.
+  #
+  # @return String
+  def path
+    File.join(dir, key, filename)
+  end
+
+  # The directory/key-path under which the original file and it's processed 
+  # versions live.
+  #
+  # @return String
+  def directory
+    File.join(dir, key)
   end
 
   def friendly_duration
