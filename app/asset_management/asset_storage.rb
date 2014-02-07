@@ -4,7 +4,7 @@
 class AssetStorage
   # Generates the URL for a
   def self.partial_url_for(dir, key, filename)
-    "#{Settings.for(:islay, :assets_bucket)}.s3.amazonaws.com/#{dir}/#{key}/#{filename}"
+    "#{Settings.for(:islay, :library_host)}/#{dir}/#{key}/#{filename}"
   end
 
   # Takes an array of paths and moves them into the store, using the key as a
