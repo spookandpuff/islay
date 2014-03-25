@@ -9,6 +9,7 @@
 //= require ../../vendor/jquery.stickytableheaders.min
 //= require ../../vendor/jquery.cookie
 //= require ../../vendor/jquery.transit
+//= require ../../vendor/moment
 //= require_tree .
 //= require_extensions
 
