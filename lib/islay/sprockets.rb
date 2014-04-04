@@ -2,19 +2,18 @@ module Islay
   class Sprockets
     def self.configure(app)
       entries = Islay::Engine.extensions.entries
+      engine_roots = entries.select {|n, e| e.is_engine?}.map {|n, e| e.config[:engine].root}
 
       # Append the style sheet paths from the different extensions
-      styles = entries.map {|e| e[1].config[:engine].root + 'app/assets/stylesheets'}
-      app.config.sass.load_paths.concat(styles)
+      app.config.sass.load_paths.concat(engine_roots.map {|r| r + 'app/assets/stylesheets'})
 
       # Append the image dirs
-      images = entries.map {|e| e[1].config[:engine].root + 'app/assets/images'}
-      app.assets.paths.concat(images)
+      app.assets.paths.concat(engine_roots.map {|r| r + 'app/assets/images'})
 
       # Append the javascript dirs
-      scripts = entries.map {|e| e[1].config[:engine].root + 'app/assets/scripts'}
-      app.assets.paths.concat(scripts)
+      app.assets.paths.concat(engine_roots.map {|r| r + 'app/assets/javascripts'})
 
+      # Add Islay's fonts dir
       app.assets.paths << File.expand_path("../../../app/assets/fonts", __FILE__)
 
       # Generate import statements for extension admin styles

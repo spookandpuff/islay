@@ -117,10 +117,36 @@ module Islay
       @config[:public_styles]
     end
 
+    # Indicates if this extension refers to a Rails engine.
+    #
+    # @return [true, false]
+    def is_engine?
+      !!@config[:engine]
+    end
+
+    # Indicates if this extension refers to a Rails application.
+    #
+    # @return [true, false]
+    def is_app?
+      !!@config[:app]
+    end
+
+    # Declare the namespace for the extension. This is a Symbol that should 
+    # resolve to a module. 
+    #
+    # @param Symbol v
+    # @return nil
     def namespace(v)
       @config[:namespace] = v
-      @config[:module] = v.to_s.classify.constantize
-      @config[:engine] = @config[:module].const_get('Engine')
+      mod = @config[:module] = v.to_s.classify.constantize
+
+      if mod.const_defined?(:Engine)
+        @config[:engine] = mod.const_get('Engine')
+      elsif mod.const_defined?(:Application)
+        @config[:app] = mod.const_get('Application')
+      end
+
+      nil
     end
 
     # Defines or extends a navigation section.
