@@ -20,7 +20,7 @@ class AssetGroup < ActiveRecord::Base
   #
   # @return [ProductCategory, nil]
   def asset_group_id=(id)
-    self.parent = AssetCollection.find(id) unless id.blank?
+    self.parent = AssetGroup.find(id) unless id.blank?
   end
 
   # Returns a relation with calculated fields for the last update and the types
