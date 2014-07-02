@@ -50,10 +50,14 @@ module Islay
         options[:as] = case metaopts[:type]
         when :enum
           metaopts[:kind] == :short ? 'radio_buttons' : 'select'
-        when :foreign_key 
+        when :foreign_key
           'select'
         when :integer, :float
           'numeric'
+        when :tags
+          options[:class] = "#{options[:class]} metadata-tags"
+          options[:input_html] = {:value => self.object.send(attribute_name).join(',')} # We don't want the direct array.to_s as our form value
+          'string'
         when :text, :boolean, :date
           metaopts[:type]
         end
@@ -118,7 +122,7 @@ module Islay
       else
         html[:class] = value
       end
-    
+
       nil
     end
 

@@ -5,7 +5,7 @@ module Islay
     end
 
     # Coerces the input into a SpookAndPuff::Money instance
-    # 
+    #
     # @param [String, BigDecimal, Numeric] v
     # @return SpookAndPuff::Money
     def coerce_money(v)
