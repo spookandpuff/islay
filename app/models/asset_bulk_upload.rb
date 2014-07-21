@@ -87,7 +87,7 @@ class AssetBulkUpload
     # @return Arrray<String>
     def path_and_name(path)
       match = path.match(/(.+)\/(.+$)/)
-      [match[1], match[2].humanize]
+      [match[1], match[2].split('.').max_by(&:length).underscore.humanize.titlecase]
     end
 
     # Unpacks the downloaded zip file and returns an array containing two entries;
@@ -166,8 +166,9 @@ class AssetBulkUpload
         else
           group = parent_group
         end
-
-        asset.update_attributes(:file => file, :asset_group_id => group.id)
+        asset.updater = Thread.current[:current_user]
+        asset.creator = Thread.current[:current_user]
+        asset.update_attributes(:file => file, :name => name, :asset_group_id => group.id)
         asset
       end
     end

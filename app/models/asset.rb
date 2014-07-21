@@ -17,7 +17,7 @@ class Asset < ActiveRecord::Base
 
   attr_accessible(
     :name, :file, :asset_group_id, :status, :error, :retries, :album, :width,
-    :height, :colorspace, :filesize, :content_type
+    :height, :colorspace, :filesize, :content_type, :creator_id, :updater_id
   )
 
   before_save   :set_name
