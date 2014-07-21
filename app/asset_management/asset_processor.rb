@@ -134,14 +134,26 @@ end
 # done if necessary.
 AssetProcessor.config do
   preview(:thumb) do |img|
+    if img.alpha?
+      img.border!(0, 0, 'white')
+      img.alpha Magick::DeactivateAlphaChannel
+    end
     img.resize_to_fit!(300, 280)
   end
 
   preview(:thumb_medium) do |img|
+    if img.alpha?
+      img.border!(0, 0, 'white')
+      img.alpha Magick::DeactivateAlphaChannel
+    end
     img.resize_to_fill!(160, 160)
   end
 
   preview(:thumb_small) do |img|
+    if img.alpha?
+      img.border!(0, 0, 'white')
+      img.alpha Magick::DeactivateAlphaChannel
+    end
     img.resize_to_fill!(60, 60)
   end
 end
