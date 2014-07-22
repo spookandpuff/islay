@@ -91,7 +91,7 @@ class AssetBulkUpload
     end
 
     # Unpacks the downloaded zip file and returns an array containing two entries;
-    # paths for categories and paths for assets.
+    # paths for categories and paths for assets. Ignores osx system files.
     #
     # @returns Array<Array>
     def unpack
@@ -103,6 +103,7 @@ class AssetBulkUpload
 
       Zip::Archive.open(file_path) do |archive|
         archive.each do |file|
+          next if file.name =~ /__MACOSX/ or file.name =~ /\.DS_Store/
           destination = dir + file.name
           name = Pathname.new(file.name).cleanpath.to_s
 
@@ -159,7 +160,6 @@ class AssetBulkUpload
       paths.map do |path|
         file  = File.open(dir + path)
         asset = Asset.choose_type(path.split('.').last)
-
         if path.include?('/')
           path, name = path_and_name(path)
           group = groups[path]
