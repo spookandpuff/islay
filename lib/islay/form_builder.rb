@@ -55,8 +55,9 @@ module Islay
         when :integer, :float
           'numeric'
         when :tags
+          raw_value = self.object.send(attribute_name) || []
           options[:class] = "#{options[:class]} metadata-tags"
-          options[:input_html] = {:value => self.object.send(attribute_name).join(',')} # We don't want the direct array.to_s as our form value
+          options[:input_html] = {:value => raw_value.join(',') } # We don't want the direct array.to_s as our form value
           'string'
         when :text, :boolean, :date
           metaopts[:type]
