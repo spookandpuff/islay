@@ -24,6 +24,7 @@ require 'hierarchy'
 require 'draper'
 require 'premailer'
 
+require "islay/engines"
 require "islay/engine"
 require "islay/core_ext"
 require "islay/coercion"
