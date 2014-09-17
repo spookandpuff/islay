@@ -18,7 +18,7 @@ class ImageAsset < Asset
   # A predicate to checks if the image is portrait i.e. taller than it is wide.
   #
   # @return [true, false]
-  def landscape?
+  def portrait?
     orientation == :portrait
   end
 
@@ -26,12 +26,12 @@ class ImageAsset < Asset
   # same.
   #
   # @return [true, false]
-  def landscape?
+  def square?
     orientation == :square
   end
 
   # Calculates the orientation of the image based on the width and height. If
-  # for some reason the width/height attributes couldn't be stored, it will 
+  # for some reason the width/height attributes couldn't be stored, it will
   # return :unknown
   #
   # @return [:landscape, :portrait, :square, :unknown]
