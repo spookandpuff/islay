@@ -10,7 +10,7 @@ module Islay::ApplicationHelper
   # @param Integer level header level to rewrite to
   # @param Boolean escape controls escaping of embedded HTML
   #
-  # TODO: We're manually subbing out &apos; with &#39; for IE8 compatiblity - 
+  # TODO: We're manually subbing out &apos; with &#39; for IE8 compatiblity -
   # be better to do it within rdiscount or some other library
   #
   # @return String
@@ -48,6 +48,7 @@ module Islay::ApplicationHelper
         content_tag(:div, 'No Image', :class => 'image-missing')
       end
     else
+      opts[:class] = "#{opts[:class]} #{asset.orientation}".strip
       protocol = request.nil? ? 'http://' : request.protocol
       image_tag(asset.versions.url(version, protocol), opts)
     end
