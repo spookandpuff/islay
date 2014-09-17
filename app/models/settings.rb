@@ -15,10 +15,10 @@ class Settings
   # @return [String, Boolean, Integer]
   def self.for(prefix, setting)
     val = @@config[prefix][setting]
-    if val
-      val
-    else
+    if val.nil?
       raise ConfigMissingError.new(prefix, setting)
+    else
+      val
     end
   end
 
@@ -36,7 +36,7 @@ class Settings
     !!(@@config[:islay][:aws_id] and @@config[:islay][:aws_secret])
   end
 
-  # Checks to see if the IC_ISLAY_USE_HTTPS setting is present and if it's 
+  # Checks to see if the IC_ISLAY_USE_HTTPS setting is present and if it's
   # value is true.
   #
   # @return Boolean
