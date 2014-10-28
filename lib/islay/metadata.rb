@@ -156,6 +156,7 @@ module Islay
 
       def define_attribute(name, type, primitive, opts)
         raise ExistingAttributeError.new(name, @model) if column_names.include?(name)
+
         reader = case primitive
         when :array
           %{
@@ -171,7 +172,9 @@ module Islay
 
         writer = case primitive
         when :array
-          %{self[_metadata.col] = data_column.merge('#{name}' => v)}
+          %{
+            self[_metadata.col] = data_column.merge('#{name}' => v)
+          }
         else
           %{self[_metadata.col] = data_column.merge('#{name}' => _metadata.coerce_#{primitive}(v))}
         end

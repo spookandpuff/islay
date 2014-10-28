@@ -43,8 +43,9 @@ module Islay
     # @return String
     #
     # @todo Support other types like URL, Email, etc.
-    def metadata_input(attribute_name, options = {}, &block)
+    def metadata_input(attribute_name, incoming_opts = {}, &block)
       metaopts = object.metadata_attributes[attribute_name]
+      options = incoming_opts.dup
 
       unless options.has_key?(:as)
         options[:as] = case metaopts[:type]
