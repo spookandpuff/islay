@@ -1,14 +1,13 @@
 require 'cells'
 require 'haml'
+require 'compass-rails' # This is temporary. By rights this needs to go into the assets group
 require 'sass-rails'
 require 'jquery-rails'
-require 'compass-rails' # This is temporary. By rights this needs to go into the assets group
 require 'devise'
 require 'simple_form'
 require 'pg'
 require 'pg_search'
 require 'schema_plus'
-require 'activerecord-postgres-hstore'
 require 'friendly_id'
 require 'fog'
 require 'girl_friday'
@@ -20,7 +19,6 @@ require 'kaminari'
 require 'RMagick'
 require 'rdiscount'
 require 'acts_as_list'
-require 'hierarchy'
 require 'draper'
 require 'premailer'
 

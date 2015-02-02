@@ -8,7 +8,6 @@ class Feature < ActiveRecord::Base
 
   positioned :page_id
 
-  validations_from_schema
   track_user_edits
 
   attr_accessible(

@@ -20,3 +20,9 @@ To help you get started, you can load some seed data into your fresh database. T
 
 The admin credentials are admin@domain.com/password
 
+## Upgrade to Rails 4.x
+
+Generally applications should just work, but any custom models will need to have some modifications.
+
+* Remove calls to `validations_from_schema`; custom code has been replaced with a lib
+

@@ -18,7 +18,7 @@ SimpleForm.setup do |config|
   config.error_notification_class = 'alert alert-error'
 
   config.collection_wrapper_class = 'group'
-  config.label_text = lambda { |label, required| "#{label} #{required}" }
+  config.label_text = lambda { |label, required, explicit_label| "#{label} #{required}" }
   config.label_class = nil
 
   config.browser_validations = false

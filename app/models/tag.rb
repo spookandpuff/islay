@@ -2,7 +2,6 @@
 # for specific models. Consequently, this class should _not_ be used directly.
 class Tag < ActiveRecord::Base
   self.abstract_class = true
-  attr_accessible :name
 
   # Creates a scope that will find any tags that have been orphaned i.e. don't
   # have any taggings associated with them.

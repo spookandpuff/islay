@@ -11,21 +11,15 @@ class Asset < ActiveRecord::Base
 
   belongs_to  :group,     :class_name => 'AssetGroup', :foreign_key => 'asset_group_id', :counter_cache => true
   has_many    :taggings,  :class_name => 'AssetTagging'
-  has_many    :tags,      :through => :taggings, :order => 'name'
+  has_many    :tags,      -> {order("name")}, :through => :taggings
 
   class_attribute :kind, :friendly_kind, :asset_processor
-
-  attr_accessible(
-    :name, :file, :asset_group_id, :status, :error, :retries, :album, :width,
-    :height, :colorspace, :filesize, :content_type, :creator_id, :updater_id
-  )
 
   before_save   :set_name
   after_commit  :enqueue_file_processing
   after_destroy :destroy_file
 
   track_user_edits
-  validations_from_schema
 
   # Used mainly for generating JSON. This method collects all the assets, but
   # with just some extra info injected e.g. is this asset one of the latest?
@@ -54,7 +48,7 @@ class Asset < ActiveRecord::Base
   #
   # @return ActiveRecord::Relation
   def self.filtered(filter)
-    filter ? where(:status => filter) : scoped
+    filter ? where(:status => filter) : self
   end
 
   # Creates a scope, which sorts the records by the specified field.

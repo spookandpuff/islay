@@ -1,11 +1,21 @@
 class AssetGroup < ActiveRecord::Base
-  include Hierarchy
+  # include Hierarchy
 
-  has_many :assets,     :foreign_key => 'asset_group_id', :order => 'name'
-  attr_accessible :name, :asset_group_id, :parent
+  has_many :assets, -> {order("name")}, :foreign_key => 'asset_group_id'
   class_attribute :kind
-  validations_from_schema
   track_user_edits
+
+  # Returns all the groups that are at the top i.e. have no parent.
+  #
+  # @return ActiveRecord::Relation
+  def self.top_level
+    where("path IS NULL or path = ?", '')
+  end
+
+  # @todo Actually implement this
+  def children
+    []
+  end
 
   # Returns the ID of the parent if there is one.
   #

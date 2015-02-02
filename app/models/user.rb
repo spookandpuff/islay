@@ -1,10 +1,8 @@
 class User < ActiveRecord::Base
   devise :database_authenticatable, :recoverable, :validatable
-  attr_accessible :name, :email, :password, :disabled
 
   before_destroy :check_immutable_flag
   before_save    :check_immutable_flag
-  validations_from_schema
 
   include PgSearch
   multisearchable :against => [:name, :email]
@@ -40,7 +38,7 @@ class User < ActiveRecord::Base
   self.updater_association_names = Set.new
 
   # Allows classes to register themselves as being tracked for user edits. This
-  # method is only intended to be used within Islay's API. You should not call 
+  # method is only intended to be used within Islay's API. You should not call
   # it directly.
   #
   # @param ActiveRecord::Base klass
@@ -60,7 +58,7 @@ class User < ActiveRecord::Base
   end
 
   # A predictate which checks to see if the user has created or modified any
-  # records. 
+  # records.
   #
   # This value is memoised.
   #
@@ -71,7 +69,7 @@ class User < ActiveRecord::Base
       updated = updater_association_names.map {|name| send(name).select("id").to_sql}
 
       count = self.class.count_by_sql(%{
-        SELECT 
+        SELECT
           CASE
             WHEN EXISTS (
               SELECT 1 FROM (
@@ -80,7 +78,7 @@ class User < ActiveRecord::Base
             ) THEN 1
             ELSE 0
           END AS count
-      }) 
+      })
 
       count == 1
     end
@@ -137,7 +135,7 @@ class User < ActiveRecord::Base
 
   protected
 
-  # This overwrites the default implementation provided by 
+  # This overwrites the default implementation provided by
   # Devise::Models::Validatable. It ignores blanks strings.
   #
   # @return [true, false]
