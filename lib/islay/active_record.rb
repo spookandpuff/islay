@@ -56,6 +56,7 @@ module ActiveRecord
       before_save :update_user_ids
       belongs_to :creator, :class_name => 'User'
       belongs_to :updater, :class_name => 'User'
+      schema_validations :except => [:creator, :updater]
       User.track_class(self)
       nil
     end
