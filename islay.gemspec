@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails",                         "~> 4.2.0"
   s.add_dependency "cells",                         "~> 3.11.3"
+  s.add_dependency "protected_attributes",          "~> 1.0.8"
   s.add_dependency "devise",                        "~> 3.4.1"
   s.add_dependency "responders",                    "~> 2.1.0"
   s.add_dependency "simple_form",                   "~> 3.1.0"
