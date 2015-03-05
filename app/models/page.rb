@@ -14,8 +14,8 @@ class Page < ActiveRecord::Base
     end
   end
 
-  has_many :features,           :order => 'position ASC'
-  has_many :published_features, :order => 'position ASC', :conditions => "published = true", :class_name => "Feature"
+  has_many :features,           -> {order 'position ASC'}
+  has_many :published_features, -> {order 'position ASC'}, :conditions => "published = true", :class_name => "Feature"
 
   has_many :assets,     :through => :page_assets
   has_many :images,     :through => :page_assets, :source => :asset, :class_name => 'ImageAsset'
