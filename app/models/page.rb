@@ -25,8 +25,6 @@ class Page < ActiveRecord::Base
 
   track_user_edits
 
-  attr_accessible :contents, :slug, :features_attributes, :new_feature
-
   accepts_nested_attributes_for :features,
     :reject_if     => proc {|f| f.values.map(&:blank?).all?},
     :allow_destroy => true

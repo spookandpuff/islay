@@ -180,7 +180,6 @@ module Islay
         end
 
         @model.class_eval %{
-          attr_accessible :#{name}
 
           def #{name}(format = :native)
             #{reader}

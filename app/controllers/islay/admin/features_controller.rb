@@ -17,4 +17,8 @@ class Islay::Admin::FeaturesController < Islay::Admin::ApplicationController
   def dependencies
     @assets = ImageAsset.order('name')
   end
+
+  def feature_params
+    params[:feature].permit(:primary_asset_id, :secondary_asset_id, :title, :description, :styles, :position, :published, :link_url, :link_title, :page_id)
+  end
 end
