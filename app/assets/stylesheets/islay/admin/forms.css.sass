@@ -14,6 +14,9 @@ $error-color: #954F3A
     width: 96%
     margin-left: 2%
 
+    > p.note
+      margin-top: 2em
+
   fieldset
     border-top: 0.15em solid $light-grey
     padding-top: $field-margin
@@ -152,7 +155,7 @@ form
 /* For displaying notices and controls for deletion, disabling etc.
 /* -------------------------------------------------------------------------- */
 .islay-form-notice
-  border: 0.1em solid $light-grey 
+  border: 0.1em solid $light-grey
   padding-top: 1.4em
   float: left
   width: 100%
@@ -237,7 +240,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     width: auto
 
 /* DATE-PICKER */
-.widget.date-picker 
+.widget.date-picker
   .kalendae
     +input-border
     +widget-border-radius(bottom-only)
@@ -273,7 +276,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     a
       top: 2px
 
-  .select2-dropdown-open 
+  .select2-dropdown-open
     .select2-choices
       +widget-border-radius(top-only)
       border-bottom-width: 0
@@ -573,7 +576,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   &.off .off-button
     color: white
 
-  &.on 
+  &.on
     .on-button
       border-left-width: auto
 
