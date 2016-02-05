@@ -1,5 +1,6 @@
 class Asset < ActiveRecord::Base
   include Islay::Taggable
+  include Islay::MetaData
 
   IMAGE_EXTENSIONS = %w(jpg jpeg png gif).freeze
   DOCUMENT_EXTENSIONS = %w(doc xls pdf zip pages numbers psd indd txt rtf).freeze
@@ -7,11 +8,16 @@ class Asset < ActiveRecord::Base
   AUDIO_EXTENSIONS = %w(mp3 aiff acc flac wav).freeze
 
   include PgSearch
-  multisearchable :against => [:name]
+  multisearchable :against => [:name, :metadata]
 
   belongs_to  :group,     :class_name => 'AssetGroup', :foreign_key => 'asset_group_id', :counter_cache => true
   has_many    :taggings,  :class_name => 'AssetTagging'
   has_many    :tags,      :through => :taggings, :order => 'name'
+
+  metadata(:config) do
+    string :credit
+    string :credit_url
+  end
 
   class_attribute :kind, :friendly_kind, :asset_processor
 
