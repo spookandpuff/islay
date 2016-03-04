@@ -14,7 +14,7 @@ class Asset < ActiveRecord::Base
   has_many    :taggings,  :class_name => 'AssetTagging'
   has_many    :tags,      :through => :taggings, :order => 'name'
 
-  metadata(:config) do
+  metadata(:metadata) do
     string :credit
     string :credit_url
   end
