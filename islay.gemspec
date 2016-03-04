@@ -28,8 +28,8 @@ Gem::Specification.new do |s|
   s.add_dependency "haml",                          "~> 3.1.5"
   s.add_dependency "sass-rails",                    "~> 3.2.5"
   s.add_dependency "compass-rails",                 "~> 1.0.1"
-  s.add_dependency "pg",                            "~> 0.14.1"
-  s.add_dependency "pg_search",                     "~> 0.7.0"
+  s.add_dependency "pg",                            "~> 0.18.4"
+  s.add_dependency "pg_search",                     "~> 1.0.5"
   s.add_dependency "schema_plus",                   "1.1.2"
   s.add_dependency 'friendly_id',                   "~> 4.0.8"
   s.add_dependency "activerecord-postgres-hstore",  "~> 0.3.0"
@@ -48,4 +48,5 @@ Gem::Specification.new do |s|
   s.add_dependency "hierarchy",                     "~> 1.0.6"
   s.add_dependency "premailer",                     "~> 1.7.3"
   s.add_dependency 'draper',                        '~> 0.17.0'
+  s.add_dependency 'test-unit',                     '~> 3.0'
 end
