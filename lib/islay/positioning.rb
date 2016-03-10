@@ -35,7 +35,7 @@ class ActiveRecord::Base
     end
 
     module InstanceMethods
-      # Moves the record one position higher, adjusting the position of it's
+      # Moves the record one position higher, adjusting the position of its
       # siblings.
       #
       # @return Boolean
@@ -43,7 +43,7 @@ class ActiveRecord::Base
         move_position(:-, :+)
       end
 
-      # Moves the record one position lower, adjusting the position of it's
+      # Moves the record one position lower, adjusting the position of its
       # siblings.
       #
       # @return Boolean

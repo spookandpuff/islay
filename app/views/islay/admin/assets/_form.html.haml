@@ -11,6 +11,12 @@
     = f.fieldset('Organise') do
       = f.input(:tag_summary, :label => 'Tags')
       = f.input(:asset_group_id, :collection => AssetGroup.all, :label => 'Collection', :include_blank => false, :selected => params[:to])
+      
+    - f.metadata do |attrs|
+      - if attrs
+        = f.fieldset('Attributes') do
+          - attrs.each do |name, opts|
+            = f.metadata_input(name)
 
   = footer do
     = save_button
