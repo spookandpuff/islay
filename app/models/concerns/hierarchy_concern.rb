@@ -21,7 +21,7 @@ module HierarchyConcern
   #
   # @return ActiveRecord::Relation
   def ancestors
-    if path
+    if path.present?
       self.class.where("id IN (?)", indexed_path.first)
     else
       self.class.none
@@ -49,14 +49,14 @@ module HierarchyConcern
   #
   # @return String
   def child_path
-    path ? "#{path}.#{id}" : id.to_s
+    path.present? ? "#{path}.#{id}" : id.to_s
   end
 
   # Turns the path into an array.
   #
   # @return Array<Integer>
   def indexed_path
-    path ? path.split('.').map(&:to_i) : []
+    path.present? ? path.split('.').map(&:to_i) : []
   end
 
   module ClassMethods
