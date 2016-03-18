@@ -22,6 +22,7 @@ require 'rdiscount'
 require 'acts_as_list'
 require 'draper'
 require 'premailer'
+require 'schema_validation_extension'
 
 require "islay/engines"
 require "islay/engine"
