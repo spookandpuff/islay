@@ -40,8 +40,12 @@ module HierarchyConcern
   # @param ActiveRecord::Base parent
   # @return ActiveRecord::Base
   def parent=(parent)
-    raise ArgumentError, "Parent cannot be a new record" if parent.new_record?
-    self.path = parent.child_path
+    if parent.present?
+      raise ArgumentError, "Parent cannot be a new record" if parent.new_record?
+      self.path = parent.child_path
+    else
+      self.path = nil
+    end
     parent
   end
 
