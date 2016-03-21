@@ -64,15 +64,13 @@ class ActiveRecord::Base
           new_pos = position.send(op1, 1)
 
           if position_scope
-            self.class.update_all(
-              "position = position #{op2} 1",
-              ["position = ? AND #{position_scope} = ?", new_pos, send(position_scope)]
-            )
+            self.class
+              .where(["position = ? AND #{position_scope} = ?", new_pos, send(position_scope)])
+              .update_all("position = position #{op2} 1")
           else
-            self.class.update_all(
-              "position = position #{op2} 1",
-              ["position = ?", new_pos]
-            )
+            self.class
+              .where(["position = ?", new_pos])
+              .update_all("position = position #{op2} 1")
           end
 
           update_attribute(:position, new_pos)
