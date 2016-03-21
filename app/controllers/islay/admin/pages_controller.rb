@@ -31,6 +31,6 @@ class Islay::Admin::PagesController < Islay::Admin::ApplicationController
   end
 
   def page_params
-    params[:page].permit(:contents, :slug, :features_attributes, :new_feature, {:page_assets => [:page_id, :name, :asset_id]})
+    params[:page].permit!
   end
 end
