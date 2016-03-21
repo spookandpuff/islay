@@ -51,7 +51,7 @@ module Islay
           # Create new taggings and tags (if nescessary)
           unless added.empty?
             added.each do |name|
-              tag = tag_class.find_or_create_by_name(name)
+              tag = tag_class.find_or_create_by(name: name)
               taggings.create(:tag => tag)
             end
           end
