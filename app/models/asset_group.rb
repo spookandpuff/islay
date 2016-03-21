@@ -43,7 +43,7 @@ class AssetGroup < ActiveRecord::Base
       .joins(sanitize_sql_array(["JOIN assets ON asset_group_id = asset_groups.id AND assets.type = ?", "#{only.singularize.capitalize}Asset"]))
       .group("asset_groups.id, asset_groups.name")
     else
-      scoped
+      where(nil) # 'scoped'
     end
   end
 end

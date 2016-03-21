@@ -45,7 +45,7 @@ class Asset < ActiveRecord::Base
   #
   # @return ActiveRecord::Relation
   def self.of(type)
-    type ? where(:type => "#{type.singularize.capitalize}Asset") : scoped
+    type ? where(:type => "#{type.singularize.capitalize}Asset") : where(nil) # 'scoped'
   end
 
   # Creates a scope, which filters the records by the specified status.
