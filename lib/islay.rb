@@ -7,8 +7,6 @@ require 'devise'
 require 'simple_form'
 require 'pg'
 require 'pg_search'
-require 'schema_plus'
-require 'schema_validations'
 require 'friendly_id'
 require 'fog'
 require 'girl_friday'
@@ -22,7 +20,6 @@ require 'rdiscount'
 require 'acts_as_list'
 require 'draper'
 require 'premailer'
-require 'schema_validation_extension'
 
 require "islay/engines"
 require "islay/engine"

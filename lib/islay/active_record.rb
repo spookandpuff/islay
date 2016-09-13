@@ -56,7 +56,6 @@ module ActiveRecord
       before_save :update_user_ids
       belongs_to :creator, :class_name => 'User'
       belongs_to :updater, :class_name => 'User'
-      schema_validations :except => [:creator, :updater]
       User.track_class(self)
       nil
     end
@@ -66,5 +65,41 @@ module ActiveRecord
     def self.nullable(col)
       col.null or (!col.null and !col.default.nil?)
     end
+
+    # Extracts validations from the database schema, meaning there is no need
+    # to essentially repeat the constraints in the model again.
+    #
+    # @return nil
+    def self.validations_from_schema(opts = {})
+      if ActiveRecord::Base.connection.table_exists?(table_name)
+        except = ['creator_id', 'updater_id', 'created_at', 'updated_at']
+        except += opts[:except].map(&:to_s) if opts[:except]
+
+        self.columns.each do |col|
+          unless col.name == primary_key or (!except.empty? and except.include?(col.name))
+            case col.type
+            when :integer
+              # / 2 assumes signed!
+              opts = {:only_integer => true, :allow_nil => nullable(col)}
+              opts[:less_than] = (2 ** (8 * col.limit)) / 2 if col.limit
+              validates_numericality_of col.name, opts
+            when :float
+              # less_than would need to look at col.scale, col.float
+              validates_numericality_of col.name, :allow_nil => nullable(col)
+            when :string, :text
+              if col.limit.to_i > 0 # Mysql enum type shows up as a string with a limit of 0
+                validates_length_of col.name, :maximum => col.limit, :allow_nil => nullable(col)
+              end
+            when :boolean
+              validates_inclusion_of col.name, :in => [true, false], :allow_nil => nullable(col)
+            end
+
+            validates_presence_of col.name unless nullable(col)
+          end
+        end
+
+        nil
+      end
+    end # ::validations_from_schema
   end # Base
 end # ActiveRecord

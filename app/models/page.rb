@@ -24,6 +24,7 @@ class Page < ActiveRecord::Base
   has_many :video,      :through => :page_assets, :source => :asset, :class_name => 'VideoAsset'
 
   track_user_edits
+  validations_from_schema
 
   accepts_nested_attributes_for :features,
     :reject_if     => proc {|f| f.values.map(&:blank?).all?},

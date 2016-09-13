@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   before_destroy :check_immutable_flag
   before_save    :check_immutable_flag
 
+  validations_from_schema
+
   include PgSearch
   multisearchable :against => [:name, :email]
 

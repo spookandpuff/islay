@@ -26,6 +26,7 @@ class Asset < ActiveRecord::Base
   after_destroy :destroy_file
 
   track_user_edits
+  validations_from_schema
 
   # Used mainly for generating JSON. This method collects all the assets, but
   # with just some extra info injected e.g. is this asset one of the latest?

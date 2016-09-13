@@ -9,6 +9,7 @@ class Feature < ActiveRecord::Base
   positioned :page_id
 
   track_user_edits
+  validations_from_schema
 
   # Returns the options required for generating a URL to this model. This is
   # currently used with searches.

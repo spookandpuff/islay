@@ -31,8 +31,6 @@ Gem::Specification.new do |s|
   s.add_dependency "compass-rails",                 "~> 2.0.4"
   s.add_dependency "pg",                            "~> 0.18.1"
   s.add_dependency "pg_search",                     "~> 0.7.0"
-  s.add_dependency "schema_plus",                   "~> 2.0.0"
-  s.add_dependency "schema_validations",            "~> 2.0.1"
   s.add_dependency 'friendly_id',                   "~> 5.1.0"
   s.add_dependency "inherited_resources",           "~> 1.6.0"
   s.add_dependency "rmagick",                       "~> 2.13.1"

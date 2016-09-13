@@ -4,6 +4,7 @@ class AssetGroup < ActiveRecord::Base
   has_many :assets, -> {order("name")}, :foreign_key => 'asset_group_id'
   class_attribute :kind
   track_user_edits
+  validations_from_schema
 
   # Returns the ID of the parent if there is one.
   #
