@@ -32,7 +32,7 @@ module HierarchyConcern
   #
   # @return [ActiveRecord::Base, nil]
   def parent
-    self.class.find(indexed_path.last) if path
+    self.class.find(indexed_path.last) if path.present?
   end
 
   # A setter for the parent. This actually just updates the path on the record.
