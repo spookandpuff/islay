@@ -60,7 +60,10 @@ module Islay
           options[:class] = "#{options[:class]} metadata-tags"
           options[:input_html] = {:value => raw_value.join(',') } # We don't want the direct array.to_s as our form value
           'string'
-        when :text, :boolean, :date
+        when :date
+          options[:wrapper_class] = "#{options[:class]} date_picker"
+          'string'
+        when :text, :boolean
           metaopts[:type]
         end
       end
