@@ -36,6 +36,15 @@ module Islay
       nil # This ensures nothing gets written to the template if someone uses '=' to call this.
     end
 
+    # Render metadata inputs, grouped based on their prefixed name
+    def metadata_groups(&blk)
+      if object.has_metadata?
+        object._metadata.attributes.group_by{|(k,v)| k.to_s.split("_").first.humanize}
+      else
+        {}
+      end
+    end
+
     # Writes out inputs based on the contents of the hash contained in the
     # metadata column of a model. It inspects the options attached to an
     # attribute and renders the appropriate input.

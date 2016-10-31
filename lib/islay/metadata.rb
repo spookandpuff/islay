@@ -176,7 +176,7 @@ module Islay
             self[_metadata.col] = data_column.merge('#{name}' => v)
           }
         else
-          %{binding.pry; self[_metadata.col] = data_column.merge('#{name}' => _metadata.coerce_#{primitive}(v))}
+          %{self[_metadata.col] = data_column.merge('#{name}' => _metadata.coerce_#{primitive}(v))}
         end
 
         @model.class_eval %{
