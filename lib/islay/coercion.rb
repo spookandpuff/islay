@@ -17,7 +17,13 @@ module Islay
         Date.today
       else
         case v
-        when String then Date.parse(v)
+        when String
+            # A string may be a date string, or a rails select hash-as-a-string
+            if v.include? '=>'
+              Date.new(JSON.parse(v.gsub('=>',"':'")).values)
+            else
+              Date.parse(v)
+            end
         else v
         end
       end
