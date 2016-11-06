@@ -56,7 +56,7 @@ module Islay
       end
 
       def content(slug, name, type, opts = {})
-        @contents[slug] = {:slug => slug, :name => name, :type => type, :opts = opts}
+        @contents[slug] = {:slug => slug, :name => name, :type => type, :opts => opts}
       end
 
       def page(slug, name, &blk)
