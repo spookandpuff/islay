@@ -104,6 +104,45 @@ class Page < ActiveRecord::Base
     end
   end
 
+  #Retrieve a single piece of content with its value
+  def content(name)
+    c = definition.contents[name]
+
+    case c[:type]
+    when :image
+      page_assets.by_name(name)
+    else
+      entries[name.to_s] || ''
+    end
+  end
+
+  class ContentsGroup
+    def initialize(name, contents, page)
+      @name = name
+      @contents = contents
+      @page = page
+    end
+
+    attr_reader :name, :contents
+
+    def each
+      @contents.each do |slug, val|
+        yield(slug, @page.content_type(slug), @page.content_name(slug), @page.content(slug))
+      end
+    end
+  end
+
+  # Group the definitions by their 'group' value
+  def grouped_contents
+    definition.contents
+      .reduce({}){|a, (k,v)| a[k] = content_with_config(k); a}
+      .group_by{|k, v|v[:group]}.map do |(k, v)|
+        values = v.to_h
+
+        ContentsGroup.new(k, values, self)
+      end
+  end
+
   # Updates the content entries for the page.
   #
   # @param Hash updates

@@ -9,15 +9,18 @@
 
   = content do
     = f.fieldset('Content', :class => 'form-tab', :id => 'page-content') do
-      - @page.each do |slug, type, name, val|
-        - if type == :image
-          %div.field.single_asset
-            = label(name, slug)
-            = contents_field(slug, type, val)
-        - else
-          %div.field
-            = label(name, slug)
-            = contents_field(slug, type, val)
+      - @page.grouped_contents.each do |group|
+        = f.fieldset(group.name) do
+          - group.each do |slug, type, name, val|
+            
+            - if type == :image
+              %div.field.single_asset
+                = label(name, slug)
+                = contents_field(slug, type, val)
+            - else
+              %div.field
+                = label(name, slug)
+                = contents_field(slug, type, val)
 
     - if @page.features?
       = f.fieldset('Features', :class => 'islay-page-features form-tab', :id => 'page-features') do
