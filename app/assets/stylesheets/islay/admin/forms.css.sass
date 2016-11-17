@@ -36,13 +36,6 @@ $error-color: #954F3A
     width: 100%
     float: left
 
-  input,
-  select,
-  textarea
-    color: $text-color
-    font-size: 1em
-    float: left
-
   fieldset.member-tree legend,
   label
     padding-top: $border-width + $input-v-padding
@@ -100,8 +93,8 @@ form
   input[type=tel],
   input[type=number],
   textarea
-    +border-radius(0.1em)
-    +background-image(linear-gradient(#E8E8E8 0, #FAFAFA 3px))
+    +border-radius(2px)
+    background: #FFF
     border: 0.1em solid #B6B9BC
     float: left
     padding: $input-v-padding $input-h-padding
@@ -119,6 +112,21 @@ form
 
   .tiny
     width: 3em !important
+
+  input[type=text],
+  input[type=email],
+  input[type=password],
+  input[type=url],
+  input[type=tel],
+  input[type=number],
+  select,
+  textarea
+    color: $text-color
+    font-size: 1em
+    float: left
+    min-width: 20rem
+    max-width: 50rem
+    width: 80%
 
 /* -------------------------------------------------------------------------- */
 /* ERROED FIELDS
