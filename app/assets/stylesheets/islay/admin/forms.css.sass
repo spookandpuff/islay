@@ -28,7 +28,6 @@ $error-color: #954F3A
     background: $form-inset-color
 
   legend
-    +text-shadow(-1px -1px 0 rgba(0, 0, 0, 0.1))
     text-transform: uppercase
     font-weight: bold
     color: #666
@@ -99,19 +98,8 @@ form
     float: left
     padding: $input-v-padding $input-h-padding
 
-  textarea,
-  input.string
-    min-width: 18em
-    max-width: 42em
-    width: 65%
   textarea
     min-height: 18em
-
-  .small
-    width: 5.5em !important
-
-  .tiny
-    width: 3em !important
 
   input[type=text],
   input[type=email],
@@ -122,11 +110,47 @@ form
   select,
   textarea
     color: $text-color
-    font-size: 1em
+    font-size: 1rem
     float: left
+
+  input[type=text],
+  input[type=email],
+  input[type=password],
+  input[type=url],
+  input[type=tel],
+  select,
+  textarea
     min-width: 20rem
-    max-width: 50rem
-    width: 80%
+    max-width: 42rem
+    width: 75%
+
+  input[type=number]
+    min-width: 6rem
+    max-width: 8rem
+    width: 20%
+
+  input,
+  select,
+  textarea
+    &.small
+      width: 5.5em !important
+      min-width: 0
+      max-width: none
+
+    &.tiny
+      width: 3em !important
+      min-width: 0
+      max-width: none
+
+  .hint
+    color: #808080
+    display: inline-block
+    margin-left: 1rem
+    float: left
+    min-width: 8rem
+    max-width: 18rem
+    width: 20%
+
 
 /* -------------------------------------------------------------------------- */
 /* ERROED FIELDS
