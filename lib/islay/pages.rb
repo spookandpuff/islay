@@ -55,8 +55,8 @@ module Islay
         @features = bool
       end
 
-      def content(slug, name, type)
-        @contents[slug] = {:slug => slug, :name => name, :type => type}
+      def content(slug, name, type, opts = {})
+        @contents[slug] = {:slug => slug, :name => name, :type => type}.merge(opts)
       end
 
       def page(slug, name, &blk)

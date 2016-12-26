@@ -13,7 +13,7 @@ class Islay::Admin::PagesController < Islay::Admin::ApplicationController
   end
 
   def update
-    if @page.update_attributes(params[:page])
+    if @page.update_attributes(page_params)
       redirect_to path(:edit, @page)
     else
       render :edit
@@ -28,5 +28,9 @@ class Islay::Admin::PagesController < Islay::Admin::ApplicationController
 
   def find_page
     @page = Page.where(:slug => params[:id]).first || Page.new(:slug => params[:id])
+  end
+
+  def page_params
+    params[:page].permit!
   end
 end

@@ -6,7 +6,7 @@ module Islay
       nav_scope :asset_library
 
       def index
-        @groups = AssetGroup.summary.top_level.order('name')
+        @groups = AssetGroup.summary.order('name')
       end
 
       private

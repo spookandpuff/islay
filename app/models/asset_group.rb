@@ -1,24 +1,22 @@
 class AssetGroup < ActiveRecord::Base
-  include Hierarchy
+  include HierarchyConcern
 
-  has_many :assets,     :foreign_key => 'asset_group_id', :order => 'name'
-  attr_accessible :name, :asset_group_id, :parent
+  has_many :assets, -> {order("name")}, :foreign_key => 'asset_group_id'
   class_attribute :kind
-  validations_from_schema
   track_user_edits
+  validations_from_schema
 
   # Returns the ID of the parent if there is one.
   #
-  # @return [ProductCategory, nil]
+  # @return [AssetGroup, nil]
   def asset_group_id
-    parent.id if parent
+    parent.try(:id)
   end
 
   # Sets the parent via it's ID. If ID is #blank? it does nothing.
   #
   # @param [Integer, String] id
-  #
-  # @return [ProductCategory, nil]
+  # @return [AssetGroup, nil]
   def asset_group_id=(id)
     self.parent = AssetGroup.find(id) unless id.blank?
   end
@@ -46,7 +44,7 @@ class AssetGroup < ActiveRecord::Base
       .joins(sanitize_sql_array(["JOIN assets ON asset_group_id = asset_groups.id AND assets.type = ?", "#{only.singularize.capitalize}Asset"]))
       .group("asset_groups.id, asset_groups.name")
     else
-      scoped
+      where(nil) # 'scoped'
     end
   end
 end

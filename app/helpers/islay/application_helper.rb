@@ -49,8 +49,12 @@ module Islay::ApplicationHelper
       end
     else
       opts[:class] = "#{opts[:class]} #{asset.orientation}".strip
-      protocol = request.nil? ? 'http://' : request.protocol
-      image_tag(asset.versions.url(version, protocol), opts)
+      image_tag(version_image_url(asset, version), opts)
     end
+  end
+
+  def version_image_url(asset, version)
+    protocol = request.nil? ? 'http://' : request.protocol
+    asset.versions.url(version, protocol)
   end
 end

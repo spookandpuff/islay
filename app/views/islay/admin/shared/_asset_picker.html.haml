@@ -8,4 +8,4 @@
             = asset.name
             = check_box_tag("#{f.object_name}[asset_ids][]", asset.id, :boolean => true)
           .frame
-            = image_tag(asset.previews.url(:thumb_medium))
+            = image_tag(asset.previews.url(:thumb))

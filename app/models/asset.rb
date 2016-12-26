@@ -12,7 +12,7 @@ class Asset < ActiveRecord::Base
 
   belongs_to  :group,     :class_name => 'AssetGroup', :foreign_key => 'asset_group_id', :counter_cache => true
   has_many    :taggings,  :class_name => 'AssetTagging'
-  has_many    :tags,      :through => :taggings, :order => 'name'
+  has_many    :tags,      -> {order("name")}, :through => :taggings
 
   metadata(:metadata) do
     string :credit
@@ -20,11 +20,6 @@ class Asset < ActiveRecord::Base
   end
 
   class_attribute :kind, :friendly_kind, :asset_processor
-
-  attr_accessible(
-    :name, :file, :asset_group_id, :status, :error, :retries, :album, :width,
-    :height, :colorspace, :filesize, :content_type, :creator_id, :updater_id
-  )
 
   before_save   :set_name
   after_commit  :enqueue_file_processing
@@ -51,7 +46,7 @@ class Asset < ActiveRecord::Base
   #
   # @return ActiveRecord::Relation
   def self.of(type)
-    type ? where(:type => "#{type.singularize.capitalize}Asset") : scoped
+    type ? where(:type => "#{type.singularize.capitalize}Asset") : where(nil) # 'scoped'
   end
 
   # Creates a scope, which filters the records by the specified status.
@@ -60,7 +55,7 @@ class Asset < ActiveRecord::Base
   #
   # @return ActiveRecord::Relation
   def self.filtered(filter)
-    filter ? where(:status => filter) : scoped
+    filter ? where(:status => filter) : self
   end
 
   # Creates a scope, which sorts the records by the specified field.

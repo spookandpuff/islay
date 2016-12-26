@@ -14,6 +14,9 @@ $error-color: #954F3A
     width: 96%
     margin-left: 2%
 
+    > p.note
+      margin-top: 2em
+
   fieldset
     border-top: 0.15em solid $light-grey
     padding-top: $field-margin
@@ -25,19 +28,11 @@ $error-color: #954F3A
     background: $form-inset-color
 
   legend
-    +text-shadow(-1px -1px 0 rgba(0, 0, 0, 0.1))
     text-transform: uppercase
     font-weight: bold
     color: #666
     margin-bottom: $field-margin
     width: 100%
-    float: left
-
-  input,
-  select,
-  textarea
-    color: $text-color
-    font-size: 1em
     float: left
 
   fieldset.member-tree legend,
@@ -97,8 +92,8 @@ form
   input[type=tel],
   input[type=number],
   textarea
-    +border-radius(0.1em)
-    +background-image(linear-gradient(#E8E8E8 0, #FAFAFA 3px))
+    +border-radius(2px)
+    background: #FFF
     border: 0.1em solid #B6B9BC
     float: left
     padding: $input-v-padding $input-h-padding
@@ -106,11 +101,56 @@ form
   textarea
     min-height: 18em
 
-  .small
-    width: 5.5em !important
+  input[type=text],
+  input[type=email],
+  input[type=password],
+  input[type=url],
+  input[type=tel],
+  input[type=number],
+  select,
+  textarea
+    color: $text-color
+    font-size: 1rem
+    float: left
 
-  .tiny
-    width: 3em !important
+  input[type=text],
+  input[type=email],
+  input[type=password],
+  input[type=url],
+  input[type=tel],
+  select,
+  textarea
+    min-width: 20rem
+    max-width: 42rem
+    width: 75%
+
+  input[type=number]
+    min-width: 6rem
+    max-width: 8rem
+    width: 20%
+
+  input,
+  select,
+  textarea
+    &.small
+      width: 5.5em !important
+      min-width: 0
+      max-width: none
+
+    &.tiny
+      width: 3em !important
+      min-width: 0
+      max-width: none
+
+  .hint
+    color: #808080
+    display: inline-block
+    margin-left: 1rem
+    float: left
+    min-width: 8rem
+    max-width: 18rem
+    width: 20%
+
 
 /* -------------------------------------------------------------------------- */
 /* ERROED FIELDS
@@ -152,7 +192,7 @@ form
 /* For displaying notices and controls for deletion, disabling etc.
 /* -------------------------------------------------------------------------- */
 .islay-form-notice
-  border: 0.1em solid $light-grey 
+  border: 0.1em solid $light-grey
   padding-top: 1.4em
   float: left
   width: 100%
@@ -237,7 +277,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     width: auto
 
 /* DATE-PICKER */
-.widget.date-picker 
+.widget.date-picker
   .kalendae
     +input-border
     +widget-border-radius(bottom-only)
@@ -261,11 +301,13 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     float: left
 
 /* MULTI-SELECT */
-.widget.multi-select
+.select2-container-multi
   .select2-choices
     +input-border
     +widget-border-radius
-    width: 30em
+    min-width: 18em
+    max-width: 42em
+    width: 65%
 
   .select2-search-choice
     padding: 0 0.6em 0 1.4em !important
@@ -273,11 +315,11 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     a
       top: 2px
 
-  .select2-dropdown-open 
+  .select2-dropdown-open
     .select2-choices
       +widget-border-radius(top-only)
       border-bottom-width: 0
-
+      
     &.select2-drop-above .select2-choices
       +widget-border-radius(bottom-only)
       border-bottom-width: 0.1em !important
@@ -286,7 +328,9 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 /* SIMPLE SELECT */
 .widget.select
   .select2-container
-    min-width: 25em
+    min-width: 18em
+    max-width: 42em
+    width: 65%
 
   /* Current selection */
   .select2-choice
@@ -305,7 +349,6 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 
   .select2-drop-above .select2-choice
     +widget-border-radius(bottom-only)
-
 
 /* BOOLEAN & SEGMENTED */
 .widget.boolean,
@@ -573,7 +616,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   &.off .off-button
     color: white
 
-  &.on 
+  &.on
     .on-button
       border-left-width: auto
 
@@ -636,16 +679,22 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 
   li
     +input-border
-    +widget-border-radius
-    height: 3em
-    width: 4em
-    overflow: hidden
-    margin-right: 0.5em
+    +border-radius(0.2em)
+    +single-box-shadow(rgba(0, 0, 0, 0.03), 0, 0, 0, 2px)
+    border: 0.1em solid $light-grey
+    background: white
     float: left
+    height: 8em
+    margin-right: 1em
+    overflow: hidden
     position: relative
+    width: 8em
+    padding: 0.5em
 
   img
-    width: 4em
+    width: 100%
+    height: 100%
+    object-fit: contain
 
   .remove
     padding: 0.2em
@@ -658,7 +707,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 
     i
       text-align: center
-      margin-top: 0.4em
+      line-height: 5em
       width: 100%
       display: block
       font-size: 1.6em
@@ -695,8 +744,10 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 
 /* SELECTIZE */
 .select2-container
-  width: 24em
   float: left
+  min-width: 18em
+  max-width: 42em
+  width: 65%
 
   .select2-choice
     +input-border

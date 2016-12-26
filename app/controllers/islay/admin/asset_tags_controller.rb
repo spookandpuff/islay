@@ -7,7 +7,7 @@ class Islay::Admin::AssetTagsController < Islay::Admin::ApplicationController
   end
 
   def show
-    @asset_tag  = AssetTag.find(params[:id])
+    @asset_tag  = AssetTag.where(slug: params[:id]).first
     @assets     = @asset_tag.assets.page(params[:page]).order("name")
   end
 end

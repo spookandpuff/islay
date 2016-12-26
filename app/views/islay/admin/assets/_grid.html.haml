@@ -11,7 +11,7 @@
             %span.processing-marker{:title => 'This asset is being processed, and will be available shortly.'}
           - else
             - if asset.preview?
-              = image_tag(asset.previews.url(:thumb_medium))
+              = image_tag(asset.previews.url(:thumb))
             - else
               %span(class='no-preview icon-#{asset.kind}') &nbsp;
         = link_to(asset.name, path(asset), :class => 'name')

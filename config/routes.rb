@@ -45,7 +45,7 @@ Rails.application.routes.draw do
         collection do
           get '',                               :action => :processing, :as => 'index'
           get '(/filter-:filter)(/sort-:sort)', :action => :processing, :as => 'filter_and_sort'
-          put '',                               :action => :bulk_reprocess
+          patch '',                             :action => :bulk_reprocess
         end
       end
 
@@ -59,7 +59,7 @@ Rails.application.routes.draw do
 
         member do
           get :delete
-          put :reprocess
+          patch :reprocess
         end
       end
 

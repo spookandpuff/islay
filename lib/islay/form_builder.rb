@@ -36,6 +36,15 @@ module Islay
       nil # This ensures nothing gets written to the template if someone uses '=' to call this.
     end
 
+    # Render metadata inputs, grouped based on their prefixed name
+    def metadata_groups(&blk)
+      if object.has_metadata?
+        object._metadata.attributes.group_by{|(k,v)| k.to_s.split("_").first.humanize}
+      else
+        {}
+      end
+    end
+
     # Writes out inputs based on the contents of the hash contained in the
     # metadata column of a model. It inspects the options attached to an
     # attribute and renders the appropriate input.
@@ -60,7 +69,10 @@ module Islay
           options[:class] = "#{options[:class]} metadata-tags"
           options[:input_html] = {:value => raw_value.join(',') } # We don't want the direct array.to_s as our form value
           'string'
-        when :text, :boolean, :date
+        when :date
+          options[:wrapper_class] = "#{options[:class]} date_picker"
+          'string'
+        when :text, :boolean
           metaopts[:type]
         end
       end
