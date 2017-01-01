@@ -50,9 +50,7 @@ body.has-footer #content
 /* -------------------------------------------------------------------------- */
 /* HEADER
 /* -------------------------------------------------------------------------- */
-.islay-layout-header
-  +background-image($dimension-raised-subtle)
-  +box-shadow(0 0.1em 0.6em rgba(0,0,0,0.1))
+.islay-layout-header  
   background-color: #FFF
   border-top: 0.1em solid $header-border-color
   border-bottom: 0.1em solid $header-border-color
@@ -63,7 +61,7 @@ body.has-footer #content
 
   h2,
   .breadcrumb
-    +islay-text-engraved
+    
     color: $dark-grey
     float: left
     font-weight: bold
@@ -161,7 +159,7 @@ body.has-footer #content
       &.current,
       &.current:hover,
       &.current:focus
-        +box-shadow(rgb(255,255,255) 0 1px 0 0)
+        
         +background-image($dimension-dished)
         border-color: $light-grey - 20 !important
         color: #222
@@ -589,8 +587,6 @@ a.button,
 button
   +border-radius(0.3em)
   +background-image($dimension-raised)
-  +box-shadow(rgba(0, 0, 0, 0.05), -1px -1px 1px)
-  +islay-text-engraved
   +transition(background-image, 0.5s)
   font-family: $default-font-family
   font-weight: $default-font-weight
@@ -766,8 +762,7 @@ span.indicator
 .tag
   +unstyled-link
   +border-radius(0.3em)
-  +islay-text-engraved(1px, 0.5)
-  +background-image($dimension-raised-subtle)
+  
   background-color: $tag-color
   border: 0.1em solid $tag-color - 25
   padding: 0.4em 1em 0.3em
@@ -790,7 +785,7 @@ body#login
   color: #FFF
 
   .login-container
-    +box-shadow(rgba(0,0,0,0.6) 0 0.5em 2em 0)
+    
     background: #EEE
     border-top: 1px solid #FFF
     border-bottom: 1px solid #000
