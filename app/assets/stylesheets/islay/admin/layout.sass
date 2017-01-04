@@ -19,9 +19,6 @@ body.has-footer #content
 /* -------------------------------------------------------------------------- */
 /* MAIN CONTENT BLOCKS
 /* -------------------------------------------------------------------------- */
-.islay-layout-app-name
-  position: absolute
-  left: -1000em
 
 #footer
   position: fixed
@@ -32,10 +29,22 @@ body.has-footer #content
 .islay-layout-header
   height: $sub-header-height
   left: 0
+  padding-left: 0.5rem
   position: fixed
   right: 0
   top: 0
   z-index: 2
+
+.islay-content-header
+  height: $sub-header-height
+  left: 0
+  position: fixed
+  right: 0
+  top: $sub-header-height
+  z-index: 2
+
+  +for-tablet
+    left: $body-margin-left
 
 #footer
   height: $footer-height
@@ -51,16 +60,21 @@ body.has-footer #content
 /* -------------------------------------------------------------------------- */
 /* HEADER
 /* -------------------------------------------------------------------------- */
-.islay-layout-header  
+.islay-layout-header 
   background-color: $color-layout-header
+  line-height: $sub-header-height
 
-  h2
-    position: absolute
-    left: -1000em
+  h1, h2
+    display: inline-block
+    margin: 0 0.5rem 0  0
 
+.islay-layout-app-name
+  +type-base
+  font-weight: bold
+
+.islay-content-header
   h2,
   .breadcrumb
-    
     color: $dark-grey
     float: left
     font-weight: bold
@@ -72,6 +86,7 @@ body.has-footer #content
       color: $mid-grey
 
   .breadcrumb
+    display: none
     li
       display: inline-block
 
@@ -225,23 +240,25 @@ $collapsed-nav-width: 2.75em
     float: left
 
   a,
-  a:visited,
-  a:hover
-    color: $nav-foreground-color
-    text-decoration: none
+    &:link,
+    &:visited,
+    &:hover,
+    &:focus,
+    &:active
+      color: $nav-foreground-color
+      text-decoration: none
 
   // Shared styles
   .entry,
   .search-entry
     +type-small
     display: block
-    height: 2.2em
-    line-height: 1.65rem
+    height: $ui-single-line-height
+    line-height: $ui-single-line-height
     margin: 0
     overflow: hidden
 
     strong
-      margin-top: 0.2em
       font-size: 1em
       display: block
 
@@ -333,19 +350,6 @@ $collapsed-nav-width: 2.75em
         position: absolute
         left: -1000em
 
-// Sub Navigation
-.islay-sub-nav
-  background-color: $nav-color + 10
-  position: absolute
-  left: $collapsed-nav-width
-  top: 0
-  width: $nav-width - $collapsed-nav-width
-  height: 100%
-  z-index: 1
-
-  .entry strong
-    margin-left: 0.4em
-
 // Main Navigation states
 .islay-main-nav
   +transition-property(width, left)
@@ -390,11 +394,10 @@ $collapsed-nav-width: 2.75em
 
 // Current Highlight
 .islay-layout-nav
-  .current
-    background: rgba($sage-green, 0.8)
   
   .islay-main-nav
     .current
+      background: rgba($sage-green, 0.8)
       &:after
         +transition-property(right)
         +transition-duration($duration-quick)
@@ -416,6 +419,27 @@ $collapsed-nav-width: 2.75em
   li:hover .current,
   .islay-global-search-results li:hover .current
     color: white
+
+  // Sub Navigation
+.islay-sub-nav
+  background-color: $nav-color + 10
+  position: absolute
+  left: $collapsed-nav-width
+  top: 0
+  width: $nav-width - $collapsed-nav-width
+  height: 100%
+  z-index: 1
+
+  .entry 
+    strong
+      margin: $ui-single-line-height * 0.125 0.6em
+      padding: 0 0.4em
+      line-height: $ui-single-line-height * 0.75
+
+
+  .current
+    strong
+      background: rgba($sage-green, 0.75)
 
 /* -------------------------------------------------------------------------- */
 /* ADD ITEM DIALOG
@@ -458,15 +482,14 @@ $collapsed-nav-width: 2.75em
   margin-left: 2%
   width: 96%
   padding: 1.6em 0 1.4em 0
-  border-bottom: 0.1em solid $header-border-color
 
   i
     font-size: 2em
     padding-right: 0.3em
 
   span
+    +type-large
     font-weight: bold
-    font-size: 2em
 
 /* -------------------------------------------------------------------------- */
 /* INSET CONTENT
@@ -484,6 +507,10 @@ $collapsed-nav-width: 2.75em
     border-top: 0.1em solid $header-border-color
     margin-top: 1.5em
     padding-top: 1.5em
+
+    &:first-child
+      border-top: 0 none
+      margin-top: 0
 
 #content.inset-vertical
   margin-top: 2em

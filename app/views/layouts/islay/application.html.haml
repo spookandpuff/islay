@@ -14,10 +14,9 @@
     = stylesheet_link_tag('islay/admin/islay')
 
   %body(id=body_id class=body_class)
-    %h1.islay-layout-app-name
-      Islay
+    
 
-    %div.islay-layout-nav
+    .islay-layout-nav
       %ul.islay-main-nav{:class => sub_nav? ? 'closed' : 'open'}
         %li
           = form_tag(path(:search), :method => :get, :class => 'islay-global-search') do
@@ -34,8 +33,11 @@
 
       = render_sub_nav
 
-    %div.islay-layout-header
+    .islay-layout-header
+      %h1.islay-layout-app-name Islay
       %h2= _header
+
+    .islay-content-header
       = render_breadcrumbs
       = render_statuses
       = render_filter_nav

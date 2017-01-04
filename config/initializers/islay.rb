@@ -6,7 +6,7 @@ Islay::Engine.extensions.register do |e|
   e.add_item_entry('User', :user, 'user')
 
   e.nav_section(:dashboard, 1) do |s|
-    s.root('Dashboard', :dashboard, 'home', :root => true)
+    s.root('Dashboard', :dashboard, 'dashboard', :root => true)
   end
 
   e.nav_section(:reports, 1) do |s|
