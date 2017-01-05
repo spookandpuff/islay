@@ -3,6 +3,7 @@ module Islay
     class UsersController < ApplicationController
       resourceful :user
       header 'Users'
+      nav_scope :config
 
       def index
         @users = User.page(params[:page]).filtered(params[:filter]).sorted(params[:sort])

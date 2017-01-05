@@ -1,0 +1,58 @@
+module Islay
+  # This module handles defining the site level configuration
+  # A configuration is defined by an array of hashes with the following keys:
+  #
+  # key:      The machine key for this config
+  # name:     The display name for the config
+  # group:    A group name, for organising configs within a definition
+  # type:     One of: Boolean, Text, Enum, Date, Integerm Float, Money
+  # limit:    A length limit for the value
+  # hint:     Used when displaying the config UI
+  # default:  The default value
+  # values:   An array of possible values, used with the enum type
+  # 
+  # For example:
+  # {
+  #   key:    'notify_email',
+  #   name:   'Shop notification email',
+  #   group:  :notifications,
+  #   type:   :string,
+  #   limit:  255,
+  #   hint:   'This address will receive notifications about new orders and other shop related updates.' 
+  # }
+  module Configuration
+    @configs = {}
+
+    # Returns all of the configurations
+    #
+    # @return Hash
+    def self.configs
+      @configs
+    end
+
+    # Define a configuration structure for the site
+    #
+    # @param String name
+    # @param String key
+    # @param Proc blk
+    # @return nil
+    def self.define(name, key, &blk)
+      config = Config.new(priority).tap {|s| blk.call(s)}.config
+      if @sections.has_key?(name)
+        @sections[name][:sub_nav].concat(config.delete(:sub_nav))
+        @sections[name].merge!(config)
+      else
+        @sections[name] = config
+      end
+
+      nil
+    end
+
+    class Config
+      def initialize(priority)
+        @config = {:sub_nav => [], :priority => priority}
+      end
+    end
+
+  end
+end

@@ -28,7 +28,9 @@ Islay::Engine.extensions.register do |e|
   end
 
   e.nav_section(:config, 9) do |s|
-    s.root('Configuration', :users, 'cog')
+    s.root('Settings', :site_configs, 'cog')
+    s.sub_nav('Site Settings', :site_configs, :root => true)
+    s.sub_nav('Users', :users)
   end
 
   e.nav_section(:add_item, 10) do |s|
