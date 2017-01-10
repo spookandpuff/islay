@@ -827,27 +827,32 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 /* FORM TABS
 /* -------------------------------------------------------------------------- */
 .islay-form-tabs
-  padding: 0.7em 0
+  padding: 0 0 0.7em 0
   width: 100%
   float: left
 
   li
     line-height: 1
-    margin: 0 !important
+    margin: 0 0.3em 0 0!important
     float: left
 
   a
+    +transition-property(background, color)
+    +transition-duration($transition-quick)
     +border-radius(0.3em)
-    text-decoration: none
     color: inherit
-    border: 0.2em solid transparent
-    font-weight: bold
-    padding: 0.35em 1.2em 0.05em 1.2em
     display: block
+    font-size: 0.85rem
+    line-height: 1
+    padding: 0.45em 1em 0.4em 1em
+    text-decoration: none
+
+    &:hover
+      background-color: $light-grey + 20
 
   a.current
-    border-color: $bright-blue
-    color: $bright-blue - 20
+    background-color: $sage-green
+    color: #FFF
 
   a.has-errors
     color: $error-color - 20
