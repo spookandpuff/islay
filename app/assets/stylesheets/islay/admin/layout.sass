@@ -21,8 +21,11 @@ body.has-footer #content
 /* -------------------------------------------------------------------------- */
 
 #footer
+  bottom: 0
+  height: $footer-height
   position: fixed
   right: 0
+  z-index: 2
   +for-tablet
     left: $body-margin-left
 
@@ -45,11 +48,6 @@ body.has-footer #content
 
   +for-tablet
     left: $body-margin-left
-
-#footer
-  height: $footer-height
-  bottom: 0
-  z-index: 2
 
 #content
   float: left
@@ -524,7 +522,7 @@ $collapsed-nav-width: 2.75em
 /* -------------------------------------------------------------------------- */
 #footer,
 .table-footer
-  +background-image(linear-gradient(#FFFFFF, #ECECEC))
+  background: #F4F4F4
 
   .default-controls,
   .selection-controls
@@ -540,9 +538,6 @@ $collapsed-nav-width: 2.75em
 
   .button, button
     margin: 0.6em 0 0 1em
-
-  .new
-    color: $dark-grey
 
   .edit,
   .delete,
@@ -586,9 +581,6 @@ $collapsed-nav-width: 2.75em
       color: #FFF
       padding: 1.35em 1em 0 0
 
-#footer
-  border-top: 0.1em solid #C2CBD5
-
 .table-footer
   float: left
   width: 100%
@@ -631,89 +623,6 @@ $i: 0
   #content .count-#{$i}
     width: $column-width * $i + ($gutter-width * $j)
     margin-right: $gutter-width
-
-/* -------------------------------------------------------------------------- */
-/* BUTTONS
-/* Button face colors:
-/* $button-text-color: #FFF
-/* $button-primary-color: #2C5A8D
-/* $button-secondary-color: #E1E1E1
-/* $button-positive-color: #39A22B
-/* $button-negative-color: #C42217
-/* -------------------------------------------------------------------------- */
-a.button,
-button
-  +border-radius(0.3em)
-  +background-image($dimension-raised)
-  +transition(background-image, 0.5s)
-  font-family: $default-font-family
-  font-weight: $default-font-weight
-  background-color: $button-secondary-color
-  color: #222!important
-  cursor: pointer
-  font-weight: bold
-  border: 0.1em solid $button-secondary-color - 40
-  padding: 0.5em 0.8em 0.35em 0.6em
-  float: left
-
-  &:hover,
-  &:focus
-    +background-image($dimension-raised-active)
-    text-decoration: none
-
-  &:active
-    +text-shadow(none)
-    +background-image($dimension-sunken)
-
-  &:before
-    font-family: icons
-    font-weight: normal
-    font-size: 1.1em
-    padding-right: 0.4em
-    color: $dark-grey
-
-button
-  font-size: 1em
-  padding: 0.45em 0.8em 0.3em 0.6em
-
-.button
-  &.new
-    +icon-plus-sign
-
-  &.upload
-    +icon-circle-arrow-up
-
-  &.edit
-    +icon-pencil
-
-  &.delete
-    +icon-minus-sign
-
-button.save,
-.button.delete,
-.button.edit
-  +text-shadow(rgba(0, 0, 0, 0.3) -1px -1px 2px)
-  color: white!important
-
-  &:before
-    color: white!important
-
-button.save
-  +icon-bolt
-  background-color: $button-positive-color
-  font-size: 1em
-  border-color: $button-positive-color - 30
-
-.button.delete
-  background-color: $button-negative-color
-  border-color: $button-negative-color - 30
-
-.button.edit
-  background-color: $button-primary-color
-  border-color: $button-primary-color - 30
-
-a.button
-  text-decoration: none
 
 /* -------------------------------------------------------------------------- */
 /* INDICATOR

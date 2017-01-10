@@ -1,0 +1,80 @@
+/* -------------------------------------------------------------------------- */
+/* BUTTONS
+/* Button face colors:
+/* $button-text-color: #FFF
+/* $button-primary-color: #2C5A8D
+/* $button-secondary-color: #E1E1E1
+/* $button-positive-color: #39A22B
+/* $button-negative-color: #C42217
+/* -------------------------------------------------------------------------- */
+a.button,
+button
+  +border-radius(1.25rem)
+  +transition-property(background, color)
+  +transition-duration($duration-quick)
+  background-color: $button-secondary-color
+  border: 1px solid $button-secondary-color - 10
+  color: $button-text-color
+  cursor: pointer
+  display: inline-block
+  float: left
+  font-family: $default-font-family
+  font-weight: bold
+  font-size: 0.85rem!important
+  line-height: 1
+  padding: 0.5rem 1.2rem 0.4rem 1.2rem
+  text-align: center
+
+  &:hover,
+  &:focus
+    text-decoration: none
+    +box-shadow(0 0 0.1rem 0.2rem rgba(#000, 0.1))
+
+  &:before
+    font-family: icons
+    font-weight: normal
+    font-size: 1.1em
+    padding-right: 0.4em
+    color: $button-text-color
+
+.button
+  &.new
+    +icon-plus-sign
+
+  &.upload
+    +icon-circle-arrow-up
+
+  &.edit
+    +icon-pencil
+
+  &.delete
+    +icon-minus-sign
+
+button.save,
+.button.delete,
+.button.edit
+  color: white!important
+
+  &:before
+    color: white!important
+
+button.save
+  background-color: $button-positive-color
+  font-size: 1em
+  border-color: $button-positive-color - 30
+
+.button.delete
+  background-color: $button-negative-color
+  border-color: $button-negative-color - 30
+
+.button.edit
+  background-color: $button-primary-color
+  border-color: $button-primary-color - 30
+
+.button.cancel
+  background-color: #FFF
+  border-color: #DDD
+  color: #333
+
+a.button
+  text-decoration: none
