@@ -470,6 +470,14 @@ module Islay
           main_nav(e[:title], e[:icon], e[:route], e[:opts].dup)
         end.flatten.join.html_safe
       end
+
+      # Set simple_format to actually render markdown
+      #
+      # @param String text
+      # @return String
+      def simple_format(text)
+        render_markdown text
+      end
     end # AdminHelpers
   end # Admin
 end # Islay

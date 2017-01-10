@@ -91,14 +91,16 @@ form
   input[type=url],
   input[type=tel],
   input[type=number],
-  textarea
+  textarea,
+  .markdown-editor-canvas
     +border-radius(2px)
     background: #FFF
     border: 0.1em solid #B6B9BC
     float: left
     padding: $input-v-padding $input-h-padding
 
-  textarea
+  textarea,
+  .markdown-editor-canvas
     min-height: 18em
 
   input[type=text],
@@ -108,7 +110,8 @@ form
   input[type=tel],
   input[type=number],
   select,
-  textarea
+  textarea,
+  .markdown-editor-canvas
     color: $text-color
     font-size: 1rem
     float: left
@@ -119,7 +122,8 @@ form
   input[type=url],
   input[type=tel],
   select,
-  textarea
+  textarea,
+  .markdown-editor-canvas
     min-width: 20rem
     max-width: 42rem
     width: 75%
@@ -131,7 +135,8 @@ form
 
   input,
   select,
-  textarea
+  textarea,
+  .markdown-editor-canvas
     &.small
       width: 5.5em !important
       min-width: 0
