@@ -134,83 +134,81 @@ body.has-footer #content
 /* FILTERS
 /* Filters listings of records
 /* -------------------------------------------------------------------------- */
-.islay-layout-header,
-.dialog
-  ul.filters,
-  ul.sort
-    margin: 0.6em 1em 0 0.5em
+ul.filters,
+ul.sort
+  margin: 0.6em 1em 0 0.5em
+  float: right
+
+  &:before
+    color: $dark-grey
+    font-weight: bold
+    margin-top: 0.45em
+    float: left
+
+  li, a
+    float: left
+
+  a
+    +border-radius(0.3em)
+    +unstyled-link
+    border: 1px solid transparent
+    color: $dark-grey
+    display: block
+    margin-left: 0.6em
+    padding: 0.35em 0.6em 0.25em 0.6em
+    text-align: center
+    display: none
+
+    &:hover,
+    &:focus
+      background-color: #FFF
+
+    &:active
+      +background-image($dimension-sunken)
+      background-color: $mid-grey
+      color: #FFF
+
+    &.current,
+    &.current:hover,
+    &.current:focus
+      
+      +background-image($dimension-dished)
+      border-color: $light-grey - 20 !important
+      color: #222
+      background-color: $light-grey
+      display: block
+
+  &:hover,
+  &.fold-false
+    a
+      border-color: $light-grey
+
+  &:hover,
+  &.fold-false
+    a
+      display: block
+
+ul.sort:before
+  content: "Sort"
+
+ul.filters
+  li
+    position: relative
+
+  .link
+    margin-right: 0.4em
+    float: left
+
+  .count
+    +border-radius(0.3em)
+    background: $positive-color
+    color: white
+    font-size: 0.85em
+    padding: 0.2em 0.4em
     float: right
 
-    &:before
-      color: $dark-grey
-      font-weight: bold
-      margin-top: 0.45em
-      float: left
-
-    li, a
-      float: left
-
-    a
-      +border-radius(0.3em)
-      +unstyled-link
-      border: 1px solid transparent
-      color: $dark-grey
-      display: block
-      margin-left: 0.6em
-      padding: 0.35em 0.6em 0.25em 0.6em
-      text-align: center
-      display: none
-
-      &:hover,
-      &:focus
-        background-color: #FFF
-
-      &:active
-        +background-image($dimension-sunken)
-        background-color: $mid-grey
-        color: #FFF
-
-      &.current,
-      &.current:hover,
-      &.current:focus
-        
-        +background-image($dimension-dished)
-        border-color: $light-grey - 20 !important
-        color: #222
-        background-color: $light-grey
-        display: block
-
-    &:hover,
-    &.fold-false
-      a
-        border-color: $light-grey
-
-    &:hover,
-    &.fold-false
-      a
-        display: block
-
-  ul.sort:before
-    content: "Sort"
-
-  ul.filters
-    li
-      position: relative
-
-    .link
-      margin-right: 0.4em
-      float: left
-
-    .count
-      +border-radius(0.3em)
-      background: $positive-color
-      color: white
-      font-size: 0.85em
-      padding: 0.2em 0.4em
-      float: right
-
-    &:before
-      content: "Show"
+  &:before
+    content: "Show"
 
 /* -------------------------------------------------------------------------- */
 /* NAVIGATION

@@ -1,21 +1,14 @@
 module Islay
   module Admin
     class SiteConfigsController < ApplicationController
-      resourceful :site_configs
+      resourceful :site_config
       header 'Site Settings'
       nav_scope :config
-
-      def index
-        @site_configs = SiteConfig.all
-      end
-
-      def show
-      end
 
       private
 
       def redirect_for(model)
-        path(:settings)
+        path(:site_configs)
       end
     end
   end

@@ -154,7 +154,6 @@ module Islay
     # @param String name
     # @param String key
     # @param Proc blk
-    
     # @return nil
     def configuration(name, key, &blk) 
       Islay::Configuration.define(name, key, &blk)

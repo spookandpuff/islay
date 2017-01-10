@@ -169,6 +169,19 @@ module Islay
         )
       end
 
+
+      # Renders a partial which includes some introductory info about the current view
+      #
+      # @param String text
+      # @param Hash opts
+      # @return String
+      def intro_text(text, opts = {})
+        render(
+          :partial => 'islay/admin/shared/intro_text',
+          :locals => {:text => text, :opts => opts}
+        )
+      end
+
       # Adds and entry to the main navigation bar. It will additionally highlight
       # the current entry.
       #

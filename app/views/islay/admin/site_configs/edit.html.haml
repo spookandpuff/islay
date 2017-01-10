@@ -1,0 +1,15 @@
+- breadcrumb(@site_config.name.humanize)
+
+= resource_form(@site_config) do |f|
+  = record_name("#{@site_config.name.humanize} Settings", 'cog')
+
+  = content do
+    = f.fieldset(:class => 'primary') do
+      - @site_config.display_config.each do |name, opts|
+        = f.json_input(name, opts)
+
+
+  = footer do
+    = save_button
+    = cancel_button(@site_config)
+

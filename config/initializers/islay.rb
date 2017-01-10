@@ -2,6 +2,11 @@
 Islay::Engine.extensions.register do |e|
   e.namespace :islay
 
+  e.configuration('Main', :islay) do |c|
+    c.string  :site_name
+    c.string  :domain
+  end
+
   e.add_item_entry('Asset', :asset, 'picture')
   e.add_item_entry('User', :user, 'user')
 
