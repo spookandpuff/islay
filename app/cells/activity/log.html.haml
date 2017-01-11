@@ -16,6 +16,6 @@
           - else
             #{log.user_name.humanize}
         %td= log.event.humanize
-        %td= link_to("<strong>#{log.type.humanize}:</strong> #{log.name}".html_safe, log.url)
+        %td= link_to("<strong>#{log.friendly_type}:</strong> #{log.name}".html_safe, log.url)
         %td.meta
           %span.time= log.created_at

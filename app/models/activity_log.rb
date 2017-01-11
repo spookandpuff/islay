@@ -17,11 +17,11 @@ class ActivityLog < ActiveRecord::Base
     self.components[name.to_s] = [decorator, query]
   end
 
-  # A finder method which returns the 50 latest logs.
+  # A finder method which returns the n latest logs.
   #
   # @return Array<Draper::Base>
-  def self.recent
-    select('*').from(query).order("created_at DESC").limit(50).all.map {|r| components[r.type][0].new(r)}
+  def self.recent(count = 25)
+    select('*').from(query).order("created_at DESC").limit(count).all.map {|r| components[r.type][0].new(r)}
   end
 
   private

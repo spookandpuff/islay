@@ -8,4 +8,8 @@ class LogDecorator < Draper::Decorator
   def url
     raise NotImplementedError
   end
+
+  def friendly_type
+    type.humanize
+  end
 end
