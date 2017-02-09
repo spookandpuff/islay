@@ -12,7 +12,7 @@ class SiteConfig < ActiveRecord::Base
     end
 
     configuration_info.reduce({}) do |a, (k, v)|
-      a[k] = v.merge(config_values[k])
+      a[k] = v.merge(config_values[k]) if config_values[k]
       a
     end.deep_symbolize_keys
 

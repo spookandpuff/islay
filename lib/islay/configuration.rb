@@ -28,10 +28,11 @@ module Islay
     # @param Proc blk
     # @return nil
     def self.define(name, key, &blk)
-      @config = SiteConfig.find_or_initialize_by(name: name, key: key)
-      binding.pry
-      blk.call(self)
-      nil
+      if ActiveRecord::Base.connection.tables.include?('site_configs')
+        @config = SiteConfig.find_or_initialize_by(name: name, key: key)
+        blk.call(self)
+        nil
+      end
     end
 
     def self.enum(name, opts = {})

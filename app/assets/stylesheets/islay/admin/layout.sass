@@ -286,16 +286,29 @@ $collapsed-nav-width: 2.75em
     strong
       text-indent: 2.4em
       white-space: nowrap
+      text-overflow: ellipsis
 
   .search-entry
     height: auto
+    border-bottom: 1px solid rgba(#FFF, 0.1)
+    padding: 0.75rem
 
     strong
-      margin-left: 1em
+      font-size: 1rem
+      font-weight: bold
+      line-height: 1
+      margin-bottom: 0.1em
 
     span
-      margin: 0.2em 0 0.6em 1.2em
+      color: rgba(#FFF, 0.7)
       display: block
+      line-height: 1
+
+    &:hover,
+    &:focus
+      +text-shadow(0 0.1em 0.05em rgba(#000, 0.5))
+      background: $sage-green
+      color: #FFF
 
   .islay-global-search
     height: 2.7em
@@ -511,6 +524,10 @@ $collapsed-nav-width: 2.75em
     &:first-child
       border-top: 0 none
       margin-top: 0
+
+  table + h3
+    border-top: 0 none
+    margin-top: 0
 
 #content.inset-vertical
   margin-top: 2em
