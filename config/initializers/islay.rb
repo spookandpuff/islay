@@ -7,7 +7,7 @@ Islay::Engine.extensions.register do |e|
     c.string  :domain
   end
 
-  e.add_item_entry('Asset', :asset, 'picture')
+  e.add_item_entry('Asset', :asset, 'photo')
   e.add_item_entry('User', :user, 'user')
 
   e.nav_section(:dashboard, 1) do |s|
@@ -24,7 +24,7 @@ Islay::Engine.extensions.register do |e|
   end
 
   e.nav_section(:asset_library, 4) do |s|
-    s.root('Asset Library', :asset_library, 'picture')
+    s.root('Asset Library', :asset_library, 'photo')
     s.sub_nav('Overview', :asset_library, :root => true)
     s.sub_nav('Collections', :asset_groups)
     s.sub_nav('Assets', :assets)

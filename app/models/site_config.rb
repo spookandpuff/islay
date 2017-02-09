@@ -82,7 +82,7 @@ class SiteConfig < ActiveRecord::Base
   # @param Symbol name
   # @param Hash opts
   # @return nil
-  def money(name, opts = {})
+  def define_money(name, opts = {})
     define_attribute(name, :money, :money, opts)
   end
 

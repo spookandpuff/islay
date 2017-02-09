@@ -10,7 +10,7 @@
           = render :partial => 'collection', :locals => {:group => c}
         - when AssetGroup
           %li.album
-            = link_to(c.name, path(c), :class => 'album-name icon-picture')
+            = link_to(c.name, path(c), :class => 'album-name fa fa-photo')
             %span.count= group.assets_count
             = link_to('Edit', path(:edit, c), :class => 'edit')
             = link_to('Delete', path(:delete, c), :class => 'delete')

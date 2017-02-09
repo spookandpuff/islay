@@ -9,7 +9,7 @@
 
     // Stub out the UI
     this.$list = $('<ul class="islay-form-asset-picker"></ul>');
-    this.$add = $('<li class="add"><i class="icon-plus-sign"></i></li>');
+    this.$add = $('<li class="add"><i class="fa fa-plus-sign"></i></li>');
     this.$add.click($.proxy(this, 'clickAdd'));
     this.$list.append(this.$add);
 

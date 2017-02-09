@@ -57,7 +57,7 @@ Islay.Dialogs.Base = Backbone.View.extend({
     this.titleEl = $H('div.title', $H('h1', title));
 
     if (this.closeButton) {
-      this.closeEl = $H('div.close.icon-cancel-circle', 'Close').click(this.close);
+      this.closeEl = $H('div.close.fa.fa-cancel-circle', 'Close').click(this.close);
       this.titleEl.append(this.closeEl)
     }
 
@@ -418,7 +418,7 @@ Islay.Dialogs.AssetEntry = Backbone.View.extend({
       preview = $H('img', {src: this.model.get('url')});
     }
     else {
-      preview = $H('span', {class: 'no-preview icon-' + this.model.get('kind')});
+      preview = $H('span', {class: 'no-preview fa fa-' + this.model.get('kind')});
     }
 
     liner.append(frame.append(preview), name, type);

@@ -28,9 +28,38 @@ module Islay
     # @param Proc blk
     # @return nil
     def self.define(name, key, &blk)
-      c = SiteConfig.find_or_initialize_by(name: name, key: key)
-      # c.update_attributes(configuration_info: config)
+      @config = SiteConfig.find_or_initialize_by(name: name, key: key)
+      binding.pry
+      blk.call(self)
       nil
+    end
+
+    def self.enum(name, opts = {})
+      @config.send(:define_enum, name, opts)
+    end
+
+    def self.string(name, opts = {})
+      @config.send(:define_string, name, opts)
+    end
+
+    def self.text(name, opts = {})
+      @config.send(:define_string, name, opts)
+    end
+
+    def self.boolean(name, opts = {})
+      @config.send(:define_boolean, name, opts)
+    end
+
+    def self.date(name, opts = {})
+      @config.send(:define_date, name, opts)
+    end
+
+    def self.integer(name, opts = {})
+      @config.send(:define_integer, name, opts)
+    end
+
+    def self.float(name, opts = {})
+      @config.send(:define_float, name, opts)
     end
 
   end

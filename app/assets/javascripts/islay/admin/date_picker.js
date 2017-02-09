@@ -7,7 +7,7 @@
     this.$input = input;
     this.$wrapper = $('<span class="islay-form-date-picker"></span>');
     this.$display = $('<span class="display"></span>');
-    this.$button = $('<i class="icon-calendar button"></i>');
+    this.$button = $('<i class="fa fa-calendar button"></i>');
     this.$wrapper.append(this.$display, this.$button);
 
     this.$wrapper.click($.proxy(this, 'toggle'));
