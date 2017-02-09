@@ -1,8 +1,11 @@
 %h2 Sign In
 
+- if flash['alert']
+  %p.login-el-error= flash['alert']
+
 = simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
-  = f.input :email, :required => false, :autofocus => true
-  = f.input :password, :required => false
+  = f.input :email, :required => false, :autofocus => true, :placeholder => 'Email'
+  = f.input :password, :required => false, :placeholder => 'Password'
   = f.input :remember_me, :as => :boolean if devise_mapping.rememberable?
 
   .button-bar

@@ -1,0 +1,94 @@
+/* -------------------------------------------------------------------------- */
+/* LOGIN SCREEN
+/* -------------------------------------------------------------------------- */
+
+body#login
+  // +background-image(radial-gradient(top right, $sage-green - 20, ($sage-green - 60)))
+  background-color: $side-bar-color
+  color: #FFF
+  height: 100%
+  height: 100vh
+  min-height: 100% 
+  margin: 0
+
+  &:before
+    +pos-absolute-fill
+    +background-image(radial-gradient(bottom left, rgba($sage-green, 0.3), rgba($sage-green - 50, 0.5)))
+    content: ''
+    z-index: 1
+
+  .login-el-liner
+    align-items: center
+    display: flex
+    height: 100%
+    justify-content: center
+
+  .login-container
+    // +pos-absolute-fill
+    +box-shadow(0 0.5rem 3rem rgba(#000, 0.3))
+    background: #EEE
+    border-top: 1px solid #FFF
+    color: #333
+    // height: 20em
+    margin: auto
+    max-width: 25em
+    min-width: 18em
+    padding: 2em
+    width: 40%
+    z-index: 3
+
+    .note
+      margin-bottom: 1rem
+
+    .field
+      float: none
+      margin-bottom: 0
+
+      input        
+        +border-radius(0.25rem 0.25rem 0 0)
+        border: 1px solid #DDD
+        border-bottom: 0 none
+        float: none
+
+      & + .field
+        input
+          +border-radius(0 0 0.25rem 0.25rem)
+          border-bottom: 1px solid #DDD
+    
+    h2
+      font-size: 1.8em
+      margin-bottom: 1rem
+
+    label
+      display: none
+
+    input
+      +box-sizing(border-box)
+      padding: 0.75rem
+      width: 100%
+
+    .button-bar
+      width: 100%
+      margin-top: 1rem
+      text-align: right
+
+      button
+        @extend %button-reverse
+        float: none
+        padding-top: 0.5rem
+        padding-bottom: 0.5rem
+        min-width: 8rem
+
+    .help
+      margin-top: 1rem
+      padding-top: 1rem
+      border-top: 1px solid #DDD
+      a
+        text-decoration: none
+
+  .login-el-error
+    +text-shadow(0 0.1em 0.05em rgba(#000, 0.5))
+    background: $error-color + 30
+    color: #FFF
+    margin-bottom: 1rem
+    padding: 0.5rem

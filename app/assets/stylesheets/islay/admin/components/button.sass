@@ -7,13 +7,18 @@
 /* $button-positive-color: #39A22B
 /* $button-negative-color: #C42217
 /* -------------------------------------------------------------------------- */
+
+%button-reverse
+  background: $button-positive-color
+  color: #FFF
+
 a.button,
 button
   +border-radius(1.25rem)
   +transition-property(background, color)
   +transition-duration($duration-quick)
-  background-color: $button-secondary-color
-  border: 1px solid $button-secondary-color - 10
+  background-color: #FFF
+  border: 1px solid $light-grey
   color: $button-text-color
   cursor: pointer
   display: inline-block
@@ -27,6 +32,7 @@ button
 
   &:hover,
   &:focus
+    outline: none
     text-decoration: none
     +box-shadow(0 0 0 0.2rem rgba(#000, 0.1))
 

@@ -10,7 +10,7 @@
 
     %meta{:name => 'viewport', :content => 'width=device-width, initial-scale=1.0'}
 
-    = stylesheet_link_tag("//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css")
+    = stylesheet_link_tag("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
     = stylesheet_link_tag('islay/admin/islay')
 
   %body(id=body_id class=body_class)
@@ -18,15 +18,15 @@
       %ul.islay-main-nav{:class => sub_nav? ? 'closed' : 'open'}
         %li
           = form_tag(path(:search), :method => :get, :class => 'islay-global-search') do
-            %i.icon-search
+            %i.fa.fa-search
             = text_field_tag('term', nil, :placeholder => 'Search', :autocomplete => 'off')
         = extension_nav_entries
         %li.islay-current-user
           = form_for(current_user, :url => :destroy_user_session, :method => :delete, :html => {:class => 'entry'}) do |f|
-            %i.icon-user
+            %i.fa.fa-user
             %strong= current_user.name
             %button(type='submit')
-              %i.icon-signout
+              %i.fa.fa-signout
               %span Sign out
 
       = render_sub_nav
@@ -43,7 +43,7 @@
 
     = yield
 
-    = javascript_include_tag('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js')
+    = javascript_include_tag('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js')
     = javascript_include_tag('islay/admin/islay')
 
 
