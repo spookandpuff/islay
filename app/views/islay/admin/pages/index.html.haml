@@ -1,18 +1,20 @@
 - breadcrumb('Pages')
+= record_name('Page Contents', 'file-text')
+
+= intro_text 'These pages contain text and image content for your site. Shared content is used throughout the site, in things like header and footers.'
 
 = content do
   %table.fixed-header
     %thead
       %tr
         %th Name
-        %th Content
         %th Updated at
     %tbody
       %tr
-        %th(colspan=3) Pages
+        %th(colspan=2) Pages
       - @pages.each do |slug, page|
         = render :partial => 'page', :locals => {:page => page, :level => 0}
       %tr
-        %th(colspan=3) Shared
+        %th(colspan=2) Shared
       - @shared.each do |slug, page|
         = render :partial => 'page', :locals => {:page => page, :level => 0}

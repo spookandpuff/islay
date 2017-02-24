@@ -9,7 +9,7 @@
 
     // Stub out the UI
     this.$list = $('<ul class="islay-form-asset-picker"></ul>');
-    this.$add = $('<li class="add"><i class="fa fa-plus-sign"></i></li>');
+    this.$add = $('<li class="add"><i class="fa fa-plus-circle"></i></li>');
     this.$add.click($.proxy(this, 'clickAdd'));
     this.$list.append(this.$add);
 
@@ -21,7 +21,7 @@
     var opts = this.$input.find(':selected');
     for (var i = 0; i < opts.length; i++) {
       var $opt = $(opts[i]);
-      if (!_.isEmpty($opt.text())) {
+      if (!_.isEmpty($opt.val())) {
         this.addEntry($opt.attr('value'), $opt.attr('data-preview'), $opt);
       }
     };
@@ -67,7 +67,7 @@
 
       var $li = $('<li class="choice"></li>').attr('data-value', id),
           $img = $('<img>').attr('src', url),
-          $remove = $('<i class="icon-remove-sign remove"><i/>');
+          $remove = $('<i class="fa fa-times-circle remove"></i>');
 
       $remove.click(this.clickRemove);
       $li.append($img, $remove);
