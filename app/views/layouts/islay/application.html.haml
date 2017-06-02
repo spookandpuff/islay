@@ -33,14 +33,12 @@
 
     .islay-layout-header
       %h1.islay-layout-app-name Islay
-      %h2= _header
 
     .islay-content-header
       = render_breadcrumbs
-      = render_statuses
       = render_filter_nav
       = render_sort_nav
-
+      
     = yield
 
     = javascript_include_tag('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js')

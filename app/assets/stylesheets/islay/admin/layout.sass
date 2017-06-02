@@ -1,3 +1,8 @@
+$layout-header-height: 6rem
+$nav-color: #333
+$nav-foreground-color: #EEE
+$nav-width: 16em
+$collapsed-nav-width: 2.75em
 
 /* -------------------------------------------------------------------------- */
 /* BODY SIZING
@@ -12,10 +17,10 @@ body
   min-height: 100%
   
   +for-phone
-    margin: $sub-header-height 0 0 0
+    margin: 0
 
   +for-tablet
-    margin: $sub-header-height 0 0 $body-margin-left
+    margin: 0 0 0 $body-margin-left
 
 body.has-footer #content
   margin-bottom: $footer-height + 3em !important
@@ -33,25 +38,9 @@ body.has-footer #content
   +for-tablet
     left: $body-margin-left
 
-.islay-layout-header
-  height: $sub-header-height
-  left: 0
-  padding-left: 0.5rem
-  position: fixed
-  right: 0
-  top: 0
-  z-index: 2
-
 .islay-content-header
   height: $sub-header-height
-  left: 0
-  position: fixed
-  right: 0
-  top: $sub-header-height
-  z-index: 2
-
-  +for-tablet
-    left: $body-margin-left
+  
 
 #content
   float: left
@@ -63,12 +52,29 @@ body.has-footer #content
 /* HEADER
 /* -------------------------------------------------------------------------- */
 .islay-layout-header 
-  background-color: $color-layout-header
-  line-height: $sub-header-height
+  +box-sizing(border-box)
 
-  h1, h2
+  background-color: $nav-color - 8
+  color: $light-grey
+  height: $layout-header-height
+  left: 0
+  padding: 2rem 0
+  position: fixed
+  text-align: center
+  top: 0
+  width: $nav-width
+  z-index: 2
+
+  h1
     display: inline-block
-    margin: 0 0.5rem 0  0
+    margin: 0 auto
+    text-indent: -999em
+    background: image_url('islay/admin/islay-logo.svg') no-repeat center
+    width: 80%
+    height: 2rem
+
+  h2
+    display: none
 
 .islay-layout-app-name
   +type-base
@@ -78,17 +84,15 @@ body.has-footer #content
   h2,
   .breadcrumb
     color: $dark-grey
-    float: left
     font-weight: bold
     font-size: 1.2em
-    margin-left: 0.6em
+    margin-left: $layout-gutter
     margin-top: 0.7em
 
     strong
       color: $mid-grey
 
   .breadcrumb
-    display: none
     li
       display: inline-block
 
@@ -112,24 +116,26 @@ body.has-footer #content
       display: inline-block
       text-decoration: none
 
-  .statuses
-    border-bottom: 0
-    float: right
-    margin-top: 0.75em
-    margin-right: 1em
-    width: auto
+.statuses
+  border-bottom: 0
+  margin-top: 0.5rem
+  margin-left: $layout-gutter
 
-    li
-      float: left
+  li
+    display: inline-block
 
-    .key
-      display: none
+  .key
+    display: none
 
-    .value
-      +border-radius(0.2em)
-      +background-image($dimension-dished)
-      padding: 0.3em 0.55em 0.2em 0.55em
-      margin-left: 0.5em
+  .value
+    +border-radius(0.2em)
+    +background-image($dimension-dished)
+    padding: 0.25rem 0.6rem 0.2rem
+    margin: 0 0 0.2rem 0
+
+  li:first-child
+    .key + .value
+      margin-left: 0
 
 
 /* -------------------------------------------------------------------------- */
@@ -215,17 +221,13 @@ ul.filters
 /* -------------------------------------------------------------------------- */
 /* NAVIGATION
 /* -------------------------------------------------------------------------- */
-$nav-color: #333
-$nav-foreground-color: #EEE
-$nav-width: 16em
-$collapsed-nav-width: 2.75em
 
 .islay-layout-nav
   background-color: $nav-color
   bottom: 0
   color: $nav-foreground-color
   position: fixed
-  top: $sub-header-height
+  top: $layout-header-height
   width: $nav-width
   z-index: 2
 
@@ -492,9 +494,9 @@ $collapsed-nav-width: 2.75em
 /* To be displayed in at the top of record overviews and forms.
 /* -------------------------------------------------------------------------- */
 .islay-record-name
-  margin-left: 2%
-  width: 96%
-  padding: 1.6em 0 1.4em 0
+  +box-sizing(border-box)
+  width: 100%
+  padding: 1.6em 0 1.4em $layout-gutter
 
   i
     font-size: 2em
@@ -508,8 +510,9 @@ $collapsed-nav-width: 2.75em
 /* INSET CONTENT
 /* -------------------------------------------------------------------------- */
 #content.inset
-  margin-left: 2%
-  width: 96%
+  +box-sizing(border-box)
+  padding-left: $layout-gutter
+  width: 100%
 
   table
     border: 0.1em solid $header-border-color
@@ -746,15 +749,18 @@ span.indicator
   a
     display: block
 
+.tags
+  margin-bottom: 0.5rem
+
 #tag-cloud a,
 .tag
   +unstyled-link
   +border-radius(0.3em)
-  
+  +type-extra-small
   background-color: $tag-color
-  border: 0.1em solid $tag-color - 25
-  padding: 0.4em 1em 0.3em
-  margin: 0 1em 1em 0
+  border: 1px solid $tag-border-color
+  padding: 0.25rem 0.6rem 0.2rem
+  margin: 0 0 0.2rem 0
 
 /* -------------------------------------------------------------------------- */
 /* DELETE CONFIRMATION
