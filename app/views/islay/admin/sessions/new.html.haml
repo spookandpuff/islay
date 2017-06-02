@@ -1,6 +1,6 @@
 %h2 Sign In
 
-- if flash['alert']
+- if flash['alert'] and flash['alert'] != 'You need to sign in or sign up before continuing.'
   %p.login-el-error= flash['alert']
 
 = simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
