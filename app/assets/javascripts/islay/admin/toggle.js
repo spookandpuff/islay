@@ -11,7 +11,7 @@
     }
     else {
       this.$toggle = $('<a class="toggle" href="#"></a>');
-      this.$icon = $('<i class="icon-caret-right"></i>');
+      this.$icon = $('<i class="fa fa-caret-right"></i>');
       this.$text = $('<span>More</span>');
       this.$toggle.append(this.$icon, this.$text);
       this.$el.before(this.$toggle);
@@ -34,7 +34,7 @@
         this.$el.hide();
         if (this.$text) {
           this.$text.text('More');
-          this.$icon.attr('class', 'icon-caret-right');
+          this.$icon.attr('class', 'fa fa-caret-right');
         }
         this.open = false;
       }
@@ -42,7 +42,7 @@
         this.$el.show();
         if (this.$text) {
           this.$text.text('Less');
-          this.$icon.attr('class', 'icon-caret-down');
+          this.$icon.attr('class', 'fa fa-caret-down');
         }
         this.open = true;
       }

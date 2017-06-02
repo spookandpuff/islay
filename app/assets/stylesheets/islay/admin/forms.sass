@@ -7,12 +7,13 @@ $input-h-padding: 0.6em
 $field-margin: 1em
 $field-height: $border-width * 2 + $input-v-padding * 2 + 1em
 $form-inset-color: $light-grey + 20
-$error-color: #954F3A
+$error-color: #952B2B
 
 #islay-form
   #content
-    width: 96%
-    margin-left: 2%
+    +box-sizing(border-box)
+    width: 100%
+    padding-left: $layout-gutter
 
     > p.note
       margin-top: 2em
@@ -91,14 +92,16 @@ form
   input[type=url],
   input[type=tel],
   input[type=number],
-  textarea
+  textarea,
+  .markdown-editor-canvas
     +border-radius(2px)
     background: #FFF
     border: 0.1em solid #B6B9BC
     float: left
     padding: $input-v-padding $input-h-padding
 
-  textarea
+  textarea,
+  .markdown-editor-canvas
     min-height: 18em
 
   input[type=text],
@@ -108,7 +111,8 @@ form
   input[type=tel],
   input[type=number],
   select,
-  textarea
+  textarea,
+  .markdown-editor-canvas
     color: $text-color
     font-size: 1rem
     float: left
@@ -119,7 +123,8 @@ form
   input[type=url],
   input[type=tel],
   select,
-  textarea
+  textarea,
+  .markdown-editor-canvas
     min-width: 20rem
     max-width: 42rem
     width: 75%
@@ -131,7 +136,8 @@ form
 
   input,
   select,
-  textarea
+  textarea,
+  .markdown-editor-canvas
     &.small
       width: 5.5em !important
       min-width: 0
@@ -166,8 +172,10 @@ form
   +border-radius(0.3em)
   padding: 1em 0
   background-color: $error-color + 100
-  margin: 1em 0 0.3em 2%
-  width: 96%
+  margin: 1em 0 0.3em 0
+  +box-sizing(border-box)
+  width: 100%
+  padding-left: $layout-gutter
   float: left
   position: relative
 
@@ -261,7 +269,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     height: $widget-height
 
   .selected
-    +single-box-shadow(rgba(0, 0, 0, 0.35), 2px, 2px, 3px, 0, true)
+    
     background: #4D69A2 !important
     border-color: #4D69A2 !important
 
@@ -370,7 +378,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     +widget-border-radius(right)
 
   .selected.off
-    +single-box-shadow(rgba(0, 0, 0, 0.20), 2px, 2px, 3px, 0, true)
+    
     background: #9A9A9A !important
     border-color: #959595 !important
 
@@ -543,7 +551,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 .widget.multi_asset
   .choice, .add
     +border-radius(0.2em)
-    +single-box-shadow(rgba(0, 0, 0, 0.03), 0, 0, 0, 2px)
+    
     +input-border
     background: white
     cursor: pointer
@@ -680,7 +688,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   li
     +input-border
     +border-radius(0.2em)
-    +single-box-shadow(rgba(0, 0, 0, 0.03), 0, 0, 0, 2px)
+    
     border: 0.1em solid $light-grey
     background: white
     float: left
@@ -701,6 +709,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     position: absolute
     left: 0.3em
     cursor: pointer
+    font-size: 1.5em
 
   .add
     cursor: pointer
@@ -827,27 +836,32 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 /* FORM TABS
 /* -------------------------------------------------------------------------- */
 .islay-form-tabs
-  padding: 0.7em 0
+  padding: 0 0 0.7em 0
   width: 100%
   float: left
 
   li
     line-height: 1
-    margin: 0 !important
+    margin: 0 0.3em 0 0!important
     float: left
 
   a
+    +transition-property(background, color)
+    +transition-duration($duration-quick)
     +border-radius(0.3em)
-    text-decoration: none
     color: inherit
-    border: 0.2em solid transparent
-    font-weight: bold
-    padding: 0.35em 1.2em 0.05em 1.2em
     display: block
+    font-size: 0.85rem
+    line-height: 1
+    padding: 0.45em 1em 0.4em 1em
+    text-decoration: none
+
+    &:hover
+      background-color: $light-grey + 20
 
   a.current
-    border-color: $bright-blue
-    color: $bright-blue - 20
+    background-color: $sage-green
+    color: #FFF
 
   a.has-errors
     color: $error-color - 20
@@ -886,7 +900,7 @@ fieldset.member-tree
 
   ul.top
     +border-radius(0.3em)
-    +single-box-shadow(rgba(0, 0, 0, 0.08), 1px, 1px, 2px, 0, true)
+    
     background: $form-inset-color + 10
     border: $border-width solid $light-grey
     float: left

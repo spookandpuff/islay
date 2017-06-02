@@ -44,7 +44,7 @@ module Islay
       # @param Proc blk
       # @return String
       def form_notice(kind, &blk)
-        content = content_tag(:i, nil, :class => 'icon icon-exclamation') + capture(&blk)
+        content = content_tag(:i, nil, :class => 'icon fa fa-exclamation') + capture(&blk)
         content_tag(:div, content.html_safe, :class => "islay-form-notice #{kind}")
       end
 
@@ -169,6 +169,19 @@ module Islay
         )
       end
 
+
+      # Renders a partial which includes some introductory info about the current view
+      #
+      # @param String text
+      # @param Hash opts
+      # @return String
+      def intro_text(text, opts = {})
+        render(
+          :partial => 'islay/admin/shared/intro_text',
+          :locals => {:text => text, :opts => opts}
+        )
+      end
+
       # Adds and entry to the main navigation bar. It will additionally highlight
       # the current entry.
       #
@@ -189,7 +202,7 @@ module Islay
         end
 
         content = [
-          content_tag(:i, '', :class => "icon-#{icon}"),
+          content_tag(:i, '', :class => "fa fa-#{icon}"),
           content_tag(:strong, name)
         ].join('').html_safe
 
@@ -395,7 +408,7 @@ module Islay
       #
       # @return String
       def new_button(text, *args)
-        link_to(text, path(:new, *args), :class => 'button new')
+        link_to("New #{text}", path(:new, *args), :class => 'button new')
       end
 
       # Creates a set of buttons to be used when moving selections within a list
@@ -456,6 +469,14 @@ module Islay
         Islay::Engine.nav_entries.map do |name, e|
           main_nav(e[:title], e[:icon], e[:route], e[:opts].dup)
         end.flatten.join.html_safe
+      end
+
+      # Set simple_format to actually render markdown
+      #
+      # @param String text
+      # @return String
+      def simple_format(text)
+        render_markdown text
       end
     end # AdminHelpers
   end # Admin

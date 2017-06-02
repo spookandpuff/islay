@@ -4,7 +4,7 @@
 (function($) {
   var Search = function(input) {
     this.$input = input;
-    this.$close = $('<i class="icon-remove-sign close"></i>').hide();
+    this.$close = $('<i class="fa fa-remove-sign close"></i>').hide();
     this.$resultsContainer = $('<li class="islay-global-search-results"></li>').hide();
     this.$results = $('<ul></ul>');
     this.$resultsContainer.append(this.$results);

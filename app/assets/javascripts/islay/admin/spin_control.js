@@ -14,14 +14,14 @@
 
     // Set up UI
     if (opts.reversed) {
-      this.$up = $H('span.up', $H('i.icon-caret-down'));
-      this.$down = $H('span.down', $H('i.icon-caret-up'));
+      this.$up = $H('span.up', $H('i.fa.fa-caret-down'));
+      this.$down = $H('span.down', $H('i.fa.fa-caret-up'));
       this.$wrapper = $H('span.islay-form-spin-control', [this.$down, this.$up]);
     } 
     else {
 
-      this.$up = $H('span.up', $H('i.icon-caret-up'));
-      this.$down = $H('span.down', $H('i.icon-caret-down'));
+      this.$up = $H('span.up', $H('i.fa.fa-caret-up'));
+      this.$down = $H('span.down', $H('i.fa.fa-caret-down'));
       this.$wrapper = $H('span.islay-form-spin-control', [this.$up, this.$down]);
     }
 

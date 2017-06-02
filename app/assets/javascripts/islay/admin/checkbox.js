@@ -18,8 +18,8 @@
       label.hide();
     }
     else {
-      this.$off = $('<span class="off-button"><i class="icon-remove"></i></span>');
-      this.$on = $('<span class="on-button"><i class="icon-ok"></i></span>');
+      this.$off = $('<span class="off-button"><i class="fa fa-remove"></i></span>');
+      this.$on = $('<span class="on-button"><i class="fa fa-check"></i></span>');
       this.$wrapper.append(this.$off, this.$on);
     }
 

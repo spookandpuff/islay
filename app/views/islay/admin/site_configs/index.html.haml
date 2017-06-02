@@ -1,0 +1,18 @@
+- breadcrumb('Settings')
+
+= record_name('Site Settings', 'cog')
+
+= intro_text 'These settings define how your website behaves. Be careful while changing these settings, as it\'s possible to break your site if you make a mistake.'
+
+= content do
+  #content.inset
+    - @site_configs.each do |config|
+      .site-config-group.cell  
+        %h3= config.name
+        %a.site-config-el-edit-settings{href: path(:edit, config)} Edit settings
+
+        %ul.key-value
+          - config.display_config.each do |name, opts|
+            %li
+              %span.key= name.to_s.humanize
+              %span.value= opts[:value] || 'Not set'

@@ -118,6 +118,41 @@ module Islay
       super
     end
 
+    # Creates an input based on a provided hash. It inspects the options attached to an
+    # attribute and renders the appropriate input. This is designed to create forms from
+    # a JSON object
+    #
+    # @param Hash input
+    # @return String
+    #
+    # @todo Support other types like URL, Email, etc.
+    def json_input(name, opts, &block)
+      options = opts.dup
+
+      unless options.has_key?(:as)
+        options[:as] = case options[:type]
+        when :enum
+          options[:input_type] == :short ? 'radio_buttons' : 'select'
+        when :integer, :float
+          'numeric'
+        when :date
+          options[:wrapper_class] = "#{options[:class]} date_picker"
+          'string'
+        when "String", "Text"
+          'string'
+        when "Boolean"
+          'boolean'
+        end
+      end
+
+      if options.has_key?(:values)
+        options[:collection] = extract_values(options[:values])
+        options[:include_blank] = false if options[:required] == true
+      end
+
+      input(name, options, &block)
+    end
+
     private
 
     # Appends a class within the specified scope i.e. the input wrapper div, or

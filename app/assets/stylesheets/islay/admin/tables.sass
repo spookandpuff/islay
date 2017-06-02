@@ -19,7 +19,9 @@ table
 
     input
       margin: 0
-
+  td
+    vertical-align: middle
+    
   /* UPDATE/EDIT META-DATA */
   th.meta,
   td.meta
@@ -89,6 +91,10 @@ table
   span.time
     display: block
 
+  span.summary
+    padding-top: 0
+
+
   /* THE MAIN COLUMN */
   .title
     font-family: $alternate-font-family
@@ -141,11 +147,15 @@ thead th
 td,
 tbody th,
 tfoot th
-  padding: 0.8em 1em
+  padding: 0.4rem 1rem
 
 tbody
   td
     +transition(background, 0.1s)
+
+    h3
+      padding-top: 0!important
+      margin-bottom: 1rem!important
 
 tr:nth-child(even)
   td, th

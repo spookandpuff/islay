@@ -62,3 +62,38 @@
     content: " "
     clear: both
     height: 0
+
+// Provides mixins for quickly defining the position: attribute.
+
+// Absolutely position an element. Arguments are optional.
+@mixin pos-absolute($top: false, $right: false, $bottom: false, $left: false)
+  +pos(absolute, $top, $right, $bottom, $left)
+
+// Fixed position an element. Arguments are optional.
+@mixin pos-fixed($top: false, $right: false, $bottom: false, $left: false)
+  +pos(fixed, $top, $right, $bottom, $left)
+
+// Relative position an element. Arguments are optional.
+@mixin pos-relative($top: false, $right: false, $bottom: false, $left: false)
+  +pos(relative, $top, $right, $bottom, $left)
+
+// A mixin used by the other positioning mixins. You really shouldn't call this
+// one directly.
+@mixin pos($pos, $top: false, $right: false, $bottom: false, $left: false)
+  position: $pos
+  @if $top
+    top: #{$top}
+  @if $right
+    right: #{$right}
+  @if $bottom
+    bottom: #{$bottom}
+  @if $left
+    left: #{$left}
+
+
+//Shortcuts to fill a box absolutely and fixedly
+@mixin pos-absolute-fill($inset: 0)
+  +pos-absolute($inset,$inset,$inset,$inset)
+
+@mixin pos-fixed-fill($inset: 0)
+  +pos-fixed($inset,$inset,$inset,$inset)

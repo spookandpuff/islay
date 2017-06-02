@@ -1,45 +1,46 @@
+$layout-header-height: 6rem
+$nav-color: #333
+$nav-foreground-color: #EEE
+$nav-width: 16em
+$collapsed-nav-width: 2.75em
 
 /* -------------------------------------------------------------------------- */
 /* BODY SIZING
 /* -------------------------------------------------------------------------- */
+html
+  height: 100%
+  min-height: 100%
+
 body
   background: $body-color
   color: $text-color
-  margin: $sub-header-height 0 0 $body-margin-left
+  min-height: 100%
+  
+  +for-phone
+    margin: 0
+
+  +for-tablet
+    margin: 0 0 0 $body-margin-left
 
 body.has-footer #content
-  margin-bottom: $footer-height + 1em !important
+  margin-bottom: $footer-height + 3em !important
 
 /* -------------------------------------------------------------------------- */
 /* MAIN CONTENT BLOCKS
 /* -------------------------------------------------------------------------- */
-.islay-layout-app-name
-  position: absolute
-  left: -1000em
 
-.islay-layout-nav
-  width: $body-margin-left
-  position: fixed
-  left: 0
-  top: 0
+#footer
   bottom: 0
-  z-index: 2
-
-.islay-layout-header,
-#footer
-  position: fixed
-  left: $body-margin-left
-  right: 0
-
-.islay-layout-header,
-  height: $sub-header-height
-  top: 0
-  z-index: 2
-
-#footer
   height: $footer-height
-  bottom: 0
+  position: fixed
+  right: 0
   z-index: 2
+  +for-tablet
+    left: $body-margin-left
+
+.islay-content-header
+  height: $sub-header-height
+  
 
 #content
   float: left
@@ -50,25 +51,42 @@ body.has-footer #content
 /* -------------------------------------------------------------------------- */
 /* HEADER
 /* -------------------------------------------------------------------------- */
-.islay-layout-header
-  +background-image($dimension-raised-subtle)
-  +box-shadow(0 0.1em 0.6em rgba(0,0,0,0.1))
-  background-color: #FFF
-  border-top: 0.1em solid $header-border-color
-  border-bottom: 0.1em solid $header-border-color
+.islay-layout-header 
+  +box-sizing(border-box)
+
+  background-color: $nav-color - 8
+  color: $light-grey
+  height: $layout-header-height
+  left: 0
+  padding: 2rem 0
+  position: fixed
+  text-align: center
+  top: 0
+  width: $nav-width
+  z-index: 2
+
+  h1
+    display: inline-block
+    margin: 0 auto
+    text-indent: -999em
+    background: image_url('islay/admin/islay-logo.svg') no-repeat center
+    width: 80%
+    height: 2rem
 
   h2
-    position: absolute
-    left: -1000em
+    display: none
 
+.islay-layout-app-name
+  +type-base
+  font-weight: bold
+
+.islay-content-header
   h2,
   .breadcrumb
-    +islay-text-engraved
     color: $dark-grey
-    float: left
     font-weight: bold
     font-size: 1.2em
-    margin-left: 0.6em
+    margin-left: $layout-gutter
     margin-top: 0.7em
 
     strong
@@ -98,147 +116,156 @@ body.has-footer #content
       display: inline-block
       text-decoration: none
 
-  .statuses
-    border-bottom: 0
-    float: right
-    margin-top: 0.75em
-    margin-right: 1em
-    width: auto
+.statuses
+  border-bottom: 0
+  margin-top: 0.5rem
+  margin-left: $layout-gutter
 
-    li
-      float: left
+  li
+    display: inline-block
 
-    .key
-      display: none
+  .key
+    display: none
 
-    .value
-      +border-radius(0.2em)
-      +background-image($dimension-dished)
-      padding: 0.3em 0.55em 0.2em 0.55em
-      margin-left: 0.5em
+  .value
+    +border-radius(0.2em)
+    +background-image($dimension-dished)
+    padding: 0.25rem 0.6rem 0.2rem
+    margin: 0 0 0.2rem 0
+
+  li:first-child
+    .key + .value
+      margin-left: 0
 
 
 /* -------------------------------------------------------------------------- */
 /* FILTERS
 /* Filters listings of records
 /* -------------------------------------------------------------------------- */
-.islay-layout-header,
-.dialog
-  ul.filters,
-  ul.sort
-    margin: 0.6em 1em 0 0.5em
+ul.filters,
+ul.sort
+  margin: 0.6em 1em 0 0.5em
+  float: right
+
+  &:before
+    color: $dark-grey
+    font-weight: bold
+    margin-top: 0.45em
+    float: left
+
+  li, a
+    float: left
+
+  a
+    +border-radius(0.3em)
+    +unstyled-link
+    border: 1px solid transparent
+    color: $dark-grey
+    display: block
+    margin-left: 0.6em
+    padding: 0.35em 0.6em 0.25em 0.6em
+    text-align: center
+    display: none
+
+    &:hover,
+    &:focus
+      background-color: #FFF
+
+    &:active
+      +background-image($dimension-sunken)
+      background-color: $mid-grey
+      color: #FFF
+
+    &.current,
+    &.current:hover,
+    &.current:focus
+      
+      +background-image($dimension-dished)
+      border-color: $light-grey - 20 !important
+      color: #222
+      background-color: $light-grey
+      display: block
+
+  &:hover,
+  &.fold-false
+    a
+      border-color: $light-grey
+
+  &:hover,
+  &.fold-false
+    a
+      display: block
+
+ul.sort:before
+  content: "Sort"
+
+ul.filters
+  li
+    position: relative
+
+  .link
+    margin-right: 0.4em
+    float: left
+
+  .count
+    +border-radius(0.3em)
+    background: $positive-color
+    color: white
+    font-size: 0.85em
+    padding: 0.2em 0.4em
     float: right
 
-    &:before
-      color: $dark-grey
-      font-weight: bold
-      margin-top: 0.45em
-      float: left
-
-    li, a
-      float: left
-
-    a
-      +border-radius(0.3em)
-      +unstyled-link
-      border: 1px solid transparent
-      color: $dark-grey
-      display: block
-      margin-left: 0.6em
-      padding: 0.35em 0.6em 0.25em 0.6em
-      text-align: center
-      display: none
-
-      &:hover,
-      &:focus
-        background-color: #FFF
-
-      &:active
-        +background-image($dimension-sunken)
-        background-color: $mid-grey
-        color: #FFF
-
-      &.current,
-      &.current:hover,
-      &.current:focus
-        +box-shadow(rgb(255,255,255) 0 1px 0 0)
-        +background-image($dimension-dished)
-        border-color: $light-grey - 20 !important
-        color: #222
-        background-color: $light-grey
-        display: block
-
-    &:hover,
-    &.fold-false
-      a
-        border-color: $light-grey
-
-    &:hover,
-    &.fold-false
-      a
-        display: block
-
-  ul.sort:before
-    content: "Sort"
-
-  ul.filters
-    li
-      position: relative
-
-    .link
-      margin-right: 0.4em
-      float: left
-
-    .count
-      +border-radius(0.3em)
-      background: $positive-color
-      color: white
-      font-size: 0.85em
-      padding: 0.2em 0.4em
-      float: right
-
-    &:before
-      content: "Show"
+  &:before
+    content: "Show"
 
 /* -------------------------------------------------------------------------- */
 /* NAVIGATION
 /* -------------------------------------------------------------------------- */
-$nav-color: #333333
-$nav-width: 16em
-$collapsed-nav-width: 3.5em
 
 .islay-layout-nav
   background-color: $nav-color
-  color: white
+  bottom: 0
+  color: $nav-foreground-color
+  position: fixed
+  top: $layout-header-height
   width: $nav-width
+  z-index: 2
+
+  +for-phone
+    left: -$nav-width
+
+  +for-tablet
+    left: 0
 
   li
     width: 100%
     float: left
 
   a,
-  a:visited,
-  a:hover
-    color: white
-    text-decoration: none
+    &:link,
+    &:visited,
+    &:hover,
+    &:focus,
+    &:active
+      color: $nav-foreground-color
+      text-decoration: none
 
   // Shared styles
   .entry,
   .search-entry
-    border: 0.1em solid transparent
-    border-radius: 0.1em
-    margin: 0.3em 0.3em
-    height: 2.2em
+    +type-small
     display: block
+    height: $ui-single-line-height
+    line-height: $ui-single-line-height
+    margin: 0
     overflow: hidden
 
     strong
-      margin-top: 0.45em
-      font-size: 1.2em
+      font-size: 1em
       display: block
 
 .islay-main-nav
-  background: #232323
+  background-color: $nav-color
   width: $collapsed-nav-width
   height: 100%
   position: absolute
@@ -246,14 +273,14 @@ $collapsed-nav-width: 3.5em
   top: 0
   z-index: 2
 
-  [class^="icon-"]
-    text-align: center
-    font-size: 1.6em
-    width: 1.65em
-    line-height: 1
-    position: absolute
+  .fa
+    font-size: 1.1em
     left: 0
+    line-height: 1.65rem
+    position: absolute
+    text-align: center
     top: 0.2em
+    width: 2rem
 
   .entry
     position: relative
@@ -261,16 +288,29 @@ $collapsed-nav-width: 3.5em
     strong
       text-indent: 2.4em
       white-space: nowrap
+      text-overflow: ellipsis
 
   .search-entry
     height: auto
+    border-bottom: 1px solid rgba(#FFF, 0.1)
+    padding: 0.75rem
 
     strong
-      margin-left: 1em
+      font-size: 1rem
+      font-weight: bold
+      line-height: 1
+      margin-bottom: 0.1em
 
     span
-      margin: 0.2em 0 0.6em 1.2em
+      color: rgba(#FFF, 0.7)
       display: block
+      line-height: 1
+
+    &:hover,
+    &:focus
+      +text-shadow(0 0.1em 0.05em rgba(#000, 0.5))
+      background: $sage-green
+      color: #FFF
 
   .islay-global-search
     height: 2.7em
@@ -281,7 +321,7 @@ $collapsed-nav-width: 3.5em
       border-width: 0
       font-family: inherit
       background: transparent
-      color: white
+      color: $nav-foreground-color
       font-size: 1.2em
       margin-left: 2.6em
       width: 10em
@@ -325,31 +365,22 @@ $collapsed-nav-width: 3.5em
         position: absolute
         left: -1000em
 
-// Sub Navigation
-.islay-sub-nav
-  position: absolute
-  left: $collapsed-nav-width
-  top: 0
-  width: $nav-width - $collapsed-nav-width
-  height: 100%
-  z-index: 1
-
-  .entry strong
-    margin-left: 0.4em
-
 // Main Navigation states
 .islay-main-nav
-  -webkit-transition: width 0.1s ease-out 0
+  +transition-property(width, left)
+  +transition-duration($duration-quick)
 
   // Default state
   .entry strong,
   .islay-global-search input,
   .islay-current-user button
-    -webkit-transition: opacity 0.3s ease 0
-    opacity: 0
+    +transition-property(opacity)
+    +transition-duration($duration-quick)
+    +opacity(0)
 
   .islay-global-search
-    -webkit-transition: background-color 0.1s ease-in 0
+    +transition-property(background)
+    +transition-duration($duration-quick)
 
   // Open state
   &.open,
@@ -369,22 +400,61 @@ $collapsed-nav-width: 3.5em
     .islay-current-user .icon-user
       display: none
 
+    .current
+      &:after
+        right: -1em!important
+
   &.searching .entry
     display: none
 
 // Current Highlight
 .islay-layout-nav
-  .current,
-    background: #1D86BF
-    border-color: #23A1E6
+  
+  .islay-main-nav
+    .current
+      background: rgba($sage-green, 0.8)
+      &:after
+        +transition-property(right)
+        +transition-duration($duration-quick)
+        border-color: transparent $nav-color + 10 transparent transparent
+        border-style: solid
+        border-width: 0.5em 0.5em 0.5em 0
+        content: ''
+        height: 0
+        position: absolute
+        right: 0
+        top: 50%
+        width: 0
+        margin-top: -0.45em
 
   li:hover .entry,
   .islay-global-search-results li:hover .search-entry
-    color: #23A1E6 + 30
+    color: $sage-green + 30
 
   li:hover .current,
   .islay-global-search-results li:hover .current
     color: white
+
+  // Sub Navigation
+.islay-sub-nav
+  background-color: $nav-color + 10
+  position: absolute
+  left: $collapsed-nav-width
+  top: 0
+  width: $nav-width - $collapsed-nav-width
+  height: 100%
+  z-index: 1
+
+  .entry 
+    strong
+      margin: $ui-single-line-height * 0.125 0.6em
+      padding: 0 0.4em
+      line-height: $ui-single-line-height * 0.75
+
+
+  .current
+    strong
+      background: rgba($sage-green, 0.75)
 
 /* -------------------------------------------------------------------------- */
 /* ADD ITEM DIALOG
@@ -424,25 +494,25 @@ $collapsed-nav-width: 3.5em
 /* To be displayed in at the top of record overviews and forms.
 /* -------------------------------------------------------------------------- */
 .islay-record-name
-  margin-left: 2%
-  width: 96%
-  padding: 1.6em 0 1.4em 0
-  border-bottom: 0.1em solid $header-border-color
+  +box-sizing(border-box)
+  width: 100%
+  padding: 1.6em 0 1.4em $layout-gutter
 
   i
     font-size: 2em
     padding-right: 0.3em
 
   span
+    +type-large
     font-weight: bold
-    font-size: 2em
 
 /* -------------------------------------------------------------------------- */
 /* INSET CONTENT
 /* -------------------------------------------------------------------------- */
 #content.inset
-  margin-left: 2%
-  width: 96%
+  +box-sizing(border-box)
+  padding-left: $layout-gutter
+  width: 100%
 
   table
     border: 0.1em solid $header-border-color
@@ -453,6 +523,14 @@ $collapsed-nav-width: 3.5em
     border-top: 0.1em solid $header-border-color
     margin-top: 1.5em
     padding-top: 1.5em
+
+    &:first-child
+      border-top: 0 none
+      margin-top: 0
+
+  table + h3
+    border-top: 0 none
+    margin-top: 0
 
 #content.inset-vertical
   margin-top: 2em
@@ -468,7 +546,7 @@ $collapsed-nav-width: 3.5em
 /* -------------------------------------------------------------------------- */
 #footer,
 .table-footer
-  +background-image(linear-gradient(#FFFFFF, #ECECEC))
+  background: #F4F4F4
 
   .default-controls,
   .selection-controls
@@ -484,9 +562,6 @@ $collapsed-nav-width: 3.5em
 
   .button, button
     margin: 0.6em 0 0 1em
-
-  .new
-    color: $dark-grey
 
   .edit,
   .delete,
@@ -530,9 +605,6 @@ $collapsed-nav-width: 3.5em
       color: #FFF
       padding: 1.35em 1em 0 0
 
-#footer
-  border-top: 0.1em solid #C2CBD5
-
 .table-footer
   float: left
   width: 100%
@@ -575,91 +647,6 @@ $i: 0
   #content .count-#{$i}
     width: $column-width * $i + ($gutter-width * $j)
     margin-right: $gutter-width
-
-/* -------------------------------------------------------------------------- */
-/* BUTTONS
-/* Button face colors:
-/* $button-text-color: #FFF
-/* $button-primary-color: #2C5A8D
-/* $button-secondary-color: #E1E1E1
-/* $button-positive-color: #39A22B
-/* $button-negative-color: #C42217
-/* -------------------------------------------------------------------------- */
-a.button,
-button
-  +border-radius(0.3em)
-  +background-image($dimension-raised)
-  +box-shadow(rgba(0, 0, 0, 0.05), -1px -1px 1px)
-  +islay-text-engraved
-  +transition(background-image, 0.5s)
-  font-family: $default-font-family
-  font-weight: $default-font-weight
-  background-color: $button-secondary-color
-  color: #222!important
-  cursor: pointer
-  font-weight: bold
-  border: 0.1em solid $button-secondary-color - 40
-  padding: 0.5em 0.8em 0.35em 0.6em
-  float: left
-
-  &:hover,
-  &:focus
-    +background-image($dimension-raised-active)
-    text-decoration: none
-
-  &:active
-    +text-shadow(none)
-    +background-image($dimension-sunken)
-
-  &:before
-    font-family: icons
-    font-weight: normal
-    font-size: 1.1em
-    padding-right: 0.4em
-    color: $dark-grey
-
-button
-  font-size: 1em
-  padding: 0.45em 0.8em 0.3em 0.6em
-
-.button
-  &.new
-    +icon-plus-sign
-
-  &.upload
-    +icon-circle-arrow-up
-
-  &.edit
-    +icon-pencil
-
-  &.delete
-    +icon-minus-sign
-
-button.save,
-.button.delete,
-.button.edit
-  +text-shadow(rgba(0, 0, 0, 0.3) -1px -1px 2px)
-  color: white!important
-
-  &:before
-    color: white!important
-
-button.save
-  +icon-bolt
-  background-color: $button-positive-color
-  font-size: 1em
-  border-color: $button-positive-color - 30
-
-.button.delete
-  background-color: $button-negative-color
-  border-color: $button-negative-color - 30
-
-.button.edit
-  background-color: $button-primary-color
-  border-color: $button-primary-color - 30
-
-a.button
-  text-decoration: none
 
 /* -------------------------------------------------------------------------- */
 /* INDICATOR
@@ -762,16 +749,18 @@ span.indicator
   a
     display: block
 
+.tags
+  margin-bottom: 0.5rem
+
 #tag-cloud a,
 .tag
   +unstyled-link
   +border-radius(0.3em)
-  +islay-text-engraved(1px, 0.5)
-  +background-image($dimension-raised-subtle)
+  +type-extra-small
   background-color: $tag-color
-  border: 0.1em solid $tag-color - 25
-  padding: 0.4em 1em 0.3em
-  margin: 0 1em 1em 0
+  border: 1px solid $tag-border-color
+  padding: 0.25rem 0.6rem 0.2rem
+  margin: 0 0 0.2rem 0
 
 /* -------------------------------------------------------------------------- */
 /* DELETE CONFIRMATION
@@ -781,55 +770,6 @@ body.delete #content
   width: 60% !important
 
 
-/* -------------------------------------------------------------------------- */
-/* LOGIN SCREEN
-/* -------------------------------------------------------------------------- */
-
-body#login
-  background: $side-bar-color
-  color: #FFF
-
-  .login-container
-    +box-shadow(rgba(0,0,0,0.6) 0 0.5em 2em 0)
-    background: #EEE
-    border-top: 1px solid #FFF
-    border-bottom: 1px solid #000
-    color: #333
-    width: 36em
-    height: 16em
-    position: absolute
-    padding: 2em
-    top: 50%
-    left: 50%
-    margin-left: -20em
-    margin-top: -10em
-
-    form
-      float: left
-      width: 100%
-      padding: 2em 0 1em
-
-    h2
-      font-size: 1.8em
-
-    label
-      width: 10em
-
-    input
-      width: 16em
-
-    .button-bar
-      clear: both
-      float: left
-      width: 100%
-
-      button
-        float: right
-        margin-right: 7.6em
-
-    .help
-      a
-        text-decoration: none
 
 /* -------------------------------------------------------------------------- */
 /* UNIVERSAL 'IN PROGRESS'

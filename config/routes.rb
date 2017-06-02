@@ -23,6 +23,9 @@ Rails.application.routes.draw do
       get :delete, :on => :member
     end
 
+    # SITE CONFIG
+    resources :site_configs, :path => 'settings'
+
     # PAGE CONTENT
     resources :pages, :only => %w(index edit update) do
       resources :features, :only => %w(new create edit update)

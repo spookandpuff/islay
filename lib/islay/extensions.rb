@@ -149,6 +149,17 @@ module Islay
       nil
     end
 
+    # Defines the configuration for the extension
+    #
+    # @param String name
+    # @param String key
+    # @param Proc blk
+    # @return nil
+    def configuration(name, key, &blk) 
+      Islay::Configuration.define(name, key, &blk)
+      nil
+    end
+
     # Defines or extends a navigation section.
     #
     # @param Symbol name

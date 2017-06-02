@@ -2,11 +2,16 @@
 Islay::Engine.extensions.register do |e|
   e.namespace :islay
 
-  e.add_item_entry('Asset', :asset, 'picture')
+  e.configuration('Main', :islay) do |c|
+    c.string  :site_name
+    c.string  :domain
+  end
+
+  e.add_item_entry('Asset', :asset, 'photo')
   e.add_item_entry('User', :user, 'user')
 
   e.nav_section(:dashboard, 1) do |s|
-    s.root('Dashboard', :dashboard, 'home', :root => true)
+    s.root('Dashboard', :dashboard, 'dashboard', :root => true)
   end
 
   e.nav_section(:reports, 1) do |s|
@@ -19,7 +24,7 @@ Islay::Engine.extensions.register do |e|
   end
 
   e.nav_section(:asset_library, 4) do |s|
-    s.root('Asset Library', :asset_library, 'picture')
+    s.root('Asset Library', :asset_library, 'photo')
     s.sub_nav('Overview', :asset_library, :root => true)
     s.sub_nav('Collections', :asset_groups)
     s.sub_nav('Assets', :assets)
@@ -28,7 +33,9 @@ Islay::Engine.extensions.register do |e|
   end
 
   e.nav_section(:config, 9) do |s|
-    s.root('Configuration', :users, 'cog')
+    s.root('Settings', :site_configs, 'cog')
+    s.sub_nav('Site Settings', :site_configs, :root => true)
+    s.sub_nav('Users', :users)
   end
 
   e.nav_section(:add_item, 10) do |s|

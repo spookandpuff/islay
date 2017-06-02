@@ -1,6 +1,8 @@
 - breadcrumb('Asset Library', :asset_library)
 - breadcrumb('Collections', :asset_groups)
 
+= record_name('Asset Collections', 'photo')
+
 = content do
   = render :partial => 'islay/admin/asset_groups/table'
 

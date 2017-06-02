@@ -8,10 +8,14 @@
 /* -------------------------------------------------------------------------- */
 /* MEASUREMENTS
 /* -------------------------------------------------------------------------- */
-$header-height: 2.8em
-$sub-header-height: 2.7em
-$footer-height: 3.2em
+$footer-height: 3.6em
 $body-margin-left: 16em
+
+$ui-single-line-height: 2rem
+$sub-header-height: $ui-single-line-height
+$header-height: $ui-single-line-height
+
+$layout-gutter: 1.5rem
 
 /* -------------------------------------------------------------------------- */
 /* COLORS
@@ -19,8 +23,11 @@ $body-margin-left: 16em
 $body-color: white
 $alt-body-color: #F9F9F9
 $side-bar-color: #232323
+$color-layout-header: #F4F4F4
 
 $bright-blue: #1D86BF
+$sage-green: #659384
+$grass-green: #71AB5B
 
 $very-light-grey: #F4F4F4
 $light-grey: #E1E1E1
@@ -32,6 +39,7 @@ $positive-color: #39A22B
 $negative-color: #C42217
 $neutral-color: #439DF3
 $header-border-color: #C2CBD5
+$attention-color: #F1FFE6
 
 $selected-background-color: #2C5A8D
 $selected-foreground-color: #FFF
@@ -51,15 +59,16 @@ $side-bar-link-hover-color: $link-hover-color + 50
 $side-bar-link-active-color: link-active-color + 50
 $side-bar-link-visited-color: link-visited-color + 50
 
-$tag-color: #FAEC7F
+$tag-color: #FAF5D5
+$tag-border-color: #d8d7ce
 
 $shadow-color: rgba(0,0,0,0.3)
 
 //Button face colors:
-$button-text-color: #FFF
+$button-text-color: $text-color
 $button-primary-color: #2C5A8D
-$button-secondary-color: #E1E1E1
-$button-positive-color: #39A22B
+$button-secondary-color: $very-light-grey
+$button-positive-color: saturate($sage-green, 0.3)
 $button-negative-color: #C42217
 
 //These are transparent overlays used for various button states.
@@ -81,6 +90,15 @@ $alternate-font-weight: 600
 
 $light-font-family: -apple-system, BlinkMacSystemFont, 'Source Sans Pro', Calibri, sans-serif
 $light-font-weight: 300
+
+/* -------------------------------------------------------------------------- */
+/* TRANSITIONS
+/* -------------------------------------------------------------------------- */
+
+$duration-base: 400ms
+$duration-quick: $duration-base * 0.66
+$duration-slow: $duration-base * 1.33
+
 
 /* -------------------------------------------------------------------------- */
 /* MIXINS

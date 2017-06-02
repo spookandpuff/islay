@@ -4,7 +4,7 @@ class Islay::Admin::PagesController < Islay::Admin::ApplicationController
   before_filter :find_assets, :except => [:index]
 
   def index
-    @pages = Islay::Engine.content.pages
+    @pages = Islay::Engine.content.pages.sort_by{|p|p[0]}
     @shared = Islay::Engine.content.shares
   end
 

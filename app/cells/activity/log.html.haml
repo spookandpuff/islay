@@ -3,16 +3,19 @@
 %table#activity-logs
   %thead
     %tr
-      %th What
-      %th Event
-      %th Who/When
+      %th{colspan: 2} Event
+      %th Item
+      %th At
 
   %tbody
     - @logs.each do |log|
       %tr(class="#{log.type}-log")
-        %td= link_to("<strong>#{log.type.humanize}:</strong> #{log.name}".html_safe, log.url)
+        %td
+          - if log.user_name.blank?
+            Self
+          - else
+            #{log.user_name.humanize}
         %td= log.event.humanize
+        %td= link_to("<strong>#{log.friendly_type}:</strong> #{log.name}".html_safe, log.url)
         %td.meta
           %span.time= log.created_at
-          - unless log.user_name.blank?
-            by #{log.user_name}
