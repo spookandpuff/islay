@@ -1,3 +1,13 @@
+$print-gutter: 1rem 
+
+.islay-record-name
+  font-size: 18pt
+  font-weight: bold
+
+  #islay-shop-admin-orders.show &
+    &:before
+      content: "Order: " 
+
 h3.inset
   border-top: 1px solid #DDD
   margin-top: 1em
@@ -15,29 +25,119 @@ h3.inset
 
 #islay-shop-admin-orders.show
   
-  table
-    border: 1px solid #DDD
-    margin-bottom: 1em
+  .print-logo
+    &.is-portrait
+      width: 3cm
 
-  .order-overview
-    +clear-fix
-    border-bottom: 1px solid #DDD
-    margin-left: 0!important
-    padding-bottom: 1.5em
-    margin-bottom: 0.5em
-    width: 100%
+    img
+      width: 100%
+      display: block
 
-    li
+  #content
+    * 
+      +text-shadow(none)
+      font-size: 8pt!important
+      color: #000!important
+
+    h3
+    .value
+      font-size: 10pt!important
+      font-weight: bold!important
+  
+    table
+      border: 1px solid #666
+      margin-bottom: 1em
+
+      th
+        font-size: 6pt!important
+
+      tbody
+        td
+          padding: 0.75rem
+          border-bottom: 1px solid #DDD
+      tfoot
+        th
+          font-weight: normal
+
+      td
+        p
+          margin-bottom: 0
+
+      tr:last-child
+        td
+          border-bottom: 1px solid #666
+
+      &.logs
+        td 
+          padding: 0.5rem
+          *
+            font-size: 7pt!important
+
+    .shipping-instructions,
+    .gift-details,
+    h3.items
+      border-top: 1px solid #666
+      clear: both
+      margin-top: $print-gutter
+      padding-top: $print-gutter
+
+    .gift-details
+      h3
+        .flag
+          text-transform: none
+          background: none
+          padding: 0
+          margin: 0
+          letter-spacing: normal
+          &:before
+            content: 'This order is a '
+
+      p
+        .value
+          &:before
+            content: 'Message: '
+            font-weight: bold
+
+    .order-overview
+      +clear-fix
+      border-bottom: 1px solid #666
+      margin-left: 0!important
+      margin-bottom: $print-gutter
+      padding-bottom: $print-gutter
+      width: 100%
+
+      li
+        +box-sizing(border-box)
+        float: left
+        width: 33%
+        padding-right: 1rem
+        padding-bottom: 0.5rem
+        margin-bottom: 0
+
+    .address,
+    .billing
+      +box-sizing(border-box)
+      
+      width: 33%!important
+      padding-right: 1rem
+      margin: 0
+
+    .address
       float: left
-      width: 30%
-      margin-right: 1%
-      padding-bottom: 1em
 
-  .address
-    min-width: 12em
-    
-  .billing
-    width: 16em!important
+    .billing
+      float: right
 
-  .card-details
-    font-size: 0.75em
+      .card-details
+        width: auto
+        padding: 0
+        border: 0 none!important
+        +box-shadow(none)
+
+        > span
+          display: inline-block!important
+          float: none!important
+          margin: 0!important
+
+          &.expiry
+            display: block
