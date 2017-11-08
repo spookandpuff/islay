@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
 
   def self.filtered(filter)
     case filter
-    when 'all' then scoped
+    when 'all' then all
     when 'disabled' then where(:disabled => true)
     else where(:disabled => false)
     end
