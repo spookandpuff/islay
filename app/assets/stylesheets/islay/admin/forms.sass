@@ -269,7 +269,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     height: $widget-height
 
   .selected
-    
+
     background: #4D69A2 !important
     border-color: #4D69A2 !important
 
@@ -327,7 +327,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     .select2-choices
       +widget-border-radius(top-only)
       border-bottom-width: 0
-      
+
     &.select2-drop-above .select2-choices
       +widget-border-radius(bottom-only)
       border-bottom-width: 0.1em !important
@@ -378,7 +378,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     +widget-border-radius(right)
 
   .selected.off
-    
+
     background: #9A9A9A !important
     border-color: #959595 !important
 
@@ -551,7 +551,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 .widget.multi_asset
   .choice, .add
     +border-radius(0.2em)
-    
+
     +input-border
     background: white
     cursor: pointer
@@ -688,7 +688,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   li
     +input-border
     +border-radius(0.2em)
-    
+
     border: 0.1em solid $light-grey
     background: white
     float: left
@@ -900,7 +900,7 @@ fieldset.member-tree
 
   ul.top
     +border-radius(0.3em)
-    
+
     background: $form-inset-color + 10
     border: $border-width solid $light-grey
     float: left
@@ -925,3 +925,11 @@ fieldset.member-tree
   li li
     input
       margin-left: 2.6em
+
+
+#islay-form
+  .editable-grid
+    .field
+      margin-bottom: 0
+      label
+        display: none
