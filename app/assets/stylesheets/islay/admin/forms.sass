@@ -96,7 +96,7 @@ form
   .markdown-editor-canvas
     +border-radius(2px)
     background: #FFF
-    border: 0.1em solid #B6B9BC
+    border: 0.05rem solid #CCC
     float: left
     padding: $input-v-padding $input-h-padding
 
@@ -156,7 +156,6 @@ form
     min-width: 8rem
     max-width: 18rem
     width: 20%
-
 
 /* -------------------------------------------------------------------------- */
 /* ERROED FIELDS
@@ -236,9 +235,9 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 
 @mixin widget-gradient($mode: regular)
   @if $mode == regular
-    +background-image(linear_gradient(white, $light-grey))
+    +background-image(linear_gradient(white, $very-light-grey))
   @else
-    +background-image(linear_gradient($light-grey, white))
+    +background-image(linear_gradient($very-light-grey, white))
 
 @mixin widget-border-radius($portions: all)
   @if $portions == all
@@ -269,7 +268,6 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     height: $widget-height
 
   .selected
-
     background: #4D69A2 !important
     border-color: #4D69A2 !important
 
@@ -344,7 +342,6 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   .select2-choice
     +widget-border-radius
     +input-border
-    +widget-gradient
     height: $widget-height
 
     span
@@ -760,7 +757,6 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 
   .select2-choice
     +input-border
-    +widget-gradient
     color: black
     padding: 0
     height: $widget-height
