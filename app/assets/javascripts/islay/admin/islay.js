@@ -51,7 +51,7 @@ $SP.where('.[edit, new, create, update]').select('#islay-form').run(function(for
   form.islayFormTabs();
 });
 
-$SP.where('.[show, index]').select('table.sortable').run(function(table) {
+$SP.where('.[show, index, edit]').select('table.sortable').run(function(table) {
   var SortableTable = new Islay.SortableTable({el: $(table).closest('form')});
 });
 

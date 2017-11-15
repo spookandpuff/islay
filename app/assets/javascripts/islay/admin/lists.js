@@ -1,6 +1,5 @@
 var Islay = window.Islay || {};
 
-
 Islay.SortableTable = Backbone.View.extend({
   events: {submit: 'submit', select_all: 'select_all'},
 
@@ -84,7 +83,7 @@ Islay.SortableTable = Backbone.View.extend({
     });
   },
   submit: function() {
-    //TODO: Look at AJAX'ing the position update. 
+    //TODO: Look at AJAX'ing the position update.
   }
 });
 
