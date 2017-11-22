@@ -46,6 +46,29 @@ $error-color: #952B2B
     width: 8em
     float: left
 
+  .form-block
+    +clear-fix
+    margin-top: 1.5rem
+    padding-top: 2.5rem
+    position: relative
+
+    &:before
+      content: ''
+      display: block
+      position: absolute
+      top: 0
+      right: 0
+      left: 7.5rem
+      border-top: 1px solid $light-grey
+
+    &:first-child
+      &:before
+        content: none
+
+    &:last-child
+      padding-bottom: 2.5rem
+
+
   .field
     margin-bottom: $field-margin
     width: 100%
