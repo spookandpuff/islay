@@ -72,6 +72,14 @@ class AssetStorage
   def self.cache_file!(key, filename, file)
     path = File.join(temp_dir_at(key), filename)
     FileUtils.cp(file.path, path)
+    puts "------------------------"
+    puts "Caching file at key: #{key}"
+    puts "-----"
+    puts "filename: #{filename}"
+    puts "file: #{file}"
+    puts "path: #{path}"
+    puts "------------------------"
+
     path
   end
 

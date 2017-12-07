@@ -134,6 +134,16 @@ class Asset < ActiveRecord::Base
     self[:dir] = dir = Time.now.strftime('%Y%m')
     self[:key] = Digest::SHA1.hexdigest(original_filename + Time.now.to_s)
 
+    puts "------------------------"
+    puts "Setting file on asset: #{id}"
+    puts "-----"
+    puts "New? #{new_record?}"
+    puts "File: #{file.inspect}"
+    puts "filename: #{self[:filename]}"
+    puts "dir: #{self[:dir]}"
+    puts "key: #{self[:key]}"
+    puts "------------------------"
+
     @file = file
   end
 
