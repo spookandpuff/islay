@@ -13,6 +13,8 @@ module Islay::Admin::PagesHelper
       select_tag(name, vals.join.html_safe, :include_blank => 'No image')
     when :text, :markdown
       text_area_tag(name, val)
+    when :color
+      text_field_tag(name, val, type: 'color')
     when :string
       text_field_tag(name, val)
     end

@@ -2,6 +2,7 @@ require 'islay/form_builder/asset_select'
 require 'islay/form_builder/destroy'
 require 'islay/form_builder/position'
 require 'islay/form_builder/date_picker'
+require 'islay/form_builder/color_picker'
 require 'islay/form_builder/boolean_depressed'
 
 module Islay
@@ -72,6 +73,9 @@ module Islay
         when :date
           options[:wrapper_class] = "#{options[:class]} date_picker"
           'string'
+        when :color
+          options[:wrapper_class] = "#{options[:class]} color_picker"
+          'color_picker'
         when :text, :boolean
           metaopts[:type]
         end
@@ -140,6 +144,8 @@ module Islay
           'string'
         when "String", "Text"
           'string'
+        when "Color"
+          'color'
         when "Boolean"
           'boolean'
         end
