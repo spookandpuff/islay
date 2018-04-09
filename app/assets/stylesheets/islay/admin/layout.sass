@@ -15,7 +15,7 @@ body
   background: $body-color
   color: $text-color
   min-height: 100%
-  
+
   +for-phone
     margin: 0
 
@@ -40,7 +40,7 @@ body.has-footer #content
 
 .islay-content-header
   height: $sub-header-height
-  
+
 
 #content
   float: left
@@ -51,7 +51,7 @@ body.has-footer #content
 /* -------------------------------------------------------------------------- */
 /* HEADER
 /* -------------------------------------------------------------------------- */
-.islay-layout-header 
+.islay-layout-header
   +box-sizing(border-box)
   background-color: $nav-color
   color: $light-grey
@@ -178,7 +178,7 @@ ul.sort
     &.current,
     &.current:hover,
     &.current:focus
-      
+
       +background-image($dimension-dished)
       border-color: $light-grey - 20 !important
       color: #222
@@ -442,7 +442,6 @@ ul.filters
 
   // Sub Navigation
 .islay-sub-nav
-  
   position: absolute
   left: $collapsed-nav-width
   top: 0
@@ -451,14 +450,20 @@ ul.filters
   z-index: 1
 
   &:before
+    background: linear-gradient(left, rgba(#000, 0.1) 0%, rgba(#000, 0) 15%)
     content: ''
     top: 0
     bottom: 0
     left: 0
-    border-left: 1px solid rgba(#FFF, 0.1)
+    right: 0
     position: absolute
+    z-index: 0
 
-  .entry 
+  > li
+    position: relative
+    z-index: 1
+
+  .entry
     strong
       margin: 0
       padding: 0 0.75rem
@@ -508,7 +513,7 @@ ul.filters
 .islay-record-name
   +box-sizing(border-box)
   width: 100%
-  padding: 1.6em 0 1.4em $layout-gutter
+  padding: 1.6em 0 1.4rem $layout-gutter
 
   i
     font-size: 2em
@@ -517,6 +522,14 @@ ul.filters
   span
     +type-large
     font-weight: bold
+
+.islay-record-note
+  +box-sizing(border-box)
+  width: 100%
+  padding: 0.25rem 0 1rem $layout-gutter
+
+  span
+    +type-small
 
 /* -------------------------------------------------------------------------- */
 /* INSET CONTENT
