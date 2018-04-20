@@ -8,6 +8,7 @@ $field-margin: 1em
 $field-height: $border-width * 2 + $input-v-padding * 2 + 1em
 $form-inset-color: $light-grey + 20
 $error-color: #952B2B
+$error-color-light: #ffac9e
 
 #islay-form
   #content
@@ -43,13 +44,13 @@ $error-color: #952B2B
     margin-right: 1em
     color: #606D7B !important
     font-weight: bold
-    width: 8em
+    width: 7.5rem
     float: left
 
   .form-block
     +clear-fix
-    margin-top: 1.5rem
-    padding-top: 2.5rem
+    margin-top: 1rem
+    padding-top: 1rem
     position: relative
 
     &:before
@@ -57,11 +58,12 @@ $error-color: #952B2B
       display: block
       position: absolute
       top: 0
-      right: 0
+      right: 3.5rem
       left: 7.5rem
       border-top: 1px solid $light-grey
 
-    &:first-child
+    &:first-child,
+    legend:first-child + &
       &:before
         content: none
 
@@ -73,6 +75,12 @@ $error-color: #952B2B
 
       &:before
         content: none
+
+    .form-block-note
+      color: #666
+      font-size: 0.85rem
+      margin-left: 8.25rem
+      margin-bottom: 1.25rem
 
 
   .field
@@ -158,7 +166,8 @@ form
     max-width: 42rem
     width: 75%
 
-  input[type=number]
+  input[type=number],
+  input[name*=price]
     min-width: 6rem
     max-width: 8rem
     width: 20%
@@ -197,22 +206,20 @@ form
 /* ERROR NOTICE
 /* -------------------------------------------------------------------------- */
 .islay-form-errors
-  +border-radius(0.3em)
-  padding: 1em 0
-  background-color: $error-color + 100
-  margin: 1em 0 0.3em 0
   +box-sizing(border-box)
-  width: 100%
-  padding-left: $layout-gutter
-  float: left
+  padding: 1em 0
+  background-color: $error-color-light
+  margin: 1rem
   position: relative
 
   .icon
-    color: $error-color
-    font-size: 3em
+    color: #FFF
+    text-shadow: 0 0.1em 0.15em rgba(#000, 0.2)
+    font-size: 1.5rem
     position: absolute
-    left: 0.4em
-    top: 0.25em
+    left: 1rem
+    margin-top: -0.75rem
+    top: 50%
 
   h3
     font-weight: bold
@@ -752,12 +759,13 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   +widget-gradient
   +widget-border-radius
   +input-border
-  padding: 0 $input-h-padding + 0.3em
-  height: $widget-height
-  width: 8em
-  display: inline-block
   cursor: pointer
+  display: inline-block
+  float: left
+  height: $widget-height
+  padding: 0 $input-h-padding + 0.3em
   position: relative
+  width: 8em
 
   .display
     margin-top: 0.7em
@@ -869,6 +877,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     line-height: 1
     margin: 0 0.3em 0 0!important
     float: left
+    position: relative
 
   a
     +transition-property(background, color)
@@ -889,10 +898,19 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     color: #FFF
 
   a.has-errors
-    color: $error-color - 20
 
     &:after
-      content: '*'
+      +pos-absolute(-0.45rem, -0.55rem)
+      content: '!'
+      border-radius: 50%
+      display: block
+      background: $error-color-light
+      color: #222
+      width: 1rem
+      height: 1rem
+      text-align: center
+      line-height: 1rem
+
 
   a.has-errors.current
     border-color: $error-color
@@ -901,13 +919,12 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 /* ERROR FLAGS
 /* -------------------------------------------------------------------------- */
 span.error
-  +border-radius(0 0.2em 0.2em 0)
-  background: left center no-repeat image-url('islay/admin/error-tag.png')
-  color: white
-  padding: $input-v-padding 0.6em $input-v-padding 1.3em
-  margin: 0.35em 0 0 1em
-  float: left
-
+  +border-radius(0.2rem)
+  background: $error-color-light
+  display: inline-block
+  padding: 0.4rem 0.75rem
+  margin: 0.35em 0 0 0.75rem
+  vertical-align: top
 
 /* -------------------------------------------------------------------------- */
 /* MEMBER TREE

@@ -1,4 +1,7 @@
-%div.islay-form-errors
-  %i.icon.icon-warning-sign 
-  %h3 Could not save this record
-  %p It is invalid. Fields with problems are <span>highlighted.</span>
+.islay-form-errors
+  %i.icon.fa.fa-warning
+  %h3 Couldn’t #{object.new_record? ? "create your new #{object.class.name.humanize}" : 'save your changes'}
+  %p
+    Please check the
+    %span highlighted fields
+    for more information.

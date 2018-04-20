@@ -5,6 +5,7 @@
 (function($) {
   var DatePicker = function(input) {
     this.$input = input;
+    this.$label = input.siblings('label').first();
     this.$wrapper = $('<span class="islay-form-date-picker"></span>');
     this.$display = $('<span class="display"></span>');
     this.$button = $('<i class="fa fa-calendar button"></i>');
@@ -24,7 +25,8 @@
 
     $(document).click($.proxy(this, 'clickOutside'));
 
-    this.$input.after(this.$wrapper).hide();
+    this.$label.after(this.$wrapper)
+    this.$input.hide();
   };
 
   DatePicker.prototype = {

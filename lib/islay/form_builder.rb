@@ -58,7 +58,7 @@ module Islay
       options = incoming_opts.dup
 
       unless options.has_key?(:as)
-        options[:as] = case metaopts[:type]
+        options[:as] = metaopts[:as] || case metaopts[:type]
         when :enum
           metaopts[:kind] == :short ? 'radio_buttons' : 'select'
         when :foreign_key

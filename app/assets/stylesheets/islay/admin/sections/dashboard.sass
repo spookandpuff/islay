@@ -85,3 +85,38 @@
 
   .user-log a strong
     +icon-user
+
+.dashboard-overview
+  align-items: stretch
+  display: flex
+
+  .dashboard-overview-count,
+  .dashboard-overview-excerpt
+    padding: 1rem
+    margin-right: 1rem
+    border: 1px solid $light-grey
+
+    .key,
+    .value,
+    .label
+      display: block
+      text-align: center
+
+    .key
+      border-top: 1px solid $light-grey
+      padding-top: 0.75rem
+
+    .label
+      border-bottom: 1px solid $light-grey
+      padding-bottom: 0.75rem
+
+  .dashboard-overview-count
+    .value
+      font-size: 3.5rem
+      font-weight: $light-font-weight
+      padding-bottom: 0.75rem
+
+  .dashboard-overview-excerpt
+    .value
+      font-size: 1.5rem
+      padding-top: 0.75rem

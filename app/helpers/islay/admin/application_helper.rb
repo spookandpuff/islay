@@ -32,7 +32,7 @@ module Islay
       # @return [nil, String]
       def form_errors(object)
         unless object.errors.empty?
-          render :partial => 'islay/admin/shared/form_errors'
+          render :partial => 'islay/admin/shared/form_errors', locals: {object: object}
         end
       end
 
