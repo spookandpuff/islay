@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
 
-  s.add_dependency "rails",                         "~> 4.2.0"
+  s.add_dependency "rails",                         "~> 4.2.5.2"
   s.add_dependency 'rails-observers',               "~> 0.1.2"
   s.add_dependency "cells",                         "~> 3.11.3"
   s.add_dependency "devise",                        "~> 4.2.0"
@@ -36,11 +36,11 @@ Gem::Specification.new do |s|
   s.add_dependency "inherited_resources",           "~> 1.6.0"
   s.add_dependency "rmagick",                       "~> 2.13.1"
   s.add_dependency "mime-types",                    "~> 1.19"
-  s.add_dependency "fog",                           "~> 1.15.0"
+  s.add_dependency "fog-aws",                       "~> 1.4.1"
   s.add_dependency "girl_friday",                   "~> 0.9.7"
   s.add_dependency "streamio-ffmpeg",               "~> 0.8.5"
   s.add_dependency "zipruby",                       "~> 0.3.6"
-  s.add_dependency "jquery-rails",                  "~> 2.0.2"
+  s.add_dependency "jquery-rails",                  "~> 3.1.3"
   s.add_dependency "jsonify-rails",                 "~> 0.3.2"
   s.add_dependency "kaminari",                      "~> 0.16.2"
   s.add_dependency 'rdiscount',                     '~> 1.6.8'
