@@ -1,5 +1,7 @@
 require 'cells'
-require 'haml'
+require 'cells-rails'
+require 'hamlit'
+require 'cells-hamlit'
 require 'compass-rails' # This is temporary. By rights this needs to go into the assets group
 require 'sass-rails'
 require 'jquery-rails'

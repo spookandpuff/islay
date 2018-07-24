@@ -25,7 +25,7 @@ module Islay
         end
       end
 
-      # Conditionally renders an error notice if the supplied object is 
+      # Conditionally renders an error notice if the supplied object is
       # invalid. Leans on a partial for the notice itself.
       #
       # @param ActiveRecord::Base object
@@ -36,8 +36,8 @@ module Islay
         end
       end
 
-      # A helper for rendering a notification within a form. This is intended 
-      # to be displayed at the bottom of forms and contain information about 
+      # A helper for rendering a notification within a form. This is intended
+      # to be displayed at the bottom of forms and contain information about
       # the deletion or disabling of a record.
       #
       # @param Symbol kind
@@ -153,11 +153,11 @@ module Islay
         content_tag(opts.delete(:el) || :div, capture(&blk), opts)
       end
 
-      # Renders a partial which creates a nicely styled header. Intended to be 
+      # Renders a partial which creates a nicely styled header. Intended to be
       # used on record overviews and forms.
       #
       # @param String name
-      # @param String icon 
+      # @param String icon
       # @param Hash opts
       # @option opts String :when_blank
       # @return String
@@ -295,8 +295,8 @@ module Islay
         @control_entries and !@control_entries.empty?
       end
 
-      # Conditionally renders the sub navigation for the specified nav scope. 
-      # The nav scope is defined on each controller using the ::nav_scope 
+      # Conditionally renders the sub navigation for the specified nav scope.
+      # The nav scope is defined on each controller using the ::nav_scope
       # declaration.
       #
       # @return [String, nil]
@@ -319,7 +319,7 @@ module Islay
       end
 
       # Checks to see if the specified URL matches the original requested URL.
-      # This is a utility method for generating navigation entries and the 
+      # This is a utility method for generating navigation entries and the
       # like.
       #
       # @param String url
@@ -478,6 +478,13 @@ module Islay
       def simple_format(text)
         render_markdown text
       end
+
+      # Cells 3 style cell render call.
+      def render_cell(name, state, *args)
+        cell(name).(state, *args)
+      end
+
+      deprecate :render_cell
     end # AdminHelpers
   end # Admin
 end # Islay

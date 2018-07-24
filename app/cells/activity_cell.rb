@@ -1,4 +1,4 @@
-class ActivityCell < Cell::Rails
+class ActivityCell < Islay::ApplicationCell
   def log
     @logs = ActivityLog.recent
     render
