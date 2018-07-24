@@ -3,7 +3,7 @@ class Islay::Admin::AssetsController < Islay::Admin::ApplicationController
   header 'Asset Library - Assets'
   nav_scope :asset_library
 
-  before_filter :set_params, :only => :update
+  before_action :set_params, :only => :update
 
   def index
     klass = case params[:filter]

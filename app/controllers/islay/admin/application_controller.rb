@@ -2,7 +2,7 @@ class Islay::Admin::ApplicationController < Islay::ApplicationController
   use_https
 
   layout 'layouts/islay/application'
-  before_filter :authenticate_user!, :store_user_in_thread
+  before_action :authenticate_user!, :store_user_in_thread
 
   class_attribute :_header, :_route_scopes, :_nav, :_nav_scope
   helper_method :_header, :_nav, :nav_scope
@@ -99,7 +99,7 @@ class Islay::Admin::ApplicationController < Islay::ApplicationController
         :param  => :"#{parent}_id"
       }
       attr_reader parent
-      before_filter :find_parent, :except => [:delete]
+      before_action :find_parent, :except => [:delete]
     end
 
     include Islay::ResourcefulController
