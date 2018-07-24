@@ -191,7 +191,7 @@ module Islay
       # @param Hash opts
       # @return String
       def main_nav(name, icon, path_name, opts = {})
-        id ||= name.parameterize('-')
+        id ||= name
         url = path(path_name)
         root = opts.delete(:root)
 
