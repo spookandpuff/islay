@@ -115,7 +115,7 @@ module Islay
         append_class!(options, :wrapper_html, 'inline')
       end
 
-      super
+      super(attribute_name, options, &block)
     end
 
     # Creates an input based on a provided hash. It inspects the options attached to an
