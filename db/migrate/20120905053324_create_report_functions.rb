@@ -1,4 +1,4 @@
-class CreateReportFunctions < ActiveRecord::Migration
+class CreateReportFunctions < ActiveRecord::Migration[4.2]
   def up
     execute %{
       CREATE OR REPLACE FUNCTION movement_dir(in numeric, in numeric, out text) AS $$

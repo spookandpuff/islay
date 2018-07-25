@@ -1,4 +1,4 @@
-class CreateAssetTaggings < ActiveRecord::Migration
+class CreateAssetTaggings < ActiveRecord::Migration[4.2]
   def change
     create_table :asset_taggings do |t|
       t.integer :asset_id,      :null => false, :on_delete => :cascade

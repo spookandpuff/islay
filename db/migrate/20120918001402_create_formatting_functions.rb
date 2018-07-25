@@ -1,4 +1,4 @@
-class CreateFormattingFunctions < ActiveRecord::Migration
+class CreateFormattingFunctions < ActiveRecord::Migration[4.2]
   def up
     execute %{
       CREATE OR REPLACE FUNCTION formatted_volume(in numeric, out text) AS $$

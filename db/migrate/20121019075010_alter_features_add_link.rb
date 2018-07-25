@@ -1,4 +1,4 @@
-class AlterFeaturesAddLink < ActiveRecord::Migration
+class AlterFeaturesAddLink < ActiveRecord::Migration[4.2]
   def up
     add_column(:features, :link_url, :string)
     add_column(:features, :link_title, :string)

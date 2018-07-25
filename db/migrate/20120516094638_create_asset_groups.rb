@@ -1,4 +1,4 @@
-class CreateAssetGroups < ActiveRecord::Migration
+class CreateAssetGroups < ActiveRecord::Migration[4.2]
   def change
     create_table :asset_groups do |t|
       t.string    :type,            :null => false, :limit => 50

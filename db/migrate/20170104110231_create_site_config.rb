@@ -1,4 +1,4 @@
-class CreateSiteConfig < ActiveRecord::Migration
+class CreateSiteConfig < ActiveRecord::Migration[4.2]
   def change
     create_table :site_configs do |t|
       t.string :key, :null => false, :limit => 128
