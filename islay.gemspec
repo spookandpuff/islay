@@ -29,12 +29,11 @@ Gem::Specification.new do |s|
   s.add_dependency "simple_form",                   "~> 4.0.1"
   s.add_dependency 'hamlit-rails',                  '~> 0.2.0'
   s.add_dependency 'cells-hamlit',                  '~> 0.2.0'
-  # s.add_dependency "haml-rails",                  "~> 1.0.0"
   s.add_dependency "sass-rails",                    "~> 5.0.7"
   s.add_dependency "compass-rails",                 "~> 3.1.0"
   s.add_dependency "pg",                            "~> 0.18.1"
   s.add_dependency "pg_search",                     "~> 0.7.0"
-  s.add_dependency 'friendly_id',                   "~> 5.1.0"
+  s.add_dependency 'friendly_id',                   "~> 5.2.1"
   s.add_dependency "inherited_resources",           "~> 1.8.0"
   s.add_dependency "rmagick",                       "~> 2.16.0"
   s.add_dependency "mime-types",                    "~> 1.19"
