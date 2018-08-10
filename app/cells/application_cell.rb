@@ -9,9 +9,10 @@ class Islay::ApplicationCell < Cell::ViewModel
   # if you need more.
 
   # If you want to access controller methods from your cell, you can hook that up like this
-  delegate :current_user, :controller_name, :flash, to: :parent_controller
+  delegate :current_user, :controller_name, :flash, :path, :render_path, to: :parent_controller
   helper_method :current_user
   helper_method :controller_name
+  helper_method :path
   helper_method :flash
 
   # Cells 4 no longer uses action_name.

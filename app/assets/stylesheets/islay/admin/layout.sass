@@ -15,7 +15,7 @@ body
   background: $body-color
   color: $text-color
   min-height: 100%
-  
+
   +for-phone
     margin: 0
 
@@ -40,7 +40,7 @@ body.has-footer #content
 
 .islay-content-header
   height: $sub-header-height
-  
+
 
 #content
   float: left
@@ -51,7 +51,7 @@ body.has-footer #content
 /* -------------------------------------------------------------------------- */
 /* HEADER
 /* -------------------------------------------------------------------------- */
-.islay-layout-header 
+.islay-layout-header
   +box-sizing(border-box)
 
   background-color: $nav-color - 8
@@ -179,7 +179,7 @@ ul.sort
     &.current,
     &.current:hover,
     &.current:focus
-      
+
       +background-image($dimension-dished)
       border-color: $light-grey - 20 !important
       color: #222
@@ -409,7 +409,7 @@ ul.filters
 
 // Current Highlight
 .islay-layout-nav
-  
+
   .islay-main-nav
     .current
       background: rgba($sage-green, 0.8)
@@ -445,7 +445,7 @@ ul.filters
   height: 100%
   z-index: 1
 
-  .entry 
+  .entry
     strong
       margin: $ui-single-line-height * 0.125 0.6em
       padding: 0 0.4em
@@ -495,16 +495,26 @@ ul.filters
 /* -------------------------------------------------------------------------- */
 .islay-record-name
   +box-sizing(border-box)
+  padding: 1.6em 0 1.4em $layout-gutter + 2.5rem
+  position: relative
   width: 100%
-  padding: 1.6em 0 1.4em $layout-gutter
+
 
   i
+    +pos-absolute(1rem, false, false, 1.5rem)
     font-size: 2em
-    padding-right: 0.3em
+    height: 2rem
+    margin: 0
 
   span
     +type-large
     font-weight: bold
+    display: block
+
+    strong
+      color: $text-color-subtle
+      display: inline-block
+      margin-bottom: 0.5rem
 
 /* -------------------------------------------------------------------------- */
 /* INSET CONTENT
@@ -515,12 +525,12 @@ ul.filters
   width: 100%
 
   table
-    border: 0.1em solid $header-border-color
+    border: 1px solid $header-border-color
     margin-left: 0
     width: 100%
 
   h3
-    border-top: 0.1em solid $header-border-color
+    border-top: 1px solid $header-border-color
     margin-top: 1.5em
     padding-top: 1.5em
 

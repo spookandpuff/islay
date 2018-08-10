@@ -11,6 +11,34 @@ class Islay::Admin::ApplicationController < Islay::ApplicationController
 
   helper_method :path, :public_path
 
+  def extension_style_sheet(path = nil)
+    @extension_style_sheets ||= []
+    @extension_style_sheets << path if path
+    @extension_style_sheets
+  end
+
+  alias_method :extension_style_sheets, :extension_style_sheet
+
+  helper_method :extension_style_sheets, :extension_style_sheet
+
+  # A shortcut for generating routes namespaced to the Admin module.
+  #
+  # @param [Symbol, ActiveRecord::Base, Hash] args
+  #
+  # @return String
+  def path(*args)
+    render_path(:admin, args)
+  end
+
+  # A shortcut for generating routes namespaced to the Public module.
+  #
+  # @param [Symbol, ActiveRecord::Base, Hash] args
+  #
+  # @return String
+  def public_path(*args)
+    render_path(:public, args)
+  end
+
   private
 
   # Intended to be run as a before filter, which will then draw out date/time
@@ -64,7 +92,7 @@ class Islay::Admin::ApplicationController < Islay::ApplicationController
   end
 
   # A declaration for defining the navigation scope. This name corresponds to
-  # the name used when defining navigation entries within the engine 
+  # the name used when defining navigation entries within the engine
   # initializers.
   #
   # @param Symbol name
@@ -73,7 +101,7 @@ class Islay::Admin::ApplicationController < Islay::ApplicationController
     self._nav_scope = name
   end
 
-  # Returns the nav scope for the current controller. This is the symbol 
+  # Returns the nav scope for the current controller. This is the symbol
   # declared by the ::nav_scope class method.
   #
   # @return Symbol
@@ -81,16 +109,28 @@ class Islay::Admin::ApplicationController < Islay::ApplicationController
     self.class._nav_scope
   end
 
+
   def self.resourceful(model, opts = {})
     class_attribute :resource_class
     class_attribute :resource_parent
 
-    self.resource_class = {
-      :class   => model.to_s.classify.constantize,
-      :name    => model,
-      :plural  => model.to_s.pluralize
-    }
-    attr_reader model
+    self.resource_class = if model.is_a? Symbol
+      model_name = model
+      {
+        :class   => model.to_s.classify.constantize,
+        :name    => model,
+        :plural  => model.to_s.pluralize
+      }
+    else
+      model_name = model.name.demodulize.underscore
+      {
+        :class   => model,
+        :name    => model_name,
+        :plural  => model_name.pluralize
+      }
+    end
+
+    attr_reader model_name.to_sym
 
     if parent = opts[:parent]
       self.resource_parent = {
@@ -110,22 +150,4 @@ class Islay::Admin::ApplicationController < Islay::ApplicationController
     Thread.current[:current_user] = current_user
   end
 
-  # A shortcut for generating routes namespaced to the Admin module.
-  #
-  # @param [Symbol, ActiveRecord::Base, Hash] args
-  #
-  # @return String
-  def path(*args)
-    render_path(:admin, args)
-  end
-
-  # A shortcut for generating routes namespaced to the Public module.
-  #
-  # @param [Symbol, ActiveRecord::Base, Hash] args
-  #
-  # @return String
-  def public_path(*args)
-    render_path(:public, args)
-  end
 end
-

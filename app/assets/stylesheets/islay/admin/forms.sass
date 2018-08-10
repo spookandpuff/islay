@@ -1,25 +1,20 @@
 /* -------------------------------------------------------------------------- */
 /* FORM
 /* -------------------------------------------------------------------------- */
-$border-width: 0.1em
-$input-v-padding: 0.45em
-$input-h-padding: 0.6em
-$field-margin: 1em
-$field-height: $border-width * 2 + $input-v-padding * 2 + 1em
-$form-inset-color: $light-grey + 20
-$error-color: #952B2B
 
 #islay-form
   #content
     +box-sizing(border-box)
     width: 100%
     padding-left: $layout-gutter
+    padding-right: $layout-gutter
 
     > p.note
       margin-top: 2em
 
-  fieldset
-    border-top: 0.15em solid $light-grey
+  fieldset,
+  .field-group
+    border-top: 1px solid $light-grey
     padding-top: $field-margin
     width: 100%
     float: left
@@ -36,15 +31,39 @@ $error-color: #952B2B
     width: 100%
     float: left
 
+    + .field-group
+      border-top: 0 none
+
+  .field-group
+    .field-group-el-intro
+
   fieldset.member-tree legend,
   label
+    color: #606D7B !important
+    float: left
+    font-weight: bold
+    margin-right: 1em
     padding-top: $border-width + $input-v-padding
     text-align: right
-    margin-right: 1em
-    color: #606D7B !important
-    font-weight: bold
-    width: 8em
-    float: left
+    width: 8rem
+
+    @media all and (min-width: 92em)
+      width: 10rem
+
+  label
+    font-weight: normal
+
+    &.optional
+      &:after
+        content: 'Optional'
+        color: lighten($text-color-subtle, 15)
+        display: block
+        font-size: 0.7rem
+        margin-top: 0.125rem
+
+      &.boolean
+        &:after
+          content: none
 
   .field
     margin-bottom: $field-margin
@@ -55,6 +74,20 @@ $error-color: #952B2B
     &.text,
     &.select
       height: auto
+
+    &.medium
+      input,
+      select,
+      .select
+        min-width: 8rem
+        max-width: 10rem
+
+    &.short
+      input,
+      select,
+      .select
+        max-width: 6rem
+        min-width: 4rem
 
   select
     margin-top: 0.8em
@@ -85,6 +118,23 @@ $error-color: #952B2B
       margin-left: 1em
       width: auto
 
+  .field.check_boxes
+    .checkbox
+      display: block
+      label
+        border-bottom: 1px solid #EDEDED
+        display: block
+        float: none
+        min-width: 20rem
+        padding: 0.5rem
+        width: auto
+        text-align: left
+      input
+        margin-right: 0.5rem
+
+    .checkbox-el-options
+      float: left
+
 form
   input[type=text],
   input[type=email],
@@ -96,7 +146,7 @@ form
   .markdown-editor-canvas
     +border-radius(2px)
     background: #FFF
-    border: 0.1em solid #B6B9BC
+    border: 1px solid #B6B9BC
     float: left
     padding: $input-v-padding $input-h-padding
 
@@ -110,6 +160,7 @@ form
   input[type=url],
   input[type=tel],
   input[type=number],
+  input[type=time],
   select,
   textarea,
   .markdown-editor-canvas
@@ -125,8 +176,8 @@ form
   select,
   textarea,
   .markdown-editor-canvas
-    min-width: 20rem
-    max-width: 42rem
+    min-width: 16rem
+    max-width: 24rem
     width: 75%
 
   input[type=number]
@@ -226,37 +277,6 @@ form
 /* -------------------------------------------------------------------------- */
 /* FANCY WIDGETS
 /* -------------------------------------------------------------------------- */
-$widget-border-color: #B3BBC3
-$widget-border-radius: 0.2em
-$widget-width: 32em + ($input-h-padding * 2)
-$widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
-
-@mixin input-border
-  border: $border-width solid $widget-border-color
-
-@mixin widget-gradient($mode: regular)
-  @if $mode == regular
-    +background-image(linear_gradient(white, $light-grey))
-  @else
-    +background-image(linear_gradient($light-grey, white))
-
-@mixin widget-border-radius($portions: all)
-  @if $portions == all
-    +border-radius($widget-border-radius)
-  @else if $portions == left
-    +border-left-radius($widget-border-radius)
-  @else if $portions == right
-    +border-right-radius($widget-border-radius)
-  @else if $portions == bottom
-    +border-bottom-radius($widget-border-radius)
-  @else if $portions == top
-    +border-top-radius($widget-border-radius)
-  @else if $portions == top-only
-    +border-bottom-radius(0)
-    +border-top-radius($widget-border-radius)
-  @else if $portions == bottom-only
-    +border-top-radius(0)
-    +border-bottom-radius($widget-border-radius)
 
 .widget
   .widget-frame
@@ -269,7 +289,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     height: $widget-height
 
   .selected
-    
+
     background: #4D69A2 !important
     border-color: #4D69A2 !important
 
@@ -314,7 +334,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     +input-border
     +widget-border-radius
     min-width: 18em
-    max-width: 42em
+    max-width: 32em
     width: 65%
 
   .select2-search-choice
@@ -327,7 +347,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     .select2-choices
       +widget-border-radius(top-only)
       border-bottom-width: 0
-      
+
     &.select2-drop-above .select2-choices
       +widget-border-radius(bottom-only)
       border-bottom-width: 0.1em !important
@@ -378,7 +398,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     +widget-border-radius(right)
 
   .selected.off
-    
+
     background: #9A9A9A !important
     border-color: #959595 !important
 
@@ -419,6 +439,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 
   li:last-child
     +widget-border-radius(right)
+
 
 /* CHECKBOXES */
 .widget.checkboxes
@@ -551,7 +572,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 .widget.multi_asset
   .choice, .add
     +border-radius(0.2em)
-    
+
     +input-border
     background: white
     cursor: pointer
@@ -688,7 +709,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   li
     +input-border
     +border-radius(0.2em)
-    
+
     border: 0.1em solid $light-grey
     background: white
     float: left
@@ -722,7 +743,8 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
       font-size: 1.6em
 
 /* DATE PICKER */
-.islay-form-date-picker
+.islay-form-date-picker,
+.islay-form-time-picker
   +widget-gradient
   +widget-border-radius
   +input-border
@@ -750,6 +772,10 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     top: 0.5em
     left: 8.2em
     z-index: 2
+
+._jw-tpk-container
+  +widget-border-radius
+  +input-border
 
 /* SELECTIZE */
 .select2-container
@@ -836,32 +862,37 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 /* FORM TABS
 /* -------------------------------------------------------------------------- */
 .islay-form-tabs
-  padding: 0 0 0.7em 0
+  padding: 1rem 1rem 0 0.5rem
   width: 100%
   float: left
+  background: linear-gradient(top, rgba(#000, 0), rgba(#000, 0.05))
 
   li
     line-height: 1
-    margin: 0 0.3em 0 0!important
+    margin: 0 0.5rem 0 0!important
     float: left
 
   a
     +transition-property(background, color)
     +transition-duration($duration-quick)
-    +border-radius(0.3em)
-    color: inherit
+    +border-radius(0.2rem 0.2rem 0 0)
+    +pos-relative(false, false, -1px, false)
+    background-color: rgba(#000, 0.03)
+    color: #666
     display: block
     font-size: 0.85rem
     line-height: 1
-    padding: 0.45em 1em 0.4em 1em
+    padding: 0.75rem 1.25rem 0.7rem 1.25rem
     text-decoration: none
 
     &:hover
-      background-color: $light-grey + 20
+      background-color: #F4F4F4
+      color: #111
 
   a.current
-    background-color: $sage-green
-    color: #FFF
+    +box-shadow(0 -0.1rem 0.1rem rgba(#000, 0.1))
+    background-color: #FFF
+    color: #111
 
   a.has-errors
     color: $error-color - 20
@@ -900,7 +931,7 @@ fieldset.member-tree
 
   ul.top
     +border-radius(0.3em)
-    
+
     background: $form-inset-color + 10
     border: $border-width solid $light-grey
     float: left

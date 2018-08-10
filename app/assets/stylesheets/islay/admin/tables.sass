@@ -21,7 +21,7 @@ table
       margin: 0
   td
     vertical-align: middle
-    
+
   /* UPDATE/EDIT META-DATA */
   th.meta,
   td.meta
@@ -145,7 +145,7 @@ thead th
   text-transform: uppercase
 
 td,
-tbody th,
+tbody > tr > th,
 tfoot th
   padding: 0.4rem 1rem
 
@@ -166,7 +166,7 @@ th.control
   letter-spacing: -1000em
   width: 4em
 
-tbody th
+tbody > tr > th
   border-top: 0.1em solid $light-grey
   border-bottom: 0.1em solid $light-grey
   background-color: white
@@ -212,6 +212,9 @@ tr.selected
 tfoot
   th
     vertical-align: middle
+
+  td
+    background-color: #F6F6F6
 
   .total
     td

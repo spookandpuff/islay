@@ -1,5 +1,6 @@
 module Islay
   class Sprockets
+
     def self.configure(app)
       entries = Islay::Engine.extensions.entries
       engine_roots = entries.select {|n, e| e.is_engine?}.map {|n, e| e.config[:engine].root}
@@ -17,15 +18,20 @@ module Islay
       app.config.assets.paths << File.expand_path("../../../app/assets/fonts", __FILE__)
 
       # Generate import statements for extension admin styles
-      admin_styles = entries.select {|n, e| e.admin_styles?}.keys.map {|k| "@import #{k}/admin/#{k}"}.join("\n")
+      admin_styles = entries.select {|n, e| e.admin_styles?}.keys.map {|k| "@import #{k.to_s.downcase}/admin/#{k.to_s.downcase}"}.join("\n")
 
-      app.config.assets.register_preprocessor "text/css", :extension_styles do |context, data|
-        if context.logical_path.match(%r{admin/islay})
-          data << admin_styles
-        else
-          data
+      app.config.assets.configure do |env|
+        extension_style_preprocessor = -> (input) do
+          if input[:filename].match(%r{admin/islay})
+            input[:data] << admin_styles
+          else
+            input[:data]
+          end
         end
+
+        env.register_preprocessor "text/css", extension_style_preprocessor
       end
+
 
       admin_scripts = entries.select {|n, e| e.admin_scripts?}.keys.map {|k| "//= require #{k}/admin/#{k}"}.join("\n")
 

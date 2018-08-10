@@ -14,7 +14,7 @@ Islay::Engine.extensions.register do |e|
     s.root('Dashboard', :dashboard, 'dashboard', :root => true)
   end
 
-  e.nav_section(:reports, 1) do |s|
+  e.nav_section(:reports, 2) do |s|
     s.root('Reports', :reports, 'bar-chart')
     s.sub_nav('Overview', :reports, :root => true)
   end

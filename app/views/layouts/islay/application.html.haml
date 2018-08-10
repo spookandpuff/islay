@@ -14,6 +14,9 @@
     = stylesheet_link_tag('islay/admin/islay')
     = stylesheet_link_tag('islay/admin/islay_print', media: 'print')
 
+    - extension_style_sheets.each do |sheet|
+      = stylesheet_link_tag(sheet)
+
   %body(id=body_id class=body_class)
     .islay-layout-nav
       %ul.islay-main-nav{:class => sub_nav? ? 'closed' : 'open'}
@@ -39,10 +42,8 @@
       = render_breadcrumbs
       = render_filter_nav
       = render_sort_nav
-      
+
     = yield
 
     = javascript_include_tag('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js')
     = javascript_include_tag('islay/admin/islay')
-
-

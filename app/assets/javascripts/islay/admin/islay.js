@@ -13,6 +13,7 @@
 //= require ../../vendor/medium-editor
 //= require ../../vendor/medium-editor.markdown
 //= require ../../vendor/moment
+//= require ../../vendor/timepicker
 //= require_tree .
 //= require_extensions
 
@@ -44,6 +45,7 @@ $SP.where('.[edit, new, create, update]').select('#islay-form').run(function(for
   form.find('input[name*="tag_summary"]').islaySelect('tags');
   form.find('input.metadata-tags').islaySelect('tags');
   form.find('.date_picker input').islayDatePicker();
+  form.find('.time_picker input').islayTimePicker();
   form.find('.field textarea').islayMarkdownEditor();
   form.find('.islay-toggle').islayToggle();
   form.find('.field.position input').islaySpinControl({reversed: true});
@@ -64,7 +66,7 @@ $SP.where('.[show, edit, create, update]').select('div.collapsible, li.collapsib
 $SP.where('islay-admin-pages.[edit, update]').select('.islay-page-features', 'islayPageFeatures');
 
 $(function() {
-  $('#content .time').islayLocaliseTime();
+  $('#content .time').not('.field, label, input').islayLocaliseTime();
 
   // DELETE DIALOG
   $('#content .delete, #content .delete, #footer .delete').click(function(e){

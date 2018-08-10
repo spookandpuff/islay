@@ -1,13 +1,13 @@
 /* -------------------------------------------------------------------------- */
-/* DATE PICKER
-/* A wrapper around a third party date picker.
+/* TIME PICKER
+/* A wrapper around a third party time picker.
 /* -------------------------------------------------------------------------- */
 (function($) {
-  var DatePicker = function(input) {
+  var IslayTimePicker = function(input) {
     this.$input = input;
-    this.$wrapper = $('<span class="islay-form-date-picker"></span>');
+    this.$wrapper = $('<span class="islay-form-time-picker"></span>');
     this.$display = $('<span class="display"></span>');
-    this.$button = $('<i class="fa fa-calendar button"></i>');
+    this.$button = $('<i class="fa fa-clock-o button"></i>');
     this.$wrapper.append(this.$display, this.$button);
 
     this.$wrapper.click($.proxy(this, 'toggle'));
@@ -16,7 +16,7 @@
     // Check to see if there is a date/time string. Otherwise, default to today.
     var val = this.$input.val().trim();
     if (_.isEmpty(val)) {
-      this.update(new Date());
+      this.update();
     }
     else {
       this.update(val);
@@ -27,19 +27,19 @@
     this.$input.after(this.$wrapper).hide();
   };
 
-  DatePicker.prototype = {
+  IslayTimePicker.prototype = {
     toggle: function(e) {
       if (this.open && this.$picker.has(e.target).length === 0) {
-        this.$picker.hide();
+        this.picker.hide();
         this.open = false;
       }
       else {
         if (!this.picker) {
-          this.picker = new Kalendae(this.$wrapper[0], {selected: this.current, useYearNav: false});
-          this.picker.subscribe('change', $.proxy(this, 'updateFromPicker'));
+          this.picker = new TimePicker(this.$wrapper[0], {theme: 'light'});
+          this.picker.on('change', $.proxy(this, 'updateFromPicker'));
           this.$picker = $(this.picker.container);
         }
-        this.$picker.show();
+        this.picker.show();
         this.open = true;
       }
     },
@@ -51,26 +51,28 @@
       }
     },
 
-    update: function(date) {
-      var val = moment(date);
-      this.current = val;
-      this.$display.text(val.format('DD/MM/YYYY'));
-      this.$input.val(val.format('YYYY-MM-DD'))
+    update: function(time) {
+      if (time) {
+        var val = moment(time, 'hh:mm a').format('h:mm a');
+        this.current = val;
+        this.$display.text(val);
+        this.$input.val(time).attr('value', time);
+      }
     },
 
-    updateFromPicker: function() {
-      var date = this.picker.getSelectedRaw()[0];
-      this.update(date);
+    updateFromPicker: function(e) {
+      var time = (e.hour || 0) + ':' + (e.minute || 0)
+      this.update(time);
       this.$picker.hide();
       this.open = false;
     }
   };
 
-  $.fn.islayDatePicker = function() {
+  $.fn.islayTimePicker = function() {
     this.each(function() {
       var $this = $(this);
-      if (!$this.data('islayDatePicker')) {
-        $this.data('islayDatePicker', new DatePicker($this));
+      if (!$this.data('islayTimePicker')) {
+        $this.data('islayTimePicker', new IslayTimePicker($this));
       }
     });
     return this;

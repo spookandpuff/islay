@@ -550,6 +550,61 @@ $SP.UI.Form.register('.field.date_picker', 'DatePicker', 'Date', function(el, in
 });
 
 /* -------------------------------------------------------------------------- */
+/* TIME PICKER
+/* -------------------------------------------------------------------------- */
+$SP.UI.Widgets.TimePicker = $SP.UI.Widget.extend({
+  widgetClass: 'time-picker',
+  nodes: {display: 'span.time-display'},
+  events: {'click .time-display': 'click'},
+  template: $SP.UI.template('<span class="time-display">{{options.value}}</span>'),
+  isOpen: false,
+
+  click: function(e) {
+    this.isOpen === false ? this._open() : this._close();
+    e.stopPropagation();
+  },
+
+  _updateFromPicker: function(e) {
+    this.updateVal((e.hour || '00') + ':' + (e.minute || '00'));
+    this._close();
+  },
+
+  _open: function() {
+    if (_.isUndefined(this.picker)) {
+      _.bindAll(this, '_updateFromPicker', '_close');
+      this.picker = new TimePicker(this.dom.frame[0], {selected: this.model.get(this.options.name)});
+      this.picker.on('change', this._updateFromPicker);
+      this.$pickerContainer = $(this.picker.container).on('click', this._squashEvent);
+    }
+    else {
+      this.$pickerContainer.show();
+    }
+    $('html').on('click', this._close);
+    this.dom.frame.addClass('open');
+    this.isOpen = true;
+  },
+
+  _close: function() {
+    this.$pickerContainer.hide();
+    this.isOpen = false;
+    this.dom.frame.removeClass('open');
+    $('html').off('click', this._close);
+  },
+
+  _squashEvent: function(e) {
+    e.stopPropagation();
+  },
+
+  updateUI: function(val) {
+    if (val) {this.dom.display.text(val)};
+  }
+});
+
+$SP.UI.Form.register('.field.time_picker', 'TimePicker', 'Time', function(el, input) {
+  return {value: $SP.coerce('time', input.val())};
+});
+
+/* -------------------------------------------------------------------------- */
 /* BOOLEAN TOGGLE CONTROL
 /* -------------------------------------------------------------------------- */
 $SP.UI.Widgets.Boolean = $SP.UI.Widget.extend({
