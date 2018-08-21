@@ -1,0 +1,84 @@
+
+#content
+  float: left
+  position: relative
+  width: 100%
+  z-index: 1
+
+  &.inset
+    +box-sizing(border-box)
+    padding-left: $layout-gutter
+    padding-right: $layout-gutter
+    width: 100%
+
+    table
+      border: 1px solid $header-border-color
+      margin-left: 0
+      width: 100%
+
+    h3
+      border-top: 1px solid $header-border-color
+      margin-top: 1.5em
+      padding-top: 1.5em
+
+      &:first-child
+        border-top: 0 none
+        margin-top: 0
+        padding-top: 0
+
+    table + h3
+      border-top: 0 none
+      margin-top: 0
+
+  &.inset-vertical
+    margin-top: 2em
+
+  body.has-footer &
+    padding-bottom: $footer-height !important
+
+    &.inset
+      padding-bottom: $footer-height * 1.5 !important
+
+  .column
+    width: 100%
+    float: left
+
+    &:last-child
+      margin-right: 0
+
+  .last
+    margin-right: 0 !important
+
+  .overview
+    // padding-top: 1.5em
+    width: 100%
+    float: left
+
+  body.delete &
+    margin: 4em 0 0 15% !important
+    width: 60% !important
+
+.content-el-liner
+  +clear-fix
+  box-sizing: border-box
+  background: #FFF
+  float: left
+  width: 100%
+
+  #islay-form #content &,
+  #content.inset &
+    border: 1px solid #DFDFDF
+    padding: $layout-gutter
+
+  .islay-form-tabs + &
+    border-top: none
+
+
+// Construct the classes for setting the widths of columns
+$i: 0
+@while $i < $column-count
+  $j: $i
+  $i: $i + 1
+  #content .count-#{$i}
+    width: $column-width * $i + ($gutter-width * $j)
+    margin-right: $gutter-width

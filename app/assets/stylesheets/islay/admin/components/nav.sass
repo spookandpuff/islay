@@ -1,0 +1,238 @@
+
+/* -------------------------------------------------------------------------- */
+/* NAVIGATION
+/* -------------------------------------------------------------------------- */
+
+.islay-layout-nav
+  background-color: $nav-color
+  bottom: 0
+  color: $nav-foreground-color
+  position: fixed
+  top: $layout-header-height
+  width: $nav-width
+  z-index: 2
+
+  +for-phone
+    left: -$nav-width
+
+  +for-tablet
+    left: 0
+
+  li
+    width: 100%
+    float: left
+
+  a,
+    &:link,
+    &:visited,
+    &:hover,
+    &:focus,
+    &:active
+      color: $nav-foreground-color
+      text-decoration: none
+
+  // Shared styles
+  .entry,
+  .search-entry
+    +type-small
+    display: block
+    height: $ui-single-line-height
+    line-height: $ui-single-line-height
+    margin: 0
+    overflow: hidden
+
+    strong
+      font-size: 0.85rem
+      display: block
+
+.islay-main-nav
+  background-color: $nav-color
+  width: $collapsed-nav-width
+  height: 100%
+  position: absolute
+  left: 0
+  top: 0
+  z-index: 2
+
+  .fa
+    font-size: 1.1em
+    left: 0
+    line-height: 1.65rem
+    position: absolute
+    text-align: center
+    top: 0.2em
+    width: 2rem
+
+  .entry
+    position: relative
+
+    strong
+      text-indent: 2.4em
+      white-space: nowrap
+      text-overflow: ellipsis
+
+  .search-entry
+    height: auto
+    border-bottom: 1px solid rgba(#FFF, 0.1)
+    padding: 0.75rem
+
+    strong
+      font-size: 1rem
+      font-weight: bold
+      line-height: 1
+      margin-bottom: 0.1em
+
+    span
+      color: rgba(#FFF, 0.7)
+      display: block
+      line-height: 1
+
+    &:hover,
+    &:focus
+      +text-shadow(0 0.1em 0.05em rgba(#000, 0.5))
+      background: $sage-green
+      color: #FFF
+
+  .islay-global-search
+    height: 2.7em
+    overflow: hidden
+    border-bottom: 0.1em solid transparent
+
+    input
+      border-width: 0
+      font-family: inherit
+      background: transparent
+      color: $nav-foreground-color
+      font-size: 1.2em
+      margin-left: 2.6em
+      width: 10em
+      padding: 0.6em 0 0 0
+      outline: none
+
+    i
+      margin: 0.15em 0 0 0.2em
+
+    .close
+      left: auto
+      margin-top: 0.25em
+      right: 0 !important
+      opacity: 0
+
+  .islay-current-user
+    position: absolute
+    bottom: 0
+    width: 100%
+
+    strong
+      text-indent: 0.4em
+      float: left
+
+    // TODO: This might have to be removed in the future i.e. when selectors
+    // are less promiscuous.
+    button
+      border-width: 0
+      font-weight: normal
+      background: transparent
+      text-shadow: none
+      margin: 0.4em 0 0 0
+      padding: 0
+      float: right
+
+      i
+        position: static
+        color: white
+
+      span
+        position: absolute
+        left: -1000em
+
+// Main Navigation states
+.islay-main-nav
+  +transition-property(width, left)
+  +transition-duration($duration-quick)
+
+  // Default state
+  .entry strong,
+  .islay-global-search input,
+  .islay-current-user button
+    +transition-property(opacity)
+    +transition-duration($duration-quick)
+    +opacity(0)
+
+  .islay-global-search
+    +transition-property(background)
+    +transition-duration($duration-quick)
+
+  // Open state
+  &.open,
+  &:hover
+    width: $nav-width
+
+    .entry strong,
+    .islay-global-search input,
+    .islay-global-search .close,
+    .islay-current-user button
+      opacity: 1
+
+    .islay-global-search
+      background: $nav-color
+      border-color: #444
+
+    .islay-current-user .icon-user
+      display: none
+
+    .current
+      &:after
+        right: -1em!important
+
+  &.searching .entry
+    display: none
+
+// Current Highlight
+.islay-layout-nav
+
+  .islay-main-nav
+    .current
+      background: rgba($sage-green, 0.8)
+      &:after
+        +transition-property(right)
+        +transition-duration($duration-quick)
+        border-color: transparent $nav-color + 10 transparent transparent
+        border-style: solid
+        border-width: 0.5em 0.5em 0.5em 0
+        content: ''
+        height: 0
+        position: absolute
+        right: 0
+        top: 50%
+        width: 0
+        margin-top: -0.45em
+
+  li:hover .entry,
+  .islay-global-search-results li:hover .search-entry
+    color: $sage-green + 30
+
+  li:hover .current,
+  .islay-global-search-results li:hover .current
+    color: white
+
+  // Sub Navigation
+.islay-sub-nav
+  background-color: $nav-color + 10
+  position: absolute
+  left: $collapsed-nav-width
+  top: 0
+  width: $nav-width - $collapsed-nav-width
+  height: 100%
+  z-index: 1
+
+  .entry
+    strong
+      margin: $ui-single-line-height * 0.125 0.6em
+      padding: 0 0.4em
+      line-height: $ui-single-line-height * 0.75
+
+
+  .current
+    strong
+      background: rgba($sage-green, 0.75)

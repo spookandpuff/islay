@@ -1,9 +1,43 @@
-.cell
+#islay-admin-dashboard
+  .cell
+    margin-bottom: 1rem
+    width: 100%
+    float: left
 
-  p.notice
-    @extend %notice
-    clear: both
-    margin-left: 1em
+    li
+      .key,
+      .value
+        float: left
 
-  table
-    border: 0 none!important
+      .key
+        margin-top: 0.4em
+
+      .value
+        min-width: 1.1em
+        margin-right: 0.6em
+
+    h3
+      clear: both
+      float: left
+      font-size: 1.5rem
+      padding: 0 0 0.75rem!important
+      margin-bottom: 0!important
+      text-indent: 0
+
+    + .cell
+      margin-top: 1.25rem
+
+    p.notice
+      @extend %notice
+      clear: both
+      color: $text-color-subtle
+
+    h3 + p.notice
+      float: left
+      margin-top: -0.5rem
+
+    table
+      border: 1px solid $light-grey!important
+
+    table + h3
+      margin: 1.25rem 0 0 0!important

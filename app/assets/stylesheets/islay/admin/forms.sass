@@ -19,9 +19,11 @@
     width: 100%
     float: left
 
+    &:first-child
+      border-top: 0
+
   fieldset.primary
     border-top-width: 0
-    background: $form-inset-color
 
   legend
     text-transform: uppercase
@@ -173,11 +175,10 @@ form
   input[type=password],
   input[type=url],
   input[type=tel],
-  select,
   textarea,
   .markdown-editor-canvas
     min-width: 16rem
-    max-width: 24rem
+    max-width: 32rem
     width: 75%
 
   input[type=number]
@@ -857,51 +858,6 @@ form
   +widget-border-radius(bottom-only)
   +input-border
   border-top-width: 0
-
-/* -------------------------------------------------------------------------- */
-/* FORM TABS
-/* -------------------------------------------------------------------------- */
-.islay-form-tabs
-  padding: 1rem 1rem 0 0.5rem
-  width: 100%
-  float: left
-  background: linear-gradient(top, rgba(#000, 0), rgba(#000, 0.05))
-
-  li
-    line-height: 1
-    margin: 0 0.5rem 0 0!important
-    float: left
-
-  a
-    +transition-property(background, color)
-    +transition-duration($duration-quick)
-    +border-radius(0.2rem 0.2rem 0 0)
-    +pos-relative(false, false, -1px, false)
-    background-color: rgba(#000, 0.03)
-    color: #666
-    display: block
-    font-size: 0.85rem
-    line-height: 1
-    padding: 0.75rem 1.25rem 0.7rem 1.25rem
-    text-decoration: none
-
-    &:hover
-      background-color: #F4F4F4
-      color: #111
-
-  a.current
-    +box-shadow(0 -0.1rem 0.1rem rgba(#000, 0.1))
-    background-color: #FFF
-    color: #111
-
-  a.has-errors
-    color: $error-color - 20
-
-    &:after
-      content: '*'
-
-  a.has-errors.current
-    border-color: $error-color
 
 /* -------------------------------------------------------------------------- */
 /* ERROR FLAGS

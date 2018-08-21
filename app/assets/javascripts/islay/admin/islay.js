@@ -38,7 +38,7 @@ $SP.where('.[edit, new, create, update]').select('#islay-form').run(function(for
   form.find('.boolean_depressed :checkbox, .destroy :checkbox').islayCheckbox({mode: 'depressed'});
   form.find('.radio_buttons').islayRadioButtons();
   form.find('.select select').islaySelect();
-  form.find('.multi_select select').islaySelect();
+  form.find('.multi_select select').islaySelect('multi');
   form.find('.tree_select select').islaySelect('tree');
   form.find('.multi_asset select').islayAssetPicker('multi');
   form.find('.single_asset select').islayAssetPicker('single');
@@ -51,6 +51,10 @@ $SP.where('.[edit, new, create, update]').select('#islay-form').run(function(for
   form.find('.field.position input').islaySpinControl({reversed: true});
   form.find('.field.position input').islaySpinControl({reversed: true});
   form.islayFormTabs();
+});
+
+$SP.where('.show').select('#content').run(function(panel) {
+  panel.islayFormTabs();
 });
 
 $SP.where('.[show, index]').select('table.sortable').run(function(table) {

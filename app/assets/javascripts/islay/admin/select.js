@@ -1,7 +1,7 @@
 /* -------------------------------------------------------------------------- */
 /* SELECT
-/* This is actually just a thin wrapper around Select2. It's main job is to 
-/* provide default options and in the case of selects representing trees, 
+/* This is actually just a thin wrapper around Select2. It's main job is to
+/* provide default options and in the case of selects representing trees,
 /* provide a custom template for each option.
 /* -------------------------------------------------------------------------- */
 (function($){
@@ -13,8 +13,8 @@
   // Custom rendering for 'tree' selects.
   var formatResult = function(item) {
     var context = {
-      text: item.text, 
-      disabled: item.disabled, 
+      text: item.text,
+      disabled: item.disabled,
       depth: $(item.element).attr('data-depth') || 0
     };
 
@@ -40,12 +40,16 @@
                  .on('select2-selecting', onSelect);
             break;
           case 'tags':
-            // TODO: Expand this so it pulls in a known list of tags from 
+            // TODO: Expand this so it pulls in a known list of tags from
             // somewhere.
             $this.select2({tags: []});
             break;
-          default:
+          case 'multi':
             $this.select2();
+            break;
+          default:
+            $this.wrap('<div class="select-wrapper"></div>')
+            // $this.select2();
             break;
         }
       }

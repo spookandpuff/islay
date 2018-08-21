@@ -1,8 +1,8 @@
 $layout-header-height: 6rem
 $nav-color: #333
 $nav-foreground-color: #EEE
-$nav-width: 16em
-$collapsed-nav-width: 2.75em
+$nav-width: 12rem
+$collapsed-nav-width: 2.5rem
 
 /* -------------------------------------------------------------------------- */
 /* BODY SIZING
@@ -22,8 +22,7 @@ body
   +for-tablet
     margin: 0 0 0 $body-margin-left
 
-body.has-footer #content
-  padding-bottom: $footer-height * 1.5 !important
+
 
 /* -------------------------------------------------------------------------- */
 /* MAIN CONTENT BLOCKS
@@ -41,20 +40,12 @@ body.has-footer #content
 .islay-content-header
   height: $sub-header-height
 
-
-#content
-  float: left
-  position: relative
-  width: 100%
-  z-index: 1
-
 /* -------------------------------------------------------------------------- */
 /* HEADER
 /* -------------------------------------------------------------------------- */
 .islay-layout-header
   +box-sizing(border-box)
-
-  background-color: $nav-color - 8
+  background-color: darken($nav-color, 8)
   color: $light-grey
   height: $layout-header-height
   left: 0
@@ -76,45 +67,12 @@ body.has-footer #content
   h2
     display: none
 
+  +for-phone
+    display: none
+
 .islay-layout-app-name
   +type-base
   font-weight: bold
-
-.islay-content-header
-  h2,
-  .breadcrumb
-    color: $dark-grey
-    font-weight: bold
-    font-size: 1.2em
-    margin-left: $layout-gutter
-    margin-top: 0.7em
-
-    strong
-      color: $mid-grey
-
-  .breadcrumb
-    li
-      display: inline-block
-
-      &:after
-        +islay-text-inset
-        content: '❯'
-        font-size: 0.75em
-        line-height: 1.2
-        margin-right: 0.6em
-        padding-left: 0.75em
-        vertical-align: -0.1em
-
-      &:last-child
-        span, a
-          color: $text-color + 20 !important
-
-        &:after
-          content: none
-    a
-      color: $dark-grey
-      display: inline-block
-      text-decoration: none
 
 .statuses
   border-bottom: 0
@@ -218,243 +176,6 @@ ul.filters
   &:before
     content: "Show"
 
-/* -------------------------------------------------------------------------- */
-/* NAVIGATION
-/* -------------------------------------------------------------------------- */
-
-.islay-layout-nav
-  background-color: $nav-color
-  bottom: 0
-  color: $nav-foreground-color
-  position: fixed
-  top: $layout-header-height
-  width: $nav-width
-  z-index: 2
-
-  +for-phone
-    left: -$nav-width
-
-  +for-tablet
-    left: 0
-
-  li
-    width: 100%
-    float: left
-
-  a,
-    &:link,
-    &:visited,
-    &:hover,
-    &:focus,
-    &:active
-      color: $nav-foreground-color
-      text-decoration: none
-
-  // Shared styles
-  .entry,
-  .search-entry
-    +type-small
-    display: block
-    height: $ui-single-line-height
-    line-height: $ui-single-line-height
-    margin: 0
-    overflow: hidden
-
-    strong
-      font-size: 1em
-      display: block
-
-.islay-main-nav
-  background-color: $nav-color
-  width: $collapsed-nav-width
-  height: 100%
-  position: absolute
-  left: 0
-  top: 0
-  z-index: 2
-
-  .fa
-    font-size: 1.1em
-    left: 0
-    line-height: 1.65rem
-    position: absolute
-    text-align: center
-    top: 0.2em
-    width: 2rem
-
-  .entry
-    position: relative
-
-    strong
-      text-indent: 2.4em
-      white-space: nowrap
-      text-overflow: ellipsis
-
-  .search-entry
-    height: auto
-    border-bottom: 1px solid rgba(#FFF, 0.1)
-    padding: 0.75rem
-
-    strong
-      font-size: 1rem
-      font-weight: bold
-      line-height: 1
-      margin-bottom: 0.1em
-
-    span
-      color: rgba(#FFF, 0.7)
-      display: block
-      line-height: 1
-
-    &:hover,
-    &:focus
-      +text-shadow(0 0.1em 0.05em rgba(#000, 0.5))
-      background: $sage-green
-      color: #FFF
-
-  .islay-global-search
-    height: 2.7em
-    overflow: hidden
-    border-bottom: 0.1em solid transparent
-
-    input
-      border-width: 0
-      font-family: inherit
-      background: transparent
-      color: $nav-foreground-color
-      font-size: 1.2em
-      margin-left: 2.6em
-      width: 10em
-      padding: 0.6em 0 0 0
-      outline: none
-
-    i
-      margin: 0.15em 0 0 0.2em
-
-    .close
-      left: auto
-      margin-top: 0.25em
-      right: 0 !important
-      opacity: 0
-
-  .islay-current-user
-    position: absolute
-    bottom: 0
-    width: 100%
-
-    strong
-      text-indent: 0.4em
-      float: left
-
-    // TODO: This might have to be removed in the future i.e. when selectors
-    // are less promiscuous.
-    button
-      border-width: 0
-      font-weight: normal
-      background: transparent
-      text-shadow: none
-      margin: 0.4em 0 0 0
-      padding: 0
-      float: right
-
-      i
-        position: static
-        color: white
-
-      span
-        position: absolute
-        left: -1000em
-
-// Main Navigation states
-.islay-main-nav
-  +transition-property(width, left)
-  +transition-duration($duration-quick)
-
-  // Default state
-  .entry strong,
-  .islay-global-search input,
-  .islay-current-user button
-    +transition-property(opacity)
-    +transition-duration($duration-quick)
-    +opacity(0)
-
-  .islay-global-search
-    +transition-property(background)
-    +transition-duration($duration-quick)
-
-  // Open state
-  &.open,
-  &:hover
-    width: $nav-width
-
-    .entry strong,
-    .islay-global-search input,
-    .islay-global-search .close,
-    .islay-current-user button
-      opacity: 1
-
-    .islay-global-search
-      background: $nav-color
-      border-color: #444
-
-    .islay-current-user .icon-user
-      display: none
-
-    .current
-      &:after
-        right: -1em!important
-
-  &.searching .entry
-    display: none
-
-// Current Highlight
-.islay-layout-nav
-
-  .islay-main-nav
-    .current
-      background: rgba($sage-green, 0.8)
-      &:after
-        +transition-property(right)
-        +transition-duration($duration-quick)
-        border-color: transparent $nav-color + 10 transparent transparent
-        border-style: solid
-        border-width: 0.5em 0.5em 0.5em 0
-        content: ''
-        height: 0
-        position: absolute
-        right: 0
-        top: 50%
-        width: 0
-        margin-top: -0.45em
-
-  li:hover .entry,
-  .islay-global-search-results li:hover .search-entry
-    color: $sage-green + 30
-
-  li:hover .current,
-  .islay-global-search-results li:hover .current
-    color: white
-
-  // Sub Navigation
-.islay-sub-nav
-  background-color: $nav-color + 10
-  position: absolute
-  left: $collapsed-nav-width
-  top: 0
-  width: $nav-width - $collapsed-nav-width
-  height: 100%
-  z-index: 1
-
-  .entry
-    strong
-      margin: $ui-single-line-height * 0.125 0.6em
-      padding: 0 0.4em
-      line-height: $ui-single-line-height * 0.75
-
-
-  .current
-    strong
-      background: rgba($sage-green, 0.75)
 
 /* -------------------------------------------------------------------------- */
 /* ADD ITEM DIALOG
@@ -501,10 +222,10 @@ ul.filters
 
 
   i
-    +pos-absolute(1rem, false, false, 1.5rem)
+    +pos-absolute(0, false, 0, 1.5rem)
     font-size: 2em
     height: 2rem
-    margin: 0
+    margin: auto 0
 
   span
     +type-large
@@ -516,34 +237,6 @@ ul.filters
       display: inline-block
       margin-bottom: 0.5rem
 
-/* -------------------------------------------------------------------------- */
-/* INSET CONTENT
-/* -------------------------------------------------------------------------- */
-#content.inset
-  +box-sizing(border-box)
-  padding-left: $layout-gutter
-  width: 100%
-
-  table
-    border: 1px solid $header-border-color
-    margin-left: 0
-    width: 100%
-
-  h3
-    border-top: 1px solid $header-border-color
-    margin-top: 1.5em
-    padding-top: 1.5em
-
-    &:first-child
-      border-top: 0 none
-      margin-top: 0
-
-  table + h3
-    border-top: 0 none
-    margin-top: 0
-
-#content.inset-vertical
-  margin-top: 2em
 
 /* -------------------------------------------------------------------------- */
 /* GENERAL PURPOSE CLEAR/GROUP
@@ -556,7 +249,8 @@ ul.filters
 /* -------------------------------------------------------------------------- */
 #footer,
 .table-footer
-  background: #F4F4F4
+  background: $body-color
+  border-top: 1px solid $light-grey
 
   .default-controls,
   .selection-controls
@@ -630,33 +324,6 @@ ul.filters
     .selection-controls
       display: block
 
-/* -------------------------------------------------------------------------- */
-/* GRID
-/* -------------------------------------------------------------------------- */
-$column-count: 12
-$gutter-count: $column-count - 1
-$gutter-width: 1.5%
-$column-width: (100% / $column-count) - $gutter-width
-
-#content
-  .column
-    width: 100%
-    float: left
-
-    &:last-child
-      margin-right: 0
-
-  .last
-    margin-right: 0 !important
-
-// Construct the classes for setting the widths of columns
-$i: 0
-@while $i < $column-count
-  $j: $i
-  $i: $i + 1
-  #content .count-#{$i}
-    width: $column-width * $i + ($gutter-width * $j)
-    margin-right: $gutter-width
 
 /* -------------------------------------------------------------------------- */
 /* INDICATOR
@@ -733,15 +400,6 @@ span.indicator
     color: $neutral-color - 40
     font-weight: bold
 
-/* -------------------------------------------------------------------------- */
-/* RECORD OVERVIEW
-/* Displays at the top of a record 'show' template.
-/* -------------------------------------------------------------------------- */
-#content
-  .overview
-    padding-top: 1.5em
-    width: 100%
-    float: left
 
 /* -------------------------------------------------------------------------- */
 /* TAG CLOUD
@@ -771,14 +429,6 @@ span.indicator
   border: 1px solid $tag-border-color
   padding: 0.25rem 0.6rem 0.2rem
   margin: 0 0 0.2rem 0
-
-/* -------------------------------------------------------------------------- */
-/* DELETE CONFIRMATION
-/* -------------------------------------------------------------------------- */
-body.delete #content
-  margin: 4em 0 0 15% !important
-  width: 60% !important
-
 
 
 /* -------------------------------------------------------------------------- */

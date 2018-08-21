@@ -326,7 +326,7 @@ module Islay
       # @param [nil, true, false] root
       # @return [true, false]
       def current_entry?(url, root)
-        (root and request.original_url == url) or (!root and request.original_url.match(%r{^#{url}}))
+        (root and request.original_url == url) or request.original_url.match(%r{^#{url}})
       end
 
       # This method is used to capture the main content for a page and wrap it
@@ -343,7 +343,9 @@ module Islay
         if request.xhr?
           output
         else
-          content_tag(:div, output, opts.merge(:id => 'content'))
+          content_tag(:div, opts.merge(:id => 'content')) do
+            content_tag(:div, output, class: 'content-el-liner')
+          end
         end
       end
 
@@ -368,8 +370,8 @@ module Islay
       # @param ActiveRecord::Base record
       #
       # @return String
-      def edit_button(record)
-        link_to('Edit', path(:edit, record), :class => 'button edit')
+      def edit_button(*record)
+        link_to('Edit', path(:edit, *record), :class => 'button edit')
       end
 
       # Creates an cancel button for a record. Default route will point to the
