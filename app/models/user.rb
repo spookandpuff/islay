@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   #
   # @return User
   def self.system
-    where(:email => 'system@spookandpuff.com').first
+    where("email LIKE 'system@%'").first
   end
 
   def self.filtered(filter)

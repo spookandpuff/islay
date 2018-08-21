@@ -38,11 +38,17 @@ module ActiveRecord
       Thread.current[:current_user]
     end
 
+    # Provides the system user
+    def system_user
+      User.system
+    end
+
     # A callback handler which updates the user ID columns before save
     def update_user_ids
-      if current_user
-        self.creator_id = current_user.id if new_record?
-        self.updater_id = current_user.id
+      user = current_user || system_user
+      if user
+        self.creator_id = user.id if new_record?
+        self.updater_id = user.id
       end
     end
 
