@@ -604,6 +604,7 @@ $SP.UI.Form.register('.field.time_picker', 'TimePicker', 'Time', function(el, in
   return {value: $SP.coerce('time', input.val())};
 });
 
+
 /* -------------------------------------------------------------------------- */
 /* BOOLEAN TOGGLE CONTROL
 /* -------------------------------------------------------------------------- */
