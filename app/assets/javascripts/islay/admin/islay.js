@@ -74,7 +74,7 @@ $(function() {
 
   // DELETE DIALOG
   $('#content .delete, #content .delete, #footer .delete').click(function(e){
-    var dialog = new Islay.Dialogs.Confirmation({url: e.target.href, title: e.target.title});
+    var dialog = new Islay.Dialogs.Confirmation({url: e.target.href, title: e.target.title, cancelButtonText: $(e.target).data('cancel-text'),  confirmButtonText: $(e.target).data('confirm-text')});
     e.preventDefault();
   });
 

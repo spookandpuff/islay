@@ -147,6 +147,14 @@ Islay.Dialogs.Confirmation = Islay.Dialogs.Base.extend({
     return this.options.title;
   },
 
+  cancelButtonText: function() {
+    return this.options.cancelButtonText || 'Cancel';
+  },
+
+  confirmButtonText: function() {
+    return this.options.confirmButtonText || 'OK';
+  },
+
   loaded: function(res) {
     this.contentEl.append(res);
     this.formEl = this.$el.find('form');
@@ -157,9 +165,13 @@ Islay.Dialogs.Confirmation = Islay.Dialogs.Base.extend({
   },
 
   render: function() {
-    this.cancelEl = $H('button.cancel', 'Cancel').click(this.close);
-    this.submitEl = $H('button.delete', 'OK').click(this.submit);
-    this.controlsEl.append(this.cancelEl, this.submitEl);
+    this.cancelEl = $H('button.cancel', this.cancelButtonText());
+    this.cancelEl.click(this.close);
+
+    this.submitEl = $H('button.button.delete', this.confirmButtonText());
+    this.submitEl.click(this.submit);
+
+    this.controlsEl.append(this.submitEl, this.cancelEl);
   }
 });
 

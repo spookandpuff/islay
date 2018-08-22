@@ -135,7 +135,7 @@
       cursor: pointer
       margin: 1.5em 0 0 0
       &.selected,
-      &.selected .liner        
+      &.selected .liner
         background: $highlight-color + 30
         color: white
         .liner
@@ -148,11 +148,18 @@
           border-color: $highlight-color + 80
 
   .content
+    +box-sizing(border-box)
     width: 100%
     height: 100%
+    padding: $layout-gutter
     float: left
     overflow-y: auto
     overflow-x: hidden
+
+    h3
+      +type-base
+      margin-bottom: 1rem
+      font-weight: bold
 
   .controls
     +border-bottom-radius(0.3em)
@@ -192,5 +199,3 @@
       font-size: 0.9em
       color: #666
       display: block
-
-
