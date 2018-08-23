@@ -1,9 +1,15 @@
 .islay-content-header
-  +display-flex
-  align-items: stretch
+  border-bottom: 1px solid $light-grey
   height: auto
   min-height: 2.5rem
-  border-bottom: 1px solid $light-grey
+
+  .breadcrumb
+    +display-flex
+
+  .breadcrumb,
+  .filters,
+  .sort
+    min-height: 2.5rem
 
   h2,
   .breadcrumb
@@ -11,13 +17,19 @@
     font-weight: bold
     font-size: 0.8rem
     margin-left: $layout-gutter * 2
-    margin-top: 0.5rem
+    margin-top: 1rem
 
     strong
       color: $text-color
 
+  h2,
+  .breadcrumb li
+    align-self: center
+
   .breadcrumb
     li
+      margin-top: 0.5rem
+      margin-bottom: 0.5rem
       display: inline-block
 
       &:after
@@ -39,12 +51,6 @@
   > *
     align-self: center
 
-  ul.filters,
-  ul.sort
-    margin-top: 0
-    float: none
-
   ol.breadcrumb
-    +flex(1 0)
     font-size: 0.85rem
     margin: 0 1rem 0 0.8rem

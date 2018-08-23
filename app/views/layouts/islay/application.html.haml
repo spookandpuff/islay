@@ -13,6 +13,7 @@
     = stylesheet_link_tag("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
     = stylesheet_link_tag('islay/admin/islay')
     = stylesheet_link_tag('islay/admin/islay_print', media: 'print')
+    = favicon_link_tag('islay/admin/favicon.ico')
 
     - extension_style_sheets.each do |sheet|
       = stylesheet_link_tag(sheet)

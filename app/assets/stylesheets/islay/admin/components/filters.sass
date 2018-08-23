@@ -1,0 +1,66 @@
+/* -------------------------------------------------------------------------- */
+/* FILTERS
+/* Filters listings of records
+/* -------------------------------------------------------------------------- */
+ul.filters,
+ul.sort
+  +display-flex
+  border-top: 1px solid $light-grey
+  margin: 0
+  padding: 0 $layout-gutter / 2
+
+  .filter-label,
+  .sort-label,
+  li
+    +align-self(center)
+    display: block
+    font-size: 0.8rem
+
+  .filter-label,
+  .sort-label
+    color: $dark-grey
+    font-size: 0.72rem
+    margin-right: 0.5rem
+
+  a
+    +border-radius(0.3em)
+    +unstyled-link
+    border: 1px solid transparent
+    color: $dark-grey
+    cursor: pointer
+    margin-left: 0.6em
+    padding: 0.35em 0.6em 0.25em 0.6em
+    text-align: center
+
+    &:hover,
+    &:focus
+      background-color: #FFF
+
+    &:active
+      background-color: $mid-grey
+      color: #FFF
+
+    &.current,
+    &.current:hover,
+    &.current:focus
+      background-color: darken($sage-green, 10)
+      color: #EEE
+      cursor: default
+      display: block
+
+
+ul.filters
+  li
+    position: relative
+
+  .link
+    margin-right: 0.4em
+    float: left
+
+  .count
+    +border-radius(0.3em)
+    background: $positive-color
+    color: white
+    font-size: 0.85em
+    padding: 0.2em 0.4em
+    float: right

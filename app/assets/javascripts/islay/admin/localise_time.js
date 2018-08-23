@@ -9,7 +9,11 @@
         time = moment(original).lang('en');
 
     $this.attr('title', original);
-    $this.text(time.calendar());
+    if ($this.data('format')) {
+      $this.text(time.format($this.data('format')));
+    } else {
+      $this.text(time.calendar());
+    }
   };
 
   $.fn.islayLocaliseTime = function() {

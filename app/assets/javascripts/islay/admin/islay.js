@@ -48,6 +48,7 @@ $SP.where('.[edit, new, create, update]').select('#islay-form').run(function(for
   form.find('.time_picker input').islayTimePicker();
   form.find('.field textarea').islayMarkdownEditor();
   form.find('.islay-toggle').islayToggle();
+  form.find('input.find-as-you-type').islayFindAsYouType();
   form.find('.field.position input').islaySpinControl({reversed: true});
   form.find('.field.position input').islaySpinControl({reversed: true});
   form.islayFormTabs();
@@ -71,6 +72,8 @@ $SP.where('islay-admin-pages.[edit, update]').select('.islay-page-features', 'is
 
 $(function() {
   $('#content .time').not('.field, label, input').islayLocaliseTime();
+  $('.islay-content-header .time').islayLocaliseTime();
+  $('span.phone-number').islayPhoneFormat();
 
   // DELETE DIALOG
   $('#content .delete, #content .delete, #footer .delete').click(function(e){

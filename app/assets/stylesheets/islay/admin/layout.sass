@@ -97,87 +97,6 @@ body
 
 
 /* -------------------------------------------------------------------------- */
-/* FILTERS
-/* Filters listings of records
-/* -------------------------------------------------------------------------- */
-ul.filters,
-ul.sort
-  margin: 0.6em 1em 0 0.5em
-  float: right
-
-  &:before
-    color: $dark-grey
-    font-weight: bold
-    margin-top: 0.45em
-    float: left
-
-  li, a
-    float: left
-
-  a
-    +border-radius(0.3em)
-    +unstyled-link
-    border: 1px solid transparent
-    color: $dark-grey
-    display: block
-    margin-left: 0.6em
-    padding: 0.35em 0.6em 0.25em 0.6em
-    text-align: center
-    display: none
-
-    &:hover,
-    &:focus
-      background-color: #FFF
-
-    &:active
-      +background-image($dimension-sunken)
-      background-color: $mid-grey
-      color: #FFF
-
-    &.current,
-    &.current:hover,
-    &.current:focus
-
-      +background-image($dimension-dished)
-      border-color: $light-grey - 20 !important
-      color: #222
-      background-color: $light-grey
-      display: block
-
-  &:hover,
-  &.fold-false
-    a
-      border-color: $light-grey
-
-  &:hover,
-  &.fold-false
-    a
-      display: block
-
-ul.sort:before
-  content: "Sort"
-
-ul.filters
-  li
-    position: relative
-
-  .link
-    margin-right: 0.4em
-    float: left
-
-  .count
-    +border-radius(0.3em)
-    background: $positive-color
-    color: white
-    font-size: 0.85em
-    padding: 0.2em 0.4em
-    float: right
-
-  &:before
-    content: "Show"
-
-
-/* -------------------------------------------------------------------------- */
 /* ADD ITEM DIALOG
 /* A little dialog that pops up with options for the user to add items.
 /* -------------------------------------------------------------------------- */
@@ -216,13 +135,12 @@ ul.filters
 /* -------------------------------------------------------------------------- */
 .islay-record-name
   +box-sizing(border-box)
-  padding: 1.6em 0 1.4em $layout-gutter + 2.5rem
+  padding: 1.6em 0 1.4em $layout-gutter + 2rem
   position: relative
   width: 100%
 
-
   i
-    +pos-absolute(0, false, 0, 1.5rem)
+    +pos-absolute(0.5rem, false, 0, 1.5rem)
     font-size: 2em
     height: 2rem
     margin: auto 0
