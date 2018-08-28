@@ -49,6 +49,7 @@ $SP.where('.[edit, new, create, update]').select('#islay-form').run(function(for
   form.find('.field textarea').islayMarkdownEditor();
   form.find('.islay-toggle').islayToggle();
   form.find('input.find-as-you-type').islayFindAsYouType();
+  form.find('input[type=number][step]').islaySpinControl({showInput: true});
   form.find('.field.position input').islaySpinControl({reversed: true});
   form.find('.field.position input').islaySpinControl({reversed: true});
   form.islayFormTabs();
