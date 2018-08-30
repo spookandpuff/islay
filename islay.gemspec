@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
   s.add_dependency "simple_form",                   "~> 3.1.0"
   s.add_dependency "haml-rails",                    "~> 0.8.2"
   s.add_dependency "sass-rails",                    "~> 5.0.1"
-  s.add_dependency "compass-rails",                 "~> 2.0.4"
+  s.add_dependency "compass-rails",                 "~> 3.1.0"
   s.add_dependency "pg",                            "~> 0.18.1"
   s.add_dependency "pg_search",                     "~> 0.7.0"
   s.add_dependency 'friendly_id',                   "~> 5.1.0"
@@ -47,4 +47,5 @@ Gem::Specification.new do |s|
   s.add_dependency "acts_as_list",                  "~> 0.1.8"
   s.add_dependency "premailer",                     "~> 1.7.3"
   s.add_dependency 'draper',                        '~> 1.4.0'
+  s.add_dependency 'sprockets-rails',               '~> 3.2', '>= 3.2.1'
 end

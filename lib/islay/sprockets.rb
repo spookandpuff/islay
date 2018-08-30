@@ -8,18 +8,18 @@ module Islay
       app.config.sass.load_paths.concat(engine_roots.map {|r| r + 'app/assets/stylesheets'})
 
       # Append the image dirs
-      app.assets.paths.concat(engine_roots.map {|r| r + 'app/assets/images'})
+      app.config.assets.paths.concat(engine_roots.map {|r| r + 'app/assets/images'})
 
       # Append the javascript dirs
-      app.assets.paths.concat(engine_roots.map {|r| r + 'app/assets/javascripts'})
+      app.config.assets.paths.concat(engine_roots.map {|r| r + 'app/assets/javascripts'})
 
       # Add Islay's fonts dir
-      app.assets.paths << File.expand_path("../../../app/assets/fonts", __FILE__)
+      app.config.assets.paths << File.expand_path("../../../app/assets/fonts", __FILE__)
 
       # Generate import statements for extension admin styles
       admin_styles = entries.select {|n, e| e.admin_styles?}.keys.map {|k| "@import #{k}/admin/#{k}"}.join("\n")
 
-      app.assets.register_preprocessor "text/css", :extension_styles do |context, data|
+      app.config.assets.register_preprocessor "text/css", :extension_styles do |context, data|
         if context.logical_path.match(%r{admin/islay})
           data << admin_styles
         else
@@ -29,9 +29,9 @@ module Islay
 
       admin_scripts = entries.select {|n, e| e.admin_scripts?}.keys.map {|k| "//= require #{k}/admin/#{k}"}.join("\n")
 
-      app.assets.unregister_preprocessor "application/javascript", ::Sprockets::DirectiveProcessor
+      app.config.assets.unregister_preprocessor "application/javascript", ::Sprockets::DirectiveProcessor
 
-      app.assets.register_preprocessor "application/javascript", :extension_scripts do |context, data|
+      app.config.assets.register_preprocessor "application/javascript", :extension_scripts do |context, data|
         if context.logical_path.match(%r{admin/islay})
           data.gsub(%r{//= require_extensions}, admin_scripts)
         else
@@ -39,7 +39,7 @@ module Islay
         end
       end
 
-      app.assets.register_preprocessor "application/javascript", ::Sprockets::DirectiveProcessor
+      app.config.assets.register_preprocessor "application/javascript", ::Sprockets::DirectiveProcessor
 
       # Add Islay JS and CSS to the precompile
       app.config.assets.precompile += ['islay/admin/islay.js', 'islay/admin/islay.css', 'islay/admin/islay_print.css']
