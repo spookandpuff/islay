@@ -9,6 +9,10 @@
     = f.fieldset('Password') do
       = f.input(:password)
 
+    - f.metadata do |attrs|
+      - attrs.each do |name, opts|
+        = f.metadata_input(name)
+
     - if @user == current_user
       = form_notice(:general) do
         %p
@@ -19,18 +23,13 @@
       - if @user.destroyable?
         = form_notice(:delete) do
           %p
-            This account may be deleted as the user associated with it has
-            not added or modified any records. Deletion is permanent and once
-            gone the account cannot be recovered.
+            Deletion is permanent and cannot be undone.
 
           = link_to('Delete User', path(:delete, @user), :class => 'button delete')
 
       - else
         = form_notice(:disable) do
-          %p
-            This account may be disabled. The user associated with this account
-            will not be able to log in. After being disabled, the account may be
-            re-enabled later.
+          %p Once disabled, this user will not be able to log in.
 
           = f.input(:disabled)
 

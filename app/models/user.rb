@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  include Islay::MetaData
+
   devise :database_authenticatable, :recoverable, :validatable
 
   before_destroy :check_immutable_flag
@@ -19,7 +21,7 @@ class User < ActiveRecord::Base
 
   def self.filtered(filter)
     case filter
-    when 'all' then all
+    when 'all' then all? { |e|  }
     when 'disabled' then where(:disabled => true)
     else where(:disabled => false)
     end
@@ -108,6 +110,12 @@ class User < ActiveRecord::Base
 
   track_user_edits
 
+  # This is a hook designed to be used by applications using Islay's auth
+  # It just checks for 'disabled' here
+  def can_log_in?
+    !disabled
+  end
+
   private
 
   class ImmutableRecordError < StandardError
@@ -146,4 +154,6 @@ class User < ActiveRecord::Base
   def password_required?
     !persisted? || !password.blank? || !password_confirmation.blank?
   end
+
+  check_for_extensions
 end
