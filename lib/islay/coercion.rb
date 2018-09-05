@@ -47,5 +47,17 @@ module Islay
     def coerce_array(v, separator = ',')
       v.split(separator) unless v.nil?
     end
+
+    def coerce_bitmask(values, list)
+      values = [*values].map { |v| v.to_sym }
+      mask = (values & list).map { |v| 2**list.index(v) }.inject(0, :+)
+      mask
+    end
+
+    def read_bitmask(values, list)
+      list.reject do |v|
+      ((values.to_i || 0) & 2**list.index(v)).zero?
+      end
+    end
   end
 end

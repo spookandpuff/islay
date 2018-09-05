@@ -57,10 +57,15 @@ module Islay
       metaopts = object.metadata_attributes[attribute_name]
       options = incoming_opts.dup
 
+      options[:label] ||= metaopts[:label] if metaopts[:label]
+
       unless options.has_key?(:as)
         options[:as] = case metaopts[:type]
         when :enum
           metaopts[:kind] == :short ? 'radio_buttons' : 'select'
+        when :bitmask
+          options[:wrapper] = :check_boxes
+          'check_boxes'
         when :foreign_key
           'select'
         when :integer, :float
@@ -81,6 +86,11 @@ module Islay
       if metaopts.has_key?(:values)
         options[:collection] = extract_values(metaopts[:values])
         options[:include_blank] = false if metaopts[:required] == true
+
+        if metaopts[:type] == :bitmask
+          options[:label_method] = :humanize
+          options[:value_method] = :to_sym
+        end
       end
 
       input(attribute_name, options, &block)
@@ -181,6 +191,7 @@ module Islay
         case values
         when Proc         then values.call
         when Array, Hash  then values.dup
+        when Symbol       then object.send(values).map(&:to_s)
         end
       end
     end
