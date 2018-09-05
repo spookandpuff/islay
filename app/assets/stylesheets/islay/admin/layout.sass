@@ -3,6 +3,7 @@ $nav-color: #333
 $nav-foreground-color: #EEE
 $nav-width: 12rem
 $collapsed-nav-width: 2.5rem
+$expanded-nav-width: $nav-width * 2
 
 /* -------------------------------------------------------------------------- */
 /* BODY SIZING
@@ -22,6 +23,9 @@ body
   +for-tablet
     margin: 0 0 0 $body-margin-left
 
+  +for-large-desktop
+    margin: 0 0 0 $expanded-nav-width
+
 
 
 /* -------------------------------------------------------------------------- */
@@ -36,6 +40,8 @@ body
   z-index: 2
   +for-tablet
     left: $body-margin-left
+  +for-large-desktop
+    left: $expanded-nav-width
 
 .islay-content-header
   height: $sub-header-height
@@ -53,8 +59,11 @@ body
   position: fixed
   text-align: center
   top: 0
-  width: $nav-width
   z-index: 2
+  width: $nav-width
+
+  +for-large-desktop
+    width: $expanded-nav-width
 
   h1
     display: inline-block

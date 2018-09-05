@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   include Islay::MetaData
+  include RolesConcern
 
   devise :database_authenticatable, :recoverable, :validatable
 
@@ -10,6 +11,8 @@ class User < ActiveRecord::Base
 
   include PgSearch
   multisearchable :against => [:name, :email]
+
+  roles :admin
 
   # Returns the system user. This is an always-present, immutable user used for
   # logging actions made by Islay e.g. migrations, background tasks etc.
@@ -115,6 +118,8 @@ class User < ActiveRecord::Base
   def can_log_in?
     !disabled
   end
+
+
 
   private
 

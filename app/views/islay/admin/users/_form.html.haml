@@ -3,15 +3,17 @@
   = form_errors(@user)
   = content do
     = f.fieldset(:class => 'primary') do
-      = f.input(:name, :col => 6)
-      = f.input(:email, :col => 6)
+      = f.input(:name)
+      = f.input(:email)
 
     = f.fieldset('Password') do
-      = f.input(:password)
+      = f.input(:password, label: 'Set password')
 
     - f.metadata do |attrs|
-      - attrs.each do |name, opts|
-        = f.metadata_input(name)
+      - if attrs.present?
+        = f.fieldset('Attributes') do
+          - attrs.each do |name, opts|
+            = f.metadata_input(name)
 
     - if @user == current_user
       = form_notice(:general) do

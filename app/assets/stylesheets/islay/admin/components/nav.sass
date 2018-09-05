@@ -18,6 +18,9 @@
   +for-tablet
     left: 0
 
+  +for-large-desktop
+    width: $expanded-nav-width
+
   li
     width: 100%
     float: left
@@ -53,6 +56,9 @@
   left: 0
   top: 0
   z-index: 2
+
+  +for-large-desktop
+    width: $nav-width
 
   .fa
     font-size: 1.1em
@@ -159,6 +165,9 @@
     +transition-duration($duration-quick)
     +opacity(0)
 
+    +for-large-desktop
+      +opacity(1)
+
   .islay-global-search
     +transition-property(background)
     +transition-duration($duration-quick)
@@ -226,12 +235,15 @@
   height: 100%
   z-index: 1
 
+  +for-large-desktop
+    left: $nav-width
+    width: $nav-width
+
   .entry
     strong
       margin: $ui-single-line-height * 0.125 0.6em
       padding: 0 0.4em
       line-height: $ui-single-line-height * 0.75
-
 
   .current
     strong
