@@ -56,7 +56,7 @@ module Islay
 
     def read_bitmask(values, list)
       list.reject do |v|
-      ((values.to_i || 0) & 2**list.index(v)).zero?
+        ((values.to_i || 0) & 2**list.index(v)).zero?
       end
     end
   end
