@@ -6,7 +6,7 @@ class Islay::Admin::ApplicationController < Islay::ApplicationController
 
   class_attribute :_header, :_route_scopes, :_nav, :_nav_scope
   helper_method :_header, :_nav, :nav_scope
-  
+
   self._route_scopes = {}
 
   helper_method :path, :public_path
@@ -145,9 +145,12 @@ class Islay::Admin::ApplicationController < Islay::ApplicationController
     include Islay::ResourcefulController
   end
 
-
   def store_user_in_thread
     Thread.current[:current_user] = current_user
+  end
+
+  def current_ability
+    @current_ability ||= Islay::AdminAbility.new(current_user)
   end
 
 end
