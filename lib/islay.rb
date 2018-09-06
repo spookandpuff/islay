@@ -6,6 +6,7 @@ require 'compass-rails' # This is temporary. By rights this needs to go into the
 require 'sass-rails'
 require 'jquery-rails'
 require 'devise'
+require 'cancancan'
 require 'simple_form'
 require 'pg'
 require 'pg_search'

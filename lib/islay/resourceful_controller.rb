@@ -8,26 +8,33 @@ module Islay
     def show
       record = resource_class[:class].find(params[:id])
       set_ivar(record)
+      authorize_action_and_resource
     end
 
     def new
       set_ivar(new_record)
+      authorize_action_and_resource
       dependencies
       render :layout => !request.xhr?
     end
 
     def create
-      persist!(set_ivar(new_record))
+      record = set_ivar(new_record)
+      authorize_action_and_resource
+      persist!(record)
     end
 
     def edit
       set_ivar(find_record)
+      authorize_action_and_resource
       dependencies
       render :layout => !request.xhr?
     end
 
     def update
-      persist!(set_ivar(find_record))
+      record = set_ivar(find_record)
+      authorize_action_and_resource
+      persist!(record)
     end
 
     def update_position
@@ -62,6 +69,10 @@ module Islay
     end
 
     private
+
+    def authorize_action_and_resource
+      authorize!(params[:action].to_sym, resource_ivar)
+    end
 
     def persist!(record)
       if record.update_attributes(params[resource_class[:name]].permit!)
@@ -103,6 +114,10 @@ module Islay
 
     def set_ivar(record)
       instance_variable_set("@#{resource_class[:name]}", record)
+    end
+
+    def resource_ivar
+      instance_variable_get("@#{resource_class[:name]}")
     end
 
     def find_parent

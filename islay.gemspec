@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rails-observers',               "~> 0.1.5"
   s.add_dependency 'cells-rails',                   '~> 0.0.9'
   s.add_dependency "devise",                        "~> 4.4.3"
+  s.add_dependency 'cancancan',                     '~> 2.2'
   s.add_dependency "responders",                    "~> 2.4.0"
   s.add_dependency "simple_form",                   "~> 4.0.1"
   s.add_dependency 'hamlit-rails',                  '~> 0.2.0'
