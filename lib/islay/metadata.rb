@@ -27,6 +27,11 @@ module Islay
       def metadata(col, &blk)
         self._metadata = Attributes.new(self, col, &blk)
       end
+
+      def add_metadata(col, &blk)
+        self._metadata ||= Attributes.new(self, col)
+        self._metadata.assign_attributes(&blk)
+      end
     end
 
     class ExistingAttributeError < StandardError
@@ -49,6 +54,10 @@ module Islay
         @model      = model
         @attributes = {}
 
+        assign_attributes(&blk)
+      end
+
+      def assign_attributes(&blk)
         instance_eval(&blk)
       end
 

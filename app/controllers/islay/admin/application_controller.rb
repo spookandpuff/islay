@@ -11,6 +11,16 @@ class Islay::Admin::ApplicationController < Islay::ApplicationController
 
   helper_method :path, :public_path
 
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.json { head :forbidden }
+      format.csv  { head :forbidden }
+      format.html do
+        redirect_to main_app.root_url, alert: exception.message
+      end
+    end
+  end
+
   def extension_style_sheet(path = nil)
     @extension_style_sheets ||= []
     @extension_style_sheets << path if path

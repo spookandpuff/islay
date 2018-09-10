@@ -469,7 +469,9 @@ module Islay
       # TODO: Memoize this in production.
       def extension_nav_entries
         Islay::Engine.nav_entries.map do |name, e|
-          main_nav(e[:title], e[:icon], e[:route], e[:opts].dup)
+          if can? :nav, e[:route].to_sym
+            main_nav(e[:title], e[:icon], e[:route], e[:opts].dup)
+          end
         end.flatten.join.html_safe
       end
 
