@@ -6,7 +6,7 @@
   var PhoneFormat = function(el, opts) {
     this.$el = el;
 
-    this.raw = el.text();
+    this.raw = el.text().replace(/\s/g, '');
     this.$el.attr('data-raw', this.raw);
 
     if (this.raw.match(/^04/)) {
