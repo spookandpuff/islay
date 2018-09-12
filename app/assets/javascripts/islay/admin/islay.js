@@ -33,7 +33,7 @@ moment.lang('en', {
   }
 });
 
-$SP.where('.[edit, new, create, update]').select('#islay-form').run(function(form) {
+$SP.where('.[edit, new, create, update, show]').select('#islay-form').run(function(form) {
   form.find('.boolean :checkbox').islayCheckbox();
   form.find('.boolean_depressed :checkbox, .destroy :checkbox').islayCheckbox({mode: 'depressed'});
   form.find('.radio_buttons').islayRadioButtons();
