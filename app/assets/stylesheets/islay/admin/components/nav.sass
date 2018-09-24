@@ -4,6 +4,8 @@
 /* -------------------------------------------------------------------------- */
 
 .islay-layout-nav
+  +transition-duration($duration-quick)
+  +transition-property(left, transform)
   background-color: $nav-color
   bottom: 0
   color: $nav-foreground-color
@@ -13,7 +15,9 @@
   z-index: 2
 
   +for-phone
-    left: -$nav-width
+    top: $layout-breadcrumb-height
+    left: -100%
+    width: 100%
 
   +for-tablet
     left: 0
@@ -21,11 +25,19 @@
   +for-large-desktop
     width: $expanded-nav-width
 
-  li
-    width: 100%
-    float: left
+  html.with-nav-open &
+    +for-phone
+      left: 0
 
-  a,
+  li
+    float: left
+    width: 100%
+
+    html.with-nav-open &
+      +for-phone
+        opacity: 1
+
+  a
     &:link,
     &:visited,
     &:hover,
@@ -48,6 +60,21 @@
       font-size: 0.85rem
       display: block
 
+  +for-phone
+    li
+      +transition-duration($duration-quick)
+      +transition-property(opacity)
+      +transition-delay($duration-quick * 0.5)
+      opacity: 0
+
+    a
+      padding: 0.25rem
+
+    .entry,
+    .search-entry
+      strong
+        font-size: 0.95rem
+
 .islay-main-nav
   background-color: $nav-color
   width: $collapsed-nav-width
@@ -60,6 +87,9 @@
   +for-large-desktop
     width: $nav-width
 
+  +for-phone
+    width: 100%
+
   .fa
     font-size: 1.1em
     left: 0
@@ -68,6 +98,10 @@
     text-align: center
     top: 0.2em
     width: 2rem
+
+    +for-phone
+      line-height: 2.5rem
+      top: 0
 
   .entry
     position: relative
@@ -168,6 +202,9 @@
     +for-large-desktop
       +opacity(1)
 
+    +for-phone
+      +opacity(1)
+
   .islay-global-search
     +transition-property(background)
     +transition-duration($duration-quick)
@@ -176,6 +213,9 @@
   &.open,
   &:hover
     width: $nav-width
+
+    +for-phone
+      width: 100%
 
     .entry strong,
     .islay-global-search input,
@@ -228,11 +268,11 @@
   // Sub Navigation
 .islay-sub-nav
   background-color: $nav-color + 10
-  position: absolute
+  height: 100%
   left: $collapsed-nav-width
+  position: absolute
   top: 0
   width: $nav-width - $collapsed-nav-width
-  height: 100%
   z-index: 1
 
   +for-large-desktop
@@ -248,3 +288,26 @@
   .current
     strong
       background: rgba($sage-green, 0.75)
+
+.islay-layout-nav-toggle
+  +pos-fixed(0, false, false, 0)
+  border-right: 1px solid $light-grey
+  display: none
+  height: $layout-breadcrumb-height
+  line-height: $layout-breadcrumb-height
+  text-align: center
+  width: $layout-breadcrumb-height
+  z-index: 100
+
+  &:after
+    content: '\f0c9'
+    display: block
+    font-family: FontAwesome
+
+  html.with-nav-open &
+    &:after
+      background: #DDD
+      content: '\f00d'
+
+  +for-phone
+    display: block

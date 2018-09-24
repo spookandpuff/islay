@@ -5,7 +5,7 @@ class Islay::Admin::ApplicationController < Islay::ApplicationController
   before_action :authenticate_user!, :store_user_in_thread
 
   class_attribute :_header, :_route_scopes, :_nav, :_nav_scope
-  helper_method :_header, :_nav, :nav_scope
+  helper_method :_header, :_nav, :nav_scope, :site_name
 
   self._route_scopes = {}
 
@@ -16,7 +16,7 @@ class Islay::Admin::ApplicationController < Islay::ApplicationController
       format.json { head :forbidden }
       format.csv  { head :forbidden }
       format.html do
-        redirect_to main_app.root_url, alert: exception.message
+        render template: 'islay/admin/errors/unauthorized', locals: {message: exception.message}
       end
     end
   end
@@ -47,6 +47,10 @@ class Islay::Admin::ApplicationController < Islay::ApplicationController
   # @return String
   def public_path(*args)
     render_path(:public, args)
+  end
+
+  def site_name
+    'Islay'
   end
 
   private

@@ -6,14 +6,16 @@
       = f.input(:name)
       = f.input(:email)
 
-    = f.fieldset('Password') do
-      = f.input(:password, label: 'Set password')
-
     - f.metadata do |attrs|
       - if attrs.present?
         = f.fieldset('Attributes') do
           - attrs.each do |name, opts|
-            = f.metadata_input(name)
+            - if (!User.restricted_metadata(name)) or can?("assign_#{name}".to_sym, @user)
+              = f.metadata_input(name)
+
+    = f.fieldset('Update password') do
+      = f.input(:password, label: 'Set password')
+      = f.input(:password, label: 'Confirm password')
 
     - if @user == current_user
       = form_notice(:general) do

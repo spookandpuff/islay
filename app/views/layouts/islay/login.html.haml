@@ -5,7 +5,12 @@
     %meta(http-equiv='Content-Type' content='text/html')
     %meta(content="text/html;charset=UTF-8" http-equiv="Content-Type")
 
+    %meta{:name => 'viewport', :content => 'width=device-width, initial-scale=1.0'}
+
     = stylesheet_link_tag('islay/admin/islay')
+
+    - extension_style_sheets.each do |sheet|
+      = stylesheet_link_tag(sheet)
 
   %body#login
     .login-el-liner

@@ -11,6 +11,10 @@
     padding-right: $layout-gutter
     width: 100%
 
+    +for-phone
+      padding-left: 0
+      padding-right: 0
+
     table
       border: 1px solid $header-border-color
       margin-left: 0
@@ -79,9 +83,14 @@
     border: 1px solid #DFDFDF
     padding: $layout-gutter
 
+    +for-phone
+      border-left: 0
+      border-right: 0
+      padding-left: $layout-gutter-small
+      padding-right: $layout-gutter-small
+
   .islay-form-tabs + &
     border-top: none
-
 
 // Construct the classes for setting the widths of columns
 $i: 0
@@ -91,3 +100,7 @@ $i: 0
   #content .count-#{$i}
     width: $column-width * $i + ($gutter-width * $j)
     margin-right: $gutter-width
+
+    +for-phone
+      width: 100%
+      margin-right: 0

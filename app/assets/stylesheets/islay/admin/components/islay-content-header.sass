@@ -1,15 +1,27 @@
 .islay-content-header
   border-bottom: 1px solid $light-grey
   height: auto
-  min-height: 2.5rem
+  min-height: $layout-breadcrumb-height
+
+  +for-phone
+    +pos-fixed(0, 0, false, 0)
+    background: $body-color
+    padding-left: $layout-breadcrumb-height
+    z-index: 10
 
   .breadcrumb
     +display-flex
 
+    +for-phone
+      overflow-x: auto
+
+      li
+        white-space: nowrap
+
   .breadcrumb,
   .filters,
   .sort
-    min-height: 2.5rem
+    min-height: $layout-breadcrumb-height
 
   h2,
   .breadcrumb
@@ -37,8 +49,8 @@
         content: '❯'
         font-size: 0.5rem
         line-height: 1.2
-        margin-right: 0.6em
-        padding-left: 0.75em
+        margin-right: 0.5rem
+        padding-left: 0.5rem
 
       &:last-child
         &:after

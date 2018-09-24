@@ -19,6 +19,7 @@ body
 
   +for-phone
     margin: 0
+    padding-top: $layout-breadcrumb-height
 
   +for-tablet
     margin: 0 0 0 $body-margin-left
@@ -38,10 +39,46 @@ body
   position: fixed
   right: 0
   z-index: 2
+
+  &.is-pageable
+    +display-flex
+    justify-content: space-between
+
   +for-tablet
     left: $body-margin-left
   +for-large-desktop
     left: $expanded-nav-width
+
+  +for-phone
+    width: 100%
+
+  .button[rel]
+    +border-radius(0)
+    background: transparent
+    border: 0
+    display: block
+    height: $footer-height
+    line-height: $footer-height
+    padding: 0
+    margin: 0
+    position: relative
+    overflow: hidden
+    text-indent: -999rem
+    width: $footer-height
+
+    &:before
+      +pos-absolute-fill
+      text-indent: 0
+      padding: 0
+
+  .button[rel=next]
+    +icon-caret-right
+    border-left: 1px solid $light-grey
+
+  .button[rel=prev]
+    +icon-caret-left
+    border-right: 1px solid $light-grey
+
 
 .islay-content-header
   height: $sub-header-height
@@ -64,6 +101,10 @@ body
 
   +for-large-desktop
     width: $expanded-nav-width
+
+  a
+    display: block
+    +pos-absolute-fill
 
   h1
     display: inline-block
@@ -148,21 +189,33 @@ body
   position: relative
   width: 100%
 
+  +for-phone
+    padding-left: 3.5rem
+
   i
     +pos-absolute(0.5rem, false, 0, 1.5rem)
     font-size: 2em
     height: 2rem
     margin: auto 0
 
+    +for-phone
+      left: 1rem
+
   span
     +type-large
     font-weight: bold
     display: block
 
+    +for-phone
+      font-size: 1.15rem
+      strong
+        font-size: 1rem
+
     strong
       color: $text-color-subtle
       display: inline-block
       margin-bottom: 0.5rem
+
 
 
 /* -------------------------------------------------------------------------- */

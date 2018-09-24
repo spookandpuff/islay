@@ -49,6 +49,11 @@ table
     .time
       display: block
 
+  th.time,
+  td.time
+    font-size: 0.7rem
+    color: $mid-grey
+
   td.stock,
   th.stock
     width: 4em
@@ -58,6 +63,9 @@ table
   td.boolean
     text-align: center
     width: 4em
+
+    +for-phone
+      width: auto
 
   td.status
     text-align: center
@@ -72,6 +80,12 @@ table
     text-align: center
     width: 3.5em
     float: left
+
+    +for-phone
+      width: 2rem
+
+      &:before
+        font-size: 1rem
 
     &:before
       font-size: 1.6em
@@ -140,14 +154,21 @@ thead th
   background-color: $very-light-grey
   border-bottom: 0.1em solid $light-grey
   color: $dark-grey
-  font-size: 0.9em
+  font-size: 0.65rem
   padding: 1em 1em 0.6em 1em
   text-transform: uppercase
+
+  +for-phone
+    font-size: 0.65rem
+    padding: 0.5rem
 
 td,
 tbody > tr > th,
 tfoot th
   padding: 0.75rem 1rem
+
+  +for-phone
+    padding: 0.5rem
 
 tbody
   td

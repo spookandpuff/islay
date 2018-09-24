@@ -8,6 +8,7 @@
 //= require ../../vendor/mustache
 //= require ../../vendor/jquery.stickytableheaders.min
 //= require ../../vendor/jquery.cookie
+//= require ../../vendor/jquery.scrollIntoView
 //= require ../../vendor/jquery.transit
 //= require ../../vendor/markdown-js
 //= require ../../vendor/medium-editor
@@ -76,6 +77,10 @@ $(function() {
   $('.islay-content-header .time').islayLocaliseTime();
   $('span.phone-number').islayPhoneFormat();
 
+  $('.islay-layout-nav-toggle').on('click', function(){
+    $('html').toggleClass('with-nav-open');
+  });
+
   // DELETE DIALOG
   $('#content .delete, #content .delete, #footer .delete').click(function(e){
     var dialog = new Islay.Dialogs.Confirmation({url: e.target.href, title: e.target.title, cancelButtonText: $(e.target).data('cancel-text'),  confirmButtonText: $(e.target).data('confirm-text')});
@@ -97,7 +102,7 @@ $(function() {
 
   $('.islay-global-search [type="text"]').islaySearch();
 
-  $('button.print').click(function(){window.print()})
+  $('button.print').click(function(){window.print()});
 
   // Where specified, make table headers stick to the top of the screen
   $('#content table.fixed-header').stickyTableHeaders({fixedOffset: $('.islay-layout-header')});

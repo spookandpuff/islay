@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   end
 
   islay_admin 'islay' do
+    root 'dashboard#index'
     # DASHBOARD & SEARCH
     get '/'         => 'dashboard#index',     :as => 'dashboard'
     get '/add-item' => 'dashboard#add_item',  :as => 'add_item'

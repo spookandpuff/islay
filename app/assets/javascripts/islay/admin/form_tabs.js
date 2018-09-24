@@ -70,6 +70,12 @@
     click: function(e) {
       var $target = $(e.target);
       this.select($target.attr('href'));
+
+      $target.scrollintoview({
+        direction: 'horizontal'
+      })
+
+      e.preventDefault();
       return false;
     },
 
@@ -82,7 +88,7 @@
       this.tabs[name].show();
       this.anchors[name].addClass('current');
       this.current = name;
-      window.location.hash = name;
+      // window.location.hash = name;
       $.cookie(this.cookieID, name);
     }
   };

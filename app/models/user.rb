@@ -64,6 +64,12 @@ class User < ActiveRecord::Base
     nil
   end
 
+  # Allows a set of restricted keys in the metadata
+  # Designed to be overwritten in implementing apps
+  def self.restricted_metadata(attr_name)
+    false
+  end
+
   # A predictate which checks to see if the user has created or modified any
   # records.
   #

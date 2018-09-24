@@ -28,6 +28,14 @@
     }
   };
 
+  //Apply the currently selected value to the wrapper as a styling hook
+  $('body').on('change', '.select-wrapper select', function(e){
+    var target = $(e.target),
+        wrapper = target.closest('.select-wrapper');
+
+    wrapper.attr('data-' + target.attr('name'), target.val());
+  });
+
   $.fn.islaySubSelect = function(){
     var child = $(this),
         childOptions = child.find('option[value][value!=""]'),
