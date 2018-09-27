@@ -489,6 +489,22 @@ module Islay
       end
 
       deprecate :render_cell
+
+      def action_log_url(target)
+        begin
+          path(target)
+        rescue
+          ''
+        end
+      end
+
+      def action_log_name(target)
+        if target.respond_to? :name
+          target.name
+        else
+          target.class.name.humanize
+        end
+      end
     end # AdminHelpers
   end # Admin
 end # Islay

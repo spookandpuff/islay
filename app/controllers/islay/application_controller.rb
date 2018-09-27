@@ -23,6 +23,8 @@ class Islay::ApplicationController < ActionController::Base
       else
         [[mod, *args], opts]
       end
+    elsif first.is_a?(Array) or first.is_a?(Hash)
+      [mod] << args
     end
 
     url_opts.compact!
@@ -50,4 +52,3 @@ class Islay::ApplicationController < ActionController::Base
     redirect_to params[:_return_to] ? params[:_return_to] : request.referrer
   end
 end
-

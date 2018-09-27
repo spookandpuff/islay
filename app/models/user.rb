@@ -14,6 +14,8 @@ class User < ActiveRecord::Base
 
   roles :admin
 
+  has_many :action_logs, class_name: 'UserActionLog'
+
   # Returns the system user. This is an always-present, immutable user used for
   # logging actions made by Islay e.g. migrations, background tasks etc.
   #

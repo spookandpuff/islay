@@ -52,6 +52,27 @@ module ActiveRecord
       end
     end
 
+    # Create a user action log for the creation of new records
+    def log_creation
+      log_action :create
+    end
+
+    # Create a user action log for the updating of records
+    def log_update
+      log_action :update
+    end
+
+    # Create a user action log for the updating of records
+    def log_delete
+      log_action :delete
+    end
+
+    def log_action(action)
+      user = current_user || system_user
+
+      UserActionLog.for(user, action, self)
+    end
+
     # Installs a before_save hook for updating the user IDs against a record.
     # This requires the creator_id and updater_id columns to be in the table.
     #
@@ -59,10 +80,7 @@ module ActiveRecord
     #
     # @return nil
     def self.track_user_edits
-      before_save :update_user_ids
-      belongs_to :creator, :class_name => 'User'
-      belongs_to :updater, :class_name => 'User'
-      User.track_class(self)
+      include ActionTrackingConcern
       nil
     end
 

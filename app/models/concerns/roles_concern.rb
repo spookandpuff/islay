@@ -24,4 +24,9 @@ module RolesConcern
   def has_role?(role)
     roles.include?(role)
   end
+
+  def assign_role(role)
+    raise "Invalid Role #{role}" unless valid_roles.include?(role)
+    roles_mask = (roles << role).uniq
+  end
 end
