@@ -47,8 +47,8 @@ class User < ActiveRecord::Base
   # @return nil
   # @api private
   def self.track_class(klass)
-    creator_assoc = :"created_#{klass.to_s.underscore.pluralize}"
-    updater_assoc = :"updated_#{klass.to_s.underscore.pluralize}"
+    creator_assoc = :"created_#{klass.to_s.demodulize.underscore.pluralize}"
+    updater_assoc = :"updated_#{klass.to_s.demodulize.underscore.pluralize}"
 
     has_many creator_assoc, :class_name => klass.to_s, :foreign_key => :creator_id
     has_many updater_assoc, :class_name => klass.to_s, :foreign_key => :updater_id
