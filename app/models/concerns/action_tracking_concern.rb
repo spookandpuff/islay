@@ -71,7 +71,7 @@ module ActionTrackingConcern
 
     originating_user = Thread.current[:current_user] || User.system
 
-    UserActionLog.for(originating_user, action, self, opts = {}) unless @action_logging_paused
+    UserActionLog.for(originating_user, action, self, opts) unless @action_logging_paused
   end
 
   # Call the including model's description method
