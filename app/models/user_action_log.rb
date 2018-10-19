@@ -30,7 +30,7 @@ class UserActionLog < ActiveRecord::Base
   end
 
   def url_params
-    target ? target.action_log_url_params : '-'
+    target ? target.action_log_url_params : {}
   end
 
   check_for_extensions

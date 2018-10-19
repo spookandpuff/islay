@@ -9,11 +9,12 @@
 
   %tbody
     - @user_logs.each do |log|
-      %tr
-        %td= log.action.humanize
-        %td= link_to("#{log.description}".html_safe, path(*log.url_params))
-        %td.meta
-          %span.time= log.created_at
+      - if log.target
+        %tr
+          %td= log.action.humanize
+          %td= link_to("#{log.description}".html_safe, path(*log.url_params))
+          %td.meta
+            %span.time= log.created_at
 
 %h3 Site activity
 
@@ -26,13 +27,14 @@
 
   %tbody
     - @global_logs.each do |log|
-      %tr(class="#{log.type}-log")
-        %td
-          - if log.user_name.blank?
-            Self
-          - else
-            #{log.user_name.humanize}
-        %td= log.event.humanize
-        %td= link_to("<strong>#{log.friendly_type}:</strong> #{log.name}".html_safe, log.url)
-        %td.meta
-          %span.time= log.created_at
+      - if log.target
+        %tr(class="#{log.type}-log")
+          %td
+            - if log.user_name.blank?
+              Self
+            - else
+              #{log.user_name.humanize}
+          %td= log.event.humanize
+          %td= link_to("<strong>#{log.friendly_type}:</strong> #{log.name}".html_safe, log.url)
+          %td.meta
+            %span.time= log.created_at
