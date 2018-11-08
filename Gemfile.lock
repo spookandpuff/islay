@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    islay (2.0.7)
+    islay (2.0.8)
       acts_as_list (~> 0.1.8)
       cells (~> 3.11.3)
       compass-rails (~> 3.1.0)
