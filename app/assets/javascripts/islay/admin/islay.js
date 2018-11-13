@@ -70,6 +70,13 @@ $SP.where('.[show, edit, create, update]').select('div.collapsible, li.collapsib
   });
 });
 
+$SP.where('.[show, edit, create, update]').select('tr.parent-row').run(function(collection) {
+  _.each(collection, function(parentRow){
+    var TableRowToggle = new Islay.TableRowToggle({el: $(parentRow)});
+  });
+});
+
+
 $SP.where('islay-admin-pages.[edit, update]').select('.islay-page-features', 'islayPageFeatures');
 
 $(function() {
