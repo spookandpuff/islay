@@ -125,7 +125,6 @@ module Islay
       if options.delete(:inline)
         append_class!(options, :wrapper_html, 'inline')
       end
-
       super(attribute_name, options, &block)
     end
 

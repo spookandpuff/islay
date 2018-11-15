@@ -32,7 +32,7 @@ module Islay
       # @return [nil, String]
       def form_errors(object)
         unless object.errors.empty?
-          render :partial => 'islay/admin/shared/form_errors'
+          content_for :feedback_message, render(:partial => 'islay/admin/shared/form_errors', locals: {object: object})
         end
       end
 
@@ -461,6 +461,11 @@ module Islay
         output << ' has-footer' if @has_footer
 
         output
+      end
+
+
+      def feedback_message
+        content_for :feedback_message
       end
 
       # Writes out navigation entries specified by engines which are extending the

@@ -7,6 +7,7 @@ Islay.TableRowToggle = Backbone.View.extend({
 
   expand: function() {
     var childRow = this.$el.next('tr.child-row');
+    this.$el.find('.child-row-toggle').hide();
     childRow.addClass('child-row-expanded').find('input:text, textarea').first().focus()
   },
   collapse: function() {

@@ -6,9 +6,12 @@ SimpleForm.setup do |config|
     b.optional :pattern
     b.optional :min_max
     b.optional :readonly
-    b.use :label_input
+    b.use :label
+    b.wrapper :tag => 'div', :class => 'input-wrapper' do |ba|
+      ba.use :input
+      ba.use :error, :wrap_with => { :tag => :div, :class => :error }
+    end
     b.use :hint,  :wrap_with => { :tag => :span, :class => :hint }
-    b.use :error, :wrap_with => { :tag => :span, :class => :error }
   end
 
   config.wrappers :check_boxes, :class => :field, :hint_class => :hinted, :error_class => :errored do |b|

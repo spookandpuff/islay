@@ -79,13 +79,19 @@
 
 
   a.has-errors
-    color: $error-color - 20
 
-    &:after
-      content: '*'
-
-  a.has-errors.current
-    border-color: $error-color
+    &:before
+      $has-errors-alert-dimension: 1.25rem
+      +border-radius(50%)
+      background-color: $error-color
+      content: '!'
+      height: $has-errors-alert-dimension
+      width: $has-errors-alert-dimension
+      display: block
+      color: #FFF
+      line-height: $has-errors-alert-dimension
+      text-align: center
+      +pos-absolute(-0.5rem, -0.5rem)
 
 .form-tab
   border-top: 0!important

@@ -1,0 +1,21 @@
+.islay-feedback-message
+  +pos-fixed(false, 0, 0, 0)
+  +translateY(10rem)
+  +transition-duration(400ms)
+  +transition-property(transform, bottom)
+  +transition-delay(400ms, 4000ms)
+  z-index: 10
+
+  +for-tablet
+    left: $body-margin-left
+
+  +for-large-desktop
+    left: $expanded-nav-width
+
+  html[data-state=is-ready] &
+    +translateY(0)
+    bottom: -10rem
+
+  .islay-form-errors
+    +border-radius(0)
+    margin: 0

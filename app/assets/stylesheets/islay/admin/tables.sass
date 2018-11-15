@@ -248,6 +248,25 @@ tfoot
     td
       border-top: 1px solid $light-grey
 
+tr.child-row
+  display: none
+
+  input, textarea
+    +transition-property(opacity)
+    +transition-duration(400ms)
+    +transition-delay(100ms)
+    +opacity(0)
+
+  &.child-row-expanded
+    display: table-row
+
+    input, textarea
+      +opacity(1)
+
+.child-row-toggle
+  color: $link-color
+  cursor: pointer
+  font-size: 0.8rem
 
 /* TABLE LEVELS/INDENTATION */
 table

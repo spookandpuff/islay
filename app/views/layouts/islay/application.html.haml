@@ -53,6 +53,9 @@
     - if alert
       .islay-alert-message= alert
 
+    - if feedback_message
+      .islay-feedback-message= feedback_message
+
     .islay-layout-nav-toggle
 
     = javascript_include_tag('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js')

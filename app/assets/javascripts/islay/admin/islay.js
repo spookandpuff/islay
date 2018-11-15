@@ -50,9 +50,9 @@ $SP.where('.[edit, new, create, update, show]').select('#islay-form').run(functi
   form.find('.field textarea').islayMarkdownEditor();
   form.find('.islay-toggle').islayToggle();
   form.find('input.find-as-you-type').islayFindAsYouType();
-  form.find('input[type=number][step]').islaySpinControl({showInput: true});
-  form.find('.field.position input').islaySpinControl({reversed: true});
-  form.find('.field.position input').islaySpinControl({reversed: true});
+  // form.find('input[type=number][step]').islaySpinControl({showInput: true});
+  // form.find('.field.position input').islaySpinControl({reversed: true});
+  // form.find('.field.position input').islaySpinControl({reversed: true});
   form.islayFormTabs();
 });
 
@@ -75,7 +75,6 @@ $SP.where('.[show, edit, create, update]').select('tr.parent-row').run(function(
     var TableRowToggle = new Islay.TableRowToggle({el: $(parentRow)});
   });
 });
-
 
 $SP.where('islay-admin-pages.[edit, update]').select('.islay-page-features', 'islayPageFeatures');
 
@@ -115,4 +114,6 @@ $(function() {
   $('#content table.fixed-header').stickyTableHeaders({fixedOffset: $('.islay-layout-header')});
 
   $SP.init();
+
+  $('html').attr('data-state', 'is-ready');
 });
