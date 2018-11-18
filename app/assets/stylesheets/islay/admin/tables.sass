@@ -290,3 +290,56 @@ table
 
   .level-4 .title
     margin-left: 4em
+
++for-phone
+  table.sortable
+    thead th
+      display: none
+
+    tr, th, td,
+    tbody
+      +box-sizing(border-box)
+      border: none
+      display: block
+      width: 100%!important
+
+    tr
+      position: relative
+
+      &:nth-child(odd)
+        td
+          background: #FCFCFC
+
+    td
+      padding-top: 0.25rem
+      padding-bottom: 0.25rem
+
+      &.name
+        a
+          font-weight: bold
+
+      &.table-count
+        +pos-absolute(0, false, 0, 0)
+        width: 2rem!important
+        vertical-align: middle
+        border-right: 1px solid #DDD
+        border-bottom: 1px solid #DDD
+        text-align: center
+
+        ~ td
+          padding-left: 2.5rem!important
+
+      &:last-child
+        border-bottom: 1px solid #DDD
+        padding-bottom: 0.5rem
+
+      &:first-child,
+      &.table-count + td
+        padding-top: 0.5rem
+
+    tr
+      &:last-child
+        td
+          &:last-child,
+          &.table-count
+            border-bottom: none!important
