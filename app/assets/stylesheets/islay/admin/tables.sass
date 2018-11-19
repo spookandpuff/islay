@@ -31,7 +31,7 @@ table
     color: $dark-grey
     font-size: 0.9em
     line-height: 1.2
-    width: 9em
+    width: 10rem
 
   th.currency,
   td.currency
@@ -49,17 +49,31 @@ table
     .time
       display: block
 
+  th.time,
+  td.time
+    font-size: 0.7rem
+    color: $mid-grey
+
   td.stock,
   th.stock,
+
+  td.number,
+  th.number,
+    width: 5rem
+
   th.quantity,
   td.quantity
     width: 4em
+
 
   /* YES/NO FLAGS */
   th.boolean,
   td.boolean
     text-align: center
     width: 4em
+
+    +for-phone
+      width: auto
 
   td.status
     text-align: center
@@ -74,6 +88,12 @@ table
     text-align: center
     width: 3.5em
     float: left
+
+    +for-phone
+      width: 2rem
+
+      &:before
+        font-size: 1rem
 
     &:before
       +opacity(0.85)
@@ -143,18 +163,28 @@ thead th
   background-color: $very-light-grey
   border-bottom: 0.1em solid $light-grey
   color: $dark-grey
-  font-size: 0.9em
+  font-size: 0.65rem
   padding: 1em 1em 0.6em 1em
   text-transform: uppercase
 
+  +for-phone
+    font-size: 0.65rem
+    padding: 0.5rem
+
 td,
-tbody th,
+tbody > tr > th,
 tfoot th
-  padding: 0.4rem 1rem
+  padding: 0.75rem 1rem
+
+  +for-phone
+    padding: 0.5rem
 
 tbody
   td
     +transition(background, 0.1s)
+    &:first-child
+      &:first-letter
+        text-transform: uppercase
 
     h3
       padding-top: 0!important
@@ -169,7 +199,7 @@ th.control
   letter-spacing: -1000em
   width: 4em
 
-tbody th
+tbody > tr > th
   border-top: 0.1em solid $light-grey
   border-bottom: 0.1em solid $light-grey
   background-color: white
@@ -216,10 +246,36 @@ tfoot
   th
     vertical-align: middle
 
+  td
+    background-color: #F6F6F6
+
   .total
     td
       font-size: 1.2em
 
+  tr:first-child
+    td
+      border-top: 1px solid $light-grey
+
+tr.child-row
+  display: none
+
+  input, textarea
+    +transition-property(opacity)
+    +transition-duration(400ms)
+    +transition-delay(100ms)
+    +opacity(0)
+
+  &.child-row-expanded
+    display: table-row
+
+    input, textarea
+      +opacity(1)
+
+.child-row-toggle
+  color: $link-color
+  cursor: pointer
+  font-size: 0.8rem
 
 /* TABLE LEVELS/INDENTATION */
 table
@@ -241,3 +297,56 @@ table
 
   .level-4 .title
     margin-left: 4em
+
++for-phone
+  table.sortable
+    thead th
+      display: none
+
+    tr, th, td,
+    tbody
+      +box-sizing(border-box)
+      border: none
+      display: block
+      width: 100%!important
+
+    tr
+      position: relative
+
+      &:nth-child(odd)
+        td
+          background: #FCFCFC
+
+    td
+      padding-top: 0.25rem
+      padding-bottom: 0.25rem
+
+      &.name
+        a
+          font-weight: bold
+
+      &.table-count
+        +pos-absolute(0, false, 0, 0)
+        width: 2rem!important
+        vertical-align: middle
+        border-right: 1px solid #DDD
+        border-bottom: 1px solid #DDD
+        text-align: center
+
+        ~ td
+          padding-left: 2.5rem!important
+
+      &:last-child
+        border-bottom: 1px solid #DDD
+        padding-bottom: 0.5rem
+
+      &:first-child,
+      &.table-count + td
+        padding-top: 0.5rem
+
+    tr
+      &:last-child
+        td
+          &:last-child,
+          &.table-count
+            border-bottom: none!important

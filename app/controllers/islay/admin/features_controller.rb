@@ -2,7 +2,7 @@ class Islay::Admin::FeaturesController < Islay::Admin::ApplicationController
   header 'Page Features'
   resourceful :feature
 
-  before_filter :find_page
+  before_action :find_page
 
   private
 

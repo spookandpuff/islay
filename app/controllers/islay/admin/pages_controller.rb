@@ -1,7 +1,7 @@
 class Islay::Admin::PagesController < Islay::Admin::ApplicationController
   header 'Page Content'
-  before_filter :find_page,   :except => [:index]
-  before_filter :find_assets, :except => [:index]
+  before_action :find_page,   :except => [:index]
+  before_action :find_assets, :except => [:index]
 
   def index
     @pages = Islay::Engine.content.pages.sort_by{|p|p[0]}

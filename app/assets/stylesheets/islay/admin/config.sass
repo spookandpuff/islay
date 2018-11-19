@@ -8,19 +8,27 @@
 /* -------------------------------------------------------------------------- */
 /* MEASUREMENTS
 /* -------------------------------------------------------------------------- */
-$footer-height: 3.6em
-$body-margin-left: 16em
+$footer-height: 3rem
+$body-margin-left: 12rem
 
 $ui-single-line-height: 2.25rem
 $sub-header-height: $ui-single-line-height
 $header-height: $ui-single-line-height
 
 $layout-gutter: 1.5rem
+$layout-gutter-small: $layout-gutter / 2
+
+$layout-breadcrumb-height: 2.5rem
+
+$column-count: 12
+$gutter-count: $column-count - 1
+$gutter-width: 1.5%
+$column-width: (100% / $column-count) - $gutter-width
 
 /* -------------------------------------------------------------------------- */
 /* COLORS
 /* -------------------------------------------------------------------------- */
-$body-color: white
+$body-color: #F6F6F6
 $alt-body-color: #F9F9F9
 $side-bar-color: #232323
 $color-layout-header: #F4F4F4
@@ -48,6 +56,7 @@ $widget-hover-background-color: #E4EDF7
 $widget-hover-foreground-color: #222
 
 $text-color: #222
+$text-color-subtle: #808080
 
 $link-color: #2E56E0
 $link-hover-color: $link-color + 20
@@ -99,6 +108,17 @@ $duration-base: 400ms
 $duration-quick: $duration-base * 0.66
 $duration-slow: $duration-base * 1.33
 
+/* -------------------------------------------------------------------------- */
+/* FORMS
+/* -------------------------------------------------------------------------- */
+
+$border-width: 0.1em
+$input-v-padding: 0.45em
+$input-h-padding: 0.6em
+$field-margin: 1em
+$field-height: $border-width * 2 + $input-v-padding * 2 + 1em
+$form-inset-color: $light-grey + 20
+$error-color: #d43d1c
 
 /* -------------------------------------------------------------------------- */
 /* MIXINS

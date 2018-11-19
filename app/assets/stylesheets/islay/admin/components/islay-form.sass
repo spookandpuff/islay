@@ -1,0 +1,20 @@
+.islay-body-content-container
+  +display-flex
+  flex-direction: column
+  min-height: 100vh
+  > *:last-child
+    margin-bottom: $layout-gutter
+
+  #content,
+  #islay-form,
+  #islay-form #islay-form
+    +display-flex
+    +flex(1)
+    flex-direction: column
+
+    .content-el-liner
+      +flex(1)
+
+  body.has-footer &
+    > *:last-child
+      margin-bottom: 0

@@ -1,7 +1,4 @@
 .islay-form-errors
-  %i.icon.fa.fa-warning
-  %h3 Couldn’t #{object.new_record? ? "create your new #{object.class.name.humanize}" : 'save your changes'}
-  %p
-    Please check the
-    %span highlighted fields
-    for more information.
+  %i.icon.icon-warning-sign
+  %h3 Oops - this couldn't be saved.
+  %p Fields with problems are <span>highlighted.</span>

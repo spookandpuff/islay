@@ -5,13 +5,12 @@
 = content(:class => 'inset') do
   = column(8) do
     - primary_cells.each do |n|
-      %div.cell(id="#{n.to_s.parameterize}-cell")
-        = render_cell n, :index
+      .cell(id="#{n.to_s.parameterize}-cell")
+        = cell(n).(:index)
 
-    %div#activity-cell.report-cell
-      = render_cell :activity, :log
+    #activity-cell.cell.report-cell= cell(:activity).(:log)
 
   = column(4) do
     - secondary_cells.each do |n|
-      %div.cell(id="#{n.to_s.parameterize}-cell")
-        = render_cell n, :index
+      .cell(id="#{n.to_s.parameterize}-cell")
+        = cell(n).(:index)

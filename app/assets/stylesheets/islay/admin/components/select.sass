@@ -1,0 +1,66 @@
+.select-wrapper
+  background: #FFF
+  border: 1px solid #B6B9BC
+  cursor: pointer
+  display: inline-block
+  min-width: 8rem
+  max-width: 16rem
+  overflow: hidden
+  position: relative
+
+  +for-phone
+    min-width: 4rem
+    max-width: 8rem
+
+  &:after
+    +pos-absolute(0, 0, 0)
+    background: #FFF
+    border-left: 1px solid #EEE
+    color: #808080
+    content: '\f078'
+    font-family: FontAwesome
+    font-size: 0.7rem
+    height: 1rem
+    line-height: 1rem
+    margin-bottom: auto
+    margin-top: auto
+    pointer-events: none
+    text-align: center
+    vertical-align: middle
+    width: 1.5rem
+
+  select
+    cursor: pointer
+    padding: 0.5rem 2rem 0.5rem 0.5rem
+    border: none
+    box-shadow: none
+    background: transparent
+    background-image: none
+    font-size: 0.8rem
+    -webkit-appearance: none
+    -moz-appearance: none
+    appearance: none
+    margin: 0!important
+    min-width: 100%
+    &:focus
+      outline: none
+
+    &[disabled]
+      color: #CCC
+
+  .multi_select &
+    select
+      padding-right: 0.5rem
+      font-size: 0.85rem
+    &:after
+      +pos-absolute(0, 0, 0)
+      height: 100%
+
+    option
+      font-size: 0.85rem
+
+  #islay-form &
+    .select-wrapper
+      min-width: 16rem
+      max-width: 24rem
+      width: 75%

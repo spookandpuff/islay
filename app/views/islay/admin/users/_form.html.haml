@@ -1,38 +1,61 @@
 = resource_form(@user) do |f|
   = record_name(@user.name, 'user', :when_blank => 'New User')
   = form_errors(@user)
-  = content do
-    = f.fieldset(:class => 'primary') do
-      = f.input(:name, :col => 6)
-      = f.input(:email, :col => 6)
+  = content(class: 'inset') do
+    #user-details.form-tab
+      .legend User details
 
-    = f.fieldset('Password') do
-      = f.input(:password)
+      = f.fieldset(:class => 'primary') do
+        = f.input(:name)
+        = f.input(:email)
 
-    - if @user == current_user
-      = form_notice(:general) do
-        %p
-          You cannot delete or disable your own account. If you need this
-          account deleted or disabled another user must do it for you.
+      - f.metadata do |attrs|
+        - if attrs.present?
+          = f.fieldset('Attributes') do
+            - attrs.each do |name, opts|
+              - if (!User.restricted_metadata(name)) or can?("assign_#{name}".to_sym, @user)
+                = f.metadata_input(name)
 
-    - else
-      - if @user.destroyable?
-        = form_notice(:delete) do
+      = f.fieldset('Update password') do
+        = f.input(:password, label: 'Set password')
+        = f.input(:password, label: 'Confirm password')
+
+      - if @user == current_user
+        = form_notice(:general) do
           %p
-            This account may be deleted as the user associated with it has
-            not added or modified any records. Deletion is permanent and once
-            gone the account cannot be recovered.
-
-          = link_to('Delete User', path(:delete, @user), :class => 'button delete')
+            You cannot delete or disable your own account. If you need this
+            account deleted or disabled another user must do it for you.
 
       - else
-        = form_notice(:disable) do
-          %p
-            This account may be disabled. The user associated with this account
-            will not be able to log in. After being disabled, the account may be
-            re-enabled later.
+        - if @user.destroyable?
+          = form_notice(:delete) do
+            %p
+              Deletion is permanent and cannot be undone.
 
-          = f.input(:disabled)
+            = link_to('Delete User', path(:delete, @user), :class => 'button delete')
+
+        - else
+          = form_notice(:disable) do
+            %p Once disabled, this user will not be able to log in.
+
+            = f.input(:disabled)
+
+    #user-activity.form-tab{title: 'Activity'}
+      .legend Activity
+      %table.sortable
+        %thead
+          %tr
+            %th Event
+            %th Time
+            %th Time
+
+        %tbody
+          - @user.action_logs.each do |log|
+            %tr
+              %td= log.action
+              %td= link_to(action_log_name(log.target), action_log_url(log.target))
+              %td.meta
+                %span.time= log.created_at
 
   = footer do
     = save_button

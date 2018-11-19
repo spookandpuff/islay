@@ -38,12 +38,39 @@ module ActiveRecord
       Thread.current[:current_user]
     end
 
+    # Provides the system user
+    def system_user
+      User.system
+    end
+
     # A callback handler which updates the user ID columns before save
     def update_user_ids
-      if current_user
-        self.creator_id = current_user.id if new_record?
-        self.updater_id = current_user.id
+      user = current_user || system_user
+      if user
+        self.creator_id = user.id if new_record?
+        self.updater_id = user.id
       end
+    end
+
+    # Create a user action log for the creation of new records
+    def log_creation
+      log_action :create
+    end
+
+    # Create a user action log for the updating of records
+    def log_update
+      log_action :update
+    end
+
+    # Create a user action log for the updating of records
+    def log_delete
+      log_action :delete
+    end
+
+    def log_action(action)
+      user = current_user || system_user
+
+      UserActionLog.for(user, action, self)
     end
 
     # Installs a before_save hook for updating the user IDs against a record.
@@ -53,10 +80,7 @@ module ActiveRecord
     #
     # @return nil
     def self.track_user_edits
-      before_save :update_user_ids
-      belongs_to :creator, :class_name => 'User'
-      belongs_to :updater, :class_name => 'User'
-      User.track_class(self)
+      include ActionTrackingConcern
       nil
     end
 

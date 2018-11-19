@@ -45,7 +45,7 @@ module Islay
       }
     end
 
-    # Defines an entry in the add items collection. These are links that are 
+    # Defines an entry in the add items collection. These are links that are
     # rendered in the Add Item dialog.
     #
     # @param String title
@@ -131,14 +131,18 @@ module Islay
       !!@config[:app]
     end
 
-    # Declare the namespace for the extension. This is a Symbol that should 
-    # resolve to a module. 
+    # Declare the namespace for the extension. This is a Symbol that should
+    # resolve to a module.
     #
-    # @param Symbol v
+    # @param Symbol|Module v
     # @return nil
     def namespace(v)
       @config[:namespace] = v
-      mod = @config[:module] = v.to_s.classify.constantize
+      mod = @config[:module] = if v.is_a? Symbol
+        v.to_s.classify.constantize
+      else
+        v
+      end
 
       if mod.const_defined?(:Engine)
         @config[:engine] = mod.const_get('Engine')
@@ -155,7 +159,7 @@ module Islay
     # @param String key
     # @param Proc blk
     # @return nil
-    def configuration(name, key, &blk) 
+    def configuration(name, key, &blk)
       Islay::Configuration.define(name, key, &blk)
       nil
     end
@@ -166,7 +170,7 @@ module Islay
     # @param Integer priority
     # @param Proc blk
     # @return nil
-    def nav_section(name, priority = 2, &blk) 
+    def nav_section(name, priority = 2, &blk)
       Islay::Navigation.section(name, priority, &blk)
       nil
     end

@@ -1,0 +1,68 @@
+.islay-content-header
+  border-bottom: 1px solid $light-grey
+  height: auto
+  min-height: $layout-breadcrumb-height
+
+  +for-phone
+    +pos-fixed(0, 0, false, 0)
+    background: $body-color
+    padding-left: $layout-breadcrumb-height
+    z-index: 10
+
+  .breadcrumb
+    +display-flex
+
+    +for-phone
+      overflow-x: auto
+
+      li
+        white-space: nowrap
+
+  .breadcrumb,
+  .filters,
+  .sort
+    min-height: $layout-breadcrumb-height
+
+  h2,
+  .breadcrumb
+    color: $text-color
+    font-weight: bold
+    font-size: 0.8rem
+    margin-left: $layout-gutter * 2
+    margin-top: 1rem
+
+    strong
+      color: $text-color
+
+  h2,
+  .breadcrumb li
+    align-self: center
+
+  .breadcrumb
+    li
+      margin-top: 0.5rem
+      margin-bottom: 0.5rem
+      display: inline-block
+
+      &:after
+        +islay-text-inset
+        content: '❯'
+        font-size: 0.5rem
+        line-height: 1.2
+        margin-right: 0.5rem
+        padding-left: 0.5rem
+
+      &:last-child
+        &:after
+          content: none
+    a
+      color: $sage-green
+      display: inline-block
+      text-decoration: none
+
+  > *
+    align-self: center
+
+  ol.breadcrumb
+    font-size: 0.85rem
+    margin: 0 1rem 0 0.8rem

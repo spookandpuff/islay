@@ -1,4 +1,21 @@
-%h3 Activity Log
+%h3 Your recent activity
+
+%table#user-logs
+  %thead
+    %tr
+      %th Event
+      %th Item
+      %th At
+
+  %tbody
+    - @user_logs.each do |log|
+      %tr
+        %td= log.action.humanize
+        %td= link_to("#{log.description}".html_safe, path(*log.url_params))
+        %td.meta
+          %span.time= log.created_at
+
+%h3 Site activity
 
 %table#activity-logs
   %thead
@@ -8,7 +25,7 @@
       %th At
 
   %tbody
-    - @logs.each do |log|
+    - @global_logs.each do |log|
       %tr(class="#{log.type}-log")
         %td
           - if log.user_name.blank?

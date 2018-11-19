@@ -1,4 +1,4 @@
-class CreateAssetTags < ActiveRecord::Migration
+class CreateAssetTags < ActiveRecord::Migration[4.2]
   def change
     create_table :asset_tags do |t|
       t.string :name, :null => false, :limit => 200

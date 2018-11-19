@@ -1,4 +1,4 @@
-class CreateSystemUser < ActiveRecord::Migration
+class CreateSystemUser < ActiveRecord::Migration[4.2]
   def up
     add_column(:users, :immutable, :boolean, :null => false, :default => false)
     execute(%{

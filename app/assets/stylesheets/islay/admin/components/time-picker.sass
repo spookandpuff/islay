@@ -1,0 +1,138 @@
+// timepicker.js - v2.4.0
+// A lightweight, customizable, TimePicker. Zero dependencies.
+// https://github.com/jonataswalker/timepicker.js
+// Built: Sat Jul 28 2018 12:21:57 GMT-0300 (Brasilia Standard Time)
+
+._jw-tpk-dark
+  color: #212121
+  box-shadow: #212121 0 0 0 1px inset
+  ._jw-tpk-header, ol > li > a._jw-tpk-selected
+    color: #F5F5F5
+    background: linear-gradient(#212121, #545454)
+
+._jw-tpk-blue-grey
+  color: #263238
+  box-shadow: #263238 0 0 0 1px inset
+  ._jw-tpk-header, ol > li > a._jw-tpk-selected
+    color: #CFD8DC
+    background: linear-gradient(#263238, #4f6875)
+
+._jw-tpk-container
+  position: absolute
+  width: 260px
+  height: 140px
+  padding: 0
+  background: #fff
+  font-family: inherit
+  font-weight: 400
+  overflow: hidden
+  border-radius: 3px
+  box-sizing: border-box
+  margin: 0 auto
+  max-width: 260px
+  line-height: 1rem
+  font-size: 1rem
+  &::before
+    content: ""
+    display: table
+  &::after
+    content: ""
+    display: table
+    clear: both
+  *
+    box-sizing: inherit
+    &::before, &::after
+      box-sizing: inherit
+  div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video
+    margin: 0
+    padding: 0
+    border: 0
+    font: inherit
+    font-size: 100%
+    vertical-align: baseline
+  table
+    border-collapse: collapse
+    border-spacing: 0
+  caption, th, td
+    text-align: left
+    font-weight: normal
+    vertical-align: middle
+  q, blockquote
+    quotes: none
+  q
+    &:before, &:after
+      content: ""
+      content: none
+  blockquote
+    &:before, &:after
+      content: ""
+      content: none
+  a img
+    border: none
+  *
+    text-decoration: none
+    outline: none
+    &:hover, &:focus, &.active
+      text-decoration: none
+      outline: none
+  &._jw-tpk-dragging
+    opacity: .85 !important
+    ._jw-tpk-header
+      cursor: -webkit-grabbing
+      cursor: grabbing
+  ol
+    text-align: center
+    list-style-type: none
+    > li
+      display: inline-block
+      > a
+        display: inline-block
+        padding: 3px 0
+        width: 25px
+        color: inherit
+        border-radius: 3px
+        border: 1px solid transparent
+        font-size: 0.875rem
+        &:not(._jw-tpk-selected):hover
+          cursor: pointer
+          border: 1px solid #ccc
+          border-right: 1px solid #aaa
+          border-bottom: 1px solid #aaa
+          background: whitesmoke
+          background: linear-gradient(#e6e6e6, whitesmoke)
+          box-shadow: 0 2px 3px rgba(220, 220, 220, 0.8)
+
+._jw-tpk-header
+  position: relative
+  font-weight: 600
+  text-align: center
+  cursor: -webkit-grab
+  cursor: grab
+  &::before
+    content: ""
+    display: table
+  &::after
+    content: ""
+    display: table
+    clear: both
+  > div
+    padding: 5px 0
+
+._jw-tpk-body
+  padding: 2px 0
+  &::before
+    content: ""
+    display: table
+  &::after
+    content: ""
+    display: table
+    clear: both
+
+._jw-tpk-hour
+  width: 59.42029%
+  float: left
+  margin-right: 1.44928%
+
+._jw-tpk-minute
+  width: 39.13043%
+  float: right

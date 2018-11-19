@@ -1,0 +1,103 @@
+/* -------------------------------------------------------------------------- */
+/* FORM TABS
+/* -------------------------------------------------------------------------- */
+.islay-form-tabs
+  box-sizing: border-box
+  float: left
+  padding: 0
+  position: relative
+  width: 100%
+
+  +for-phone
+    overflow-x: auto
+    white-space: nowrap
+
+  +for-tablet
+    &:after
+      +pos-absolute(false, 0, -1px, 0)
+      content: ''
+      border-bottom: 1px solid #DFDFDF
+      z-index: 0
+
+  li
+    line-height: 1
+    margin: 0 0 0 0.5rem!important
+    float: left
+
+    +for-phone
+      margin-right: 0.2rem
+      float: none
+      display: inline-block
+
+  a
+    +transition-property(background, color, border)
+    +transition-duration($duration-quick)
+    +pos-relative(false, false, -1px, false)
+    color: #666
+    display: block
+    text-decoration: none
+    z-index: 1
+
+    &:hover
+      background-color: #F4F4F4
+      color: #111
+
+    +for-tablet
+      +border-radius(0.2rem 0.2rem 0 0)
+      background-color: rgba(#000, 0.03)
+      background-image: linear-gradient(top, rgba(#000, 0.00), rgba(#000, 0.00) 50%, rgba(#000, 0.05) 100%)
+      border-bottom: 0
+      border: 1px solid #DFDFDF
+      font-size: 0.85rem
+      line-height: 1
+      padding: 0.75rem 1.25rem 0.7rem 1.25rem
+
+      &:after
+        content: ''
+        position: absolute
+        bottom: -1px
+        left: 0
+        right: 0
+        display: block
+
+      &.current
+        background-color: #FFF
+        background-image: none
+        color: #111
+        &:after
+          background: #FFF
+          height: 1px
+
+    +for-phone
+      font-size: 0.75rem
+      padding: 0.5rem 0.75rem 0.45rem 0.75rem
+      border-bottom: 0.3rem solid transparent
+
+      &.current
+        color: #111
+        border-bottom: 0.3rem solid #DFDFDF
+
+
+  a.has-errors
+
+    &:before
+      $has-errors-alert-dimension: 1.25rem
+      +border-radius(50%)
+      background-color: $error-color
+      content: '!'
+      height: $has-errors-alert-dimension
+      width: $has-errors-alert-dimension
+      display: block
+      color: #FFF
+      line-height: $has-errors-alert-dimension
+      text-align: center
+      +pos-absolute(-0.5rem, -0.5rem)
+
+fieldset.form-tab
+  padding-top: 0!important
+
+.form-tab
+  border-top: 0!important
+
+  +for-phone
+    overflow-x: auto

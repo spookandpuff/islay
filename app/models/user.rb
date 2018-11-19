@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+  include Islay::MetaData
+  include RolesConcern
+
   devise :database_authenticatable, :recoverable, :validatable
 
   before_destroy :check_immutable_flag
@@ -9,17 +12,21 @@ class User < ActiveRecord::Base
   include PgSearch
   multisearchable :against => [:name, :email]
 
+  roles :admin
+
+  has_many :action_logs, class_name: 'UserActionLog'
+
   # Returns the system user. This is an always-present, immutable user used for
   # logging actions made by Islay e.g. migrations, background tasks etc.
   #
   # @return User
   def self.system
-    where(:email => 'system@spookandpuff.com').first
+    where("email LIKE 'system@%'").first
   end
 
   def self.filtered(filter)
     case filter
-    when 'all' then all
+    when 'all' then all? { |e|  }
     when 'disabled' then where(:disabled => true)
     else where(:disabled => false)
     end
@@ -47,8 +54,8 @@ class User < ActiveRecord::Base
   # @return nil
   # @api private
   def self.track_class(klass)
-    creator_assoc = :"created_#{klass.to_s.underscore.pluralize}"
-    updater_assoc = :"updated_#{klass.to_s.underscore.pluralize}"
+    creator_assoc = :"created_#{klass.name.demodulize.underscore.pluralize}"
+    updater_assoc = :"updated_#{klass.name.demodulize.underscore.pluralize}"
 
     has_many creator_assoc, :class_name => klass.to_s, :foreign_key => :creator_id
     has_many updater_assoc, :class_name => klass.to_s, :foreign_key => :updater_id
@@ -57,6 +64,12 @@ class User < ActiveRecord::Base
     updater_association_names.add(updater_assoc)
 
     nil
+  end
+
+  # Allows a set of restricted keys in the metadata
+  # Designed to be overwritten in implementing apps
+  def self.restricted_metadata(attr_name)
+    false
   end
 
   # A predictate which checks to see if the user has created or modified any
@@ -106,6 +119,16 @@ class User < ActiveRecord::Base
     !new_record? and !immutable? and !modified_records?
   end
 
+  track_user_edits
+
+  # This is a hook designed to be used by applications using Islay's auth
+  # It just checks for 'disabled' here
+  def can_log_in?
+    !disabled
+  end
+
+
+
   private
 
   class ImmutableRecordError < StandardError
@@ -144,4 +167,6 @@ class User < ActiveRecord::Base
   def password_required?
     !persisted? || !password.blank? || !password_confirmation.blank?
   end
+
+  check_for_extensions
 end

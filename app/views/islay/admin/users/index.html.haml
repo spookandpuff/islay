@@ -24,9 +24,9 @@
               %i.icon-ok{:title => "This user's account is enabled"} &nbsp;
           %td
             - if user.immutable?
-              %span.title= user.name
+              %span= user.name
             - else
-              = link_to(user.name, path(:edit, user), :class => 'title')
+              = link_to(user.name, path(:edit, user))
           %td
             %span.time= user.updated_at
 

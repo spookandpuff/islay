@@ -32,7 +32,7 @@ module Islay
       # @return [nil, String]
       def form_errors(object)
         unless object.errors.empty?
-          render :partial => 'islay/admin/shared/form_errors', locals: {object: object}
+          content_for :feedback_message, render(:partial => 'islay/admin/shared/form_errors', locals: {object: object})
         end
       end
 
@@ -191,7 +191,7 @@ module Islay
       # @param Hash opts
       # @return String
       def main_nav(name, icon, path_name, opts = {})
-        id ||= name.parameterize('-')
+        id ||= name
         url = path(path_name)
         root = opts.delete(:root)
 
@@ -326,7 +326,7 @@ module Islay
       # @param [nil, true, false] root
       # @return [true, false]
       def current_entry?(url, root)
-        (root and request.original_url == url) or (!root and request.original_url.match(%r{^#{url}}))
+        (root and request.original_url == url) or request.original_url.match(%r{^#{url}})
       end
 
       # This method is used to capture the main content for a page and wrap it
@@ -343,7 +343,9 @@ module Islay
         if request.xhr?
           output
         else
-          content_tag(:div, output, opts.merge(:id => 'content'))
+          content_tag(:div, opts.merge(:id => 'content')) do
+            content_tag(:div, output, class: 'content-el-liner')
+          end
         end
       end
 
@@ -368,8 +370,8 @@ module Islay
       # @param ActiveRecord::Base record
       #
       # @return String
-      def edit_button(record)
-        link_to('Edit', path(:edit, record), :class => 'button edit')
+      def edit_button(*record)
+        link_to('Edit', path(:edit, *record), :class => 'button edit')
       end
 
       # Creates an cancel button for a record. Default route will point to the
@@ -461,13 +463,20 @@ module Islay
         output
       end
 
+
+      def feedback_message
+        content_for :feedback_message
+      end
+
       # Writes out navigation entries specified by engines which are extending the
       # core engine.
       #
       # TODO: Memoize this in production.
       def extension_nav_entries
         Islay::Engine.nav_entries.map do |name, e|
-          main_nav(e[:title], e[:icon], e[:route], e[:opts].dup)
+          if can? :nav, e[:route].to_sym
+            main_nav(e[:title], e[:icon], e[:route], e[:opts].dup)
+          end
         end.flatten.join.html_safe
       end
 
@@ -477,6 +486,29 @@ module Islay
       # @return String
       def simple_format(text)
         render_markdown text
+      end
+
+      # Cells 3 style cell render call.
+      def render_cell(name, state, *args)
+        cell(name).(state, *args)
+      end
+
+      deprecate :render_cell
+
+      def action_log_url(target)
+        begin
+          path(target)
+        rescue
+          ''
+        end
+      end
+
+      def action_log_name(target)
+        if target.respond_to? :name
+          target.name
+        else
+          target.class.name.humanize
+        end
       end
     end # AdminHelpers
   end # Admin

@@ -27,6 +27,11 @@ module Islay
       def metadata(col, &blk)
         self._metadata = Attributes.new(self, col, &blk)
       end
+
+      def add_metadata(col, &blk)
+        self._metadata ||= Attributes.new(self, col)
+        self._metadata.assign_attributes(&blk)
+      end
     end
 
     class ExistingAttributeError < StandardError
@@ -49,6 +54,10 @@ module Islay
         @model      = model
         @attributes = {}
 
+        assign_attributes(&blk)
+      end
+
+      def assign_attributes(&blk)
         instance_eval(&blk)
       end
 
@@ -111,6 +120,10 @@ module Islay
         define_attribute(name, :money, :money, opts)
       end
 
+      def bitmask(name, opts = {})
+        define_attribute(name, :bitmask, :integer, opts)
+      end
+
       private
 
       def define_validations(name, type, primitive, opts)
@@ -118,39 +131,41 @@ module Islay
           @model.validates_presence_of(name)
         end
 
-        if opts[:format]
-          @model.validates_format_of(name, opts[:format])
-        end
-
-        if opts[:length]
-          @model.validates_length_of(name, opts[:length])
-        end
-
-        if primitive == :integer || primitive == :float
-          config = {}
-
-          if primitive == :integer
-            config[:only_integer] = true
+        if type != :bitmask
+          if opts[:format]
+            @model.validates_format_of(name, opts[:format])
           end
 
-          if opts[:greater_than]
-            config[:greater_than] = opts[:greater_than]
+          if opts[:length]
+            @model.validates_length_of(name, opts[:length])
           end
 
-          if opts[:less_than]
-            config[:less_than] = opts[:less_than]
+          if primitive == :integer || primitive == :float
+            config = {}
+
+            if primitive == :integer
+              config[:only_integer] = true
+            end
+
+            if opts[:greater_than]
+              config[:greater_than] = opts[:greater_than]
+            end
+
+            if opts[:less_than]
+              config[:less_than] = opts[:less_than]
+            end
+
+            unless opts[:required]
+              config[:allow_nil] = true
+            end
+
+            @model.validates_numericality_of(name, config)
           end
 
-          unless opts[:required]
-            config[:allow_nil] = true
+          if opts[:values] and type != :foreign_key
+            values = opts[:values].is_a?(Hash) ? opts[:values].values : opts[:values]
+            @model.validates_inclusion_of(name, :in => values, :allow_nil => true)
           end
-
-          @model.validates_numericality_of(name, config)
-        end
-
-        if opts[:values] and type != :foreign_key
-          values = opts[:values].is_a?(Hash) ? opts[:values].values : opts[:values]
-          @model.validates_inclusion_of(name, :in => values, :allow_nil => true)
         end
       end
 
@@ -167,7 +182,12 @@ module Islay
             end
           }
         else
-          %{ _metadata.coerce_#{primitive}(data_column['#{name}']) }
+          case type
+          when :bitmask
+            %{ _metadata.read_bitmask(data_column['#{name}'], send(:#{opts[:values]}))}
+          else
+            %{ _metadata.coerce_#{primitive}(data_column['#{name}']) }
+          end
         end
 
         writer = case primitive
@@ -176,7 +196,12 @@ module Islay
             self[_metadata.col] = data_column.merge('#{name}' => v)
           }
         else
-          %{self[_metadata.col] = data_column.merge('#{name}' => _metadata.coerce_#{primitive}(v))}
+           case type
+           when :bitmask
+             %{self[_metadata.col] = data_column.merge('#{name}' => _metadata.coerce_bitmask(v, send(:#{opts[:values]})))}
+           else
+             %{self[_metadata.col] = data_column.merge('#{name}' => _metadata.coerce_#{primitive}(v))}
+           end
         end
 
         @model.class_eval %{
