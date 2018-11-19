@@ -7,7 +7,7 @@ class SingleAssetInput < SimpleForm::Inputs::CollectionSelectInput
   #
   # @return String
   def input
-    selected = object[attribute_name]
+    selected = object.send attribute_name.to_sym
     vals = collection.map do |a|
       opts = {:value => a.id, 'data-preview' => a.previews.url(:thumb)}
       opts[:selected] = 'selected' if a.id == selected

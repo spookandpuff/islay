@@ -60,7 +60,7 @@ $SP.where('.show').select('#content').run(function(panel) {
   panel.islayFormTabs();
 });
 
-$SP.where('.[show, index]').select('table.sortable').run(function(table) {
+$SP.where('.[show, index, edit]').select('table.sortable').run(function(table) {
   var SortableTable = new Islay.SortableTable({el: $(table).closest('form')});
 });
 

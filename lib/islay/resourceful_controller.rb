@@ -124,5 +124,17 @@ module Islay
       parent = resource_parent[:class].find(params[resource_parent[:param]])
       instance_variable_set("@#{resource_parent[:name]}", parent)
     end
+
+    def creating?
+      %w{new create}.include? params[:action]
+    end
+
+    def editing?
+      params[:action] == 'edit'
+    end
+
+    def viewing?
+      params[:action] == 'show'
+    end
   end
 end

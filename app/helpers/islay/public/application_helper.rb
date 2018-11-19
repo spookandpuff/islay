@@ -17,9 +17,9 @@ module Islay::Public::ApplicationHelper
       config = record.content_with_config(content)
 
       case config[:type]
-      when :markdown  then render_markdown(config[:value], opts[:level] || 1)
-      when :text      then simple_format(config[:value])
-      when :string    then config[:value]
+      when :markdown          then render_markdown(config[:value], opts[:level] || 1)
+      when :text              then simple_format(config[:value])
+      when :string, :color    then config[:value]
       when :image
         if opts[:url_only]
           version_image_url(config[:value].asset, opts[:version]) if config[:value]

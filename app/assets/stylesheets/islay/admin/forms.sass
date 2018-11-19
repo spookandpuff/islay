@@ -2,6 +2,15 @@
 /* FORM
 /* -------------------------------------------------------------------------- */
 
+$border-width: 0.1em
+$input-v-padding: 0.45em
+$input-h-padding: 0.6em
+$field-margin: 1em
+$field-height: $border-width * 2 + $input-v-padding * 2 + 1em
+$form-inset-color: $light-grey + 20
+$error-color: #952B2B
+$error-color-light: #ffac9e
+
 #islay-form
   #content
     +box-sizing(border-box)
@@ -51,6 +60,9 @@
   fieldset.member-tree legend,
   label
     color: #606D7B !important
+    font-weight: bold
+    width: 7.5rem
+
     float: left
     font-weight: bold
     margin-right: 1em
@@ -79,6 +91,42 @@
       &.boolean
         &:after
           content: none
+
+  .form-block
+    +clear-fix
+    margin-top: 1rem
+    padding-top: 1rem
+    position: relative
+
+    &:before
+      content: ''
+      display: block
+      position: absolute
+      top: 0
+      right: 3.5rem
+      left: 7.5rem
+      border-top: 1px solid $light-grey
+
+    &:first-child,
+    legend:first-child + &
+      &:before
+        content: none
+
+    &:last-child
+      padding-bottom: 2.5rem
+
+    &.compact
+      padding-top: 0
+
+      &:before
+        content: none
+
+    .form-block-note
+      color: #666
+      font-size: 0.85rem
+      margin-left: 8.25rem
+      margin-bottom: 1.25rem
+
 
   .field
     margin-bottom: $field-margin
@@ -193,8 +241,8 @@ form
   .markdown-editor-canvas
     width: 100%
 
-
-  input[type=number]
+  input[type=number],
+  input[name*=price]
     width: 100%
     -webkit-appearance: none
     -moz-appearance: textfield
@@ -246,7 +294,6 @@ form
     max-width: 18rem
     width: 20%
 
-
 /* -------------------------------------------------------------------------- */
 /* ERROED FIELDS
 /* -------------------------------------------------------------------------- */
@@ -274,6 +321,7 @@ form
     +text-shadow(0 0.1rem 0.1rem rgba(#000, 0.5))
     color: #FFF
     margin-left: 0!important
+
 
   h3
     font-weight: bold
@@ -318,6 +366,38 @@ form
 /* FANCY WIDGETS
 /* -------------------------------------------------------------------------- */
 
+$widget-border-color: #B3BBC3
+$widget-border-radius: 0.2em
+$widget-width: 32em + ($input-h-padding * 2)
+$widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
+
+@mixin input-border
+  border: $border-width solid $widget-border-color
+
+@mixin widget-gradient($mode: regular)
+  @if $mode == regular
+    +background-image(linear_gradient(white, $very-light-grey))
+  @else
+    +background-image(linear_gradient($very-light-grey, white))
+
+@mixin widget-border-radius($portions: all)
+  @if $portions == all
+    +border-radius($widget-border-radius)
+  @else if $portions == left
+    +border-left-radius($widget-border-radius)
+  @else if $portions == right
+    +border-right-radius($widget-border-radius)
+  @else if $portions == bottom
+    +border-bottom-radius($widget-border-radius)
+  @else if $portions == top
+    +border-top-radius($widget-border-radius)
+  @else if $portions == top-only
+    +border-bottom-radius(0)
+    +border-top-radius($widget-border-radius)
+  @else if $portions == bottom-only
+    +border-top-radius(0)
+    +border-bottom-radius($widget-border-radius)
+
 .widget
   .widget-frame
     cursor: default
@@ -329,7 +409,6 @@ form
     height: $widget-height
 
   .selected
-
     background: #4D69A2 !important
     border-color: #4D69A2 !important
 
@@ -404,7 +483,6 @@ form
   .select2-choice
     +widget-border-radius
     +input-border
-    +widget-gradient
     height: $widget-height
 
     span
@@ -798,12 +876,13 @@ form
   +widget-gradient
   +widget-border-radius
   +input-border
-  padding: 0 $input-h-padding + 0.3em
-  height: $widget-height
-  width: 8em
-  display: inline-block
   cursor: pointer
+  display: inline-block
+  float: left
+  height: $widget-height
+  padding: 0 $input-h-padding + 0.3em
   position: relative
+  width: 8em
 
   .display
     margin-top: 0.7em
@@ -836,7 +915,6 @@ form
 
   .select2-choice
     +input-border
-    +widget-gradient
     color: black
     padding: 0
     height: $widget-height
@@ -927,9 +1005,6 @@ form
     .input-wrapper
       background: rgb(212, 61, 28)
 
-
-
-
 /* -------------------------------------------------------------------------- */
 /* MEMBER TREE
 /* -------------------------------------------------------------------------- */
@@ -971,3 +1046,11 @@ fieldset.member-tree
   li li
     input
       margin-left: 2.6em
+
+
+#islay-form
+  .editable-grid
+    .field
+      margin-bottom: 0
+      label
+        display: none

@@ -1,0 +1,29 @@
+.credit-card-detail
+  +box-shadow(0 0.1em 0.3em 0.1em rgba(0,0,0,0.1))
+  +border-radius(0.6em)
+  +background-image(linear-gradient(white, $light-grey + 20))
+  border: 0.1em solid $light-grey - 20
+  text-transform: uppercase
+  padding: 1.5em
+  width: 17em
+  float: left
+
+  span
+    float: left
+
+  .type
+    font-size: 1.3em
+    margin-bottom: 2em
+
+  .number
+    font-size: 1.3em
+    font-weight: bold
+    white-space: nowrap
+    width: 100%
+
+  .name,
+  .expiry
+    margin: 1em 0 0 0
+
+  .expiry
+    float: right

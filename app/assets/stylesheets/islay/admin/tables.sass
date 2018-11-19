@@ -56,9 +56,15 @@ table
 
   td.stock,
   th.stock,
+
   td.number,
   th.number,
     width: 5rem
+
+  th.quantity,
+  td.quantity
+    width: 4em
+
 
   /* YES/NO FLAGS */
   th.boolean,
@@ -90,7 +96,8 @@ table
         font-size: 1rem
 
     &:before
-      font-size: 1.6em
+      +opacity(0.85)
+      font-size: 0.85rem
       font-weight: bold
 
     &.true
