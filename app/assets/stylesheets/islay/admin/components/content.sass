@@ -5,6 +5,14 @@
   width: 100%
   z-index: 1
 
+  > *
+    +transition-property(opacity)
+    +transition-duration(400ms)
+    +opacity(0.1)
+
+    html[data-state=is-ready] &
+      +opacity(1)
+
   &.inset
     +box-sizing(border-box)
     padding-left: $layout-gutter
