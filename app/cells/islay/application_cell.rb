@@ -1,6 +1,6 @@
 class Islay::ApplicationCell < Cell::ViewModel
   # Include all the application helper methods and
-  include ApplicationHelper
+  include Islay::ApplicationHelper
 
   # You need to include controller methods you where using from Rails explicitly.
   include AbstractController::Helpers
