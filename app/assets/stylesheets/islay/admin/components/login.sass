@@ -4,7 +4,7 @@
 
 body#login
   // +background-image(radial-gradient(top right, $sage-green - 20, ($sage-green - 60)))
-  background-color: $side-bar-color
+  background-color: darken($sage-green, 30)
   color: #FFF
   height: 100%
   height: 100vh
@@ -12,11 +12,18 @@ body#login
   margin: 0
   padding: 0
 
+
   &:before
     +pos-absolute-fill
-    +background-image(radial-gradient(bottom left, rgba($sage-green, 0.3), rgba(darken($sage-green, 50), 0.5)))
+    +background-image(linear-gradient(bottom, $sage-green, darken($sage-green, 20)))
     content: ''
     z-index: 1
+    +transition-property(opacity)
+    +transition-duration(800ms)
+    +opacity(0.1)
+
+    html[data-state=is-ready] &
+      +opacity(1)
 
   .login-el-liner
     align-items: center
@@ -27,7 +34,6 @@ body#login
   .login-container
     // +pos-absolute-fill
     box-sizing: border-box
-    +box-shadow(0 0.5rem 3rem rgba(#000, 0.3))
     background: #EEE
     border-top: 1px solid #FFF
     color: #333
@@ -38,6 +44,16 @@ body#login
     padding: $layout-gutter
     width: 40%
     z-index: 3
+    +transition-property(opacity, transform, box-shadow)
+    +transition-duration(800ms)
+    +transition-delay(400ms, 400ms, 1000ms)
+    +translateY(1rem)
+    +opacity(0)
+
+    html[data-state=is-ready] &
+      +box-shadow(0 0.5rem 3rem rgba(#000, 0.3))
+      +opacity(1)
+      +translateY(0rem)
 
     +for-phone
       width: 95%
@@ -50,6 +66,11 @@ body#login
       float: none
       margin-bottom: 0
 
+      .input-wrapper
+        max-width: none
+        min-width: 0
+        width: 100%
+
       input
         +border-radius(0.25rem 0.25rem 0 0)
         -webkit-appearance: none
@@ -57,11 +78,15 @@ body#login
         border-bottom: 0 none
         float: none
         margin-bottom: 0
+        max-width: none
+        min-width: 0
+        width: 100%
 
       & + .field
         input
           +border-radius(0 0 0.25rem 0.25rem)
           border-bottom: 1px solid #DDD
+          margin-bottom: 1rem
 
     h2
       font-size: 1.8em
