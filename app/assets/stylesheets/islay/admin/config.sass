@@ -46,7 +46,7 @@ $highlight-color: #2C5A8D
 $positive-color: #39A22B
 $negative-color: #C42217
 $neutral-color: #439DF3
-$header-border-color: #C2CBD5
+$header-border-color: #cdd5de
 $attention-color: #F1FFE6
 
 $selected-background-color: #2C5A8D
@@ -59,14 +59,14 @@ $text-color: #222
 $text-color-subtle: #808080
 
 $link-color: #2E56E0
-$link-hover-color: $link-color + 20
+$link-hover-color: lighten($link-color, 20)
 $link-active-color: #AA3E1C
 $link-visited-color: #584BB1
 
-$side-bar-link-color: $link-color + 50
-$side-bar-link-hover-color: $link-hover-color + 50
-$side-bar-link-active-color: link-active-color + 50
-$side-bar-link-visited-color: link-visited-color + 50
+$side-bar-link-color: lighten($link-color, 25)
+$side-bar-link-hover-color: lighten($link-hover-color, 25)
+$side-bar-link-active-color: lighten($link-active-color, 25)
+$side-bar-link-visited-color: lighten($link-visited-color, 25)
 
 $tag-color: #FAF5D5
 $tag-border-color: #d8d7ce

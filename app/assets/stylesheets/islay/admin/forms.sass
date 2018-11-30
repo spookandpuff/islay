@@ -682,7 +682,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
         vertical-align: -0.15em
 
     &:hover
-      border: 1px solid $link-color + 100
+      border: 1px solid lighten($link-color, 50)
 
 
 /* MULTI-ASSETS & SINGLE ASSET */
@@ -1022,7 +1022,7 @@ fieldset.member-tree
   ul.top
     +border-radius(0.3em)
 
-    background: $form-inset-color + 10
+    background: lighten($form-inset-color, 10)
     border: $border-width solid $light-grey
     float: left
     width: 25em

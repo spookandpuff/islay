@@ -7,6 +7,10 @@
     .details
       display: none
 
+    .collapsible-toggle
+      i
+        +rotate(0)
+
   &.expanded
 
     .summary
@@ -15,7 +19,17 @@
     .details
       display: block
 
+    .collapsible-toggle
+      i
+        +rotate(90deg)
+
 .collapsible-toggle,
 .collapsible-expander,
 .collapsible-collapser
   cursor: pointer
+
+.collapsible-toggle
+  i
+    +transform-origin(center)
+    +transition-property(transform)
+    +transition-duration($duration-base)

@@ -30,16 +30,15 @@ table
 
   td.meta
     color: $dark-grey
-    font-size: 0.9em
+    font-size: 0.75rem
     line-height: 1.2
-    width: 10rem
+    max-width: 10rem
 
   th.currency,
   td.currency
     font-family: $alternate-font-family
-    font-weight: $alternate-font-weight
     text-align: char
-    width: 6em
+    width: 6rem
 
   td.boolean,
   td.indicator,
@@ -57,7 +56,6 @@ table
 
   td.stock,
   th.stock,
-
   td.number,
   th.number,
     width: 5rem
@@ -121,16 +119,16 @@ table
 
   /* THE MAIN COLUMN */
   .title
+    display: inline-block
     font-family: $alternate-font-family
     font-weight: $alternate-font-weight
-    font-size: 1.2em
+    font-size: 1rem
     text-decoration: none
-    float: left
 
   /* INDICATOR FOR COUNTS, STATUSES */
   th.indicator,
   td.indicator
-    width: 8em
+    width: 8rem
 
   td.indicator
     padding-top: 0.5em
@@ -220,7 +218,7 @@ tr td:first-child
 tr.selected
   td
     background: $selected-background-color
-    border-color: $selected-background-color + 50
+    border-color: lighten($selected-background-color, 30)
     color: $selected-foreground-color
 
     a
@@ -228,14 +226,14 @@ tr.selected
       color: $selected-foreground-color
 
     .summary
-      color: $selected-background-color + 75
+      color: lighten($selected-background-color, 30)
 
     &.meta
-      color: $selected-background-color + 90
+      color: lighten($selected-background-color, 40)
 
   &:nth-child(odd)
     td
-      background: $selected-background-color + 10
+      background: lighten($selected-background-color, 10)
 
   .boolean:before
     color: rgba(255, 255, 255, 0.6)!important
@@ -298,6 +296,23 @@ table
 
   .level-4 .title
     margin-left: 4em
+
+table
+  td.collapsible
+    position: relative
+
+  .collapsible-toggle
+    +pos-absolute(0, 0, 0)
+    width: 2.5rem
+    i
+      color: #999
+      padding: 0.75rem
+      width: 1rem
+      height: 1rem
+      margin: auto
+      text-align: center
+      line-height: 1rem
+      +pos-absolute-fill
 
 +for-phone
   table.sortable

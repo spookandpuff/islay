@@ -126,7 +126,7 @@ body
 
 .statuses
   border-bottom: 0
-  margin-top: 0.5rem
+  margin-bottom: $layout-gutter
   margin-left: $layout-gutter
 
   li
@@ -136,7 +136,7 @@ body
     display: none
 
   .value
-    +border-radius(0.2em)
+    +border-radius(0.25em)
     +background-image($dimension-dished)
     padding: 0.25rem 0.6rem 0.2rem
     margin: 0 0 0.2rem 0
@@ -268,7 +268,7 @@ body
     +icon-caret-up
     +border-top-left-radius(0)
     +border-bottom-left-radius(0)
-    border-left-color: $button-secondary-color + 20
+    border-left-color: lighten($button-secondary-color, 20)
 
   .move-down
     +icon-caret-down
@@ -277,7 +277,7 @@ body
     border-left-width: 0
 
 .selection-controls
-  +background-image(linear-gradient($selected-background-color + 80, $selected-background-color + 60))
+  +background-image(linear-gradient(lighten($selected-background-color, 50), lighten($selected-background-color, 35)))
 
   .position-controls
     float: left
@@ -309,15 +309,16 @@ body
 /* For statuses and counts.
 /* -------------------------------------------------------------------------- */
 span.indicator
-  +border-radius(0.2em)
+  +border-radius(0.25rem)
   text-transform: uppercase
   background-color: $mid-grey
   color: white
-  text-align: center
   font-family: $alternate-font-family
   font-weight: $alternate-font-weight
-  padding: 0.3em 0.4em
-  float: left
+  font-size: 0.7rem!important
+  padding: 0.25rem 0.5rem
+  display: inline-block
+  margin-left: 0.33rem
 
   &.neutral
     background-color: $neutral-color
@@ -338,7 +339,7 @@ span.indicator
     background-color: $negative-color
 
 .indicator.status
-  font-size: 0.9em
+  font-size: 0.7rem
   white-space: nowrap
 
 /* -------------------------------------------------------------------------- */
@@ -369,14 +370,14 @@ span.indicator
   a
     +unstyled-link
     +border-radius(0.2em)
-    border: 0.1em solid $light-grey - 20
+    border: 0.1em solid darken($light-grey, 20)
     padding: 0.3em 0.5em
     margin-right: 0.7em
     float: left
 
   .current-true a
-    border-color: $neutral-color - 20
-    color: $neutral-color - 40
+    border-color: darken($neutral-color, 20)
+    color: darken($neutral-color, 40)
     font-weight: bold
 
 

@@ -163,28 +163,26 @@
     bottom: 0
     width: 100%
 
-    strong
-      text-indent: 0.4em
-      float: left
+    a
+      display: block
+      margin-left: 1.75rem
+      text-indent: 0
 
     // TODO: This might have to be removed in the future i.e. when selectors
     // are less promiscuous.
     button
+      margin-left: 1.75rem
       border-width: 0
       font-weight: normal
       background: transparent
       text-shadow: none
+      color: #EEE
       margin: 0.4em 0 0 0
       padding: 0
-      float: right
 
-      i
-        position: static
-        color: white
+    strong
+      text-indent: 0
 
-      span
-        position: absolute
-        left: -1000em
 
 // Main Navigation states
 .islay-main-nav
@@ -246,7 +244,7 @@
       &:after
         +transition-property(right)
         +transition-duration($duration-quick)
-        border-color: transparent $nav-color + 10 transparent transparent
+        border-color: transparent darken($nav-color, 20) transparent transparent
         border-style: solid
         border-width: 0.5em 0.5em 0.5em 0
         content: ''
@@ -267,13 +265,19 @@
 
   // Sub Navigation
 .islay-sub-nav
-  background-color: $nav-color + 10
+  background-color: $nav-color
   height: 100%
   left: $collapsed-nav-width
   position: absolute
   top: 0
   width: $nav-width - $collapsed-nav-width
   z-index: 1
+
+  &:before
+    content: ''
+    border: 1px solid transparent
+    +pos-absolute(2rem, false, 2rem, 0)
+    +box-shadow(0 0 1rem darken($nav-color, 20))
 
   +for-large-desktop
     left: $nav-width
