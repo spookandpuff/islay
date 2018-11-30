@@ -64,7 +64,7 @@ $SP.where('.[show, index, edit]').select('table.sortable').run(function(table) {
   var SortableTable = new Islay.SortableTable({el: $(table).closest('form')});
 });
 
-$SP.where('.[show, edit, create, update]').select('div.collapsible, li.collapsible').run(function(collection) {
+$SP.where('.[show, edit, create, update, index]').select('div.collapsible, li.collapsible, td.collapsible').run(function(collection) {
   _.each(collection, function(collapser){
     var Collapsible = new Islay.Collapsible({el: $(collapser)});
   });
@@ -111,7 +111,7 @@ $(function() {
   $('button.print').click(function(){window.print()});
 
   // Where specified, make table headers stick to the top of the screen
-  $('#content table.fixed-header').stickyTableHeaders({fixedOffset: $('.islay-layout-header')});
+  $('#content table.fixed-header').stickyTableHeaders();
 
   $SP.init();
 
