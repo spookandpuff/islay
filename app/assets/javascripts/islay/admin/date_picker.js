@@ -25,7 +25,7 @@
 
     $(document).click($.proxy(this, 'clickOutside'));
 
-    this.$label.after(this.$wrapper)
+    this.$input.after(this.$wrapper);
     this.$input.hide();
   };
 
