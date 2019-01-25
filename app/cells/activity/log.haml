@@ -11,7 +11,11 @@
     - @user_logs.each do |log|
       %tr
         %td= log.action.humanize
-        %td= link_to("#{log.description}".html_safe, path(*log.url_params))
+        %td
+          - begin
+            = link_to("#{log.description}".html_safe, path(*log.url_params))
+          - rescue ArgumentError
+            = "#{log}".html_safe
         %td.meta
           %span.time= log.created_at
 
