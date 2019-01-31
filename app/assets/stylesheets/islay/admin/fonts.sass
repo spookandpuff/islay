@@ -1201,6 +1201,30 @@ $icon-font-name: FontAwesome
     @content
     content: "\f0da"
 
+@mixin icon-angle-left
+  &:before
+    font-family: $icon-font-name
+    @content
+    content: "\f104"
+
+@mixin icon-angle-right
+  &:before
+    font-family: $icon-font-name
+    @content
+    content: "\f105"
+
+@mixin icon-angle-double-left
+  &:before
+    font-family: $icon-font-name
+    @content
+    content: "\f100"
+
+@mixin icon-angle-double-right
+  &:before
+    font-family: $icon-font-name
+    @content
+    content: "\f101"
+
 @mixin icon-columns
   &:before
     font-family: $icon-font-name

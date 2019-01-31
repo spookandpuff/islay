@@ -14,7 +14,7 @@
 //= require ../../vendor/medium-editor
 //= require ../../vendor/medium-editor.markdown
 //= require ../../vendor/moment
-//= require ../../vendor/timepicker
+//= require ../../vendor/jquery.timepicker
 //= require_tree .
 //= require_extensions
 

@@ -37,7 +37,7 @@
       }
       else {
         if (!this.picker) {
-          this.picker = new Kalendae(this.$wrapper[0], {selected: this.current, useYearNav: false});
+          this.picker = new Kalendae(this.$wrapper[0], {selected: this.current, useYearNav: this.$input.is('[data-years=true]' || false)});
           this.picker.subscribe('change', $.proxy(this, 'updateFromPicker'));
           this.$picker = $(this.picker.container);
         }
