@@ -2,8 +2,8 @@
 
 = resource_form(@resource, :method => :delete) do |f|
   = content do
-    %h3 Delete this Record?
-    %p This action cannot be undone.
+    %h3 Really delete this record?
+    %p This action can't be undone.
     - unless request.xhr?
       = cancel_button(nil, @cancel_url)
       = button_tag('Delete', :class => 'delete')

@@ -389,8 +389,8 @@ module Islay
       # @param ActiveRecord::Base record
       #
       # @return String
-      def delete_button(record)
-        link_to('Delete', path(:delete, record), :title => 'Confirm Deletion', :class => 'button delete')
+      def delete_button(*record)
+        link_to('Delete', path(:delete, *record), :title => 'Confirm Deletion', :class => 'button delete')
       end
 
       # Creates a save button for a record. To be used within a form.

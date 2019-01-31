@@ -152,7 +152,7 @@ Islay.Dialogs.Confirmation = Islay.Dialogs.Base.extend({
   },
 
   confirmButtonText: function() {
-    return this.options.confirmButtonText || 'OK';
+    return this.options.confirmButtonText || 'Yes, delete';
   },
 
   loaded: function(res) {
