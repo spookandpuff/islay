@@ -29,23 +29,32 @@ module Islay
           end
         end
 
-        env.register_preprocessor "text/css", extension_style_preprocessor
-      end
+        extension_script_preprocessor = -> (input) do
+          @admin_scripts ||= Islay::Engine.extensions.entries.select {|n, e| e.admin_scripts?}.keys.map do |k|
+            "//= require #{k.to_s.downcase}/admin/#{k.to_s.downcase}"
+          end.join("\n")
 
+          result = if input[:filename].match(%r{admin/islay})
+            input[:data].gsub(%r{//= require_extensions}, @admin_scripts)
+          else
+            input[:data]
+          end
 
-      admin_scripts = entries.select {|n, e| e.admin_scripts?}.keys.map {|k| "//= require #{k}/admin/#{k}"}.join("\n")
-
-      app.config.assets.unregister_preprocessor "application/javascript", ::Sprockets::DirectiveProcessor
-
-      app.config.assets.register_preprocessor "application/javascript", :extension_scripts do |context, data|
-        if context.logical_path.match(%r{admin/islay})
-          data.gsub(%r{//= require_extensions}, admin_scripts)
-        else
-          data
+          {data: result}
         end
-      end
 
-      app.config.assets.register_preprocessor "application/javascript", ::Sprockets::DirectiveProcessor
+        env.register_preprocessor "text/css", extension_style_preprocessor
+
+        # For scripts, we are injecting more directives which need to be processed by ::Sprockets::DirectiveProcessor
+        # Sprockets doesn't give control over the order, so we need to unregister the DirectiveProcessor, add our own,
+        # then re-register DirectiveProcessor
+        js_directive_processor = env.processors['application/javascript'].find{|p|p.is_a? ::Sprockets::DirectiveProcessor}
+
+        env.unregister_preprocessor "application/javascript", js_directive_processor
+        env.register_preprocessor "application/javascript", extension_script_preprocessor
+        env.register_preprocessor "application/javascript", js_directive_processor
+
+      end
 
       # Add Islay JS and CSS to the precompile
       app.config.assets.precompile += ['islay/admin/favicon.png', 'islay/admin/favicon.ico', 'islay/admin/islay.js', 'islay/admin/islay.css', 'islay/admin/islay_print.css']
