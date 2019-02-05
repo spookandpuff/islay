@@ -829,46 +829,6 @@ $widget-height: 1.1005rem + ($input-v-padding * 2) + ($border-width * 2)
     overflow: hidden
     position: relative
 
-/* ISLAY ASSET PICKER */
-.islay-form-asset-picker
-  float: left
-
-  li
-    +input-border
-    +border-radius(0.2em)
-
-    border: 0.1em solid $light-grey
-    background: white
-    float: left
-    height: 8em
-    margin-right: 1em
-    overflow: hidden
-    position: relative
-    width: 8em
-    padding: 0.5em
-
-  img
-    width: 100%
-    height: 100%
-    object-fit: contain
-
-  .remove
-    padding: 0.2em
-    position: absolute
-    left: 0.3em
-    cursor: pointer
-    font-size: 1.5em
-
-  .add
-    cursor: pointer
-
-    i
-      text-align: center
-      line-height: 5em
-      width: 100%
-      display: block
-      font-size: 1.6em
-
 /* DATE PICKER */
 
 $date-time-picker-width: 12rem
@@ -886,6 +846,13 @@ $date-time-picker-width: 12rem
   padding: 0 $input-h-padding
   position: relative
   width: $date-time-picker-width
+
+  .field.readonly &,
+  .field.disabled &
+    .display,
+    .button
+      color: rgba(0, 0, 0, 0.25)
+      cursor: default
 
   .display
     line-height: $widget-height

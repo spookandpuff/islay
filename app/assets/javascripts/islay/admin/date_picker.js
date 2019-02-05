@@ -31,6 +31,7 @@
 
   DatePicker.prototype = {
     toggle: function(e) {
+      if (this.$input.attr('disabled') || this.$input.attr('readonly')) {return false}
       if (this.open && this.$picker.has(e.target).length === 0) {
         this.$picker.hide();
         this.open = false;

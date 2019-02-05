@@ -15,6 +15,7 @@ class Asset < ActiveRecord::Base
   has_many    :tags,      -> {order("name")}, :through => :taggings
 
   metadata(:metadata) do
+    text   :description
     string :credit
     string :credit_url
   end
@@ -80,8 +81,17 @@ class Asset < ActiveRecord::Base
     end
   end
 
+  # The latest n assets to be uploaded
+  def self.latest(n = 10)
+    where("id IN (SELECT id FROM assets ORDER BY created_at DESC LIMIT ?)", n)
+  end
+
   def friendly_duration
     "#{(duration / 60).round(2)} minutes" if duration
+  end
+
+  def latest?
+    self.class.latest.pluck(:id).include?(id)
   end
 
   # Indicates if the asset has any previews. For some assets, we can't provide

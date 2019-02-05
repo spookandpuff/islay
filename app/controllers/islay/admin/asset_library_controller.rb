@@ -12,7 +12,13 @@ module Islay
 
       def browser
         @albums = AssetGroup.of(params[:only]).order('name ASC')
-        @assets = Asset.summaries.of(params[:only])
+
+        @assets = if params[:only]
+          Asset.summaries.of(params[:only])
+        else
+          Asset.latest
+        end
+
         render :layout => false
       end
     end

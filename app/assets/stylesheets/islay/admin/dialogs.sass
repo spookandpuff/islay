@@ -48,24 +48,26 @@
       cursor: pointer !important
 
   .toolbar
+    +display-flex
     +background-image(linear-gradient(#F4F4F4, #E9E9E9))
     border-bottom: 0.1em solid #BABABA
-    height: 3em
+    height: 3rem
     width: 100%
-    float: left
 
     .albums
       +background-image(linear-gradient(#F5F5F5, #D5D5D5))
       +border-radius(0.3em)
       border: 0.1em solid #BABABA
+      height: 2rem
       margin: 0.6em 0 0 1em
       width: 20em
-      float: left
       position: relative
 
       .display
-        padding: 0.5em 0.9em
+        padding: 0 0.5rem
         width: 15.5em
+        height: 2rem
+        line-height: 2rem
         position: relative
         float: left
 
@@ -75,7 +77,8 @@
         border-left: $border-width solid $widget-border-color
         height: 1.95em
         padding: 0 $input-h-padding
-        float: right
+        +pos-absolute(0, 0, 0)
+        margin: auto 0 auto auto
 
         span
           color: #72828E
@@ -91,7 +94,7 @@
         +border-bottom-radius(0.3em)
         border: 0.1em solid #BABABA
         background: white
-        padding: 0.4em 0
+        padding: 0.5rem 0
         width: 20em
         position: absolute
         left: -0.1em
@@ -100,20 +103,22 @@
 
       li
         cursor: pointer
-        padding: 0.4em 1em
+        padding: 0.5rem
         position: relative
 
         span.count
           right: 1em !important
 
       span.count
-        +border-radius(0.3em)
-        background: $highlight-color
-        color: white
-        padding: 0.3em 0.4em
+        +border-radius(0.5rem)
+        background: #DFDFDF
+        color: #222
+        padding: 0.25rem 0.5rem
         position: absolute
+        font-size: 0.65rem
         right: 0
-        top: 0.3em
+        top: 0.25rem
+        line-height: 1
 
 
     .search
@@ -125,11 +130,10 @@
       float: right
 
   .asset-grid
-    float: left
-    margin-left: 2%
+    +box-sizing(border-box)
     overflow-y: auto
     overflow-x: visible
-    width: 98%
+    width: 100%
 
     li
       cursor: pointer
@@ -146,6 +150,35 @@
           +text-shadow(0 1px 1px rgba(0,0,0,0.5))
         .frame
           border-color: lighten($highlight-color,35)
+
+      .liner
+        &[data-format=pdf],
+        &[data-format=doc],
+        &[data-format=xls]
+          .frame
+
+            &:before
+              +pos-absolute-fill
+              color: #CCC
+              font-size: 2.4rem
+              height: 2.4rem
+              line-height: 1
+              margin: auto
+              width: 2rem
+
+          &[data-format=pdf]
+            .frame
+              +icon-file-pdf
+
+          &[data-format=doc]
+            .frame
+              +icon-file-pdf
+
+          &[data-format=xls]
+            .frame
+              +icon-file-pdf
+
+
 
   .content
     +box-sizing(border-box)
