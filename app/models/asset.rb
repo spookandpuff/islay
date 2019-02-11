@@ -110,6 +110,10 @@ class Asset < ActiveRecord::Base
     status == 'processed'
   end
 
+  def document?
+    self.is_a? DocumentAsset
+  end
+
   # Just a simple accessor for exposing an uploaded file before it is processed.
   #
   # @return [File, nil]

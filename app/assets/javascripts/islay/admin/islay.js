@@ -64,7 +64,7 @@ $SP.where('.[show, index, edit]').select('table.sortable').run(function(table) {
   var SortableTable = new Islay.SortableTable({el: $(table).closest('form')});
 });
 
-$SP.where('.[show, edit, create, update, index]').select('div.collapsible, li.collapsible, td.collapsible').run(function(collection) {
+$SP.where('.[new, show, edit, create, update, index]').select('div.collapsible, li.collapsible, td.collapsible').run(function(collection) {
   _.each(collection, function(collapser){
     var Collapsible = new Islay.Collapsible({el: $(collapser)});
   });
