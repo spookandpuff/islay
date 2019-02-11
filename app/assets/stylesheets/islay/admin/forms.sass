@@ -76,6 +76,9 @@
     +for-phone
       text-align: left
       margin-bottom: 0.25rem
+      width: 100%
+      margin-right: 0
+      max-width: none!important
 
   label
     font-weight: normal
@@ -87,6 +90,13 @@
         display: block
         font-size: 0.7rem
         margin-top: 0.125rem
+
+        +for-phone
+          color: lighten($text-color-subtle, 20)
+          display: inline-block
+          float: right
+          margin-left: 0.5rem
+          margin-top: 0
 
       &.boolean
         &:after
