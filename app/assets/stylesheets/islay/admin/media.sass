@@ -1,19 +1,27 @@
 //Media queries used in the admin UI
 
 =for-phone
-  @media all and (max-width: 42em)
+  @media screen and (max-width: 42em)
     @content
 
 =for-tablet
-  @media all and (min-width: 42em)
+  @media screen and (min-width: 42em)
     @content
 
 =for-desktop
-  @media all and (min-width: 76em)
+  @media screen and (min-width: 76em)
     @content
 
 =for-large-desktop
-  @media all and (min-width: 92em)
+  @media screen and (min-width: 92em)
+    @content
+
+=for-print
+  @media print
+    @content
+
+=for-screen
+  @media screen
     @content
 
 .print-only

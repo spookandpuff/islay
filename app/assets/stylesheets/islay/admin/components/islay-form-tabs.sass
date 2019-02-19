@@ -8,6 +8,9 @@
   position: relative
   width: 100%
 
+  +for-print
+    display: none
+
   +for-phone
     overflow-x: auto
     white-space: nowrap
@@ -101,3 +104,14 @@ fieldset.form-tab
 
   +for-phone
     overflow-x: auto
+
+  +for-print
+    +clear-fix
+    display: block!important
+
+    > legend,
+    > .legend
+      +type-medium
+      display: block!important
+      font-weight: bold
+      margin: 2rem 0 1rem 0
