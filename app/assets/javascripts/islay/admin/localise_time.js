@@ -6,13 +6,15 @@
   var localise = function() {
     var $this = $(this),
         original = $this.text(),
-        time = moment(original).lang('en');
+        time = moment(original, false);
 
-    $this.attr('title', original);
-    if ($this.data('format')) {
-      $this.text(time.format($this.data('format')));
-    } else {
-      $this.text(time.calendar());
+    if (time.isValid()) {
+      $this.attr('title', original);
+      if ($this.data('format')) {
+        $this.text(time.format($this.data('format')));
+      } else {
+        $this.text(time.calendar());
+      }
     }
   };
 

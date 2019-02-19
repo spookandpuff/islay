@@ -17,7 +17,7 @@
           - rescue ArgumentError
             = "#{log}".html_safe
         %td.meta
-          %span.time= log.created_at
+          %span.time= log.created_at.iso8601
 
 %h3 Site activity
 
@@ -25,6 +25,7 @@
   %thead
     %tr
       %th{colspan: 2} Event
+
       %th Item
       %th At
 
@@ -39,4 +40,4 @@
         %td= log.event.humanize
         %td= link_to("<strong>#{log.friendly_type}:</strong> #{log.name}".html_safe, log.url)
         %td.meta
-          %span.time= log.created_at
+          %span.time= log.created_at.iso8601

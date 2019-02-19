@@ -20,7 +20,7 @@
 
 // Customise moment so it puts days first. This is a bit cheaper than putting
 // in support for languages.
-moment.lang('en', {
+moment.locale('en', {
   longDateFormat : {
     LT: "h:mm A",
     L: "DD/MM/YYYY - h:mm A",
