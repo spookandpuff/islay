@@ -26,22 +26,24 @@
     $(document).click($.proxy(this, 'clickOutside'));
 
     this.$input.after(this.$wrapper);
-    this.$input.hide();
+    // this.$input.hide();
   };
 
   DatePicker.prototype = {
     toggle: function(e) {
       if (this.$input.attr('disabled') || this.$input.attr('readonly')) {return false}
       if (this.open && this.$picker.has(e.target).length === 0) {
-        this.$picker.hide();
-        this.open = false;
-      }
-      else {
+        this.close();
+      } else {
         if (!this.picker) {
           this.picker = new Kalendae(this.$wrapper[0], {selected: this.current, useYearNav: this.$input.is('[data-years=true]' || false)});
           this.picker.subscribe('change', $.proxy(this, 'updateFromPicker'));
           this.$picker = $(this.picker.container);
         }
+
+        $(document).on('keypress.datePicker', $.proxy(this, 'keyPress'));
+        $(window).on('keydown.datePicker', $.proxy(this, 'catchKey'));
+
         this.$picker.show();
         this.open = true;
       }
@@ -49,9 +51,75 @@
 
     clickOutside: function(e) {
       if (this.open && !this.$wrapper.is(e.target) && this.$wrapper.has(e.target).length === 0) {
-        this.$picker.hide();
-        this.open = false;
+        this.close();
       }
+    },
+
+    keyPress: function(e) {
+
+      var val = [];
+
+      //The first key press should clear the input
+      if (!this.keyEntry()) {
+        this.clear();
+      } else {
+        val = this.$display.text().split('');
+      }
+
+      switch (e.key) {
+        case '/':
+        case '-':
+          val.push('/');
+          e.preventDefault();
+        break;
+        default:
+          if (e.which >=48 && e.which <=57) {
+            //This is 0-9
+            val.push(e.key);
+          }
+        break;
+      }
+
+      //Update the user's display with progress
+      this.$display.text(val.join(''));
+
+      //Check if we have a complete date
+      var date = moment(val.join(''), 'DD/MM/YYYY', true);
+
+      if (date.format() == 'Invalid date') {
+        this.$input.val('');
+      } else {
+        //Update the input, since this looks legit
+        this.update(date.format('YYYY-MM-DD'));
+        this.$input.data('has-key-entry', false);
+      }
+    },
+
+    catchKey: function(e) {
+      if (e.key === 'Backspace') {
+        e.preventDefault();
+        this.clear();
+        return false;
+      }
+    },
+
+    keyEntry: function() {
+      var result = this.$input.data('has-key-entry') ? true : false;
+      this.$input.data('has-key-entry', true);
+      return result;
+    },
+
+    clear: function(){
+      this.$input.val('');
+      this.$display.text('');
+    },
+
+    close: function(){
+      this.$picker.hide();
+      this.open = false;
+
+      $(document).off('.datePicker');
+      $(window).off('.datePicker');
     },
 
     update: function(date) {
