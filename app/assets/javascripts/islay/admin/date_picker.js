@@ -36,7 +36,11 @@
         this.close();
       } else {
         if (!this.picker) {
-          this.picker = new Kalendae(this.$wrapper[0], {selected: this.current, useYearNav: this.$input.is('[data-years=true]' || false)});
+          this.picker = new Kalendae(this.$wrapper[0], {
+            selected: this.current,
+            useYearNav: this.$input.is('[data-years=true]' || false),
+          }
+        );
           this.picker.subscribe('change', $.proxy(this, 'updateFromPicker'));
           this.$picker = $(this.picker.container);
         }
@@ -80,17 +84,21 @@
         break;
       }
 
-      //Update the user's display with progress
-      this.$display.text(val.join(''));
-
       //Check if we have a complete date
       var date = moment(val.join(''), 'DD/MM/YYYY', true);
 
       if (date.format() == 'Invalid date') {
+        console.log('boo')
         this.$input.val('');
+
+        //Update the user's display with progress
+        this.$display.text(val.join(''));
       } else {
         //Update the input, since this looks legit
-        this.update(date.format('YYYY-MM-DD'));
+        console.log('yay')
+        this.picker.addSelected(date);
+        this.$display.text(date.format('DD/MM/YYYY'));
+        this.$input.val(date.format('YYYY-MM-DD'));
         this.$input.data('has-key-entry', false);
       }
     },
@@ -126,7 +134,7 @@
       var val = moment(date);
       this.current = val;
       this.$display.text(val.format('DD/MM/YYYY'));
-      this.$input.val(val.format('YYYY-MM-DD'))
+      this.$input.val(val.format('YYYY-MM-DD'));
     },
 
     updateFromPicker: function() {
