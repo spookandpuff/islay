@@ -26,7 +26,7 @@
     $(document).click($.proxy(this, 'clickOutside'));
 
     this.$input.after(this.$wrapper);
-    // this.$input.hide();
+    this.$input.hide();
   };
 
   DatePicker.prototype = {
