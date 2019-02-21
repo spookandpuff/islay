@@ -88,14 +88,12 @@
       var date = moment(val.join(''), 'DD/MM/YYYY', true);
 
       if (date.format() == 'Invalid date') {
-        console.log('boo')
         this.$input.val('');
 
         //Update the user's display with progress
         this.$display.text(val.join(''));
       } else {
         //Update the input, since this looks legit
-        console.log('yay')
         this.picker.addSelected(date);
         this.$display.text(date.format('DD/MM/YYYY'));
         this.$input.val(date.format('YYYY-MM-DD'));
@@ -125,7 +123,6 @@
     close: function(){
       this.$picker.hide();
       this.open = false;
-
       $(document).off('.datePicker');
       $(window).off('.datePicker');
     },
@@ -140,8 +137,7 @@
     updateFromPicker: function() {
       var date = this.picker.getSelectedRaw()[0];
       this.update(date);
-      this.$picker.hide();
-      this.open = false;
+      this.close();
     }
   };
 
