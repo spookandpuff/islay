@@ -18,9 +18,7 @@
     var val = this.$input.val().trim();
     if (_.isEmpty(val)) {
       this.update(new Date());
-    }
-    else {
-      console.log('init', this.$input.attr('id'), this.$input.val())
+    } else {
       this.update(val);
     }
 
@@ -88,7 +86,7 @@
       //Check if we have a complete date
       var date = moment(val.join(''), 'DD/MM/YYYY', true);
 
-      if (date.format() == 'Invalid date') {
+      if (!(val.join('').match(/\d{2}\/\d{2}\/\d{4}/))) {
         this.$input.val('');
 
         //Update the user's display with progress
@@ -129,7 +127,6 @@
     },
 
     update: function(date) {
-      console.log('update', this.$input.attr('id'), date)
       var val = moment(date, false);
       this.current = val;
       this.$display.text(val.format('DD/MM/YYYY'));
@@ -138,7 +135,6 @@
 
     updateFromPicker: function() {
       var date = this.picker.getSelectedRaw()[0];
-      console.log('updateFromPicker', this.$input.attr('id'), date)
       this.update(date);
       this.close();
     }
