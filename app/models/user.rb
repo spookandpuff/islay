@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   include Islay::MetaData
   include RolesConcern
 
-  devise :database_authenticatable, :recoverable, :validatable
+  devise :database_authenticatable, :recoverable, :validatable, :invitable
 
   before_destroy :check_immutable_flag
   before_save    :check_immutable_flag
@@ -165,7 +165,7 @@ class User < ActiveRecord::Base
   #
   # @return [true, false]
   def password_required?
-    !persisted? || !password.blank? || !password_confirmation.blank?
+    can_log_in? and !new_record?
   end
 
   check_for_extensions
