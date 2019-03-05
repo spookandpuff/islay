@@ -7,7 +7,6 @@ class Islay::Admin::Users::InvitationsController < Devise::InvitationsController
   private
 
   def after_sign_in_path_for(resource)
-    binding.pry
     admin_root_url
   end
 
