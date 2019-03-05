@@ -1,0 +1,15 @@
+%h2 Activate your account
+
+%p.note Choose a strong password to activate your account. Your password should be at least #{User::USER_PASSWORD_LENGTH_MIN} characters.
+
+- if flash['alert']
+  %p.login-el-error= flash['alert']
+
+= simple_form_for(resource, as: resource_name, url: invitation_path(resource_name), html: { method: :put }) do |f|
+  = f.input :password, :autofocus => true, :placeholder => 'Choose password'
+  = f.input :password_confirmation, :placeholder => 'Confirm password'
+
+  .button-bar
+    %button(type='submit') Activate account
+
+  = f.input :invitation_token, readonly: true, as: :hidden

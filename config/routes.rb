@@ -4,13 +4,13 @@ Rails.application.routes.draw do
       :users,
       :path         => "admin",
       :path_names   => {:sign_in => 'login', :sign_out => 'logout'},
-      :controllers  => { :sessions => "islay/admin/sessions", :passwords => "islay/admin/passwords" }
+      :controllers  => {:sessions => "islay/admin/sessions", :passwords => "islay/admin/passwords", :invitations => "islay/admin/users/invitations"}
     )
   end
 
   islay_admin 'islay' do
     root to: 'dashboard#index'
-    
+
     # DASHBOARD & SEARCH
     get '/'         => 'dashboard#index',     :as => 'dashboard'
     get '/add-item' => 'dashboard#add_item',  :as => 'add_item'

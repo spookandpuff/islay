@@ -463,9 +463,15 @@ module Islay
         output
       end
 
-
       def feedback_message
-        content_for :feedback_message
+        if content_for? :feedback_message
+          content_for :feedback_message
+        elsif flash[:alert]
+          render(
+            :partial => 'islay/admin/shared/feedback_message',
+            :locals => {:message =>  flash[:alert]}
+          )
+        end
       end
 
       # Writes out navigation entries specified by engines which are extending the

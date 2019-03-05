@@ -5,8 +5,10 @@
 = content(:class => 'inset') do
   = column(8) do
     - primary_cells.each do |n|
-      .cell(id="#{n.to_s.parameterize}-cell")
-        = cell(n).(:index)
+      - cell_content = cell(n).(:index)
+      - binding.pry
+      - if cell_content.present?
+        .cell(id="#{n.to_s.parameterize}-cell")= cell_content
 
     #activity-cell.cell.report-cell= cell(:activity).(:log)
 

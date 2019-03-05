@@ -1,43 +1,52 @@
 %h3 Your recent activity
 
-%table#user-logs
-  %thead
-    %tr
-      %th Event
-      %th Item
-      %th At
+- if @user_logs.empty?
+  %table#user-logs
+    %tbody
+      %tr.empty
+        %td.note Items you have worked on will appear here.
 
-  %tbody
-    - @user_logs.each do |log|
+- else
+
+  %table#user-logs
+    %thead
       %tr
-        %td= log.action.humanize
-        %td
-          - begin
-            = link_to("#{log.description}".html_safe, path(*log.url_params))
-          - rescue ArgumentError
-            = "#{log}".html_safe
-        %td.meta
-          %span.time= log.created_at.iso8601
+        %th Event
+        %th Item
+        %th At
 
-%h3 Site activity
+    %tbody
+      - @user_logs.each do |log|
+        %tr
+          %td= log.action.humanize
+          %td
+            - begin
+              = link_to("#{log.description}".html_safe, path(*log.url_params))
+            - rescue ArgumentError
+              = "#{log}".html_safe
+          %td.meta
+            %span.time= log.created_at.iso8601
 
-%table#activity-logs
-  %thead
-    %tr
-      %th{colspan: 2} Event
+- if can? :manage, :all
+  %h3 Site activity
 
-      %th Item
-      %th At
+  %table#activity-logs
+    %thead
+      %tr
+        %th{colspan: 2} Event
 
-  %tbody
-    - @global_logs.each do |log|
-      %tr(class="#{log.type}-log")
-        %td
-          - if log.user_name.blank?
-            Self
-          - else
-            #{log.user_name.humanize}
-        %td= log.event.humanize
-        %td= link_to("<strong>#{log.friendly_type}:</strong> #{log.name}".html_safe, log.url)
-        %td.meta
-          %span.time= log.created_at.iso8601
+        %th Item
+        %th At
+
+    %tbody
+      - @global_logs.each do |log|
+        %tr(class="#{log.type}-log")
+          %td
+            - if log.user_name.blank?
+              Self
+            - else
+              #{log.user_name.humanize}
+          %td= log.event.humanize
+          %td= link_to("<strong>#{log.friendly_type}:</strong> #{log.name}".html_safe, log.url)
+          %td.meta
+            %span.time= log.created_at.iso8601
