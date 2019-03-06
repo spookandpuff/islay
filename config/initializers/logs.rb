@@ -2,7 +2,7 @@ ActivityLog.register(:asset, AssetLogDecorator, %{
   SELECT
     'asset' AS type,
     updated_at AS created_at,
-    (SELECT name FROM users WHERE id = updater_id) AS user_name,
+    (SELECT name FROM users WHERE id = updater_id LIMIT 1) AS user_name,
     update_status(created_at, updated_at) AS event,
     REPLACE(type, 'Asset', ' - ') || name AS name,
     id,
@@ -15,7 +15,7 @@ ActivityLog.register(:asset_group, AssetGroupLogDecorator, %{
   SELECT
     'asset_group' AS type,
     updated_at AS created_at,
-    (SELECT name FROM users WHERE id = updater_id) AS user_name,
+    (SELECT name FROM users WHERE id = updater_id LIMIT 1) AS user_name,
     update_status(created_at, updated_at) AS event,
     name,
     id,
