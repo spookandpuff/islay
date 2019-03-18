@@ -6,7 +6,6 @@
   = column(8) do
     - primary_cells.each do |n|
       - cell_content = cell(n).(:index)
-      - binding.pry
       - if cell_content.present?
         .cell(id="#{n.to_s.parameterize}-cell")= cell_content
 
