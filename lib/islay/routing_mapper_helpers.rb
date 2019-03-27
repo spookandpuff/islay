@@ -32,7 +32,7 @@ class ActionDispatch::Routing::Mapper
   # @return nil
   def islay_public(mod, &blk)
     scope :module => mod do
-      namespace(:public, {:path => '', :protocol => 'http://'}, &blk)
+      namespace(:public, {:path => '', :protocol => secure_protocol}, &blk)
     end
   end
 
@@ -49,4 +49,3 @@ class ActionDispatch::Routing::Mapper
     end
   end
 end
-
