@@ -26,6 +26,8 @@ require 'acts_as_list'
 require 'draper'
 require 'premailer'
 
+require "core_ext/active_record/querying"
+
 require "islay/engines"
 require "islay/engine"
 require "islay/core_ext"
