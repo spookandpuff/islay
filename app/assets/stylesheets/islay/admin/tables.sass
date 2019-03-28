@@ -248,6 +248,13 @@ tfoot
   td
     background-color: #F6F6F6
 
+  th, td
+    &:first-child:last-child
+      a.button:last-child
+        float: right
+      a.button:first-child
+        float: left
+
   .total
     td
       font-size: 1.2em
