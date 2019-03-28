@@ -1,7 +1,7 @@
 /* -------------------------------------------------------------------------- */
 /* SEGMENTED RADIO BUTTONS
 /* Restyles a group of radio buttons into a segmented control. To use, call
-/* $('.radio-buttons').islayRadioButtons() where the target element is the 
+/* $('.radio-buttons').islayRadioButtons() where the target element is the
 /* parent of multiple radio buttons.
 /* -------------------------------------------------------------------------- */
 (function($){
@@ -9,6 +9,7 @@
     this.$wrapper = $('<span class="islay-form-radio-buttons"></span>');
     this.inputs = {};
     this.segments = {};
+
     var self = this; // Ugh! fuckin jQuery's scoping bullshit
     var changeProxy = $.proxy(this, 'change');
 
@@ -29,7 +30,11 @@
 
     this.$wrapper.click($.proxy(this, 'click'));
 
-    el.append(this.$wrapper);
+    if (el.is('.hinted')) {
+      this.$wrapper.insertBefore(el.find('.hint'));
+    } else {
+      el.append(this.$wrapper);
+    }
   };
 
   RadioButtons.prototype = {
