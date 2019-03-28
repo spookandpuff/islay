@@ -36,7 +36,7 @@ Gem::Specification.new do |s|
   s.add_dependency "pg",                            "~> 0.18.1"
   s.add_dependency "pg_search",                     "~> 0.7.0"
   s.add_dependency 'friendly_id',                   "~> 5.2.1"
-  s.add_dependency "inherited_resources",           "~> 1.8.0"
+  s.add_dependency "inherited_resources",           "~> 1.9"
   s.add_dependency "rmagick",                       "~> 2.16.0"
   s.add_dependency "mime-types",                    '~> 3.2', '>= 3.2.2'
   s.add_dependency "fog-aws",                       "~> 1.4.1"
