@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rails",                         "~> 5.2.2.1"
   s.add_dependency 'rails-observers',               "~> 0.1.5"
   s.add_dependency 'cells-rails',                   '~> 0.0.9'
-  s.add_dependency "devise",                        "~> 4.6.1"
+  s.add_dependency "devise",                        '~> 4.6', '>= 4.6.2'
   s.add_dependency "devise_invitable",              "~> 2.0.0"
   s.add_dependency 'cancancan',                     '~> 2.2'
   s.add_dependency "responders",                    "~> 2.4.0"
@@ -49,7 +49,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rdiscount',                     '~> 1.6.8'
   s.add_dependency "acts_as_list",                  "~> 0.1.8"
   s.add_dependency "premailer",                     "~> 1.11.1"
-  s.add_dependency 'draper',                        '~> 3.0.1'
+  s.add_dependency 'draper',                        '~> 3.1.0'
   s.add_dependency 'bootsnap',                      '~> 1.3', '>= 1.3.1'
   s.add_dependency 'sprockets-rails',               '~> 3.2', '>= 3.2.1'
 
