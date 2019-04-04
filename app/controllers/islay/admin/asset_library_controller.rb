@@ -1,4 +1,4 @@
-class Islay::Admin::AssetsController < Islay::Admin::ApplicationController
+class Islay::Admin::AssetLibraryController < Islay::Admin::ApplicationController
   header 'Asset Library'
   nav_scope :asset_library
 
