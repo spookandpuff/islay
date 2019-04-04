@@ -1,6 +1,6 @@
 #islay-admin-dashboard
   .cell
-    margin-bottom: 1rem
+    margin-bottom: 2rem
     width: 100%
     float: left
 
@@ -17,15 +17,12 @@
         margin-right: 0.6em
 
     h3
+      border: 0!important
       clear: both
-      float: left
       font-size: 1.5rem
       padding: 0 0 0.75rem!important
       margin-bottom: 0!important
       text-indent: 0
-
-    + .cell
-      margin-top: 1.25rem
 
     p.notice
       @extend %notice
@@ -38,6 +35,10 @@
 
     table
       border: 1px solid $light-grey!important
+      margin-bottom: 1rem
+
+      &:last-child
+        margin-bottom: 0
 
     table + h3
       margin: 1.25rem 0 0 0!important

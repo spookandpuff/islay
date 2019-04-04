@@ -8,7 +8,7 @@
         original = $this.text(),
         time = moment(original, false);
 
-    if (time.isValid()) {
+    if (time && time.isValid()) {
       $this.attr('title', original);
       if ($this.data('format')) {
         $this.text(time.format($this.data('format')));

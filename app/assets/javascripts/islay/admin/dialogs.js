@@ -30,8 +30,7 @@ Islay.Dialogs.Base = Backbone.View.extend({
       // TODO: Show loading widget
       if (this.format == 'JSON') {
         $.getJSON(url, this._ajaxSuccess);
-      }
-      else {
+      } else {
         $.get(url, this._ajaxSuccess);
       }
     }
