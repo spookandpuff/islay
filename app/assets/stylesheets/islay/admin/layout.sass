@@ -44,6 +44,11 @@ body
     +display-flex
     justify-content: space-between
 
+    .button, button
+      margin: 0.5rem 1rem 0
+      max-height: 1rem
+
+
   +for-tablet
     left: $body-margin-left
   +for-large-desktop
@@ -61,6 +66,7 @@ body
     line-height: $footer-height
     padding: 0
     margin: 0
+    max-height: none
     position: relative
     overflow: hidden
     text-indent: -999rem
@@ -363,25 +369,72 @@ span.indicator
 /* PAGINATION
 /* -------------------------------------------------------------------------- */
 #pagination
-  padding-top: 0.7em
-  margin-left: 1em
-  float: left
+  +display-flex
 
-  li, a
-    float: left
+  &:before
+    content: 'Page'
+    font-size: 0.7rem
+    color: $text-color-subtle
+    line-height: $footer-height
+    display: inline-block
+    margin-left: 1rem
+    margin-right: 0.5rem
+
+  li
+    margin: 0
+    padding: 0
+    position: relative
 
   a
     +unstyled-link
-    +border-radius(0.2em)
-    border: 0.1em solid darken($light-grey, 20)
-    padding: 0.3em 0.5em
-    margin-right: 0.7em
-    float: left
+    +border-radius(0)
+    background: transparent
+    border: 0
+    cursor: pointer
+    display: block
+    height: $footer-height
+    line-height: $footer-height
+    margin: 0
+    padding: 0
+    position: relative
 
-  .current-true a
-    border-color: darken($neutral-color, 20)
-    color: darken($neutral-color, 40)
-    font-weight: bold
+    text-align: center
+    min-width: $footer-height * 00.75
+
+    &:before
+      +pos-absolute-fill
+      text-indent: 0
+      padding: 0
+
+  .previous,
+  .next
+    display: none
+
+  .current-true
+    &:before
+      +pos-absolute(-0.85rem, 0, false, 0)
+      text-shadow: 0 1.5px 0 $light-grey
+      content: '\f0d7'
+      color: #FFF
+      font-family: FontAwesome
+      font-size: 2rem
+      font-weight: bold
+      line-height: 1
+      text-align: center
+
+    a
+      color: darken($neutral-color, 40)
+      cursor: default
+
+  .current-false
+    a
+      &:hover,
+      &:focus
+        &:before
+          content: ''
+          background: rgba(#000, 0.1)
+          +pos-absolute(0.5rem, 0.33rem, 0.5rem, 0.33rem)
+
 
 
 /* -------------------------------------------------------------------------- */
