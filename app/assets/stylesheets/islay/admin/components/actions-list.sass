@@ -15,9 +15,55 @@ table.actions-list
       td, th
         background: #FFF
 
-    p.note
+    p.note,
+    dl.note,
+    ul.note,
+    ol.note
       +note-text
+
+    dl.note,
+    ul.note,
+    ol.note
+      margin-top: 0.5rem
+
+    p.note
       margin-bottom: 0!important
+
+    .note
+      li,
+      dd
+        margin-bottom: 0.5rem
+
+      dt
+        font-family: $monospace-font-family
+        margin-bottom: 0.25rem
+        color: #333
+
+  .collapsible
+    +transition-property(max-height)
+    +transition-duration($duration-base)
+    max-height: 30rem
+
+  td .collapsible > *
+    +transition-property(opacity)
+    +transition-duration($duration-base)
+    +transition-delay($duration-base)
+    +opacity(1)
+
+  tr.is-hidden
+    td, th
+      padding-top: 0
+      padding-bottom: 0
+      border: 0
+
+    .collapsible
+      max-height: 0
+      overflow: hidden
+
+    td
+      .collapsible
+        > *
+          +opacity(0)
 
     form,
     .button-bar

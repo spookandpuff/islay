@@ -38,6 +38,11 @@
           $a.addClass('has-errors');
         }
 
+        // transfer any notification info from fieldset to tab
+        if ($fieldset.is('[data-has-notifications]')) {
+          $a.attr('data-has-notifications', $fieldset.attr('data-has-notifications'));
+        }
+
         // See if we have to leave this tab open, or close it.
         if (hash && hash === name) {
           this.select(name);

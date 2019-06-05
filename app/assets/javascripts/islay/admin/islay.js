@@ -18,6 +18,7 @@
 //= require_tree .
 //= require_extensions
 
+
 // Customise moment so it puts days first. This is a bit cheaper than putting
 // in support for languages.
 moment.lang('en', {

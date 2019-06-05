@@ -96,6 +96,21 @@
       text-align: center
       +pos-absolute(-0.5rem, -0.5rem)
 
+  a[data-has-notifications]
+
+    &:before
+      $has-errors-alert-dimension: 1.25rem
+      +border-radius(50%)
+      background-color: #4FC29D
+      content: attr(data-has-notifications)
+      height: $has-errors-alert-dimension
+      width: $has-errors-alert-dimension
+      display: block
+      color: #FFF
+      line-height: $has-errors-alert-dimension
+      text-align: center
+      +pos-absolute(-0.5rem, -0.5rem)
+
 fieldset.form-tab
   padding-top: 0!important
 

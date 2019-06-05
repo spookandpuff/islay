@@ -33,7 +33,7 @@
     var target = $(e.target),
         wrapper = target.closest('.select-wrapper');
 
-    wrapper.attr('data-' + target.attr('name'), target.val());
+    wrapper.attr('data-' + target.attr('name').replace(/[\[\]]/g, '-'), target.val());
   });
 
   $.fn.islaySubSelect = function(){
