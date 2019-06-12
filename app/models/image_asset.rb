@@ -4,6 +4,10 @@ class ImageAsset < Asset
 
   self.asset_processor = ImageAssetProcessor
 
+  def url
+    versions.url :original, 'https://'
+  end
+
   def dimensions
     "#{width}x#{height}" if width? and height?
   end
