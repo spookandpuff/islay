@@ -1,4 +1,7 @@
 class Islay::Admin::ApplicationController < Islay::ApplicationController
+  include Islay::Admin::ExtensibleStylesheetConcern
+  include Islay::Admin::FeedbackConcern
+
   use_https
 
   layout 'layouts/islay/application'
@@ -20,16 +23,6 @@ class Islay::Admin::ApplicationController < Islay::ApplicationController
       end
     end
   end
-
-  def extension_style_sheet(path = nil)
-    @extension_style_sheets ||= []
-    @extension_style_sheets << path if path
-    @extension_style_sheets
-  end
-
-  alias_method :extension_style_sheets, :extension_style_sheet
-
-  helper_method :extension_style_sheets, :extension_style_sheet
 
   # A shortcut for generating routes namespaced to the Admin module.
   #

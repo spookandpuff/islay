@@ -18,7 +18,7 @@
 
       = f.fieldset('Update password') do
         = f.input(:password, label: 'Set password')
-        = f.input(:password, label: 'Confirm password')
+        = f.input(:password_confirmation, label: 'Confirm password')
 
       - if @user == current_user
         = form_notice(:general) do

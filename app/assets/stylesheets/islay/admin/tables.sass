@@ -256,6 +256,11 @@ tfoot
     td
       border-top: 1px solid $light-grey
 
+  +for-print
+    button,
+    .button
+      display: none!important
+
 tr.child-row
   display: none
 
@@ -275,6 +280,17 @@ tr.child-row
   color: $link-color
   cursor: pointer
   font-size: 0.8rem
+
+table.sortable
+  tbody
+    td
+      border-bottom: 1px solid #DDD
+
+      .field
+        margin-bottom: 0!important
+
+    tr:last-child
+      border-bottom: 0
 
 /* TABLE LEVELS/INDENTATION */
 table

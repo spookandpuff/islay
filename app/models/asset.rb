@@ -15,6 +15,7 @@ class Asset < ActiveRecord::Base
   has_many    :tags,      -> {order("name")}, :through => :taggings
 
   metadata(:metadata) do
+    text   :description
     string :credit
     string :credit_url
   end
@@ -80,8 +81,17 @@ class Asset < ActiveRecord::Base
     end
   end
 
+  # The latest n assets to be uploaded
+  def self.latest(n = 10)
+    where("id IN (SELECT id FROM assets ORDER BY created_at DESC LIMIT ?)", n)
+  end
+
   def friendly_duration
     "#{(duration / 60).round(2)} minutes" if duration
+  end
+
+  def latest?
+    self.class.latest.pluck(:id).include?(id)
   end
 
   # Indicates if the asset has any previews. For some assets, we can't provide
@@ -98,6 +108,10 @@ class Asset < ActiveRecord::Base
   # @return Boolean
   def processed?
     status == 'processed'
+  end
+
+  def document?
+    self.is_a? DocumentAsset
   end
 
   # Just a simple accessor for exposing an uploaded file before it is processed.
@@ -133,16 +147,6 @@ class Asset < ActiveRecord::Base
     self[:filename] = original_filename.gsub(ILLEGAL_CHARS, '-').downcase
     self[:dir] = dir = Time.now.strftime('%Y%m')
     self[:key] = Digest::SHA1.hexdigest(original_filename + Time.now.to_s)
-
-    puts "------------------------"
-    puts "Setting file on asset: #{id}"
-    puts "-----"
-    puts "New? #{new_record?}"
-    puts "File: #{file.inspect}"
-    puts "filename: #{self[:filename]}"
-    puts "dir: #{self[:dir]}"
-    puts "key: #{self[:key]}"
-    puts "------------------------"
 
     @file = file
   end

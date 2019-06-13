@@ -4,7 +4,7 @@ module RolesConcern
   included do
     metadata(:metadata) do
       boolean :can_log_in, default: true
-      bitmask :roles_mask, as: 'checkboxes', values: :valid_roles, label: 'Roles', required: true
+      bitmask :roles_mask, as: 'check_boxes', values: :valid_roles, label: 'Roles', required: true
     end
 
     def self.roles(*roles)

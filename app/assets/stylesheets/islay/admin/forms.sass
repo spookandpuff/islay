@@ -2,14 +2,14 @@
 /* FORM
 /* -------------------------------------------------------------------------- */
 
-$border-width: 0.1em
-$input-v-padding: 0.45em
-$input-h-padding: 0.6em
-$field-margin: 1em
-$field-height: $border-width * 2 + $input-v-padding * 2 + 1em
-$form-inset-color: $light-grey + 20
-$error-color: #952B2B
-$error-color-light: #ffac9e
+// $border-width: 0.05rem
+// $input-v-padding: 0.5rem
+// $input-h-padding: 0.75rem
+// $field-margin: 1rem
+// $field-height: $border-width * 2 + $input-v-padding * 2 + 1rem
+// $form-inset-color: $light-grey + 20
+// $error-color: #952B2B
+// $error-color-light: #ffac9e
 
 #islay-form
   #content
@@ -76,6 +76,9 @@ $error-color-light: #ffac9e
     +for-phone
       text-align: left
       margin-bottom: 0.25rem
+      width: 100%
+      margin-right: 0
+      max-width: none!important
 
   label
     font-weight: normal
@@ -87,6 +90,13 @@ $error-color-light: #ffac9e
         display: block
         font-size: 0.7rem
         margin-top: 0.125rem
+
+        +for-phone
+          color: lighten($text-color-subtle, 20)
+          display: inline-block
+          float: right
+          margin-left: 0.5rem
+          margin-top: 0
 
       &.boolean
         &:after
@@ -139,21 +149,14 @@ $error-color-light: #ffac9e
       height: auto
 
     &.medium
-      input,
-      select,
-      .select
+      input
         min-width: 8rem
         max-width: 10rem
 
     &.short
-      input,
-      select,
-      .select
+      input
         max-width: 8rem
         min-width: 4rem
-
-  select
-    margin-top: 0.8em
 
   input:focus
     outline: none
@@ -265,14 +268,12 @@ form
     .input-wrapper
       +display-flex
       flex-direction: column
-      float: left
       min-width: 16rem
       max-width: 32rem
       width: 75%
 
       +for-phone
         width: 100%
-        float: none
 
     &.integer
       .input-wrapper
@@ -287,12 +288,12 @@ form
 
   .hint
     color: #808080
-    display: inline-block
-    margin-left: 1rem
-    float: left
-    min-width: 8rem
-    max-width: 18rem
-    width: 20%
+    display: block
+    margin: 0.5rem 0 0 9rem
+    float: none
+    clear: both
+    font-size: 0.72rem
+    max-width: 24rem
 
 /* -------------------------------------------------------------------------- */
 /* ERROED FIELDS
@@ -300,7 +301,7 @@ form
 .field.errored
   input
     border-color: $error-color
-
+    
 /* -------------------------------------------------------------------------- */
 /* ERROR NOTICE
 /* -------------------------------------------------------------------------- */
@@ -368,8 +369,8 @@ form
 
 $widget-border-color: #B3BBC3
 $widget-border-radius: 0.2em
-$widget-width: 32em + ($input-h-padding * 2)
-$widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
+$widget-width: 32rem + ($input-h-padding * 2)
+$widget-height: 1.1005rem + ($input-v-padding * 2) + ($border-width * 2)
 
 @mixin input-border
   border: $border-width solid $widget-border-color
@@ -405,7 +406,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     float: left
 
   .button
-    padding: 0 $input-h-padding + 0.3em
+    padding: 0 $input-h-padding + 0.25rem
     height: $widget-height
 
   .selected
@@ -732,7 +733,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   span
     +widget-gradient
     +input-border
-    padding: 0 $input-h-padding + 0.3em
+    padding: 0 $input-h-padding + 0.25rem
     height: $widget-height
     display: inline-block
     cursor: pointer
@@ -747,7 +748,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
   .off-button i,
   .on-button i
     font-size: 1.4em
-    margin-top: 0.3em
+    line-height: $widget-height
     display: block
 
   .off-button
@@ -789,8 +790,9 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     +widget-gradient
     +input-border
     border-left-width: 0
-    padding: 0 $input-h-padding + 0.3em
+    padding: 0 $input-h-padding + 0.25rem
     height: $widget-height
+    line-height: $widget-height
     display: inline-block
     cursor: pointer
 
@@ -807,7 +809,7 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
 .islay-form-radio-buttons
   i
     display: block
-    margin-top: 0.7em
+    margin-top: 0
 
   .selected
     background: #3E69A4
@@ -830,67 +832,38 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     overflow: hidden
     position: relative
 
-/* ISLAY ASSET PICKER */
-.islay-form-asset-picker
-  float: left
-
-  li
-    +input-border
-    +border-radius(0.2em)
-
-    border: 0.1em solid $light-grey
-    background: white
-    float: left
-    height: 8em
-    margin-right: 1em
-    overflow: hidden
-    position: relative
-    width: 8em
-    padding: 0.5em
-
-  img
-    width: 100%
-    height: 100%
-    object-fit: contain
-
-  .remove
-    padding: 0.2em
-    position: absolute
-    left: 0.3em
-    cursor: pointer
-    font-size: 1.5em
-
-  .add
-    cursor: pointer
-
-    i
-      text-align: center
-      line-height: 5em
-      width: 100%
-      display: block
-      font-size: 1.6em
-
 /* DATE PICKER */
+
+$date-time-picker-width: 12rem
+
 .islay-form-date-picker,
 .islay-form-time-picker
   +widget-gradient
   +widget-border-radius
   +input-border
+  +box-sizing(border-box)
   cursor: pointer
   display: inline-block
   float: left
   height: $widget-height
-  padding: 0 $input-h-padding + 0.3em
+  padding: 0 $input-h-padding
   position: relative
-  width: 8em
+  width: $date-time-picker-width
+
+  .field.readonly &,
+  .field.disabled &
+    .display,
+    .button
+      color: rgba(0, 0, 0, 0.25)
+      cursor: default
 
   .display
-    margin-top: 0.7em
+    line-height: $widget-height
     float: left
 
   .button
     float: right
-    margin-top: 0.6em
+    line-height: $widget-height
 
   .kalendae
     +widget-border-radius
@@ -898,13 +871,20 @@ $widget-height: 1.1005em + ($input-v-padding * 2) + ($border-width * 2)
     background: white
     margin: 0
     position: absolute
-    top: 0.5em
-    left: 8.2em
+    top: 100%
+    left: -$border-width
     z-index: 2
 
-._jw-tpk-container
-  +widget-border-radius
-  +input-border
+.islay-form-time-picker
+  input
+    +pos-absolute-fill
+    background: transparent
+    border: 0
+    cursor: pointer
+    font-size: 0.8rem
+    display: block
+    line-height: $widget-height
+    padding: 0 $input-h-padding
 
 /* SELECTIZE */
 .select2-container

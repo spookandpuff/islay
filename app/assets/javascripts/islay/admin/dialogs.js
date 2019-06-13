@@ -152,7 +152,7 @@ Islay.Dialogs.Confirmation = Islay.Dialogs.Base.extend({
   },
 
   confirmButtonText: function() {
-    return this.options.confirmButtonText || 'OK';
+    return this.options.confirmButtonText || 'Yes, delete';
   },
 
   loaded: function(res) {
@@ -421,7 +421,7 @@ Islay.Dialogs.AssetEntry = Backbone.View.extend({
 
   render: function() {
     var frame = $H('div.frame'),
-        liner = $H('div.liner'),
+        liner = $H('div.liner', {'data-format': this.model.get('extension')}),
         name  = $H('span.name', this.model.get('name')),
         type  = $H('span', {class: 'asset-type ' + this.model.get('kind')}, this.model.get('friendly_kind')),
         preview;

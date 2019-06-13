@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------------- */
 /* ASSET PICKER
-/* This mostly leans on the asset dialog and acts as a convenience for 
+/* This mostly leans on the asset dialog and acts as a convenience for
 /* initalizing it.
 /* -------------------------------------------------------------------------- */
 (function($){
@@ -22,7 +22,7 @@
     for (var i = 0; i < opts.length; i++) {
       var $opt = $(opts[i]);
       if (!_.isEmpty($opt.val())) {
-        this.addEntry($opt.attr('value'), $opt.attr('data-preview'), $opt);
+        this.addEntry($opt.attr('value'), $opt.attr('data-preview'), $opt.attr('data-format'), $opt);
       }
     };
 
@@ -57,20 +57,21 @@
 
     selectionEnumerator: function(i, selection) {
       if (!this.selected[selection.id]) {
-        this.addEntry(selection.id, selection.get('url'));
+        this.addEntry(selection.id, selection.get('url'), selection.get('data-format'));
       }
     },
 
-    addEntry: function(id, url, el) {
+    addEntry: function(id, url, format, el) {
       this.selected[id] = el || this.$input.find('option[value="' + id + '"]');
       this.selected[id].prop('selected', true);
 
-      var $li = $('<li class="choice"></li>').attr('data-value', id),
+      var $li = $('<li class="choice"></li>').attr('data-value', id).attr('data-format', format),
           $img = $('<img>').attr('src', url),
+          $name = $('<span class="name">' + el.html() + '</span>');
           $remove = $('<i class="fa fa-times-circle remove"></i>');
 
       $remove.click(this.clickRemove);
-      $li.append($img, $remove);
+      $li.append($img, $name, $remove);
       this.$add.before($li);
     }
   };

@@ -1,4 +1,5 @@
-#activity-logs
+#activity-logs,
+#user-logs
   a
     +border-radius(0.2em)
     background-color: $light-grey + 20
@@ -55,6 +56,10 @@
 
   .user-log a strong
     +icon-user
+
+  tbody td
+    > a:first-letter
+      text-transform: uppercase
 
 .dashboard-overview
   align-items: stretch

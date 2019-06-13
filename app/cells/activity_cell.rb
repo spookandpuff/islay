@@ -4,4 +4,5 @@ class ActivityCell < Islay::ApplicationCell
     @global_logs = ActivityLog.recent(10).reject{|l| l.model.blank?}
     render
   end
+
 end

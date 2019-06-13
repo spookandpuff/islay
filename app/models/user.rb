@@ -2,12 +2,17 @@ class User < ActiveRecord::Base
   include Islay::MetaData
   include RolesConcern
 
-  devise :database_authenticatable, :recoverable, :validatable
+  USER_PASSWORD_LENGTH_MIN = 8.freeze
+  USER_PASSWORD_LENGTH_MAX = 128.freeze
+
+  devise :database_authenticatable, :recoverable, :validatable, :invitable
 
   before_destroy :check_immutable_flag
   before_save    :check_immutable_flag
 
   validations_from_schema
+
+  validates_length_of :password, within: USER_PASSWORD_LENGTH_MIN..USER_PASSWORD_LENGTH_MAX, if: :password_required?
 
   include PgSearch
   multisearchable :against => [:name, :email]
@@ -15,6 +20,8 @@ class User < ActiveRecord::Base
   roles :admin
 
   has_many :action_logs, class_name: 'UserActionLog'
+
+  attr_accessor :password_confirmation
 
   # Returns the system user. This is an always-present, immutable user used for
   # logging actions made by Islay e.g. migrations, background tasks etc.
@@ -38,6 +45,10 @@ class User < ActiveRecord::Base
   # @param [String, nil] sort
   def self.sorted(sort)
     order(sort || :name)
+  end
+
+  def self.enabled
+    where(disabled: false)
   end
 
   # Class attributes for storing the assocations generated when registering
@@ -165,7 +176,9 @@ class User < ActiveRecord::Base
   #
   # @return [true, false]
   def password_required?
-    !persisted? || !password.blank? || !password_confirmation.blank?
+    return false if new_record?
+    return false if can_log_in?
+    return false if password.blank? and password_confirmation.blank?
   end
 
   check_for_extensions

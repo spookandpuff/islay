@@ -1,9 +1,9 @@
 .islay-feedback-message
   +pos-fixed(false, 0, 0, 0)
   +translateY(10rem)
-  +transition-duration(400ms)
+  +transition-duration(800ms)
   +transition-property(transform, bottom)
-  +transition-delay(400ms, 4000ms)
+  +transition-delay(800ms, 5000ms)
   z-index: 10
 
   +for-tablet
@@ -16,6 +16,12 @@
     +translateY(0)
     bottom: -10rem
 
-  .islay-form-errors
+  .islay-form-errors,
+  .islay-info-message
     +border-radius(0)
     margin: 0
+
+  body#login &
+    left: 0
+    .islay-info-message
+      background: rgba(darken($sage-green, 60), 0.35)

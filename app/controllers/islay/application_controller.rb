@@ -25,6 +25,8 @@ class Islay::ApplicationController < ActionController::Base
       end
     elsif first.is_a?(Array) or first.is_a?(Hash)
       [mod] << args
+    else
+      []
     end
 
     url_opts.compact!

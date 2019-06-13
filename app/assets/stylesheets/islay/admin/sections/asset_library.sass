@@ -12,14 +12,13 @@
 .asset-preview,
 ul.asset-grid li.asset .liner
   +border-radius(0.2em)
-
-  border: 0.1em solid $light-grey
+  border: 1px solid $light-grey
   background: white
   float: left
 
   .frame
     text-align: center
-    border: 0.1em solid $light-grey
+    border: 1px solid $light-grey
     background: white
     overflow: hidden
     float: left
@@ -33,15 +32,18 @@ ul.asset-grid li.asset .liner
       font-size: 5.5em
 
 .asset-preview
-  position: relative
-  max-height: 360px
-  max-width: 360px
-  min-height: 120px
-
+  border: 0
+  height: 0
   margin-bottom: 1.5em
+  overflow: visible
+  padding-top: 100%
+  position: relative
+  width: 100%
 
   .frame
-    border: 1em solid #FFF
+    +pos-absolute(0, 1.5rem, 1.5rem, 0)
+    overflow: hidden
+    border: 1px solid $light-grey
 
     img
       width: 100%
@@ -49,8 +51,11 @@ ul.asset-grid li.asset .liner
       object-fit: contain
 
   .no-preview
-    margin: 2em 0
-    font-size: 2em
+    margin: auto
+    width: 3rem
+    height: 3rem
+    +pos-absolute-fill
+    +icon-file
 
 /* -------------------------------------------------------------------------- */
 /* ASSET GRID
@@ -200,26 +205,31 @@ ul.asset-grid
 /* META-DATA / KEY-VALUE
 /* -------------------------------------------------------------------------- */
 ul.key-value
-  border-top: 0.2em solid $light-grey
-  width: 30em
-  margin-bottom: 1.25em
-  padding-top: 0.75em
+  margin-bottom: 1rem
+  padding-top: 1rem
   float: left
+  width: 100%
+  clear: both
 
   li
-    margin-bottom: 0.75em!important
-    padding: 0.3em 0
+    margin-bottom: 0.75rem!important
+    padding: 0.25rem 0
     width: 100%
 
-  li, .key, .value
-    float: left
+  .key,
+  .value
+    display: inline-block
 
   .key
-    font-weight: bold
-    width: 8em
+    font-size: 0.7rem
+    color: $text-color-subtle
+    min-width: 8rem
+    max-width: 12rem
+    vertical-align: top
 
   .value
-    width: 22em
+    min-width: 18rem
+    max-width: 24rem
 
   ul
     max-height: 8em

@@ -65,7 +65,7 @@ module Islay
       #
       # @return string
       def update_time(model)
-        tag = content_tag(:span, model.updated_at, :class => 'time', :title => model.updated_at)
+        tag = content_tag(:span, model.updated_at.iso8601, :class => 'time', :title => model.updated_at)
         tag += " by #{model[:updater_name] || model.updater.name}" if model[:updater_name]
         tag
       end
@@ -77,7 +77,7 @@ module Islay
       #
       # @return string
       def creation_time(model)
-        tag = content_tag(:span, model.created_at, :class => 'time', :title => model.created_at)
+        tag = content_tag(:span, model.created_at.iso8601, :class => 'time', :title => model.created_at)
         (tag + " by #{model[:creator_name] || model.creator.name}") if model[:creator_name]
         tag.html_safe
       end
@@ -389,8 +389,8 @@ module Islay
       # @param ActiveRecord::Base record
       #
       # @return String
-      def delete_button(record)
-        link_to('Delete', path(:delete, record), :title => 'Confirm Deletion', :class => 'button delete')
+      def delete_button(*record)
+        link_to('Delete', path(:delete, *record), :title => 'Confirm Deletion', :class => 'button delete')
       end
 
       # Creates a save button for a record. To be used within a form.
@@ -463,9 +463,15 @@ module Islay
         output
       end
 
-
       def feedback_message
-        content_for :feedback_message
+        if content_for? :feedback_message
+          content_for :feedback_message
+        elsif flash[:alert]
+          render(
+            :partial => 'islay/admin/shared/feedback_message',
+            :locals => {:message =>  flash[:alert]}
+          )
+        end
       end
 
       # Writes out navigation entries specified by engines which are extending the

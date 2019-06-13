@@ -3,22 +3,31 @@
 - ancestor_breadcrumbs(@asset.group)
 - breadcrumb("#{@asset.kind.capitalize}: #{@asset.name}")
 
-= record_name(@asset.name, 'picture')
+= record_name(@asset.name, @asset.document? ? 'file' : 'photo')
 
 = content(:class => 'inset') do
-  = column(4, :class => 'asset-preview') do
-    %div.frame
-      - if @asset.status == 'processing' or @asset.status == 'enqueued'
-        %span.processing-marker{:title => 'This asset is being processed, and will be available shortly.'}
-      - elsif @asset.preview? and @asset.processed?
-        = image_tag(@asset.previews.url(:thumb))
-      - else
-        %span(class='no-preview icon-#{@asset.kind}') &nbsp;
+  = column(4) do
+    .asset-preview
+      .frame
+        - if @asset.status == 'processing' or @asset.status == 'enqueued'
+          %span.processing-marker{:title => 'This asset is being processed, and will be available shortly.'}
+        - elsif @asset.preview? and @asset.processed?
+          = image_tag(@asset.previews.url(:thumb))
+        - else
+          %span(class='no-preview icon-#{@asset.kind}') &nbsp;
 
   = column(7, :class => 'last') do
-    %h3(class="asset #{@asset.kind}")= @asset.friendly_kind
+    %h3(class="asset #{@asset.kind}") #{@asset.extension.upcase} #{@asset.friendly_kind}
 
     %h3 Info
+
+    - unless @asset.metadata.empty?
+      %ul.key-value
+        - @asset.metadata.each do |k, v|
+          %li
+            %span.key= k.humanize
+            %span.value= v
+
     = render :partial => "#{@asset.friendly_kind.downcase}_metadata"
 
     - unless @asset.versions.empty?
@@ -33,11 +42,15 @@
             %span.value= @asset.error
         - if @asset.processed?
           %li
-            %span.key Sizes/Formats
-            %span.value
-              %ul.versions
-                - @asset.versions.urls.each do |name, path|
-                  %li= link_to(name.to_s.humanize, @asset.versions.url(name))
+            - if @asset.document?
+              %span.key Download
+              %span.value= link_to(@asset.filename, @asset.url)
+            - else
+              %span.key Sizes/Formats
+              %span.value
+                %ul.versions
+                  - @asset.versions.urls.each do |name, path|
+                    %li= link_to(name.to_s.humanize, @asset.versions.url(name))
 
     %h3 Tags
     - if @asset.tags.empty?

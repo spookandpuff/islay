@@ -1,3 +1,4 @@
+require 'rails-observers'
 require 'cells'
 require 'cells-rails'
 require 'hamlit'
@@ -6,6 +7,7 @@ require 'compass-rails' # This is temporary. By rights this needs to go into the
 require 'sass-rails'
 require 'jquery-rails'
 require 'devise'
+require 'devise_invitable'
 require 'cancancan'
 require 'simple_form'
 require 'pg'

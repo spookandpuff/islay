@@ -10,7 +10,8 @@ json.assets(@assets) do |asset|
   json.name  asset.name
   json.kind  asset.kind
   json.friendly_kind  asset.friendly_kind
+  json.extension  asset.extension
   json.url  asset.previews.url(:thumb_medium)
   json.previewable asset.preview?
-  json.latest asset.latest == "t"
+  json.latest asset.latest?
 end

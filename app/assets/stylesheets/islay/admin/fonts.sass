@@ -152,6 +152,24 @@ $icon-font-name: FontAwesome
     @content
     content: "\f016"
 
+@mixin icon-file-pdf
+  &:before
+    font-family: $icon-font-name
+    @content
+    content: "\f1c1"
+
+@mixin icon-file-doc
+  &:before
+    font-family: $icon-font-name
+    @content
+    content: "\f1c2"
+
+@mixin icon-file-xls
+  &:before
+    font-family: $icon-font-name
+    @content
+    content: "\f1c3"
+
 @mixin icon-time
   &:before
     font-family: $icon-font-name
@@ -1200,6 +1218,30 @@ $icon-font-name: FontAwesome
     font-family: $icon-font-name
     @content
     content: "\f0da"
+
+@mixin icon-angle-left
+  &:before
+    font-family: $icon-font-name
+    @content
+    content: "\f104"
+
+@mixin icon-angle-right
+  &:before
+    font-family: $icon-font-name
+    @content
+    content: "\f105"
+
+@mixin icon-angle-double-left
+  &:before
+    font-family: $icon-font-name
+    @content
+    content: "\f100"
+
+@mixin icon-angle-double-right
+  &:before
+    font-family: $icon-font-name
+    @content
+    content: "\f101"
 
 @mixin icon-columns
   &:before

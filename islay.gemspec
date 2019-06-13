@@ -24,7 +24,8 @@ Gem::Specification.new do |s|
   s.add_dependency "rails",                         "~> 5.2"
   s.add_dependency 'rails-observers',               "~> 0.1.5"
   s.add_dependency 'cells-rails',                   '~> 0.0.9'
-  s.add_dependency "devise",                        "~> 4.4.3"
+  s.add_dependency "devise",                        "~> 4.6.1"
+  s.add_dependency "devise_invitable",              "~> 2.0.0"
   s.add_dependency 'cancancan',                     '~> 2.2'
   s.add_dependency "responders",                    "~> 2.4.0"
   s.add_dependency "simple_form",                   "~> 4.0.1"
@@ -37,7 +38,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'friendly_id',                   "~> 5.2.1"
   s.add_dependency "inherited_resources",           "~> 1.8.0"
   s.add_dependency "rmagick",                       "~> 2.16.0"
-  s.add_dependency "mime-types",                    "~> 1.19"
+  s.add_dependency "mime-types",                    '~> 3.2', '>= 3.2.2'
   s.add_dependency "fog-aws",                       "~> 1.4.1"
   s.add_dependency "girl_friday",                   "~> 0.9.7"
   s.add_dependency "streamio-ffmpeg",               "~> 0.8.5"

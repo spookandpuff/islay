@@ -9,7 +9,7 @@ class SingleAssetInput < SimpleForm::Inputs::CollectionSelectInput
   def input
     selected = object.send attribute_name.to_sym
     vals = collection.map do |a|
-      opts = {:value => a.id, 'data-preview' => a.previews.url(:thumb)}
+      opts = {:value => a.id, 'data-preview' => a.previews.url(:thumb), 'data-format' => a.extension, 'data-type' => a.type.parameterize}
       opts[:selected] = 'selected' if a.id == selected
       template.content_tag('option', a.name, opts)
     end
@@ -31,7 +31,7 @@ class MultiAssetInput < SimpleForm::Inputs::CollectionSelectInput
   def input
     selected = object.send(attribute_name)
     vals = collection.map do |a|
-      opts = {:value => a.id, 'data-preview' => a.previews.url(:thumb)}
+      opts = {:value => a.id, 'data-preview' => a.previews.url(:thumb), 'data-format' => a.extension, 'data-type' => a.type.parameterize}
       opts[:selected] = 'selected' if selected.include?(a.id)
       template.content_tag('option', a.name, opts)
     end

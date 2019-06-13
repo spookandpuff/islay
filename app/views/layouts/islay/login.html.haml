@@ -17,4 +17,7 @@
       #islay-form.login-container
         = yield
 
+    - if feedback_message
+      .islay-feedback-message= feedback_message
+      
     = javascript_include_tag('islay/admin/islay')

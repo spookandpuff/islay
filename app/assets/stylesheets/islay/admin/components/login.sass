@@ -12,7 +12,6 @@ body#login
   margin: 0
   padding: 0
 
-
   &:before
     +pos-absolute-fill
     +background-image(linear-gradient(bottom, $sage-green, darken($sage-green, 20)))
@@ -75,7 +74,7 @@ body#login
         +border-radius(0.25rem 0.25rem 0 0)
         -webkit-appearance: none
         border: 1px solid #DDD
-        border-bottom: 0 none
+        border-bottom: 0
         float: none
         margin-bottom: 0
         max-width: none
@@ -87,6 +86,15 @@ body#login
           +border-radius(0 0 0.25rem 0.25rem)
           border-bottom: 1px solid #DDD
           margin-bottom: 1rem
+
+      &.errored
+        .input-wrapper
+          margin-bottom: 0.5rem
+          input
+            border-color: $error-color
+            border-bottom-left-radius: 0
+            border-bottom-right-radius: 0
+            margin-bottom: 0
 
     h2
       font-size: 1.8em

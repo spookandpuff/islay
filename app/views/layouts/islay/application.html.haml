@@ -11,9 +11,9 @@
 
     %meta{:name => 'viewport', :content => 'width=device-width, initial-scale=1.0'}
 
-    = stylesheet_link_tag("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
+    = stylesheet_link_tag("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", media: 'all')
     = stylesheet_link_tag('islay/admin/islay')
-    -# = stylesheet_link_tag('islay/admin/islay_print', media: 'print')
+    = stylesheet_link_tag('islay/admin/islay_print', media: 'print')
     = favicon_link_tag('islay/admin/favicon.ico')
 
     - extension_style_sheets.each do |sheet|
@@ -26,7 +26,9 @@
           = form_tag(path(:search), :method => :get, :class => 'islay-global-search') do
             %i.fa.fa-search
             = text_field_tag('term', nil, :placeholder => 'Search', :autocomplete => 'off')
+
         = extension_nav_entries
+
         %li.islay-current-user
           = form_for(current_user, :url => :destroy_user_session, :method => :delete, :html => {:class => 'entry'}) do |f|
             %a{href: path(:edit, current_user)}

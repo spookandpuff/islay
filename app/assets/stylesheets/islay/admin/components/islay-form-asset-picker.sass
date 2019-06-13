@@ -1,0 +1,84 @@
+/* ISLAY ASSET PICKER */
+.islay-form-asset-picker
+  float: left
+
+  li
+    +input-border
+    +border-radius(0.2rem)
+    background: white
+    float: left
+    height: 8rem
+    margin-right: 1rem
+    overflow: hidden
+    position: relative
+    width: 8rem
+    padding: 0.5rem
+
+    &[data-format=pdf],
+    &[data-format=doc],
+    &[data-format=xls]
+      img
+        display: none
+
+      &:before
+        +pos-absolute-fill
+        color: #CCC
+        font-size: 2.4rem
+        height: 2.4rem
+        line-height: 1
+        margin: auto
+        width: 2rem
+
+    &[data-format=pdf]
+      +icon-file-pdf
+
+    &[data-format=doc]
+      +icon-file-pdf
+
+    &[data-format=xls]
+      +icon-file-pdf
+
+  .name
+    +pos-absolute(false, 0, 0, 0)
+    background: #FFF
+    padding: 0.5rem
+    font-size: 0.7rem
+
+  img
+    width: 100%
+    height: 100%
+    object-fit: contain
+
+  .remove
+    padding: 0.2rem
+    position: absolute
+    right: 0.5rem
+    cursor: pointer
+    font-size: 1.5em
+    display: none
+
+  &:hover,
+  &:focus
+    .remove
+      display: block
+
+  .add
+    cursor: pointer
+    &:after
+      content: 'Pick assets'
+      font-family: $default-font-family
+      display: block
+      font-size: 0.75rem
+      color: $link-color
+      text-align: center
+      margin-top: 0.75rem
+      +pos-absolute(50%, 0, false, 0)
+
+    i
+      +pos-absolute(50%, 0, false, 0)
+      margin-top: -1rem
+      color: $link-color
+      text-align: center
+      width: 100%
+      display: block
+      font-size: 1.6em
