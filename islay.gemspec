@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
   s.add_dependency "devise_invitable",              "~> 2.0.0"
   s.add_dependency 'cancancan',                     '~> 2.2'
   s.add_dependency "responders",                    "~> 2.4.0"
-  s.add_dependency "simple_form",                   "~> 4.0.1"
+  s.add_dependency "simple_form",                   ">= 5.0.0"
   s.add_dependency 'hamlit-rails',                  '~> 0.2.0'
   s.add_dependency 'cells-hamlit',                  '~> 0.2.0'
   s.add_dependency "sass-rails",                    "~> 5.0.7"
@@ -53,6 +53,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'draper',                        '~> 3.1.0'
   s.add_dependency 'bootsnap',                      '~> 1.3', '>= 1.3.1'
   s.add_dependency 'sprockets-rails',               '~> 3.2', '>= 3.2.1'
+  s.add_dependency 'loofah',                        '>= 2.3.1'
 
   s.add_development_dependency 'listen'
 end
