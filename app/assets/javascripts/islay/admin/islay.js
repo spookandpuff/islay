@@ -39,7 +39,7 @@ $SP.where('.[edit, new, create, update, show]').select('#islay-form').run(functi
   form.find('.boolean :checkbox').islayCheckbox();
   form.find('.boolean_depressed :checkbox, .destroy :checkbox').islayCheckbox({mode: 'depressed'});
   form.find('.radio_buttons').islayRadioButtons();
-  form.find('.select select').islaySelect();
+  form.find('.select select, .grouped_select select').islaySelect();
   form.find('.multi_select select').islaySelect('multi');
   form.find('.tree_select select').islaySelect('tree');
   form.find('.multi_asset select').islayAssetPicker('multi');
