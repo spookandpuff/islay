@@ -46,7 +46,7 @@ Gem::Specification.new do |s|
   s.add_dependency "zipruby",                       "~> 0.3.6"
   s.add_dependency "jquery-rails",                  "~> 4.3.3"
   s.add_dependency "jsonify-rails",                 "~> 0.3.2"
-  s.add_dependency "kaminari",                      "~> 1.1.1"
+  s.add_dependency "kaminari",                      ">= 1.1.1", "< 1.3.0"
   s.add_dependency 'rdiscount',                     '~> 1.6.8'
   s.add_dependency "acts_as_list",                  "~> 0.1.8"
   s.add_dependency "premailer",                     "~> 1.11.1"
